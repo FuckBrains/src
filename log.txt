@@ -1,0 +1,36 @@
+2019-06-27 13:21:53 : 
+HaroldAlicehLqXw@yahoo.com login failed : 
+[WinError 10054] An existing connection was forcibly closed by the remote host
+2019-06-29 17:06:39 : 
+DorcasClaytonE0@aol.com login failed : 
+[WinError 10054] An existing connection was forcibly closed by the remote host
+2019-06-29 22:54:05 : 
+MaynardVancetm@aol.com login failed : 
+[WinError 10054] An existing connection was forcibly closed by the remote host
+2019-06-30 02:58:39 : 
+MilfordBauerpx@aol.com login failed : 
+[WinError 10054] An existing connection was forcibly closed by the remote host
+2019-06-30 03:25:51 : 
+RamseyRamos3@aol.com login failed : 
+[WinError 10054] An existing connection was forcibly closed by the remote host
+2019-06-30 19:07:41 : 
+RowellSellersL@aol.com login failed : 
+[WinError 10054] An existing connection was forcibly closed by the remote host
+2019-06-30 13:56:06 : 
+MarioBraym@aol.com login failed : 
+[WinError 10054] An existing connection was forcibly closed by the remote host
+2019-07-01 09:38:51 : 
+BettinaNavarroGx@aol.com login failed : 
+[Errno 0] Error
+2019-07-01 09:41:18 : 
+BettinaNavarroGx@aol.com login failed : 
+[Errno 0] Error
+2019-07-01 12:53:52 : 
+MelanieSalazarVW@aol.com login failed : 
+[WinError 10054] An existing connection was forcibly closed by the remote host
+2019-07-01 15:29:09 : 
+ClareGambleq@yahoo.com login failed : 
+[WinError 10054] An existing connection was forcibly closed by the remote host
+2019-07-01 16:25:29 : 
+ReginaldGamboaTS@yahoo.com login failed : 
+[WinError 10054] An existing connection was forcibly closed by the remote host
