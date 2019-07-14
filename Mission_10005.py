@@ -12,6 +12,37 @@ import email_imap as imap
 
 
 
+def detect_email():
+    url = r'https://www.cam4.com/signup/email?pageLocale=en'
+    url2 = r'https://www.cam4.com/signup/username?pageLocale=en'
+
+
+def check_email(submit):
+    print(submit['Email_emu'])
+    data = {'email': submit['Email_emu']}
+    data = parse.urlencode(data).encode('gbk')
+    req = request.Request(url, data=data)
+    page = ''
+    for i in range(5):
+        try:
+            page = request.urlopen(req,timeout=10.0).read()
+        except:
+            continue
+        if str(page) != '':
+            break
+    print(page)
+    if 'GOOD_EMAIL' not in str(page):
+        if page == '':
+            return -1 #netwrong
+        else:
+            return 1 #fail
+    else:
+        print(submit['Email_emu'],'is GOOD_EMAIL')
+        return 0 #success
+
+
+
+
 def web_submit(submit):
     chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])

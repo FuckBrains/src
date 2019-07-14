@@ -23,8 +23,6 @@ import pymysql
 '''
 
 
-url = r'https://www.cam4.com/signup/email?pageLocale=en'
-url2 = r'https://www.cam4.com/signup/username?pageLocale=en'
 
 Delay, Config, Mission_conf  = Cam4_allin.Config_read()
 pool = threadpool.ThreadPool(Delay['threads'])
