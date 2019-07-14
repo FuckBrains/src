@@ -17,6 +17,7 @@ import ip_test
 from xlrd import xldate_as_tuple
 from urllib import request, parse
 import pymysql
+import db
 
 '''
 'testeeeee'
@@ -24,7 +25,7 @@ import pymysql
 
 
 
-Delay, Config, Mission_conf  = Cam4_allin.Config_read()
+Delay, Config, Mission_conf, Email_list  = Cam4_allin.Config_read()
 pool = threadpool.ThreadPool(Delay['threads'])
 
 
@@ -102,21 +103,21 @@ def killpid():
             cmd = 'taskkill /F /IM '+p.name()
             os.system(cmd)   
         # test   
-        # if p.name() == 'Client.exe':
-        #     cmd = 'taskkill /F /IM Client.exe'
-        #     os.system(cmd)
-        # if p.name() == 'Monitor.exe':
-        #     cmd = 'taskkill /F /IM Monitor.exe'
-        #     os.system(cmd)            
-        # if p.name() == 'MonitorGUI.exe':
-        #     cmd = 'taskkill /F /IM MonitorGUI.exe'
-        #     os.system(cmd)                  
-        # if 'CCleaner' in p.name():
-        #     cmd = 'taskkill /F /IM ' + p.name()
-        #     os.system(cmd) 
-        # if 'Socket.exe' in p.name():
-        #     cmd = 'taskkill /F /IM ' + p.name()
-        #     os.system(cmd)                         
+        if p.name() == 'Client.exe':
+            cmd = 'taskkill /F /IM Client.exe'
+            os.system(cmd)
+        if p.name() == 'Monitor.exe':
+            cmd = 'taskkill /F /IM Monitor.exe'
+            os.system(cmd)            
+        if p.name() == 'MonitorGUI.exe':
+            cmd = 'taskkill /F /IM MonitorGUI.exe'
+            os.system(cmd)                  
+        if 'CCleaner' in p.name():
+            cmd = 'taskkill /F /IM ' + p.name()
+            os.system(cmd) 
+        if 'Socket.exe' in p.name():
+            cmd = 'taskkill /F /IM ' + p.name()
+            os.system(cmd)                         
   
 
 def multi_reg(submit):
@@ -181,19 +182,30 @@ def check_email(submit):
         print(submit['Email_emu'],'is GOOD_EMAIL')
         return 0 #success
 
-
-
-
 def EMU_multi():
     # test
+    Mission_list = [] 
+    for item in Mission_conf:
+        if Mission_conf[item] != '':
+            Mission_list.append(int(item))
+    if len(Mission_list) == 0:
+        print('No Mission,check Cam4_allin')
+        return
     # changer.OpenCCleaner()
-    # sleep(30)    
+    # sleep(30)         
+    Email_list_new = []
+    for item in Email_list:
+        if Email_list[item] == 1:
+            Email_list_new.append(item)
+
     while True:
-        killpid()
+        # killpid()
         Module_list,modules = get_modules()
-        submit1 = read_excel()
-        print(submit1)
-        State = Config['IP_state']
+        Country = Config['IP_country']
+        print(Email_list)
+        submit = db.read_one_info(Country,Mission_list,Email_list_new)  
+        print(submit)
+        return
         if submit1['Index'] != -1:
             # flag = check_email(submit1)
             # print(submit1['Index'])

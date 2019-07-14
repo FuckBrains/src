@@ -27,20 +27,20 @@ def Config_read():
             'IP_city'    : IP_city
         },  
         'Mission_conf' :{
-            '10000'      : '',  # Finaff    Royal Cams  Done
-            '10001'      : '' , # Adgaem    star stable Done
+            '10000'      : '1',  # Finaff    Royal Cams  Done
+            '10001'      : '1',  # Adgaem    star stable Done
             '10002'      : '',  # Adpump    GETAROUND
-            '10003'      : '',  #UK Swipe 
+            '10003'      : '',  # UK Swipe 
             '10004'      : '',  # Ad1   opinion outpost   
             '10005'      : '',  # Adsmain Cam4  Done           
             '10006'      : '',         # adpump GETAROUND  https://adpgtrack.com/click/5b73d90a6c42607b3b6c4323/199595/subaccount/url=example.com            
             '10007'      : '',         # IKARIAM
             '10008'      : '',         # IKARIAM
             '10009'      : '',         # IKARIAM  
-            '10010'      : '',          #rifu Done
+            '10010'      : '',         # rifu Done
             '10011'      : '',         # IKARIAM
             '10012'      : '',         # IKARIAM
-            '10013'      : '',        # IKARIAM             '10006'      : '',         # LP            
+            '10013'      : '',         # IKARIAM             '10006'      : '',         # LP            
             '10014'      : '',         # IKARIAM
             '10015'      : '',         # IKARIAM
             '10016'      : '',         # IKARIAM             '10006'      : '',         # LP            
@@ -49,10 +49,16 @@ def Config_read():
             '10019'      : '',         # IKARIAM             '10006'      : '',         # LP            
             '10020'      : '',         # IKARIAM
             '10021'      : '',         # IKARIAM
-            '10022'      : ''         # IKARIAM                                               
+            '10022'      : ''          # IKARIAM                                               
+        },
+        'Email_list':{
+            'hotmail.com'    : 1, # 1 means use this email,0 means not
+            'outlook.com'    : 1,
+            'yahoo.com'      : 1,
+            'aol.com'        : 1
         }
     }
-    return Configs['Delay'],Configs['Config'],Configs['Mission_conf']
+    return Configs['Delay'],Configs['Config'],Configs['Mission_conf'],Configs['Email_list']
 
 
 
