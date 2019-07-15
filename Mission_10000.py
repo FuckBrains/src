@@ -27,6 +27,8 @@ def web_submit(submit):
     # submit['Site'] = site
     chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
+    print(10000)
+    print('=========')
     name = name_get.gen_one_word_digit(lowercase=False)
     chrome_driver.maximize_window()
     chrome_driver.refresh()

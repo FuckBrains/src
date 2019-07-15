@@ -121,7 +121,7 @@ def killpid():
   
 
 def multi_reg(submit):
-    print('Starting Mission',submit['Num'])
+    # print('Starting Mission',submit['Num'])
     Module_list,modules = get_modules()
     # print(Module_list)
     for i in range(1):
@@ -129,8 +129,9 @@ def multi_reg(submit):
             if str(submit['Num']) in modules[j]:
                 if 'http' in Mission_conf[str(submit['Num'])]:
                     submit['Site'] = Mission_conf[str(submit['Num'])]
-                    print("Mission_conf[submit['Num']]",submit['Num'],Mission_conf[submit['Num']])
                     try:
+                        print(submit['Num'],'Starting')
+                        # print(Module_list[j])
                         Module_list[j].web_submit(submit)
                     except Exception as e:
                         print(str(e))
@@ -147,7 +148,7 @@ def get_modules():
     modules_new = []
     for module in modules:
         if 'Mission' in module:
-            print(module)
+            # print(module)
             modules_new.append(module)  
     modules = ['src.'+ module for module in modules_new]             
     # print(modules)
@@ -156,7 +157,6 @@ def get_modules():
     for module in modules:
         Module_list.append(importlib.import_module(module)) 
     return Module_list,modules
-
 
 
 def check_email(submit):
@@ -191,58 +191,42 @@ def EMU_multi():
     if len(Mission_list) == 0:
         print('No Mission,check Cam4_allin')
         return
-    # changer.OpenCCleaner()
-    # sleep(30)         
+    changer.OpenCCleaner()
+    sleep(30)         
     Email_list_new = []
     for item in Email_list:
         if Email_list[item] == 1:
             Email_list_new.append(item)
-
     while True:
-        # killpid()
+        killpid()
         Module_list,modules = get_modules()
         Country = Config['IP_country']
         print(Email_list)
-        submit = db.read_one_info(Country,Mission_list,Email_list_new)  
-        print(submit)
-        return
-        if submit1['Index'] != -1:
-            # flag = check_email(submit1)
-            # print(submit1['Index'])
-            # if flag != 0 :
-            #     print('Used email:',submit1['Email_emu'])
-            #     write_excel(submit1,'Bad email:')            
-            #     continue
-            if len(submit1) == 1:
-                print('Empty Config,Mission Done')
-                break
-            flag = imap_test.Email_emu_getlink(submit1)
-            if flag == 0:
-                print('Bad email:',submit1['Email_emu'])
-                write_excel(submit1,'Bad email:')
-                continue
-            else:
-                pass
-            if submit1['State'] != '':
-                State = submit1['State']
-        # ip_test.ip_Test('',State)
-        if submit1['Index'] == -1:
-            print('Congratulations!!All Mission completed!!!!!!')
-            return 
+        submit1 = db.read_one_info(Country,Mission_list,Email_list_new)  
+        print(submit1)
+        db.write_one_info(Mission_list,submit1)
+        flag = imap_test.Email_emu_getlink(submit)
+        if flag == 0:
+            print('Bad email:',submit1['Email_emu'])
+            continue
+        else:
+            pass
+        ip_test.ip_Test('',submit['State'])
         submits = []
+        submit = {}
         for j in range(len(modules)):
             submit = submit1.copy()
             submit['Num']=str(j+10000)
             submits.append(submit)
             submit = {}
-        # print(submits)
+        print(submits)
         requests = threadpool.makeRequests(multi_reg, submits)
         [pool.putRequest(req) for req in requests]
         pool.wait() 
         # write_excel(submits[0])
-        time_delay = random.randint(Delay['up'],Delay['down'])
-        # sleep(time_delay*60)
-        # changer.Restart()
+        time_delay = random.randint(Delay['up']*60,Delay['down']*60)
+        sleep(time_delay)
+        changer.Restart()
 
 
 def Hotmail_Login():

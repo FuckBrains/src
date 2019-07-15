@@ -23,11 +23,12 @@ import name_get
 
 
 def web_submit(submit):
+    print(submit)
     # test
     # site = 'https://finaff.go2affise.com/click?pid=3464&offer_id=9436'
     # submit['Site'] = site
     chrome_driver = Chrome_driver.get_chrome(submit)
-    chrome_driver.get(submit['Site'])
+    chrome_driver.get(submit['Site'])   
     name = name_get.gen_one_word_digit(lowercase=False)
     chrome_driver.maximize_window()
     chrome_driver.refresh()

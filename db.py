@@ -117,7 +117,7 @@ def create_BasicInfo(account,keys,values):
 
 def create_Email(account):
     conn,cursor = login_sql(account)
-    res = cursor.execute("CREATE TABLE  IF NOT EXISTS Email (Email_Id VARCHAR(50) PRIMARY KEY NOT NULL,Email_emu VARCHAR(50) UNIQUE NOT NULL,Email_emu_pwd VARCHAR(50) NOT NULL,Email_assist VARCHAR(50) NULL,Email_assist_pwd VARCHAR(50) NULL)")
+    res = cursor.execute("CREATE TABLE  IF NOT EXISTS Email (Email_Id VARCHAR(50) PRIMARY KEY NOT NULL,Email_emu VARCHAR(50) UNIQUE NOT NULL,Email_emu_pwd VARCHAR(50) NOT NULL,Email_assist VARCHAR(50) NULL,Email_assist_pwd VARCHAR(50) NULL,Status VARCHAR(20) NULL)")
     # res = cursor.fetchall()
     # for item in res:
     #     print(item)    
@@ -207,10 +207,12 @@ def read_one_info(Country,Mission_list,Email_list):
             break
     Info_dict2 = {}
     for i in range(len(Email_dict)):
+        if Email_dict[i]['Status'] == 'Bad':
+            continue
         a = Email_dict[i]['Email_emu'].find('@')
         end = Email_dict[i]['Email_emu'][a+1:]
-        print(Email_dict[i]['Email_emu'])
-        print(end)
+        # print(Email_dict[i]['Email_emu'])
+        # print(end)
         if end not in Email_list:
             continue 
         flag = 0
@@ -227,8 +229,14 @@ def read_one_info(Country,Mission_list,Email_list):
     return submit
 
 def write_one_info(Mission_list,submit):
-    Email_Id = submit['Email_Id']
-    BasicInfo_Id = submit['BasicInfo_Id']
+    try:
+        Email_Id = submit['Email_Id']
+    except:
+        Email_Id = ''
+    try:
+        BasicInfo_Id = submit['BasicInfo_Id']
+    except:
+        BasicInfo_Id = ''
     Cookie = ''
     account = get_account()
     conn,cursor=login_sql(account)    
@@ -238,7 +246,16 @@ def write_one_info(Mission_list,submit):
     login_out_sql(conn,cursor)
 
 
-
+def updata_email_status(Email_Id,flag = 1):
+    if flag == 1:
+        status = 'Good'
+    else:
+        status = 'Bad'
+    account = get_account()
+    conn,cursor=login_sql(account)    
+    sql_content = 'UPDATE Email SET Status = "%s" WHERE Email_Id = "%s"'%(status,Email_Id)
+    res = cursor.execute(sql_content)    
+    login_out_sql(conn,cursor)
 
 
 def test():
@@ -246,10 +263,11 @@ def test():
     print(len(ua))
 
 if __name__ == '__main__':
-    paras=sys.argv
-    paras = [0,1,2]
-    i = int(paras[2])
-    if i == 0:
-        create_all_tables()
-    else:
-        upload_data(i)
+    # paras=sys.argv
+    # paras = [0,1,2]
+    # i = int(paras[2])
+    # if i == 0:
+    #     create_all_tables()
+    # else:
+    #     upload_data(i)
+    updata_email_status('99ad0eef-a6ed-11e9-904f-00233a633931',1)
