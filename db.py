@@ -263,11 +263,11 @@ def test():
     print(len(ua))
 
 if __name__ == '__main__':
-    # paras=sys.argv
-    # paras = [0,1,2]
-    # i = int(paras[2])
-    # if i == 0:
-    #     create_all_tables()
-    # else:
-    #     upload_data(i)
-    updata_email_status('99ad0eef-a6ed-11e9-904f-00233a633931',1)
+    paras=sys.argv
+    paras = [0,1,2]
+    i = int(paras[2])
+    if i == 0:
+        create_all_tables()
+    else:
+        upload_data(i)
+    # updata_email_status('99ad0eef-a6ed-11e9-904f-00233a633931',1)

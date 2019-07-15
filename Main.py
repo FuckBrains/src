@@ -208,9 +208,10 @@ def EMU_multi():
         flag = imap_test.Email_emu_getlink(submit)
         if flag == 0:
             print('Bad email:',submit1['Email_emu'])
+            db.updata_email_status(submit['Email_Id'],0)
             continue
         else:
-            pass
+            db.updata_email_status(submit['Email_Id'],1)
         ip_test.ip_Test('',submit['State'])
         submits = []
         submit = {}

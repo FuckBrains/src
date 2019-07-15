@@ -27,15 +27,15 @@ def Config_read():
             'IP_city'    : IP_city
         },  
         'Mission_conf' :{
-            '10000'      : 'http://www.baidu.com',  # Finaff    Royal Cams  Done
-            '10001'      : 'http://www.baidu.com',  # Adgaem    star stable Done
-            '10002'      : '',  # Adpump    GETAROUND
+            '10000'      : '',  # Finaff    Royal Cams  Done
+            '10001'      : '',  # Adgaem    star stable Done
+            '10002'      : '',  # Adpump    GETAROUND Done
             '10003'      : '',  # UK Swipe 
             '10004'      : '',  # Ad1   opinion outpost   
-            '10005'      : 'http://www.baidu.com',  # Adsmain Cam4  Done           
+            '10005'      : '',  # Adsmain Cam4  Done           
             '10006'      : '',         # adpump GETAROUND  https://adpgtrack.com/click/5b73d90a6c42607b3b6c4323/199595/subaccount/url=example.com            
             '10007'      : '',         # IKARIAM
-            '10008'      : 'http://www.baidu.com',         # IKARIAM
+            '10008'      : '',         # IKARIAM
             '10009'      : '',         # IKARIAM  
             '10010'      : '',         # rifu Done
             '10011'      : '',         # IKARIAM
