@@ -6,6 +6,8 @@ import xlrd
 from xlutils.copy import copy
 from xlrd import xldate_as_tuple
 import uuid
+import random
+import os
 
 
 '''
@@ -25,13 +27,97 @@ requirements:
 
 '''
 
+
+def get_excel_path():
+    path = os.getcwd()
+    # print(path)
+    path = r'..\res'
+    files = os.listdir(path)
+    # print(files)
+    excels_path = [os.path.join(path,file) for file in files if 'xlsx' in file and 'Email' not in file]
+    return excels_path    
+
+
+def get_excel_names():
+    '''
+    get excel names from file folder:res,except Email.xlsx
+    eg: Auto,Uslife...
+    requires nothing
+    return a list of the names of these excel files
+    '''
+    excels_path = get_excel_path()
+    # print(excels_path)
+    # print(len(excels_path))
+    ex_names = [((os.path.split(file))[1].split('.'))[0] for file in excels_path]    
+    return ex_names
+
+def check_keys():
+    '''
+    get keys set dict from excels of file folder res,except Email.xlsx
+        adding key of Excel_name
+    eg:Keys_all = {'Excel_name':class<str>,'firstname':class<str>,'lastname':class<str>,...}  ps:lower keys
+    requires nothing
+    return a dict of the unique lower keys from all the excels,and values of the type of the keys
+    '''
+    ex_names = get_excel_names()
+    excels_path = get_excel_path()
+    print(ex_names)
+    Keys_all = {}
+    # type_all = []
+    for excel in excels_path:
+        keys,values = read_excel_new(excel)
+        values_type = [type('1') for value in values]
+        # types = set(values_type)
+        # for type_ in types:
+        #     if type_ not in type_all:
+        #         type_all.append(type_)
+        keys_dict=dict(zip(keys,values_type))
+        Keys_all = dict(Keys_all,**keys_dict)
+    Keys_all['Excel_name'] = type('1')
+    return Keys_all
+
+def read_excel_new(path_excel):
+    '''
+    get lower keys and values from the excel given,also fix the ' ' of the keys,like 'first name'
+    eg; keys = ['firstname','lastname',...]
+    requies given excel path(relevent path or abs path)
+    return keys, and values of the second row which changed all non str type into str type
+    '''
+    workbooks = xlrd.open_workbook(path_excel)
+    sheet = workbooks.sheet_by_index(0)
+    rows = sheet.nrows
+    keys = sheet.row_values(0)
+    keys = [key.lower().replace(' ','') for key in keys]
+    for i in range(2):    
+        if i == 0:
+            continue
+        values = sheet.row_values(i)
+    # a = type(1)
+    # b = type('1')
+    # for i in range(len(values)):
+    #     if type(values[i]) != b:
+    #         values[i] = str(values[i])
+    return keys,values
+
 def write_json_test(file,content):
+    '''
+    write dict into txt file
+    eg: write a dict into a.txt
+    requires the target file with path and the dict to write in
+    return nothing,just write content into file
+    '''
     content = json.dumps(content) 
     with open(file,'w') as f:
         # content += '\n'
         f.write(content)
 
 def get_account():
+    '''
+    get account for sql db,read a config file in res folder
+    eg:submit = {'password':...}
+    requies nothing
+    return the sql db account
+    '''
     file = r'..\res\db_config.txt' 
     submits = []
     with open(file,'r') as f:
@@ -43,144 +129,205 @@ def get_account():
             # print(submit)
     return submits[-1]
 
-def get_sheet(file_flag):
-    if file_flag == 1:
-        path_excel = r'..\res\Config.xlsx'
-    else:
-        path_excel = r'..\res\Email.xlsx'
+def get_sheet(path_excel):
+    '''
+    get sheet from given path :path_excel
+    requies excel file with path
+    return sheet
+    '''
     workbooks = xlrd.open_workbook(path_excel)
     sheet = workbooks.sheet_by_index(0)
     return sheet  
 
-def get_data(keys,values,create):
+def get_data(values,create):
+    '''
+    change values into str type.
+    if create is not True,insert uuid into values on the first place
+    '''
     a = type(1)
     b = type('1')
     for i in range(len(values)):
         if type(values[i]) != b:
-            values[i] = int(values[i])
+            values[i] = str(values[i])
         else:
             if '"' in values[i]:
                 values[i] = values[i].replace('"','')
-    print(keys)
-    print(values) 
     if create != True: 
         uuid_sin = str(uuid.uuid1())     
         values.insert(0,uuid_sin)  
     return values  
 
-def read_excel(i,file_flag=1,create=True):
-    sheet = get_sheet(file_flag)
-    keys = sheet.row_values(0)
-    values = sheet.row_values(i)
-    values = get_data(keys,values,create)
-    return keys,values
-
 def login_sql(account):
+    '''
+    Login sql and create EMU db if not exist
+    choose emu db
+    return the cursor and conn
+    '''
     conn = pymysql.connect(host= account['IP'],port=3306,user=account['username'],passwd=str(account['pwd']))
     cursor = conn.cursor()
-    Create_db='CREATE DATABASE IF NOT EXISTS EMU'
-    cursor.execute(Create_db)    
     cursor.execute('use %s;'%account['db_name'])
     print('Login db success.')
     # res = cursor.execute('select * from TOKENTABLE;')
     return conn,cursor
 
+
+def create_db():
+    Create_db='CREATE DATABASE IF NOT EXISTS EMU'
+    Execute_sql(Create_db)
+
+
 def login_out_sql(conn,cursor):
+    '''
+    commit and close connection
+    '''
     conn.commit()
     # 关闭游标
     cursor.close()
     # 关闭连接
     conn.close()
+    print('exit sql server success')
 
-def create_tokentable():
-    conn,cursor = login_sql()
-    res = cursor.execute('CREATE TABLE  IF NOT EXISTS Email (id INT(30),token VARCHAR(100));')
-    res = cursor.fetchall()
-    for item in res:
-        print(item)    
-    login_out_sql(conn,cursor)    
+'''
+get sql contet for 
+1.create table together
+2.create tokentable
+3.create basicinfo table
+'''
 
-def create_BasicInfo(account,keys,values):
+def create_tokentable(account):
+    sql_content = 'CREATE TABLE  IF NOT EXISTS Tokens (id BIGINT(20),token VARCHAR(100));'
+    Execute_sql(sql_content)
+
+def create_BasicInfo(account,keys):
     conn,cursor = login_sql(account)
     res = cursor.execute('CREATE TABLE  IF NOT EXISTS BasicInfo (BasicInfo_Id VARCHAR(50) PRIMARY KEY NOT NULL)')
-    for i in range(len(keys)):
-        if keys[i] == 'Ua':
-            content = 'ALTER table BasicInfo ADD %s varchar(500)'%str(keys[i])
-        elif keys[i] == 'Address':
-            content = 'ALTER table BasicInfo ADD %s varchar(500) UNIQUE'%str(keys[i])            
-        elif keys[i] == 'Country':
-            content = 'ALTER table BasicInfo ADD %s varchar(50) NOT NULL'%str(keys[i])                
+    type_str = type('1')
+    for item in keys:
+        if item == 'ua':
+            content = 'ALTER table  BasicInfo ADD %s varchar(500)'%str(item)
+        elif item == 'address':
+            content = 'ALTER table  BasicInfo ADD %s varchar(500) UNIQUE'%str(item)            
+        elif item == 'country':
+            content = 'ALTER table BasicInfo ADD %s varchar(50) NOT NULL'%str(item)                
         else:
-            content = 'ALTER table BasicInfo ADD %s varchar(100)'%str(keys[i])
-        res = cursor.execute(content)   
+            content = 'ALTER table  BasicInfo ADD %s varchar(100)'%str(item)
+        print(content)  
+        try:            
+            res = cursor.execute(content)   
+        except:
+            pass
     login_out_sql(conn,cursor)        
 
-def create_Email(account):
-    conn,cursor = login_sql(account)
-    res = cursor.execute("CREATE TABLE  IF NOT EXISTS Email (Email_Id VARCHAR(50) PRIMARY KEY NOT NULL,Email_emu VARCHAR(50) UNIQUE NOT NULL,Email_emu_pwd VARCHAR(50) NOT NULL,Email_assist VARCHAR(50) NULL,Email_assist_pwd VARCHAR(50) NULL,Status VARCHAR(20) NULL)")
-    # res = cursor.fetchall()
-    # for item in res:
-    #     print(item)    
-    login_out_sql(conn,cursor)
-
-def create_Mission(account):
-    conn,cursor = login_sql(account)
-    res = cursor.execute("CREATE TABLE  IF NOT EXISTS Mission (Mission_Id INT(10) NOT NULL,Email_Id VARCHAR(50),BasicInfo_Id VARCHAR(50),Cookie VARCHAR(1000))")
-    # Mission_Id INT PRIMARY KEY AUTO_INCREMENT,
-    login_out_sql(conn,cursor)
-
 def create_all_tables():
-    account = get_account()
-    create_Email(account)
-    create_Mission(account)
-    keys,values = read_excel(1)
-    create_BasicInfo(account,keys,values)    
+    create_db()
+    sql_contents = []
+    sql_email = "CREATE TABLE  IF NOT EXISTS Email (Email_Id VARCHAR(50) PRIMARY KEY NOT NULL,Email_emu VARCHAR(50) UNIQUE NOT NULL,Email_emu_pwd VARCHAR(50) NOT NULL,Email_assist VARCHAR(50) NULL,Email_assist_pwd VARCHAR(50) NULL,Status VARCHAR(20) NULL);"
+    sql_mission = "CREATE TABLE  IF NOT EXISTS Mission (Mission_Id INT(10) NOT NULL,Email_Id VARCHAR(50),BasicInfo_Id VARCHAR(50),Cookie VARCHAR(1000));"
+    sql_ip = "CREATE TABLE  IF NOT EXISTS Ip_Pools (Ip VARCHAR(50) UNIQUE NOT NULL,Type VARCHAR(20) NOT NULL,Status VARCHAR(20) NULL);"
+    sql_contents = [sql_email,sql_mission,sql_ip]
+    Execute_sql(sql_contents)
+    keys = check_keys()
+    create_BasicInfo(account,keys)  
 
-def upload_data(i):
-    tables = ['BasicInfo','Email']
-    table = tables[i-1]
-    sheet = get_sheet(i)    
-    keys = sheet.row_values(0)
-    if i == 1:
-        keys.insert(0,'BasicInfo_Id') 
-    else:
-        keys.insert(0,'Email_Id') 
-    rows = sheet.nrows
-    account = get_account() 
+
+
+
+'''
+Upload data together for all the excels in file folder res
+'''
+def unique_index(L,e):
+    '''
+    find all the Duplicated poses of e in list L
+    return a poses list
+    '''
+    return [i for (i,j) in enumerate(L) if j == e]
+
+def upload_data():
+    '''
+    deal with the Duplicated keys
+    Upload all the excel datas in file folder res
+    '''
+    account = get_account()
+    path = os.getcwd()
+    path = r'..\res'
+    files = os.listdir(path)
+    excels_path = [os.path.join(path,file) for file in files if 'xlsx' in file]
     conn,cursor = login_sql(account)
-    for j in range(rows):
-        if j == 0:
-            continue
-        values = sheet.row_values(j) 
-        values = get_data(keys,values,False)
-        sql_content = get_upload_sql_content(table,keys,values) 
-        print(table,'Uploading data of row',j) 
-        print(sql_content)
-        res = cursor.execute(sql_content)
-        print(res)
-        if res == 0:
-            print('duplicated data')
+    for path_excel in excels_path:
+        # print(path_excel)
+        Excel_name = ((os.path.split(path_excel))[1].split('.'))[0]
+        # print(Excel_name)
+        sheet = get_sheet(path_excel)    
+        keys = sheet.row_values(0)
+        keys = [key.lower().replace(' ','') for key in keys] 
+        # print(keys)
+        rids = []
+        # print('================')
+        # print(keys)
+        for key in set(keys):
+            pos = unique_index(keys,key)
+            # print(pos)       
+            if len(pos) >= 2:
+                print('Duplicated keys,in Excel:',path_excel,key)
+                rids = pos[1:]
+                rids.reverse()
+        # print(keys)
+        # print('---------------')
+        if 'Email' not in path_excel:
+            keys.insert(0,'BasicInfo_Id') 
+            keys.insert(1,'Excel_name')            
+            table = 'BasicInfo'
         else:
-            print('Upload finished') 
+            keys.insert(0,'Email_Id') 
+            table = 'Email'
+        rows = sheet.nrows
+        account = get_account() 
+        if len(rids) >= 1:
+            for rid in rids:
+                if 'Email' not in path_excel:
+                    keys.pop(rid+2)        
+                else:
+                    keys.pop(rid+1)
+        for j in range(rows):
+            if j == 0:
+                continue
+            values = sheet.row_values(j) 
+            values = get_data(values,False)
+            if 'BasicInfo_Id' in keys:
+                values.insert(1,Excel_name)
+            if len(rids) >= 1:
+                for rid in rids:
+                    values.pop(rid+1)
+            sql_content = get_upload_sql_content(table,keys,values) 
+            print(Excel_name,'Uploading data of row',j) 
+            print(sql_content)
+            res = cursor.execute(sql_content)
+            conn.commit()
+            # print(res)
+            if res == 0:
+                print('duplicated data')
+            else:
+                print('Upload finished') 
     login_out_sql(conn,cursor)
 
-def get_upload_sql_content(table,keys,values):
-    a = 'INSERT IGNORE INTO  '+table+' ('
-    for key in keys:
-        a+= key + ','
-    a = a[0:-1] +') VALUES('
-    type_str = type('1')
-    type_int = type(1)    
-    for i in range(len(values)):
-        if type(values[i]) == type_str:
-            a+='"{}",'
-        else:
-            a+='{},'
-    a = a[0:-1] + ');'
-    sql_content = a.format(*values)
-    return sql_content    
 
-def read_one_info(Country,Mission_list,Email_list):
+'''
+read all infos in listed excel of Excel_names,and the email info into one big dict
+eg: submit = {
+    'Auto':{'firstname':'lee',...},
+    'Uspd':{'firstname':'song',...}
+    ...
+    'Email':{'Email_Id':'asd123asd-asd123-asd123-asd12','Email_emu':'asd123@hotmail.com'}
+}
+conditions:
+1.selected country
+2.uuid not in Mission table
+3.email should be in email_list
+return submit
+'''
+
+def read_one_info(Country,Mission_list,Email_list,Excel_names):
+    print('     Start reading info from sql server...')
     account = get_account()
     conn,cursor=login_sql(account)
     res = cursor.execute('SELECT * from BasicInfo')
@@ -193,9 +340,14 @@ def read_one_info(Country,Mission_list,Email_list):
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
     Info_dict = {}
-    for i in range(len(BasicInfo_dict)):
-        if BasicInfo_dict[i]['Country'] != Country:
+    Info_dicts = {}
+    list_BasicInfo = random.sample(range(len(BasicInfo_dict)),len(BasicInfo_dict))
+    Excel_names_check = []
+    for i in list_BasicInfo:
+        if BasicInfo_dict[i]['country'] != Country:
             continue
+        if BasicInfo_dict[i]['Excel_name'] in Excel_names_check:
+            continue 
         flag = 0
         for j in range(len(Mission_dict)):
             if Mission_dict[j]['Mission_Id'] in Mission_list: 
@@ -204,9 +356,13 @@ def read_one_info(Country,Mission_list,Email_list):
                     break
         if flag == 0:
             Info_dict = BasicInfo_dict[i]
+            Info_dicts[BasicInfo_dict[i]['Excel_name']] = Info_dict
+            Excel_names_check.append(BasicInfo_dict[i]['Excel_name'])
+        if len(Excel_names_check) == len(Excel_names):
             break
     Info_dict2 = {}
-    for i in range(len(Email_dict)):
+    list_Email = random.sample(range(len(Email_dict)),len(Email_dict))
+    for i in list_Email:
         if Email_dict[i]['Status'] == 'Bad':
             continue
         a = Email_dict[i]['Email_emu'].find('@')
@@ -224,27 +380,25 @@ def read_one_info(Country,Mission_list,Email_list):
         if flag == 0:
             Info_dict2 = Email_dict[i]
             break
+    Info_dicts['Email'] = Info_dict2
     login_out_sql(conn,cursor)
-    submit = dict(Info_dict,**Info_dict2)
-    return submit
+    # submit = dict(Info_dict,**Info_dict2)
+    return Info_dicts
 
-def write_one_info(Mission_list,submit):
+def write_one_info(Mission_list,submit,Cookie = ''):
     try:
-        Email_Id = submit['Email_Id']
+        Email_Id = submit['Email']['Email_Id']
     except:
-        Email_Id = ''
-    try:
-        BasicInfo_Id = submit['BasicInfo_Id']
-    except:
-        BasicInfo_Id = ''
-    Cookie = ''
+        Email_Id = '' 
     account = get_account()
-    conn,cursor=login_sql(account)    
-    for Mission_Id in Mission_list:
-        sql_content = 'INSERT INTO Mission(Mission_Id,Email_Id,BasicInfo_Id,Cookie)VALUES("%d","%s","%s","%s")'%(Mission_Id,Email_Id,BasicInfo_Id,Cookie)
-        res = cursor.execute(sql_content)    
+    conn,cursor=login_sql(account)  
+    for item in submit:  
+        if item == 'Email':
+            continue    
+        for Mission_Id in Mission_list:
+            sql_content = 'INSERT INTO Mission(Mission_Id,Email_Id,BasicInfo_Id,Cookie)VALUES("%d","%s","%s","%s")'%(Mission_Id,Email_Id,submit[item]['BasicInfo_Id'],Cookie)
+            res = cursor.execute(sql_content)    
     login_out_sql(conn,cursor)
-
 
 def updata_email_status(Email_Id,flag = 1):
     if flag == 1:
@@ -257,17 +411,57 @@ def updata_email_status(Email_Id,flag = 1):
     res = cursor.execute(sql_content)    
     login_out_sql(conn,cursor)
 
+def update_ip_pools(values):
+    # values=[proxy,'Socket5','Good']
+    table = 'Ip_Pools'
+    keys = ['Ip','Type','Status']
+    sql_content = get_upload_sql_content(table,keys,values)
+    print(sql_content)
+    sql_contents = []
+    sql_contents.append(sql_content)
+    Execute_sql(sql_contents)
+
+def get_create_table_sql_content(table,keys):
+    sql_content = "CREATE TABLE  IF NOT EXISTS" + table + " ("
+    for key in keys:
+        sql_content += key
+    sql_content += " );"
+    return sql_content
+
+def get_upload_sql_content(table,keys=None,values=None):
+    a = 'INSERT IGNORE INTO  '+table+' ('
+    for key in keys:
+        a+= key + ','
+    a = a[0:-1] +') VALUES('
+    type_str = type('1')
+    type_int = type(1)    
+    for i in range(len(values)):
+        if type(values[i]) == type_str:
+            a+='"{}",'
+        else:
+            a+='{},'
+    a = a[0:-1] + ');'
+    sql_content = a.format(*values)
+    return sql_content    
+
+def Execute_sql(sql_contents):
+    account = get_account()
+    conn,cursor = login_sql(account)
+    for sql_content in sql_contents:
+        res = cursor.execute(sql_content)
+    login_out_sql(conn,cursor)     
 
 def test():
     ua = 'Mozilla/4.0 (compatible; MSIE 7.0; AOL 9.0; Windows NT 6.0; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.0.04506; .NET CLR 1.1.4322)'
     print(len(ua))
 
 if __name__ == '__main__':
-    paras=sys.argv
-    paras = [0,1,2]
-    i = int(paras[2])
-    if i == 0:
-        create_all_tables()
-    else:
-        upload_data(i)
+    create_all_tables()
+    # create_all_tables()
+    upload_data()
+    # account = get_account()
+    # create_tokentable(account)
+
     # updata_email_status('99ad0eef-a6ed-11e9-904f-00233a633931',1)
+    # values = ['11.0.0.1:9999','Spcket5','Good']
+    # update_ip_pools(values)

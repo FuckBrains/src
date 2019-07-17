@@ -46,14 +46,14 @@ def web_submit(submit):
         sleep(2)
         chrome_driver.find_element_by_xpath('//*[@id="member_join_popup"]/div[3]/div/button').click()
         sleep(2)
-        chrome_driver.find_element_by_xpath('//*[@id="user_member_password"]').send_keys(submit['Email_emu_pwd'])
+        chrome_driver.find_element_by_xpath('//*[@id="user_member_password"]').send_keys(submit['Email']['Email_emu_pwd'])
         chrome_driver.find_element_by_xpath('//*[@id="user_member_terms_of_use"]').click()
         chrome_driver.find_element_by_xpath('//*[@id="member_join_popup"]/div[3]/div/form/div/div[2]/button').click()
         sleep(2)
     except:
         chrome_driver.find_element_by_xpath('//*[@id="user_member_username"]').send_keys(name)
         sleep(2)
-        chrome_driver.find_element_by_xpath('//*[@id="user_member_password"]').send_keys(submit['Email_emu_pwd'])
+        chrome_driver.find_element_by_xpath('//*[@id="user_member_password"]').send_keys(submit['Email']['Email_emu_pwd'])
         sleep(2)
         chrome_driver.find_element_by_xpath('//*[@id="user_member_terms_of_use"]').click()
         sleep(2)
@@ -83,7 +83,7 @@ def web_submit(submit):
             t += 1
             pass
     chrome_driver.refresh()
-    chrome_driver.find_element_by_xpath('//*[@id="user_email"]').send_keys(submit['Email_emu'])
+    chrome_driver.find_element_by_xpath('//*[@id="user_email"]').send_keys(submit['Email']['Email_emu'])
     sleep(2)
     chrome_driver.find_element_by_xpath('//*[@id="add_confirm_email"]/div/div[2]/button').click()
 
@@ -93,7 +93,7 @@ def web_submit(submit):
     flag = 0
     handle = chrome_driver.current_window_handle
     try:            
-        site = email_confirm(submit)  
+        site = email_confirm(submit['Email'])  
         print(site)      
     except Exception as e:
         writelog('email check failed',str(e))

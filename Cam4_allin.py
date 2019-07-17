@@ -5,8 +5,8 @@ IP_state     = 'All'
 IP_city      = ''
 
 # sleep time
-Sleep_time_up = 2
-Sleep_time_down = 6
+Sleep_time_up = 0
+Sleep_time_down = 0
 
 # threads
 Threads = 5

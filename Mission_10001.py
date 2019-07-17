@@ -53,17 +53,15 @@ def web_submit(submit):
     # s1.select_by_index(str(num))     
     while True:
         try:
-            chrome_driver.find_element_by_xpath('//*[@id="email"]').send_keys(submit['Email_emu'])
+            chrome_driver.find_element_by_xpath('//*[@id="email"]').send_keys(submit['Email']['Email_emu'])
         except:
             pass
         break
     try:
-        chrome_driver.find_element_by_xpath('//*[@id="email_verification"]').send_keys(submit['Email_emu'])
+        chrome_driver.find_element_by_xpath('//*[@id="email_verification"]').send_keys(submit['Email']['Email_emu'])
     except:
         pass
-
-    chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(submit['Email_emu_pwd'])
-
+    chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(submit['Email']['Email_emu_pwd'])
     num = random.randint(1980,2004) 
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="year"]'))
     s1.select_by_value(str(num)) 
@@ -86,7 +84,7 @@ def web_submit(submit):
     handle = chrome_driver.current_window_handle
     flag = 0
     try:            
-        site = email_confirm(submit)  
+        site = email_confirm(submit['Email'])  
         print(site)      
     except Exception as e:
         print(str(e))

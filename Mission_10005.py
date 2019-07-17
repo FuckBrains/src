@@ -67,8 +67,8 @@ def web_submit(submit):
         chrome_driver.find_element_by_xpath("/html/body/div[1]/div[4]/span").click()            #create account
         chrome_driver.switch_to_frame('myForm')
         chrome_driver.find_element_by_xpath("//*[@id='userName']").send_keys(name)
-        chrome_driver.find_element_by_xpath("//*[@id='newPassword']").send_keys(submit['Email_emu_pwd'])
-        chrome_driver.find_element_by_xpath("//*[@id='email']").send_keys(submit['Email_emu'])
+        chrome_driver.find_element_by_xpath("//*[@id='newPassword']").send_keys(submit['Email']['Email_emu_pwd'])
+        chrome_driver.find_element_by_xpath("//*[@id='email']").send_keys(submit['Email']['Email_emu'])
     except Exception as e:
         print('something error in registration',str(e))
         chrome_driver.close()
@@ -104,7 +104,7 @@ def web_submit(submit):
     site = ''
     handle = chrome_driver.current_window_handle
     try:            
-        site = email_confirm(submit)  
+        site = email_confirm(submit['Email'])  
         print(site)      
     except Exception as e:
         print('email check failed',str(e))
@@ -157,25 +157,6 @@ def check_email(submit):
         print(submit['Email_emu'],'is GOOD_EMAIL')
         return 0 #success
     
-
-def check_name(submit):
-    data = {'username':submit['name']}
-    data = parse.urlencode(data).encode('gbk')
-    req = request.Request(url2, data=data)
-    page = ''
-    for i in range(5):
-        try:
-            page = request.urlopen(req,timeout=10.0).read()
-        except Exception as msg:
-            print(msg)
-            continue   
-        if str(page) != '':
-            break
-    print(page)
-    if 'OK' not in str(page):
-        return 1 #fail
-    else:
-        return 0    #success
 
 
 def email_confirm(submit):

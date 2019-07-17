@@ -47,14 +47,14 @@ def web_submit(submit):
     s1.select_by_value(str(num))     
     s2 = Select(chrome_driver.find_element_by_xpath('//*[@id="site-header"]/div/div/a[1]'))
     s2.select_by_index(1)  
-    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[3]/div[1]/div/input').send_keys(submit['Firstname'])
-    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[3]/div[2]/div/input').send_keys(submit['Lastname'])
+    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[3]/div[1]/div/input').send_keys(submit['Auto']['firstname'])
+    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[3]/div[2]/div/input').send_keys(submit['Auto']['lastname'])
     # email
-    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[4]/div/input').send_keys(submit['Email_emu'])
+    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[4]/div/input').send_keys(submit['Email']['Email_emu'])
     # phone
-    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[5]/div/input').send_keys(submit['Homephone'])
+    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[5]/div/input').send_keys(submit['Auto']['homephone'])
     # zipcode
-    chrome_driver.find_element_by_xpath('//*[@id="postal-code"]').send_keys(submit['Zip'])
+    chrome_driver.find_element_by_xpath('//*[@id="postal-code"]').send_keys(str(int(submit['Auto']['zip'])))
     num = random.randint(0,15) 
     s2 = Select(chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[8]/div/select'))
     s2.select_by_index(1)   
