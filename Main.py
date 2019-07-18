@@ -23,9 +23,15 @@ import re
 '''
 'testeeeee'
 '''
-Delay, Config, Mission_conf, Email_list  = Cam4_allin.Config_read()
-pool = threadpool.ThreadPool(Delay['threads'])
+# pool = threadpool.ThreadPool(Delay['threads'])
 
+
+def get_all_config():
+    # Delay, Config, Mission_conf, Email_list  = Cam4_allin.Config_read()
+    Delay, Config, Mission_conf, Email_list = 1,1,1,1
+    return Delay, Config, Mission_conf, Email_list 
+    
+Delay, Config, Mission_conf, Email_list = get_all_config()
 
 def writelog(runinfo,e=''):
     file=open(os.getcwd()+"\log.txt",'a+')
@@ -102,6 +108,7 @@ def get_modules():
 
 def EMU_multi():
     # test
+
     print('Reading configs from Cam4_allin...')
     Mission_list = [] 
     for item in Mission_conf:

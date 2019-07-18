@@ -31,10 +31,10 @@ def Config_read():
             '10001'      : '',  # Adgaem    star stable Done
             '10002'      : '',  # Adpump    GETAROUND Done
             '10003'      : '',  # UK Swipe 
-            '10004'      : '',  # Ad1   opinion outpost   
+            '10004'      : 'http://ares.goldmaketing.com/c/10655/a?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]&device=[device]&browser=[browser]&carrier=[carrier]',  # Ad1   opinion outpost   
             '10005'      : '',  # Adsmain Cam4  Done           
-            '10006'      : '',         # adpump GETAROUND  https://adpgtrack.com/click/5b73d90a6c42607b3b6c4323/199595/subaccount/url=example.com            
-            '10007'      : '',         # IKARIAM
+            '10006'      : 'https://track.adgaem.com/click?pid=1337&offer_id=62396',         # adgaem 1.2   GUARDIANS OF AMBER         
+            '10007'      : 'http://affprofile.o18.click/c?o=676208&m=1659&a=37792',         # Stripchat affprofile
             '10008'      : '',         # IKARIAM
             '10009'      : '',         # IKARIAM  
             '10010'      : '',         # rifu Done
