@@ -153,7 +153,7 @@ def EMU_multi():
         else:
             print("Good email")
             db.updata_email_status(submit1['Email']['Email_Id'],1)
-        # ip_test.ip_Test('',submit1['Auto']['state'])
+        ip_test.ip_Test('',submit1['Usloan']['state'])
         submits = []
         submit = {}
         for num in nums:
@@ -162,10 +162,10 @@ def EMU_multi():
             submits.append(submit)
             submit = {}
         db.write_one_info(Mission_list,submit1)
-        # requests = threadpool.makeRequests(multi_reg, submits)
-        # [pool.putRequest(req) for req in requests]
-        # pool.wait() 
-        # write_excel(submits[0])
+        requests = threadpool.makeRequests(multi_reg, submits)
+        [pool.putRequest(req) for req in requests]
+        pool.wait() 
+        write_excel(submits[0])
         time_delay = random.randint(Delay['up']*60,Delay['down']*60)
         print('Sleeping',time_delay,'Minutes')
         sleep(time_delay)

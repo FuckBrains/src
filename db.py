@@ -209,6 +209,8 @@ def create_BasicInfo(account,keys):
             content = 'ALTER table  BasicInfo ADD %s varchar(500) UNIQUE'%str(item)            
         elif item == 'country':
             content = 'ALTER table BasicInfo ADD %s varchar(50) NOT NULL'%str(item)                
+        elif item == 'state':
+            content = 'ALTER table BasicInfo ADD %s varchar(50) NOT NULL'%str(item)                            
         else:
             content = 'ALTER table  BasicInfo ADD %s varchar(100)'%str(item)
         print(content)  
@@ -348,6 +350,9 @@ def read_one_info(Country,Mission_list,Email_list,Excel_names):
             continue
         if BasicInfo_dict[i]['Excel_name'] in Excel_names_check:
             continue 
+        if len(Excel_names_check) > 0:
+            if BasicInfo_dict[i]['state'] != Info_dicts[Excel_names_check[0]]['state']:
+                continue
         flag = 0
         for j in range(len(Mission_dict)):
             if Mission_dict[j]['Mission_Id'] in Mission_list: 
