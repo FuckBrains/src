@@ -157,7 +157,7 @@ def get_data(values,create):
         values.insert(0,uuid_sin)  
     return values  
 
-def login_sql(account):
+def login_sql(account,create = False):
     '''
     Login sql and create EMU db if not exist
     choose emu db
@@ -165,15 +165,18 @@ def login_sql(account):
     '''
     conn = pymysql.connect(host= account['IP'],port=3306,user=account['username'],passwd=str(account['pwd']))
     cursor = conn.cursor()
-    cursor.execute('use %s;'%account['db_name'])
+    try:
+        cursor.execute('use %s;'%account['db_name'])
+    except:
+        pass
     print('Login db success.')
     # res = cursor.execute('select * from TOKENTABLE;')
     return conn,cursor
 
 
 def create_db():
-    Create_db='CREATE DATABASE IF NOT EXISTS EMU'
-    Execute_sql(Create_db)
+    Create_db='CREATE DATABASE IF NOT EXISTS EMU;'
+    Execute_sql([Create_db])
 
 
 def login_out_sql(conn,cursor):
@@ -198,7 +201,8 @@ def create_tokentable(account):
     sql_content = 'CREATE TABLE  IF NOT EXISTS Tokens (id BIGINT(20),token VARCHAR(100));'
     Execute_sql(sql_content)
 
-def create_BasicInfo(account,keys):
+def create_BasicInfo(keys):
+    account = get_account()
     conn,cursor = login_sql(account)
     res = cursor.execute('CREATE TABLE  IF NOT EXISTS BasicInfo (BasicInfo_Id VARCHAR(50) PRIMARY KEY NOT NULL)')
     type_str = type('1')
@@ -229,7 +233,7 @@ def create_all_tables():
     sql_contents = [sql_email,sql_mission,sql_ip]
     Execute_sql(sql_contents)
     keys = check_keys()
-    create_BasicInfo(account,keys)  
+    create_BasicInfo(keys)  
 
 
 
@@ -453,6 +457,7 @@ def Execute_sql(sql_contents):
     account = get_account()
     conn,cursor = login_sql(account)
     for sql_content in sql_contents:
+        print(sql_content)
         res = cursor.execute(sql_content)
     login_out_sql(conn,cursor)     
 
