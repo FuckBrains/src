@@ -33,6 +33,7 @@ def Submit_handle(submit):
                 print(date)
             except Exception as e:
                 print(str(e))
+                date = [str(random.randint(1960,1980))] 
         else:
             # print(date)
             date = [str(random.randint(1960,1980))] 
@@ -49,6 +50,18 @@ def Submit_handle(submit):
     except: 
         submit['handle'] = False          
     return submit
+
+
+def get_auto_birthday(date):
+    if '/' in date:
+        birthday = date.split('/')
+    elif '-' in date:
+        birthday = date.split('-')    
+    else:
+        birthday = [str(random.randint(1,12)),str(random.randint(1,25)) ,str(random.randint(1960,1980))]    
+    return birthday
+
+
 
 
 if __name__ == '__main__':

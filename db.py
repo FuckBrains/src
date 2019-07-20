@@ -345,28 +345,32 @@ def read_one_info(Country,Mission_list,Email_list,Excel_names):
     res = cursor.execute('SELECT * from Email')
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
-    Info_dict = {}
-    Info_dicts = {}
-    list_BasicInfo = random.sample(range(len(BasicInfo_dict)),len(BasicInfo_dict))
-    Excel_names_check = []
-    for i in list_BasicInfo:
-        if BasicInfo_dict[i]['country'] != Country:
-            continue
-        if BasicInfo_dict[i]['Excel_name'] in Excel_names_check:
-            continue 
-        if len(Excel_names_check) > 0:
-            if BasicInfo_dict[i]['state'] != Info_dicts[Excel_names_check[0]]['state']:
+    while True:
+        Info_dicts = {}
+        Excel_names_check = []
+        list_BasicInfo = random.sample(range(len(BasicInfo_dict)),len(BasicInfo_dict))
+        for i in list_BasicInfo:
+            if BasicInfo_dict[i]['country'] != Country:
                 continue
-        flag = 0
-        for j in range(len(Mission_dict)):
-            if Mission_dict[j]['Mission_Id'] in Mission_list: 
-                if BasicInfo_dict[i]['BasicInfo_Id'] == Mission_dict[j]['BasicInfo_Id']:
-                    flag = 1
-                    break
-        if flag == 0:
-            Info_dict = BasicInfo_dict[i]
-            Info_dicts[BasicInfo_dict[i]['Excel_name']] = Info_dict
-            Excel_names_check.append(BasicInfo_dict[i]['Excel_name'])
+            if BasicInfo_dict[i]['Excel_name'] in Excel_names_check:
+                continue 
+            if BasicInfo_dict[i]['Excel_name'] not in Excel_names:
+                continue             
+            if len(Excel_names_check) > 0:
+                if BasicInfo_dict[i]['state'] != Info_dicts[Excel_names_check[0]]['state']:
+                    continue
+            flag = 0
+            for j in range(len(Mission_dict)):
+                if Mission_dict[j]['Mission_Id'] in Mission_list: 
+                    if BasicInfo_dict[i]['BasicInfo_Id'] == Mission_dict[j]['BasicInfo_Id']:
+                        flag = 1
+                        break
+            if flag == 0:
+                Info_dicts[BasicInfo_dict[i]['Excel_name']] = BasicInfo_dict[i]
+                Excel_names_check.append(BasicInfo_dict[i]['Excel_name'])
+            if len(Excel_names_check) == len(Excel_names):
+                break
+        print(Excel_names_check)
         if len(Excel_names_check) == len(Excel_names):
             break
     Info_dict2 = {}

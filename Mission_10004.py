@@ -15,6 +15,9 @@ from selenium.webdriver.support.ui import Select
 import Chrome_driver
 import email_imap as imap
 import name_get
+import db
+import emaillink
+import Submit_handle
 
 
 
@@ -23,103 +26,136 @@ import name_get
 
 def web_submit(submit):
     # test
-    # site = 'https://finaff.go2affise.com/click?pid=3464&offer_id=9436'
-    # submit['Site'] = site
+    site = 'http://ares.goldmaketing.com/c/10655/a?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]&device=[device]&browser=[browser]&carrier=[carrier]'
+    submit['Site'] = site
     chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
-    name = name_get.gen_one_word_digit(lowercase=False)
     chrome_driver.maximize_window()
     chrome_driver.refresh()
-    chrome_driver.find_element_by_xpath('//*[@id="site-header"]/div/div/a[1]').click()
-    i = 0
-    while True:
-    	try:
-    		chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[1]/select').click()
-    	except:
-    		i+=1
-    		if i >= 5:
-    			break
-    # page2
-    num = random.randint(2010,2018) 
-    s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="site-header"]/div/div/a[1]'))
-    s1.select_by_value(str(num)) 
-    s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="site-header"]/div/div/a[1]'))
-    s1.select_by_value(str(num))     
-    s2 = Select(chrome_driver.find_element_by_xpath('//*[@id="site-header"]/div/div/a[1]'))
-    s2.select_by_index(1)  
-    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[3]/div[1]/div/input').send_keys(submit['Firstname'])
-    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[3]/div[2]/div/input').send_keys(submit['Lastname'])
-    # email
-    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[4]/div/input').send_keys(submit['Email_emu'])
-    # phone
-    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[5]/div/input').send_keys(submit['Homephone'])
-    # zipcode
-    chrome_driver.find_element_by_xpath('//*[@id="postal-code"]').send_keys(submit['Zip'])
-    num = random.randint(0,15) 
-    s2 = Select(chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[8]/div/select'))
-    s2.select_by_index(1)   
-    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/button').click()  
-    sleep(30)
-    chrome_driver.close()
-    chrome_driver.quit()
-    return
+    # sleep(1000)
+    if submit['Auto']['gender'] == 'Female':
+        # women
+        chrome_driver.find_element_by_xpath('//*[@id="female"]').click()
+    else:
+        # man
+        chrome_driver.find_element_by_xpath('//*[@id="male"]').click()
 
+    # firstname
+    chrome_driver.find_element_by_xpath('//*[@id="firstname"]').send_keys(submit['Auto']['firstname'])
+    # lastname
+    chrome_driver.find_element_by_xpath('//*[@id="lastname"]').send_keys(submit['Auto']['lastname'])
+    # email
+    chrome_driver.find_element_by_xpath('//*[@id="email"]').send_keys(submit['Email']['Email_emu'])
+    # corfirm email
+    chrome_driver.find_element_by_xpath('//*[@id="confirmemail"]').send_keys(submit['Email']['Email_emu'])
+    # choose
+    chrome_driver.find_element_by_xpath('//*[@id="checkbox"]').click()
+    sleep(2)
+    # button
+    chrome_driver.find_element_by_xpath('//*[@id="registerBtn"]').click()
+    sleep(5)
+    site = ''
+    flag = 0
+    handle = chrome_driver.current_window_handle
+    try:            
+        site = email_confirm(submit)  
+        print(site)      
+    except Exception as e:
+        print(str(e))
+        pass
+        # writelog('email check failed',str(e))
+    if site != '':
+        newwindow='window.open("' + site + '");'
+        chrome_driver.execute_script(newwindow)  
+    else:
+        flag = 1
+        chrome_driver.close()
+        chrome_driver.quit()
+        return flag        
+    handles=chrome_driver.window_handles   
+    for i in handles:
+        if i != handle:
+            chrome_driver.switch_to.window(i)
+            chrome_driver.refresh() 
+            birthday = Submit_handle.get_auto_birthday(submit['Auto']['dateofbirth'])
+            # mm
+            chrome_driver.find_element_by_xpath('//*[@id="siq-monthdob-id"]').send_keys(birthday[0])
+            # dd
+            chrome_driver.find_element_by_xpath('//*[@id="siq-daydob-id"]').send_keys(birthday[1])
+            # yy
+            chrome_driver.find_element_by_xpath('//*[@id="siq-yeardob-id"]').send_keys(birthday[2])
+            # # country
+            # chrome_driver.find_element_by_xpath()
+            # # language
+            # chrome_driver.find_element_by_xpath()
+            # # selector
+            chrome_driver.find_element_by_xpath('//*[@id="siq-agreetermscond-id-1"]').click()
+            # button
+            chrome_driver.find_element_by_xpath('//*[@id="sip-confirm"]').click()
+
+            chrome_driver.close()
+            chrome_driver.quit()
+            return flag    
 
 
 
  
 
 def email_confirm(submit):
-    site = ''
-    for i in range(20):
-        msg_content = imap.email_getlink(submit,'From: Royalcams')
-        # print(len(msg_content))
-        if 'From: Royalcams' not in msg_content :
-            print('Target Email Not Found !')
-            sleep(15)
-        else:
-            # print(msg_content)
-            a = msg_content.find('https://royalcams.com/members/confirm-email/')
-            b = msg_content.find('"',a)
-            site = msg_content[a:b]
-            # # print(msg_content[a+32:b])
-            # site = msg_content[a+35:b-50].replace('\r','').replace('\n','')
-            # print(len(site))
-            # site += "=" * ((4 - len(site) % 4) % 4)
-            # # print(site)
-            # site = base64.b64decode(site)
+    print('----------')
+    for i in range(5):
+        url_link = ''
+        try:
+            name = submit['Email']['Email_emu']
+            pwd = submit['Email']['Email_emu_pwd']
+            title = 'Activate Membership to Start Earning Rewards'
+            pattern = r'.*?(https://opinionoutpost.com/Membership/Intake\?signuptoken=.*?\&resp=([0-9]{5,15}))'
+            url_link = emaillink.get_email(name,pwd,title,pattern)
+            if url_link != '':
+                break
+        except Exception as e:
+            print(str(e))
+            print('===')
+            pass
+    return url_link
 
-            # site = str(site)
-            # c = site.find('https://www.scharferchat.com/activate/')
-            # d = site.find('\\r',c)
-            # site = site[c:d]
-            return site            
-    return site
 
+
+def test():
+    Country ='US'
+    Mission_list = ['10004']
+    Email_list = ['hotmail','aol.com','yahoo.com','outlook.com']
+    Excel_names = ['Auto','Usloan']
+    submit = db.read_one_info(Country,Mission_list,Email_list,Excel_names)
+    print(submit)
+    web_submit(submit)
+
+
+def test_2():
+    Country ='US'
+    Mission_list = ['10004']
+    Email_list = ['hotmail','aol.com','yahoo.com','outlook.com']
+    Excel_names = ['Auto','Usloan']
+    dateofbirth_list = []
+    for i in range(30):
+        submit = db.read_one_info(Country,Mission_list,Email_list,Excel_names)
+        # print(submit['Auto']['dateofbirth'])    
+        dateofbirth_list.append(submit['Auto']['dateofbirth'])
+    print('=================')
+    print(dateofbirth_list)
+    dateofbirth_list = ['9/19/1989', '9/19/1989', '9/19/1989', '6/25/1952', '12/21/1962', '3/18/1948', '11/13/1985', '6/25/1952', '11-01-1978', '10-07-1957', '11/13/1985', '10-07-1957', '10-02-1962', '12/21/1971', '3/13/1981', '11/13/1985', '12/21/1962', '09-01-1952', '10-07-1957', '12/21/1971', '9/19/1989', '7/19/1948', '5/31/1985', '09-01-1952', '11-11-1947', '3/13/1981', '3/18/1948', '12-08-1969', '01-05-1985', '9/19/1989']
+    for date in dateofbirth_list:
+        if '/' in date:
+            birthday = date.split('/')
+        elif '-' in date:
+            birthday = date.split('-')
+        print(birthday)
 
 
 
 
 if __name__=='__main__':
-    submit={}
-    submit['Ua'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'
-    submit['Firstname'] = 'KIRSTEN'
-    submit['Lastname'] = 'WOLD'
-    submit['City'] = 'SPOKANE'
-    submit['State'] = 'WA'
-    submit['Homephone'] = '5093270780'
-    submit['Email'] = 'kdwold@live.com'
-    submit['Address'] = '2509 W. SHARP AVE.'   
-    submit['zipcode'] = '79108'
-    submit['month'] = '4'
-    submit['day'] = '12'
-    submit['year'] = '1964'
-    submit['Height_FT'] = '5'
-    submit['Height_Inch'] = '11'
-    submit['Weight'] = '175'
-    submit['Email_emu'] = 'GaleXavierapZeQ@yahoo.com'
-    submit['Email_emu_pwd'] = 'd9TY7k80H'
-    # test_num()
-    # web_Submit(submit)
-    site=email_confirm(submit)
-    print(site)
+    # test_2()
+    # test()
+    submit= {'Email':{'Email_Id': '701ca9ea-aa34-11e9-bf2a-0003b7e49bfc', 'Email_emu': 'EleanorChanKi@aol.com', 'Email_emu_pwd': '5LeRrLHg', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
+    email_confirm(submit)
