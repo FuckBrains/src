@@ -109,7 +109,6 @@ def get_modules():
 
 def EMU_multi():
     # test
-
     print('Reading configs from Cam4_allin...')
     Mission_list = [] 
     for item in Mission_conf:
@@ -119,8 +118,8 @@ def EMU_multi():
         print('No Mission,check Cam4_allin')
         return
     print('Configed Missions:',Mission_list)
-    changer.OpenCCleaner()
-    sleep(30)         
+    # changer.OpenCCleaner()
+    # sleep(30)         
     Email_list_new = []
     for item in Email_list:
         if Email_list[item] == 1:
@@ -166,7 +165,7 @@ def EMU_multi():
         requests = threadpool.makeRequests(multi_reg, submits)
         [pool.putRequest(req) for req in requests]
         pool.wait() 
-        write_excel(submits[0])
+        # write_excel(submits[0])
         time_delay = random.randint(Delay['up']*60,Delay['down']*60)
         print('Sleeping',time_delay,'Minutes')
         sleep(time_delay)

@@ -34,3 +34,6 @@ ClareGambleq@yahoo.com login failed :
 2019-07-01 16:25:29 : 
 ReginaldGamboaTS@yahoo.com login failed : 
 [WinError 10054] An existing connection was forcibly closed by the remote host
+2019-07-21 07:14:27 : 
+RichBrooksKP@aol.com login failed : 
+[WinError 10054] An existing connection was forcibly closed by the remote host

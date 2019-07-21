@@ -5,6 +5,8 @@ import quopri
 import os
 import time
 import base64
+import db
+from time import sleep
 
 
 
@@ -125,28 +127,60 @@ def num_confirm(res):
     num = res.count('Subject: Order Confirmation from LifePoints')
     print(num)
 
+def clean_email(submit):
+    if 'outlook' in submit['Email_emu']:
+        server = "imap-mail.outlook.com"
+    elif 'aol' in submit['Email_emu']:
+        server = 'imap.aol.com'
+    elif 'hotmail' in submit['Email_emu']:
+        server = "imap-mail.outlook.com"
+    elif 'yahoo' in  submit['Email_emu']:
+        server = 'imap.mail.yahoo.com'
+    else:
+        writelog('bad Email_emu')
+        return 'bad Email_emu' 
+    box = imaplib.IMAP4_SSL(server)    
+    box.login(submit['Email_emu'], submit['Email_emu_pwd'])
+    for item in box.list()[1]:
+        print()
+        box_selector = item.decode().split(' \"/\" ')[-1]
+        if  re.match(r'.*?(Sent|Delete|Trash|Draft).*?',box_selector,re.M|re.I):
+            continue
+        print(box_selector)    
+        box.select(box_selector)
+        # 如果是查找收件箱所有邮件则是box.search(None, 'ALL')
+        # typ, data = box.search(None, 'from', 'mailer-daemon@googlemail.com')
+        typ, data = box.search(None, 'ALL') 
+        print(data[0].split())        
+        while True:
+            for num in data[0].split():
+                print(num)  
+                try:
+                    box.store(num, '+FLAGS', '\\Deleted')
+                except:
+                    pass
+            box.expunge()
+            sleep(3)
+            typ, data = box.search(None, 'ALL') 
+            print(data[0].split())            
+            if len(data[0].split()) == 0:
+                break
+    box.close()
+    box.logout()    
 
 
 if __name__=='__main__':
-    submit={}
-    submit['ua'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'
-    submit['name'] = 'Mondde522'
-    submit['pwd'] = r'lzbA#7o^uj'
-    submit['Email_emu'] = 'KingDavidgHvUu@yahoo.com'
-    # 'KarolWhiteyf@aol.com' 
-    submit['Email_emu_pwd'] = 'lBI8356I4'
-    # 'Gcih4QpP'  
-    submit['city'] = 'Bochum'
-    # RobillardNyieshalJD@yahoo.com   jZbR8r31q
-# EthelMoore3y@aol.com    oweR0tkk
+    Country ='US'
+    Mission_list = ['10004']
+    Email_list = ['hotmail','aol.com','yahoo.com','outlook.com']
+    Excel_names = ['Auto','Usloan']
+    submit = db.read_one_info(Country,Mission_list,Email_list,Excel_names)
+    # print(submit['Email'])
+    # submit = {}
+    # submit['Email'] = {'Email_Id': '6f760998-aa34-11e9-8125-0003b7e49bfc', 'Email_emu': 'RichBrooksKP@aol.com', 'Email_emu_pwd': 'fsT1Ngq2', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}
+    clean_email(submit['Email'])
+    # email_getlink(submit['Email'])
 
-# LlwthdKlhcvr@hotmail.com----glL9jPND4nDp    
-    # site='http://www.baidu.com'
-    # web_Submit(submit)
-    msg = Email_emu_getlink(submit,'E-Certificate',2)
-    print(msg)
-    num_confirm(msg)
-    # base64.b64decode(msg)
 
 
 

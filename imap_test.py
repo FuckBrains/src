@@ -83,18 +83,39 @@ def Email_emu_getlink(account,keyword = ''):
         writelog('bad Email_emu')
         return ''  
     try:             
-        M = imaplib.IMAP4_SSL(server)
+        box = imaplib.IMAP4_SSL(server)
     except Exception as msg:
         writelog(account['Email_emu'] + ' login failed : ',str(msg))
         return 0        
     msg_content = ''    
     try:
-        M.login(account['Email_emu'],account['Email_emu_pwd'])
-        # print([str(x,'gb2312') for x in  M.list()])
-        # print(M.list())
-        a,b = M.list()
-        # print(b)
-        print('login success')
+        box.login(submit['Email_emu'], submit['Email_emu_pwd'])
+        for item in box.list()[1]:
+            print()
+            box_selector = item.decode().split(' \"/\" ')[-1]
+            if  re.match(r'.*?(Sent|Delete|Trash|Draft).*?',box_selector,re.M|re.I):
+                continue
+            print(box_selector)    
+            box.select(box_selector)
+            # 如果是查找收件箱所有邮件则是box.search(None, 'ALL')
+            # typ, data = box.search(None, 'from', 'mailer-daemon@googlemail.com')
+            typ, data = box.search(None, 'ALL') 
+            print(data[0].split())        
+            while True:
+                for num in data[0].split():
+                    print(num)  
+                    try:
+                        box.store(num, '+FLAGS', '\\Deleted')
+                    except:
+                        pass
+                box.expunge()
+                sleep(3)
+                typ, data = box.search(None, 'ALL') 
+                print(data[0].split())            
+                if len(data[0].split()) == 0:
+                    break
+        box.close()
+        box.logout()  
         return 1
     except Exception as e:
         print('login error: %s'%e)

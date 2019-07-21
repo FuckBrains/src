@@ -18,6 +18,7 @@ import name_get
 import db
 import emaillink
 import Submit_handle
+import selenium_funcs
 
 
 
@@ -52,7 +53,9 @@ def web_submit(submit):
     chrome_driver.find_element_by_xpath('//*[@id="checkbox"]').click()
     sleep(2)
     # button
-    chrome_driver.find_element_by_xpath('//*[@id="registerBtn"]').click()
+    element = selenium_funcs.scroll_and_find(chrome_driver,'//*[@id="registerBtn"]')
+    sleep(2)
+    element.click()
     sleep(5)
     site = ''
     flag = 0
@@ -128,6 +131,7 @@ def test():
     Excel_names = ['Auto','Usloan']
     submit = db.read_one_info(Country,Mission_list,Email_list,Excel_names)
     print(submit)
+    print(len(submit))
     web_submit(submit)
 
 
