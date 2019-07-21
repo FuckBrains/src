@@ -69,15 +69,15 @@ def test_Mail(i, path):
 
 
 
-def Email_emu_getlink(account,keyword = ''):
+def Email_emu_getlink(submit,keyword = ''):
     # PwolxuYjthksa@outlook.com----1o61vdu545QR 
-    if 'outlook' in account['Email_emu']:
+    if 'outlook' in submit['Email_emu']:
         server = "imap-mail.outlook.com"
-    elif 'aol' in account['Email_emu']:
+    elif 'aol' in submit['Email_emu']:
         server = 'imap.aol.com'
-    elif 'hotmail' in account['Email_emu']:
+    elif 'hotmail' in submit['Email_emu']:
         server = "imap-mail.outlook.com"
-    elif 'yahoo' in  account['Email_emu']:
+    elif 'yahoo' in  submit['Email_emu']:
         server = 'imap.mail.yahoo.com'
     else:
         writelog('bad Email_emu')
@@ -85,7 +85,7 @@ def Email_emu_getlink(account,keyword = ''):
     try:             
         box = imaplib.IMAP4_SSL(server)
     except Exception as msg:
-        writelog(account['Email_emu'] + ' login failed : ',str(msg))
+        writelog(submit['Email_emu'] + ' login failed : ',str(msg))
         return 0        
     msg_content = ''    
     try:
