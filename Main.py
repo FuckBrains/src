@@ -136,7 +136,8 @@ def EMU_multi():
         # print(nums)
         Country = Config['IP_country']
         # print(Email_list)
-        Excel_names = db.get_excel_names()
+        # Excel_names = db.get_excel_names()
+        Excel_names = ['Auto','Usloan']
         print('Reading config from sql server...')
         submit1=db.read_one_info(Country,Mission_list,Email_list,Excel_names)
         print('Reading config from sql server success')

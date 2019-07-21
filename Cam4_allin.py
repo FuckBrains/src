@@ -29,9 +29,9 @@ def Config_read():
         'Mission_conf' :{
             '10000'      : '',  # Finaff    Royal Cams  Done
             '10001'      : '',  # Adgaem    star stable Done
-            '10002'      : '',  # Adpump    GETAROUND Done
+            '10002'      : 'https://adpgtrack.com/click/5b73d90a6c42607b3b6c4322/146827/199595/subaccount',  # Adpump    GETAROUND Done
             '10003'      : '',  # UK Swipe  Done
-            '10004'      : '',  # Ad1   opinion outpost   Done
+            '10004'      : 'http://ares.goldmaketing.com/c/10655/a?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]&device=[device]&browser=[browser]&carrier=[carrier]',  # Ad1   opinion outpost   Done
             '10005'      : '',  # Adsmain Cam4  Done           
             '10006'      : '',         # adgaem 1.2   GUARDIANS OF AMBER         
             '10007'      : '',         # Stripchat affprofile
