@@ -465,9 +465,17 @@ def Execute_sql(sql_contents):
         res = cursor.execute(sql_content)
     login_out_sql(conn,cursor)     
 
-def test():
-    ua = 'Mozilla/4.0 (compatible; MSIE 7.0; AOL 9.0; Windows NT 6.0; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.0.04506; .NET CLR 1.1.4322)'
-    print(len(ua))
+def get_one_info():
+    Country ='US'
+    Mission_list = ['10004']
+    Email_list = ['hotmail','aol.com','yahoo.com','outlook.com']
+    Excel_names = ['Auto','Usloan']
+    submit = read_one_info(Country,Mission_list,Email_list,Excel_names)
+    print(submit)
+    print(len(submit))
+    return submit
+
+
 
 if __name__ == '__main__':
     create_all_tables()
