@@ -26,8 +26,8 @@ import Submit_handle
 
 def web_submit(submit):
     # test
-    site = 'http://affprofile.o18.click/c?o=676208&m=1659&a=37792'
-    submit['Site'] = site
+    # site = 'http://affprofile.o18.click/c?o=676208&m=1659&a=37792'
+    # submit['Site'] = site
     chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     sleep(2000)

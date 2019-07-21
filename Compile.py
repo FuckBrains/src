@@ -20,7 +20,17 @@ def get_modules():
     path = os.path.join(os.getcwd(),'__pycache__')
     modules_path = [os.path.join(path,file) for file in modules]
     return modules_path
-        
+
+def get_Mission_files():
+    modules = os.listdir('./')
+    modules = [file for file in modules if 'Mission' in file ]
+    print(modules)
+    path = os.getcwd()
+    Mission_path = [os.path.join(path,file) for file in modules]
+    print(Mission_path)
+    return Mission_path    
+
+      
 def main():
     modules_path = get_modules()
     print(modules_path)
@@ -43,6 +53,11 @@ def main():
     	dirname,filename = os.path.split(file)
     	src_file = os.path.join(src,filename)
     	copyfile(file,src_file)
+    Mission_path = get_Mission_files()
+    for file in Mission_path:
+        dirname,filename = os.path.split(file)
+        src_file = os.path.join(src,filename)
+        copyfile(file,src_file)        
     # [copyfile(file,src) for file in modules_path]
     print('Compile finished.........')
     # modules = [module.strip('.py') for module in modules] 
@@ -50,5 +65,4 @@ def main():
 
 
 if __name__ == '__main__':
-    # get_modules()
     main()
