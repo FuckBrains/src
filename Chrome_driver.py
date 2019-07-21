@@ -28,6 +28,13 @@ def get_chrome(submit = None):
     ua = get_ua_random(uas)
     options = webdriver.ChromeOptions()
     options.add_argument('disable-infobars')
+    prefs = {"download.default_directory": 'c:\\',
+             "download.prompt_for_download": False,
+             "download.directory_upgrade": True,
+             "safebrowsing.enabled": True
+             }    
+    # prefs = {'profile.default_content_settings.popups': 0, 'download.default_directory': 'c:\\'}
+    options.add_experimental_option('prefs', prefs)    
     # extension_path = '../tools/extension/1.1.0_0.crx'   
     # options.add_extension(extension_path) 
     # prefs = {

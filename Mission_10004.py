@@ -155,7 +155,4 @@ def test_2():
 
 
 if __name__=='__main__':
-    # test_2()
-    # test()
-    submit= {'Email':{'Email_Id': '701ca9ea-aa34-11e9-bf2a-0003b7e49bfc', 'Email_emu': 'EleanorChanKi@aol.com', 'Email_emu_pwd': '5LeRrLHg', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
-    email_confirm(submit)
+    test()
