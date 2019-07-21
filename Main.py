@@ -23,15 +23,16 @@ import re
 '''
 'testeeeee'
 '''
-# pool = threadpool.ThreadPool(Delay['threads'])
+
 
 
 def get_all_config():
-    # Delay, Config, Mission_conf, Email_list  = Cam4_allin.Config_read()
-    Delay, Config, Mission_conf, Email_list = 1,1,1,1
+    Delay, Config, Mission_conf, Email_list  = Cam4_allin.Config_read()
+    # Delay, Config, Mission_conf, Email_list = 1,1,1,1
     return Delay, Config, Mission_conf, Email_list 
     
 Delay, Config, Mission_conf, Email_list = get_all_config()
+pool = threadpool.ThreadPool(Delay['threads'])
 
 def writelog(runinfo,e=''):
     file=open(os.getcwd()+"\log.txt",'a+')
