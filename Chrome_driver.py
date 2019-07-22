@@ -10,6 +10,8 @@ def get_ua_all():
         lines = f.readlines()
         for line in lines:
             if line.strip('\n') != '':
+                if 'Windows' not in line:
+                    continue 
                 if 'Chrome' in line:
                     uas.append(line.strip('"').strip("'").strip('\n'))
 
@@ -57,5 +59,7 @@ if __name__ == '__main__':
 	# chrome_driver.get('http://www.baidu.com')
 	# sleep(20)
     uas = get_ua_all()
-    print(uas[0:10])
-    print(len(uas))
+    for ua in uas:
+        print(ua)
+    # print(uas[0:30])
+    # print(len(uas))

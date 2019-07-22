@@ -471,6 +471,7 @@ def get_one_info():
     Email_list = ['hotmail','aol.com','yahoo.com','outlook.com']
     Excel_names = ['Auto','Usloan']
     submit = read_one_info(Country,Mission_list,Email_list,Excel_names)
+    submit['Email']
     print(submit)
     print(len(submit))
     return submit

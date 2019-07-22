@@ -82,11 +82,18 @@ def web_submit(submit):
             chrome_driver.refresh() 
             birthday = Submit_handle.get_auto_birthday(submit['Auto']['dateofbirth'])
             # mm
+            chrome_driver.find_element_by_xpath('//*[@id="siq-monthdob-id"]').click()
+            sleep(1)
             chrome_driver.find_element_by_xpath('//*[@id="siq-monthdob-id"]').send_keys(birthday[0])
             # dd
+            chrome_driver.find_element_by_xpath('//*[@id="siq-daydob-id"]').click()
+            sleep(1)
             chrome_driver.find_element_by_xpath('//*[@id="siq-daydob-id"]').send_keys(birthday[1])
             # yy
+            chrome_driver.find_element_by_xpath('//*[@id="siq-yeardob-id"]').click()
+            sleep(1)
             chrome_driver.find_element_by_xpath('//*[@id="siq-yeardob-id"]').send_keys(birthday[2])
+            sleep(2)
             # # country
             # chrome_driver.find_element_by_xpath()
             # # language
@@ -95,7 +102,7 @@ def web_submit(submit):
             chrome_driver.find_element_by_xpath('//*[@id="siq-agreetermscond-id-1"]').click()
             # button
             chrome_driver.find_element_by_xpath('//*[@id="sip-confirm"]').click()
-
+            sleep(30)
             chrome_driver.close()
             chrome_driver.quit()
             return flag    

@@ -104,12 +104,16 @@ def Email_emu_getlink(submit,keyword = ''):
             typ, data = box.search(None, 'ALL') 
             print(data[0].split())        
             while True:
+                i = 0
                 for num in data[0].split():
+                    if i >=1:
+                        break
                     print(num)  
                     try:
                         box.store(num, '+FLAGS', '\\Deleted')
                     except:
                         pass
+                    i += 1
                 box.expunge()
                 sleep(3)
                 typ, data = box.search(None, 'ALL') 
