@@ -155,7 +155,7 @@ def EMU_multi():
         else:
             print("Good email")
             db.updata_email_status(submit1['Email']['Email_Id'],1)
-        ip_test.ip_Test('',submit1['Usloan']['state'])
+        ip_test.ip_Test('',submit1['Auto']['state'])
         submits = []
         submit = {}
         for num in nums:

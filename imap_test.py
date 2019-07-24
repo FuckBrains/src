@@ -92,35 +92,37 @@ def Email_emu_getlink(submit,keyword = ''):
     msg_content = ''    
     try:
         box.login(submit['Email_emu'], submit['Email_emu_pwd'])
-        for item in box.list()[1]:
-            print()
-            box_selector = item.decode().split(' \"/\" ')[-1]
-            if  re.match(r'.*?(Sent|Delete|Trash|Draft).*?',box_selector,re.M|re.I):
-                continue
-            print(box_selector)    
-            box.select(box_selector)
-            # 如果是查找收件箱所有邮件则是box.search(None, 'ALL')
-            # typ, data = box.search(None, 'from', 'mailer-daemon@googlemail.com')
-            typ, data = box.search(None, 'ALL') 
-            print(data[0].split())        
-            while True:
-                i = 0
-                for num in data[0].split():
-                    if i >=1:
-                        break
-                    print(num)  
-                    try:
-                        box.store(num, '+FLAGS', '\\Deleted')
-                    except:
-                        pass
-                    i += 1
-                box.expunge()
-                sleep(3)
-                typ, data = box.search(None, 'ALL') 
-                print(data[0].split())            
-                if len(data[0].split()) == 0:
-                    break
-        box.close()
+        print(box.list())
+        # for item in box.list()[1]:
+        #     print()
+        #     box_selector = item.decode().split(' \"/\" ')[-1]
+        #     if  re.match(r'.*?(Sent|Delete|Trash|Draft).*?',box_selector,re.M|re.I):
+        #         continue
+        #     print(box_selector)    
+        #     box.select(box_selector)
+        #     # 如果是查找收件箱所有邮件则是box.search(None, 'ALL')
+        #     # typ, data = box.search(None, 'from', 'mailer-daemon@googlemail.com')
+        #     typ, data = box.search(None, 'ALL') 
+        #     print(data[0].split())        
+        #     while True:
+        #         i = 0
+        #         for num in data[0].split():
+        #             if i >=1:
+        #                 break
+        #             print(num)  
+        #             try:
+        #                 box.store(num, '+FLAGS', '\\Deleted')
+        #             except:
+        #                 pass
+        #             i += 1
+        #         box.expunge()
+        #         sleep(3)
+        #         typ, data = box.search(None, 'ALL') 
+        #         print(data[0].split())            
+        #         if len(data[0].split()) == 0:
+        #             break
+        # box.close()
+        print('Email good')
         box.logout()  
         return 1
     except Exception as e:
