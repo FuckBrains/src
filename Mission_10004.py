@@ -121,6 +121,7 @@ def email_confirm(submit):
             title = 'Activate Membership to Start Earning Rewards'
             pattern = r'.*?(https://opinionoutpost.com/Membership/Intake\?signuptoken=.*?\&resp=([0-9]{5,15}))'
             url_link = emaillink.get_email(name,pwd,title,pattern)
+            print(url_link)
             if url_link != '':
                 break
         except Exception as e:

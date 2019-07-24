@@ -34,14 +34,14 @@ def Config_read():
             '10004'      : '',  # Ad1   opinion outpost   Done
             '10005'      : '',  # Adsmain Cam4  Done           
             '10006'      : '',         # adgaem 1.2   GUARDIANS OF AMBER  Done        
-            '10007'      : '',         # Stripchat affprofile
-            '10008'      : '',         # IKARIAM
-            '10009'      : '',         # IKARIAM  
-            '10010'      : '',         # rifu Done chajian
-            '10011'      : '',         # IKARIAM
+            '10007'      : '',         # Best Obama Care affprofile Done
+            '10008'      : '',         # CashRequestOnline Done
+            '10009'      : '',         # Stripchat  
+            '10010'      : '',         # rifu  chajian Done
+            '10011'      : '',         # Auto Insurance  dead
             '10012'      : '',         # IKARIAM
             '10013'      : '',         # IKARIAM             '10006'      : '',         # LP            
-            '10014'      : '',         # IKARIAM
+            '10014'      : '',         # bbw
             '10015'      : '',         # IKARIAM
             '10016'      : '',         # IKARIAM             '10006'      : '',         # LP            
             '10017'      : '',         # IKARIAM
@@ -49,7 +49,16 @@ def Config_read():
             '10019'      : '',         # IKARIAM             '10006'      : '',         # LP            
             '10020'      : '',         # IKARIAM
             '10021'      : '',         # IKARIAM
-            '10022'      : ''          # IKARIAM                                               
+            '10022'      : '',         # IKARIAM                                               
+            '10023'      : '',         # IKARIAM
+            '10024'      : '',         # IKARIAM
+            '10025'      : '',          # IKARIAM              
+            '10026'      : '',         # IKARIAM
+            '10027'      : '',         # IKARIAM
+            '10028'      : '',         # IKARIAM              
+            '10029'      : '',         # IKARIAM
+            '10030'      : '',         # IKARIAM
+            '10031'      : ''          # IKARIAM              
         },
         'Email_list':{
             'hotmail.com'    : 1, # 1 means use this email,0 means not

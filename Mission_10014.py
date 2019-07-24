@@ -10,6 +10,9 @@ import name_get
 import Chrome_driver
 import email_imap as imap
 import db
+import selenium_funcs
+import emaillink
+
 
 
 
@@ -47,66 +50,30 @@ def check_email(submit):
 
 def web_submit(submit,debug=0):
     if debug == 1:
-        site = 'http://gbb.maxcodema.xyz/c/12398/4?'
-        submit['Site'] = site	
+        site = 'http://gbb.maxcodema.xyz/c/11286/1?'
+        submit['Site'] = site        
     chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
-    sleep(2000)
-    name = name_get.gen_one_word_digit(lowercase=False)
-    chrome_driver.maximize_window()
-    chrome_driver.refresh()
-    flag = 0
-    i = 0
-    while i <=3:
-        if 'Join CAM4' in chrome_driver.title:
-            break
-        else:
-            chrome_driver.get(submit['Site'])
-            sleep(5)
-            i = i + 1   
-    chrome_driver.find_element_by_xpath("/html/body/div[1]/div[1]/div/div[1]").click()      #18+
-    chrome_driver.find_element_by_xpath("/html/body/div[1]/div[1]/div/div[1]").click()      #18+        
-    name = name_get.gen_one_word_digit(lowercase=False)    
-    try:
-        chrome_driver.find_element_by_xpath("/html/body/div[1]/div[2]/div/div[1]").click()      #question2
-        chrome_driver.find_element_by_xpath("/html/body/div[1]/div[3]/div/div[1]").click()      #question3
-        chrome_driver.find_element_by_xpath("/html/body/div[1]/div[4]/span").click()            #create account
-        chrome_driver.switch_to_frame('myForm')
-        chrome_driver.find_element_by_xpath("//*[@id='userName']").send_keys(name)
-        chrome_driver.find_element_by_xpath("//*[@id='newPassword']").send_keys(submit['Email']['Email_emu_pwd'])
-        chrome_driver.find_element_by_xpath("//*[@id='email']").send_keys(submit['Email']['Email_emu'])
-    except Exception as e:
-        print('something error in registration',str(e))
+    # name = name_get.gen_one_word_digit(lowercase=False)
+    # chrome_driver.maximize_window()
+    # chrome_driver.refresh()
+    if 'desperatebbws.com/landing?' not in chrome_driver.current_url:
         chrome_driver.close()
         chrome_driver.quit()
-        return 0
-    sleep(3)
-    title = chrome_driver.title
-    url = chrome_driver.current_url
-    try:
-        chrome_driver.find_element_by_xpath("//*[@id='paymentForm']/a/span").click()
-    except Exception as e:
+        return
+    sleep(2)
+    chrome_driver.find_element_by_xpath('//*[@id="email"]').send_keys(submit['Email']['Email_emu'])
+    chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(submit['Email']['Email_emu_pwd'])
+    sleep(2)
+    # chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[3]/div/div').click()
+    chrome_driver.find_element_by_class_name('btn-secondary').click()
+    # chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[3]/div/div/a').click()
+    sleep(10)
+    # sleep(5000)
+    if 'registered' not in chrome_driver.current_url:
         chrome_driver.close()
         chrome_driver.quit()
-        return 0
-    status = 'fail'
-    sleep(3)
-
-    for i in range(3):
-        if 'success' in chrome_driver.current_url :
-            # status = 'success'
-            # rantime = random.randint(5,10)
-            # sleep(rantime*10)  
-            # chrome_driver.close()
-            # chrome_driver.quit()
-            # return 1
-            flag = 1
-        else:
-            chrome_driver.refresh()
-    if flag==0:
-        chrome_driver.close()
-        chrome_driver.quit()
-        return flag
+        return
     site = ''
     handle = chrome_driver.current_window_handle
     try:            
@@ -172,14 +139,16 @@ def email_confirm(submit):
         try:
             name = submit['Email']['Email_emu']
             pwd = submit['Email']['Email_emu_pwd']
-            title = 'Activate Membership to Start Earning Rewards'
-            pattern = r'.*?(https://opinionoutpost.com/Membership/Intake\?signuptoken=.*?\&resp=([0-9]{5,15}))'
+            title = 'Please verify your e-mail address'
+            pattern = r'.*?(https://desperatebbws.com/accounts/verify/email/e[\w]{1,100})'
+            # pattern = r'.*?(https://opinionoutpost.com/Membership/Intake\?signuptoken=.*?\&resp=([0-9]{5,15}))'
             url_link = emaillink.get_email(name,pwd,title,pattern)
             if url_link != '':
                 break
         except Exception as e:
             print(str(e))
             print('===')
+            sleep(15)
             pass
     return url_link
 
@@ -189,4 +158,5 @@ if __name__=='__main__':
     submit = db.get_one_info()
     print(submit)
     web_submit(submit,1)
-
+    # submit = {'Email': {'Email_Id': '70099ee9-aa34-11e9-964c-0003b7e49bfc', 'Email_emu': 'RitchieShieldsrf@aol.com', 'Email_emu_pwd': 'ITgUVB3F', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
+    # email_confirm(submit)

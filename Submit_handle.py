@@ -58,15 +58,37 @@ def get_auto_birthday(date):
     elif '-' in date:
         birthday = date.split('-')    
     else:
-        birthday = [str(random.randint(1,12)),str(random.randint(1,25)) ,str(random.randint(1960,1980))]    
+        # 'MM/DD/Year'
+        birthday = [str(random.randint(1,12)),str(random.randint(1,25)) ,str(random.randint(1960,1980))]  
+    if len(birthday[0]) == 1:
+        birthday[0] = '0'+str(birthday[0])  
+    if len(birthday[1]) == 1:
+        birthday[1] = '0'+str(birthday[1])  
+
     return birthday
 
 
 
+def get_height_info():
+    num_ft = random.randint(5,7)
+    num_in = random.randint(1,9)
+    num_weight = random.randint(105,275)
+    num_info = {}
+    num_info['Height_FT'] = num_ft
+    num_info['Height_Inch'] = num_in
+    num_info['Weight'] = num_weight
+    return num_info
+
+
+def chansfer_float_into_int(str_float):
+    str_int = (str_float.split('.'))[0]
+    return str_int
+
 
 if __name__ == '__main__':
     Mission_list = [10001] 
-    submit = db.read_one_info(Config['IP_country'],Mission_list,Email_list)
+    Excel_names = ['Auto','Uspd']
+    submit = db.read_one_info(Config['IP_country'],Mission_list,Email_list,Excel_names)
     print(submit)
-    Submit_handle(submit)
-    print(submit)
+    birthday = get_auto_birthday(submit['Uspd']['date_of_birth'])
+    print(birthday)

@@ -109,6 +109,8 @@ def get_modules():
 
 def EMU_multi():
     # test
+    # Excel_names = db.get_excel_names()
+    Excel_names = ['Auto','Uspd']      
     print('Reading configs from Cam4_allin...')
     Mission_list = [] 
     for item in Mission_conf:
@@ -118,6 +120,7 @@ def EMU_multi():
         print('No Mission,check Cam4_allin')
         return
     print('Configed Missions:',Mission_list)
+
     # changer.OpenCCleaner()
     # sleep(30)         
     Email_list_new = []
@@ -125,7 +128,7 @@ def EMU_multi():
         if Email_list[item] == 1:
             Email_list_new.append(item)
     # print('Configed emails:',Email_list_new)
-    while True:
+    for time_this in range(1):
         killpid()
         Module_list,modules = get_modules()
         # print(modules)
@@ -136,8 +139,6 @@ def EMU_multi():
         # print(nums)
         Country = Config['IP_country']
         # print(Email_list)
-        Excel_names = db.get_excel_names()
-        # Excel_names = ['Auto','Usloan']
         print('Reading config from sql server...')
         submit1=db.read_one_info(Country,Mission_list,Email_list,Excel_names)
         print('Reading config from sql server success')

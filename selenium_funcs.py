@@ -11,3 +11,8 @@ def scroll_and_find(chrome_driver,element):
 	return target
 
 
+def overlay_click(chrome_driver,element):
+	js = 'arguments[0].click();'
+	chrome_driver.execute_script(js) 
+
+
