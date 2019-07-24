@@ -358,8 +358,8 @@ def read_one_info(Country,Mission_list,Email_list,Excel_names):
                 continue             
             if len(Excel_names_check) > 0:
                 if BasicInfo_dict[i]['state'] != Info_dicts[Excel_names_check[0]]['state']:
-                    if BasicInfo_dict[i]['state1'] != Info_dicts[Excel_names_check[0]]['state']:
-                        continue
+                    # if BasicInfo_dict[i]['state1'] != Info_dicts[Excel_names_check[0]]['state']:
+                    continue
             flag = 0
             for j in range(len(Mission_dict)):
                 if Mission_dict[j]['Mission_Id'] in Mission_list: 
