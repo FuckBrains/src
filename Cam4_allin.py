@@ -39,7 +39,7 @@ def Config_read():
             '10009'      : '',         # Stripchat  
             '10010'      : '',         # rifu  chajian Done
             '10011'      : '',         # Auto Insurance  dead
-            '10012'      : '',         # IKARIAM
+            '10012'      : '',         # affprofile   cindmatch  
             '10013'      : '',         # IKARIAM             '10006'      : '',         # LP            
             '10014'      : '',         # bbw
             '10015'      : '',         # IKARIAM

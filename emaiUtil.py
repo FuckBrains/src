@@ -4,11 +4,11 @@ from emailSend import EmailSend
 
 class EmailUtil(object):
     @staticmethod
-    def getLink(address,password,title=('title',),regular=r'http'):
-        allRes = EmailReceive(address, password).getEmail(keyword=title, onlyUnsee=False, findAll=False)
+    def getLink(address,password,title=('title',),regular=r'http',findAll=False):
+        allRes = EmailReceive(address, password).getEmail(keyword=title, onlyUnsee=False, findAll=findAll)
         if  allRes is None or allRes == []:
             print('find email wrong:',title)
-            return None
+            return 'Good'
         print('find email ok:',title)
         # print(allRes)
         pattern = re.compile(regular)
@@ -20,7 +20,7 @@ class EmailUtil(object):
                         print('find email-web-link ok:',co.group(1))
                         return co.group(1)
         print('find link wrong')
-        return None
+        return 'Bad'
 
     @staticmethod
     def getEmail(address,password,title,onlyUnsee=False,findAll=True):

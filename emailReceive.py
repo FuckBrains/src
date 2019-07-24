@@ -31,7 +31,7 @@ class EmailReceive(object):
         except Exception as e:
             print(e)
             return result
-        num=0
+        num_c=0
         print(self.imap_mail.list()[1])
         for item in self.imap_mail.list()[1]:
             box = item.decode().split(' \"/\" ')[-1]
@@ -39,9 +39,10 @@ class EmailReceive(object):
                 continue
             print(box)
             try:
-                if num != 0:
+                # print(num_c)
+                if num_c != 0:
                     self.imap_mail.select(box)
-                num += 1
+                num_c += 1
                 if onlyUnsee:
                     try:
                         state, en = self.imap_mail.search(None, 'UNSEE')
@@ -50,19 +51,20 @@ class EmailReceive(object):
                         state, en = self.imap_mail.search(None, 'ALL')
                 else:
                     state, en = self.imap_mail.search(None,'ALL')
-                print('en',en)
+                print(state,en)
+                print('en',str(en))
                 for num in en[0].split()[::-1]:
                     typ, data = self.imap_mail.fetch(num, '(RFC822)')
                     # print('data',data)
                     header = EmailReceive.getMailHeader(data)
-                    print('header',header)
+                    print('header',str(header))
                     if header is None:
                         continue
                     if keyword is None:
                         result.append(EmailReceive.getOneMail(data, getAttach))
                     else:
                         for keyItem in keyword:
-                            if keyItem in header[0] or keyItem in keyItem[1] or keyItem in header[2]:
+                            if keyItem in header[0] or keyItem in header[1] or keyItem in header[2]:
                                 result.append(EmailReceive.getOneMail(data,getAttach))
                                 if not findAll:
                                     self.close()

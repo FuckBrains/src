@@ -55,8 +55,8 @@ def web_submit(submit,debug=0):
     chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     # name = name_get.gen_one_word_digit(lowercase=False)
-    # chrome_driver.maximize_window()
-    # chrome_driver.refresh()
+    chrome_driver.maximize_window()
+    chrome_driver.refresh()
     if 'desperatebbws.com/landing?' not in chrome_driver.current_url:
         chrome_driver.close()
         chrome_driver.quit()
@@ -77,7 +77,7 @@ def web_submit(submit,debug=0):
     site = ''
     handle = chrome_driver.current_window_handle
     try:            
-        site = email_confirm(submit['Email'])  
+        site = email_confirm(submit)  
         print(site)      
     except Exception as e:
         print('email check failed',str(e))
@@ -106,31 +106,6 @@ def web_submit(submit,debug=0):
         # submit['name'] = ng.gen_one_word_digit(lowercase=False)
         # status,submit['name'] = web_Submit(submit)
 
- 
-def check_email(submit):
-    print(submit['Email_emu'])
-    data = {'email': submit['Email_emu']}
-    data = parse.urlencode(data).encode('gbk')
-    req = request.Request(url, data=data)
-    page = ''
-    for i in range(5):
-        try:
-            page = request.urlopen(req,timeout=10.0).read()
-        except:
-            continue
-        if str(page) != '':
-            break
-    print(page)
-    if 'GOOD_EMAIL' not in str(page):
-        if page == '':
-            return -1 #netwrong
-        else:
-            return 1 #fail
-    else:
-        print(submit['Email_emu'],'is GOOD_EMAIL')
-        return 0 #success
-    
-
 
 def email_confirm(submit):
     print('----------')
@@ -143,7 +118,10 @@ def email_confirm(submit):
             pattern = r'.*?(https://desperatebbws.com/accounts/verify/email/e[\w]{1,100})'
             # pattern = r'.*?(https://opinionoutpost.com/Membership/Intake\?signuptoken=.*?\&resp=([0-9]{5,15}))'
             url_link = emaillink.get_email(name,pwd,title,pattern)
-            if url_link != '':
+            if 'Bad' in url_link:
+                print('Get duplicated email')
+                url_link = emaillink.get_email(name,pwd,title,pattern,True)
+            if 'http' in url_link :
                 break
         except Exception as e:
             print(str(e))
