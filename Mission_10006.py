@@ -26,10 +26,11 @@ import imap_test
 
 
 
-def web_submit(submit):
+def web_submit(submit,debug=0):
     # test
-    site = 'https://track.adgaem.com/click?pid=1337&offer_id=62396'
-    submit['Site'] = site
+    if debug == 1:
+        site = 'https://track.adgaem.com/click?pid=1337&offer_id=62396'
+        submit['Site'] = site
     chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()

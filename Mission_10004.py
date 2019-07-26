@@ -25,10 +25,11 @@ import selenium_funcs
 
 
 
-def web_submit(submit):
+def web_submit(submit,debug=0):
     # test
-    site = 'http://ares.goldmaketing.com/c/10655/a?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]&device=[device]&browser=[browser]&carrier=[carrier]'
-    submit['Site'] = site
+    if debug == 1:
+        site = 'http://ares.goldmaketing.com/c/10655/a?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]&device=[device]&browser=[browser]&carrier=[carrier]'
+        submit['Site'] = site
     chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()

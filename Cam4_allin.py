@@ -29,14 +29,14 @@ def Config_read():
         'Mission_conf' :{
             '10000'      : '',  # Finaff    Royal Cams  Done
             '10001'      : '',  # Adgaem    star stable Done
-            '10002'      : '',  # Adpump    GETAROUND Done
+            '10002'      : 'http://im.datingwithlili.com/im/click.php?c=14&key=7r6459rw2e7v5d1aq0en90kc',  # Adpump    GETAROUND Done
             '10003'      : '',  # UK Swipe  Done
             '10004'      : '',  # Ad1   opinion outpost   Done
             '10005'      : '',  # Adsmain Cam4  Done           
             '10006'      : '',         # adgaem 1.2   GUARDIANS OF AMBER  Done        
             '10007'      : '',         # Best Obama Care affprofile Done
             '10008'      : '',         # CashRequestOnline Done
-            '10009'      : '',         # Stripchat  
+            '10009'      : 'http://im.datingwithlili.com/im/click.php?c=17&key=u1gl040n0ryvgu3ql04305kz',         # Stripchat  
             '10010'      : '',         # rifu  chajian Done
             '10011'      : '',         # Auto Insurance  dead
             '10012'      : '',         # affprofile   cindmatch  

@@ -23,10 +23,11 @@ import selenium_funcs
 
 
 
-def web_submit(submit):
+def web_submit(submit,debug=0):
     # test
-    site = 'https://adpgtrack.com/click/5b73d90a6c42607b3b6c4322/146827/199595/subaccount'
-    submit['Site'] = site
+    if debug == 1:
+        site = 'https://adpgtrack.com/click/5b73d90a6c42607b3b6c4322/146827/199595/subaccount'
+        submit['Site'] = site
     chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     name = name_get.gen_one_word_digit(lowercase=False)
