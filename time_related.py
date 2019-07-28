@@ -32,8 +32,8 @@ def update_time_system():
     		_date = time.strftime('%m-%d-%Y',time.localtime(ts))
     		_time = time.strftime('%X',time.localtime(ts))
     		print(_date,_time)
-    		# os.environ['TZ'] = 'Asia/Shanghai'
-    		# print(os.system("tzutil /l "))    		
+    		os.environ['TZ'] = 'Asia/Shanghai'
+    		print(os.system("tzutil /l "))    		
     		
     		os.system('date {} && time {}'.format(_date,_time))
     		break
@@ -73,5 +73,5 @@ def utc_time_compare(time_compare):
 
 
 if __name__ == '__main__':
-    print(time_threeday_after)
+    update_time_system()
     

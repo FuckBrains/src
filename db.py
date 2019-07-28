@@ -329,7 +329,8 @@ conditions:
 1.selected country
 2.uuid not in Mission table
 3.email should be in email_list
-return submit
+
+return submit with same state in every excel
 '''
 
 def read_one_info(Country,Mission_list,Email_list,Excel_names):
@@ -361,6 +362,9 @@ def read_one_info(Country,Mission_list,Email_list,Excel_names):
                     # if BasicInfo_dict[i]['state1'] != Info_dicts[Excel_names_check[0]]['state']:
                     continue
             flag = 0
+            '''
+            BasicInfo_dict[i]['BasicInfo_Id'] should not in table Mission
+            '''
             for j in range(len(Mission_dict)):
                 if Mission_dict[j]['Mission_Id'] in Mission_list: 
                     if BasicInfo_dict[i]['BasicInfo_Id'] == Mission_dict[j]['BasicInfo_Id']:
@@ -399,6 +403,70 @@ def read_one_info(Country,Mission_list,Email_list,Excel_names):
     # submit = dict(Info_dict,**Info_dict2)
     return Info_dicts
 
+'''
+return dict with selected excel 
+'''
+def read_one_excel(Mission_list,Excel_name,Email_list):
+    print('     Start reading info from sql server...')
+    account = get_account()
+    conn,cursor=login_sql(account)
+    if Excel_name[0] != '' : 
+        res = cursor.execute('SELECT * from BasicInfo WHERE Excel_name = "%s"'%Excel_name[0])
+        desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+        BasicInfo_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来    
+    else:
+        BasicInfo_dict = {}
+    res = cursor.execute('SELECT * from Mission')
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来      
+    if Excel_name[1] != '':
+        res = cursor.execute('SELECT * from Email')
+        desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+        Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
+    else:
+        Excel_name[1] = {}
+    Info_dicts = {}
+    if len(BasicInfo_dict) != 0:
+        list_BasicInfo = random.sample(range(len(BasicInfo_dict)),len(BasicInfo_dict))
+        for i in list_BasicInfo:
+            flag = 0
+            '''
+            BasicInfo_dict[i]['BasicInfo_Id'] should not in table Mission
+            '''
+            for j in range(len(Mission_dict)):
+                if Mission_dict[j]['Mission_Id'] in Mission_list: 
+                    if BasicInfo_dict[i]['BasicInfo_Id'] == Mission_dict[j]['BasicInfo_Id']:
+                        flag = 1
+                        break
+            if flag == 0:
+                Info_dicts[BasicInfo_dict[i]['Excel_name']] = BasicInfo_dict[i]
+                break
+    Info_dict2 = {}
+    if len(Email_dict) != 0:
+        list_Email = random.sample(range(len(Email_dict)),len(Email_dict))
+        for i in list_Email:
+            if Email_dict[i]['Status'] == 'Bad':
+                continue
+            a = Email_dict[i]['Email_emu'].find('@')
+            end = Email_dict[i]['Email_emu'][a+1:]
+            # print(Email_dict[i]['Email_emu'])
+            # print(end)
+            if end not in Email_list:
+                continue 
+            flag = 0
+            for j in range(len(Mission_dict)):
+                if Mission_dict[j]['Mission_Id'] in Mission_list: 
+                    if Email_dict[i]['Email_Id'] == Mission_dict[j]['Email_Id']:
+                        flag = 1
+                        break
+            if flag == 0:
+                Info_dict2 = Email_dict[i]
+                break
+    Info_dicts['Email'] = Info_dict2
+    login_out_sql(conn,cursor)
+    # submit = dict(Info_dict,**Info_dict2)
+    return Info_dicts
+
 def write_one_info(Mission_list,submit,Cookie = ''):
     try:
         Email_Id = submit['Email']['Email_Id']
@@ -410,7 +478,7 @@ def write_one_info(Mission_list,submit,Cookie = ''):
         if item == 'Email':
             continue    
         for Mission_Id in Mission_list:
-            sql_content = 'INSERT INTO Mission(Mission_Id,Email_Id,BasicInfo_Id,Cookie)VALUES("%d","%s","%s","%s")'%(Mission_Id,Email_Id,submit[item]['BasicInfo_Id'],Cookie)
+            sql_content = 'INSERT INTO Mission(Mission_Id,Email_Id,BasicInfo_Id,Cookie)VALUES("%s","%s","%s","%s")'%(Mission_Id,Email_Id,submit[item]['BasicInfo_Id'],Cookie)
             res = cursor.execute(sql_content)    
     login_out_sql(conn,cursor)
 
@@ -477,15 +545,9 @@ def get_one_info():
     print(len(submit))
     return submit
 
-
+def init():
+    create_all_tables()
+    upload_data()    
 
 if __name__ == '__main__':
-    create_all_tables()
-    # create_all_tables()
-    upload_data()
-    # account = get_account()
-    # create_tokentable(account)
-
-    # updata_email_status('99ad0eef-a6ed-11e9-904f-00233a633931',1)
-    # values = ['11.0.0.1:9999','Spcket5','Good']
-    # update_ip_pools(values)
+    init()

@@ -15,6 +15,7 @@ from selenium.webdriver.support.ui import Select
 import Chrome_driver
 import email_imap as imap
 import name_get
+import db
 
 '''
 test copyfile
@@ -185,25 +186,9 @@ def Landing_page(chrome_driver):
 
 
 if __name__=='__main__':
-    submit={}
-    submit['Ua'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'
-    submit['Firstname'] = 'KIRSTEN'
-    submit['Lastname'] = 'WOLD'
-    submit['City'] = 'SPOKANE'
-    submit['State'] = 'WA'
-    submit['Homephone'] = '5093270780'
-    submit['Email'] = 'kdwold@live.com'
-    submit['Address'] = '2509 W. SHARP AVE.'   
-    submit['zipcode'] = '79108'
-    submit['month'] = '4'
-    submit['day'] = '12'
-    submit['year'] = '1964'
-    submit['Height_FT'] = '5'
-    submit['Height_Inch'] = '11'
-    submit['Weight'] = '175'
-    submit['Email_emu'] = 'GaleXavierapZeQ@yahoo.com'
-    submit['Email_emu_pwd'] = 'd9TY7k80H'
-    # test_num()
-    # web_Submit(submit)
-    site=email_confirm(submit)
-    print(site)
+    Mission_list=['10001']
+    Email_list =['aol.com']
+    Excel_names = ['Auto']
+    data = db.read_one_excel(Mission_list,Email_list,Excel_names)
+    print(data)
+    print(len(data))

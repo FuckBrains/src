@@ -15,7 +15,7 @@ import Restart_911 as R9
 
 
 Delay, Config, Mission_conf,_ = Cam4_allin.Config_read()
-def ip_new(city,state = 'All',country = Config['IP_country']):
+def ip_new(city,state = 'All',country = 'US'):
     print('Changing Ip')
     if city == '':
         arg = ' -changeproxy/'+ country + '/' + state 
@@ -74,7 +74,7 @@ def whoer_get(city =None):
 
 # 测试ip
 # city如果是'',则从us全国获取ip,否则用指定的city去获取ip
-def ip_Test(city = None,state = 'All'):
+def ip_Test(city = None,state = 'All',country='US'):
     totalCount = -1
     i = 0
     flag = 0
@@ -82,7 +82,7 @@ def ip_Test(city = None,state = 'All'):
     print('restart 911 end')      
     sleep(20)
     # return
-    ip_new(city,state)
+    ip_new(city,state,country)
     sleep(10)
     city,totalCount = whoer_get(city)
     print(city,totalCount)
