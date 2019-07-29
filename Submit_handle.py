@@ -1,5 +1,4 @@
 import db
-import Cam4_allin
 import random
 from xlrd import xldate_as_tuple
 
