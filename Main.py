@@ -8,7 +8,6 @@ sys.path.append("..")
 import importlib
 import threadpool
 from time import sleep
-import Cam4_allin
 import Changer_windows_info as changer
 import imap_test
 import Hotmail_check as hotmail

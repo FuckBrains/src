@@ -6,7 +6,6 @@ from selenium import webdriver
 from time import sleep
 import re
 import os
-import Cam4_allin
 import Restart_911 as R9
 
 
@@ -14,7 +13,6 @@ import Restart_911 as R9
 
 
 
-Delay, Config, Mission_conf,_ = Cam4_allin.Config_read()
 def ip_new(city,state = 'All',country = 'US'):
     print('Changing Ip')
     if city == '':
