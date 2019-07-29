@@ -275,7 +275,8 @@ def EMU_multi():
         [pool.putRequest(req) for req in requests]
         pool.wait() 
         killpid()
-    # return
+    if len(Mission_conf_duplicated_all) == 0:
+        return
     # time_delay = random.randint(Delay['up']*60,Delay['down']*60)
     # print('Sleeping',time_delay,'Minutes')
     # sleep(time_delay)
