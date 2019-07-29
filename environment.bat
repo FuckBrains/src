@@ -13,3 +13,4 @@ pip install ntplib
 pip install PyMysql
 pip install shutil
 pip install ntplib
+pip install PyQt5

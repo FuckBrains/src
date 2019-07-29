@@ -256,6 +256,8 @@ def EMU_multi():
         for num_ip in range(6):
             if Excels_dup[0] != '':
                 city = ip_test.ip_Test('',state = submit1[Excels_dup[0]]['state'],country=country )
+            else:
+                city = ip_test.ip_Test('','',country=country )
             if  city != 'Not found':
                 break
             if num_ip == 5:
