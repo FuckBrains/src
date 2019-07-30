@@ -120,19 +120,21 @@ def web_submit(submit,debug=0):
 
 def email_confirm(submit):
     print('----------')
-    for i in range(1):
+    for i in range(5):
         url_link = ''
         try:
             name = submit['Email']['Email_emu']
             pwd = submit['Email']['Email_emu_pwd']
-            title = ('Email Verification', 'noreply@email.stripchat.com')
-            pattern = r'.*?(http://trk.account.stripchat.com/[0-9a-zA-Z]{1,30}/[0-9a-zA-Z]{1,500})'
+            title = ('noreply@email.stripchat.com','')
+            pattern = r'.*?(http://trk.account.stripchat.com/[0-9a-zA-Z]{1,30}/[0-9a-zA-Z]{580,1000})'
             url_link = emaillink.get_email(name,pwd,title,pattern)
-            # if 'Bad' in url_link:
-            #     print('Get duplicated email')
-            #     url_link = emaillink.get_email(name,pwd,title,pattern,True)
             if 'http' in url_link :
                 break
+            title = ('noreply@email.supportlivecam.com','')
+            pattern = r'.*?Confirm Your Email.*?(http://trk.email.supportlivecam.com/[0-9a-zA-Z]{1,30}/[0-9a-zA-Z]{1,1000})'
+            url_link = emaillink.get_email(name,pwd,title,pattern,True)
+            if 'http' in url_link :
+                break            
         except Exception as e:
             print(str(e))
             print('===')
@@ -159,12 +161,8 @@ def test_p():
 
 
 def test_email():
-    a = 'http://trk.account.stripchat.com/3ac6bd6b8910fb48/5v5QRb5xWpteoMiYXE3qKpiJXFcswUA2hrABRv9u4ToQ4f2t8iDA95RCkrh1yCp1kndGZwetmgrNsjyrUo2TvnKR9dicfHBaqhrFttW8emLX88BhbjKuMVcdU1k48NeaRvN5Qf3HiVuBvsTdLtwMPbPKu2iaqdYc5HhmmzJgGaz8uia9g3m22ugt7f6k28pt64Z1DUxdaWNteVLY9d6YvWjCVCCNVJCEGDwMTKwPhdmxNd4RucA8SmAGQVRoNHSXA7zn22f7gxSPHnCw1zGsQQCAXshEUiPGcECGqMXovysgFfhPe2FsLJeXg8XjENHeHXhsGq4jnJd3MMk8KTdTNJpqoaTpw12iUifJrU7vAsRCxANCeeiKk8DCUfhyrNv5u55nsfoNKTJLckkoKgoRrBy'
-    b = 'http://trk.account.stripchat.com/2c5e55d17926b533/4JmKxRwf8JeRbb6yw8XDwxPZjXMu4mkQnyod1oiuUiamjtJsU4rou9wbB1X9SBVhjtA3SZciLtB5D7UPK7FRnvZ9MJkZPvvwdr6caAsi5k1TwPLasyrYGAMQ3NdnrtbfV2VoTya4fpDqB5XiULuxCubYbhr6cBBqx8nhQSvRhvEurhKJbsPzUAbdV4osy8XRp5mbh1mwRYNiT1BfoofkwgJn7k4xZjcx1GR7BKu2J3wNM8ANtaM4Azjv3AjSAbGHizQb3Lc6MtkkqtotDdnQd6pa3xcbmvUaQRKrX3J17ymDpD4qmQUx88ezpMoB244DZSsnLWdYiDVy5HMEsVQFPZTavv96BzSysfpnA4J2sF291cqToHgnu6aPa5Snxk7GhgRP7k4BrfQUREGTgZxDPPZNzdpoo4estkWF5wXnt6UZDgjHUpG3hBdzE54AzDqB7R81dbVcAMvJN6j8NiKgwBjQijFTvGG6raosRJAD55H4TQSsHepgMgVD1ZDKDUmmztL1BF5qdFiZXo3v6kzCUvKG4nkbqFpwqX749urWitbc2Z'
-    link = b
-    print(len(a),'fake')
-    print(len(b),'real')
-    pattern = r'.*?(http://trk.account.stripchat.com/[0-9a-zA-Z]{1,30}/[0-9a-zA-Z]{500,1000})'
+    link = 'Receive Your Password and Confirm Your Email\nAUXE8zwGQ$\n\nConfirm Your Email\nhttp://trk.email.supportlivecam.com/f52f4d8f0f996609/3XQcGTqXZ2Td6ed6H58qxomrVUnb3CaPDoYJUx2jgiKHxN7xaA51u9Vyq6q3U2vcTx2nB4PioyyTHHGGB6D49B1PH2r8NL4g1UDVWHAQNNVUHubEatipXXwFES9NR3WdGz4ER5nemvtCFL4KJpW6QkYXZFgoqMefQ46VMmeSZqwpv91hatjsqU554AMFQzP7f4Qbq2YWV15hh3XXMeCSpUuaX6tWianZvvi5DLeZU17zQADbXJD7SkHceUtKQ1r5kyMeNtbSBGoCarzM4fjrcPVriVV3FBmAbbARTyvxjgLB4cjcLTZPGvEMvQ5KxLPyL6iKXZ9zdpXUBu4EAsw3gn7m8rru7wUMpdp4D2nBsGS529vBDkEUwpq8Ka5bGRTS1vLdTXCt3CBDQSqLzW5EpxuhS7jUjiHA\n\nBy clicking on the link you give us the confirmation of your registration and that you are at least 18 yo (21 for the USA). You`ll be automatically subscribed to the system and promotional newsletters from superchatlive. You can unsubscribe at any time and we'
+    pattern = r'.*?Confirm Your Email.*?(http://trk.email.supportlivecam.com/[0-9a-zA-Z]{1,30}/[0-9a-zA-Z]{1,1000})'
     link2=re.compile(pattern)
     link = link2.findall(link)
     print(link)
@@ -172,12 +170,12 @@ def test_email():
 
 
 if __name__=='__main__':
-    # submit = db.get_one_info()
-    # print(submit)
-    # web_submit(submit,1)
+    submit = db.get_one_info()
+    print(submit)
+    web_submit(submit,1)
     # submit= {'Email': {'Email_Id': '6fdec625-aa34-11e9-9489-0003b7e49bfc', 'Email_emu': 'CarrieBrookso7@aol.com', 'Email_emu_pwd': 'Bh9ZbPOR', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
-
-    submit = {'Email': {'Email_Id': '702fb4ec-aa34-11e9-a0a1-0003b7e49bfc', 'Email_emu': 'FredaHarlanaVmQyE@yahoo.com', 'Email_emu_pwd': 'uCPQ22t41', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
-    url_link=email_confirm(submit)
-    print(url_link)
+    # submit = {'Email': {'Email_Id': '6faf2a9d-aa34-11e9-b0fa-0003b7e49bfc', 'Email_emu': 'AnnieBestKw@aol.com', 'Email_emu_pwd': 'BBI2C6Tq', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
+    # submit = {'Email': {'Email_Id': '702fb4ec-aa34-11e9-a0a1-0003b7e49bfc', 'Email_emu': 'FredaHarlanaVmQyE@yahoo.com', 'Email_emu_pwd': 'uCPQ22t41', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
+    # url_link=email_confirm(submit)
+    # print(url_link)
     # test_email()
