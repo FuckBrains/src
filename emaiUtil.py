@@ -10,7 +10,7 @@ class EmailUtil(object):
             print('find email wrong:',title)
             return 'Good'
         print('find email ok:',title)
-        # print(allRes)
+        print(allRes)
         pattern = re.compile(regular)
         for head,body in allRes:
             if body :

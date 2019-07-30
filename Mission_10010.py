@@ -11,14 +11,110 @@ import Chrome_driver
 import email_imap as imap
 import re
 from pyrobot import Robot
+import Submit_handle
+from selenium.webdriver.support.ui import Select
 
 
+'''
+Admain health
+Auto
+'''
 
-def web_submit(submit):
+def web_submit(submit,debug=0):
     # url = 'http://gkd.cooldatingz.com/c/11377/4?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]&device=[device]&browser=[browser]&carrier=[carrier]'
+    if debug == 1:
+        site = 'http://im.datingwithlili.com/im/click.php?c=8&key=0jp93r1877b94stq2u8rd6hd'
+        submit['Site'] = site     
     chrome_driver = Chrome_driver.get_chrome(submit)
     print('===========================')
     chrome_driver.get(submit['Site'])  
+    flag = 0
+    i = 0
+    while i <=3:
+        if 'trustedhealthquotes.com' in chrome_driver.current_url:
+            break
+        else:
+            writelog(chrome_driver.current_url)
+            chrome_driver.get(site)
+            sleep(5)
+            i = i + 1   
+    try:
+        if 'trustedhealthquotes.com' in chrome_driver.current_url:
+            chrome_driver.find_element_by_xpath('//*[@id="address_1_zip"]').send_keys(submit['Auto']['zip'])
+            chrome_driver.find_element_by_xpath('//*[@id="quickform-submit"]').click()
+            handles = chrome_driver.window_handles
+            if len(handles) == 2:
+                chrome_driver.switch_to.window(handles[1])
+                a = [
+                '//*[@id="insured_1_gender_male"]',
+                '//*[@id="insured_1_gender_female"]'
+                ]
+                num = random.randint(0,1)
+                chrome_driver.find_element_by_xpath(a[num]).click()
+                birthday = Submit_handle.get_auto_birthday(submit['Auto']['dateofbirth'])
+                month = birthday[0]
+                day = birthday[1]
+                year = birthday[2]
+                chrome_driver.find_element_by_xpath('//*[@id="insured_1_dobMM"]').send_keys(month)
+                chrome_driver.find_element_by_xpath('//*[@id="insured_1_dobDD"]').send_keys(day)
+                chrome_driver.find_element_by_xpath('//*[@id="insured_1_dobYYYY"]').send_keys(year)
+                num_info = Submit_handle.get_height_info()
+                chrome_driver.find_element_by_xpath('//*[@id="insured_1_heightFT"]').send_keys(num_info['Height_FT'])
+                chrome_driver.find_element_by_xpath('//*[@id="insured_1_heightIN"]').send_keys(num_info['Height_Inch'])
+                chrome_driver.find_element_by_xpath('//*[@id="insured_1_weight"]').send_keys(num_info['Weight'])
+                chrome_driver.find_element_by_xpath('//*[@id="first_name"]').send_keys(submit['Auto']['firstname'])
+                chrome_driver.find_element_by_xpath('//*[@id="last_name"]').send_keys(submit['Auto']['lastname'])
+                chrome_driver.find_element_by_xpath('//*[@id="address_1_street1"]').send_keys(submit['Auto']['address'])
+                chrome_driver.find_element_by_xpath('//*[@id="address_1_city"]').send_keys(submit['Auto']['city'])
+                s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="address_1_state"]'))
+                s1.select_by_value(str(submit['Auto']['state']))  # 选择value="o2"的项   
+                homephone = submit['Auto']['homephone'].split('.')[0]                
+                chrome_driver.find_element_by_xpath('//*[@id="phone1"]').send_keys(str(homephone)[0:3])
+                chrome_driver.find_element_by_xpath('//*[@id="phone_2"]').send_keys(str(homephone)[3:6])
+                chrome_driver.find_element_by_xpath('//*[@id="phone3"]').send_keys(str(homephone)[6:10])
+                chrome_driver.find_element_by_xpath('//*[@id="email"]').send_keys(submit['Auto']['email'])
+                num_click = random.randint(1,4)
+                # sleep(2000)
+                for i in range(num_click):
+                    chrome_driver.find_element_by_xpath('//*[@id="plus"]').click()
+                chrome_driver.find_element_by_xpath('//*[@id="income-widget"]/label[4]').click()
+                chrome_driver.find_element_by_xpath('//*[@id="healthForm"]/div[14]/button').click()
+                sleep(20)
+                flag = 1
+    except Exception as e:
+        print(str(e))
+    # sleep(3000)
+    try:       
+        chrome_driver.close()
+        chrome_driver.quit()
+    except Exception as e:
+        print(str(e))
+    return flag
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     # https://install.stream-all.com/?pid=54939&clickid=6288828472&subid=1462   
 
     # print(chrome_driver.page_source)

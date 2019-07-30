@@ -221,12 +221,12 @@ def main():
     sys.exit(app.exec_())
 
 def Add_new_module_test():
-    Offer_name = 'Stripchat(Done)'
-    Offer_config_new = {"Mission_Id": "10009", "Excel": ["", "Email"], "Country": "US"}
+    Offer_name = 'Health(Done)'
+    Offer_config_new = {"Mission_Id": "10010", "Excel": ["Auto", ""], "Country": "US"}
     Add_New_Config(Offer_name,Offer_config_new)
-    # Alliance = 'Adgeam'
-    # New_Offers = [Offer_name]
-    # Add_New_Offer(Alliance,New_Offers)
+    Alliance = 'Adsmain'
+    New_Offers = [Offer_name]
+    Add_New_Offer(Alliance,New_Offers)
 
 
 if __name__ == '__main__':

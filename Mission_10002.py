@@ -17,6 +17,7 @@ import email_imap as imap
 import name_get
 import db
 import selenium_funcs
+import Submit_handle
 
 
 
@@ -56,7 +57,8 @@ def web_submit(submit,debug=0):
     # phone
     chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[4]/div/input').send_keys((submit['Auto']['homephone']).split('.')[0])
     # zip
-    chrome_driver.find_element_by_xpath('//*[@id="postal-code"]').send_keys((submit['Auto']['zip']).split('.')[0])
+    submit['Auto']['zip'] = Submit_handle.get_zip(submit['Auto']['zip'])
+    chrome_driver.find_element_by_xpath('//*[@id="postal-code"]').send_keys((submit['Auto']['zip']))
     # selector
     num = random.randint(1,15)
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[7]/div/select'))

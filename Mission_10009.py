@@ -21,8 +21,8 @@ def web_submit(submit,debug=0):
         submit['Site'] = site   
     chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
-    # chrome_driver.maximize_window()
-    # chrome_driver.refresh()    
+    chrome_driver.maximize_window()
+    chrome_driver.refresh()    
     name = name_get.gen_one_word_digit(lowercase=False)  
     # sleep(2000)  
     chrome_driver.find_element_by_xpath('//*[@id="body"]/div/div/header/div/div/nav[2]/div[3]/a[2]').click()
@@ -120,17 +120,17 @@ def web_submit(submit,debug=0):
 
 def email_confirm(submit):
     print('----------')
-    for i in range(5):
+    for i in range(1):
         url_link = ''
         try:
             name = submit['Email']['Email_emu']
             pwd = submit['Email']['Email_emu_pwd']
-            title = 'Please confirm your email'
-            pattern = r'.*?(http://trk.email.supportlivecam.com/[0-9a-zA-Z]{1,30}/(\w){50,500})'
+            title = ('Email Verification', 'noreply@email.stripchat.com')
+            pattern = r'.*?(http://trk.account.stripchat.com/[0-9a-zA-Z]{1,30}/[0-9a-zA-Z]{1,500})'
             url_link = emaillink.get_email(name,pwd,title,pattern)
-            if 'Bad' in url_link:
-                print('Get duplicated email')
-                url_link = emaillink.get_email(name,pwd,title,pattern,True)
+            # if 'Bad' in url_link:
+            #     print('Get duplicated email')
+            #     url_link = emaillink.get_email(name,pwd,title,pattern,True)
             if 'http' in url_link :
                 break
         except Exception as e:
@@ -159,8 +159,12 @@ def test_p():
 
 
 def test_email():
-    link = 'asdhttp://trk.email.supportlivecam.com/de239e235c9a09b4/T3zEfBzZgDSLKMFQMzsantBEMVhNYTsVETtyVFR9mMv73NmNt2vVaLRGJ8DFVdzhZw9oRYX9DvCEfQGp3Tc3aA9HKd7JzbW9vNyHmq6hx67UacaSwi9fh6FW1XZojU1PN6p1evLt3hodSiwYQ9AhpzXHe57pU6evqoufP6GgA6qEBYCFs3QVuTfZu1CZndxByHwecWDLQSdVNjvT2ySkbcLxdETHxoMVpfaRFM8pmfxq39ruZFMRZ1j6Xds7vPtyoThK8vvef5THB1h2MCDob4eHWNwt6a4neKxRb7htYGEVkAR6zWUWXwz9x1pRrRNe3wcSDeWG8myaUaVcChB9HAxzKsyiD91JN4Es8v926jyCnvU4fsZVZXKre6b56aXiSeNnNdXpwWFG1VNpzfAzenzMwgojT5Cg5trvPLRAWL6fF9adSz3LNDDxQX98VbAnTZ4UBiS1dXg"'
-    pattern = r'.*?(http://trk.email.supportlivecam.com/[0-9a-zA-Z]{1,30}/(\w){50,500})'
+    a = 'http://trk.account.stripchat.com/3ac6bd6b8910fb48/5v5QRb5xWpteoMiYXE3qKpiJXFcswUA2hrABRv9u4ToQ4f2t8iDA95RCkrh1yCp1kndGZwetmgrNsjyrUo2TvnKR9dicfHBaqhrFttW8emLX88BhbjKuMVcdU1k48NeaRvN5Qf3HiVuBvsTdLtwMPbPKu2iaqdYc5HhmmzJgGaz8uia9g3m22ugt7f6k28pt64Z1DUxdaWNteVLY9d6YvWjCVCCNVJCEGDwMTKwPhdmxNd4RucA8SmAGQVRoNHSXA7zn22f7gxSPHnCw1zGsQQCAXshEUiPGcECGqMXovysgFfhPe2FsLJeXg8XjENHeHXhsGq4jnJd3MMk8KTdTNJpqoaTpw12iUifJrU7vAsRCxANCeeiKk8DCUfhyrNv5u55nsfoNKTJLckkoKgoRrBy'
+    b = 'http://trk.account.stripchat.com/2c5e55d17926b533/4JmKxRwf8JeRbb6yw8XDwxPZjXMu4mkQnyod1oiuUiamjtJsU4rou9wbB1X9SBVhjtA3SZciLtB5D7UPK7FRnvZ9MJkZPvvwdr6caAsi5k1TwPLasyrYGAMQ3NdnrtbfV2VoTya4fpDqB5XiULuxCubYbhr6cBBqx8nhQSvRhvEurhKJbsPzUAbdV4osy8XRp5mbh1mwRYNiT1BfoofkwgJn7k4xZjcx1GR7BKu2J3wNM8ANtaM4Azjv3AjSAbGHizQb3Lc6MtkkqtotDdnQd6pa3xcbmvUaQRKrX3J17ymDpD4qmQUx88ezpMoB244DZSsnLWdYiDVy5HMEsVQFPZTavv96BzSysfpnA4J2sF291cqToHgnu6aPa5Snxk7GhgRP7k4BrfQUREGTgZxDPPZNzdpoo4estkWF5wXnt6UZDgjHUpG3hBdzE54AzDqB7R81dbVcAMvJN6j8NiKgwBjQijFTvGG6raosRJAD55H4TQSsHepgMgVD1ZDKDUmmztL1BF5qdFiZXo3v6kzCUvKG4nkbqFpwqX749urWitbc2Z'
+    link = b
+    print(len(a),'fake')
+    print(len(b),'real')
+    pattern = r'.*?(http://trk.account.stripchat.com/[0-9a-zA-Z]{1,30}/[0-9a-zA-Z]{500,1000})'
     link2=re.compile(pattern)
     link = link2.findall(link)
     print(link)
@@ -168,12 +172,12 @@ def test_email():
 
 
 if __name__=='__main__':
-    submit = db.get_one_info()
-    print(submit)
-    web_submit(submit,1)
+    # submit = db.get_one_info()
+    # print(submit)
+    # web_submit(submit,1)
     # submit= {'Email': {'Email_Id': '6fdec625-aa34-11e9-9489-0003b7e49bfc', 'Email_emu': 'CarrieBrookso7@aol.com', 'Email_emu_pwd': 'Bh9ZbPOR', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
 
-    # submit = {'Email': {'Email_Id': '702fb4ec-aa34-11e9-a0a1-0003b7e49bfc', 'Email_emu': 'RogerZimmerman1@aol.com', 'Email_emu_pwd': 'UbQ8Lxjv', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
-    # url_link=email_confirm(submit)
-    # print(url_link)
+    submit = {'Email': {'Email_Id': '702fb4ec-aa34-11e9-a0a1-0003b7e49bfc', 'Email_emu': 'FredaHarlanaVmQyE@yahoo.com', 'Email_emu_pwd': 'uCPQ22t41', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
+    url_link=email_confirm(submit)
+    print(url_link)
     # test_email()

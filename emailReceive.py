@@ -32,7 +32,7 @@ class EmailReceive(object):
             print(e)
             return result
         num_c=0
-        print(self.imap_mail.list()[1])
+        # print(self.imap_mail.list()[1])
         for item in self.imap_mail.list()[1]:
             box = item.decode().split(' \"/\" ')[-1]
             if  re.match(r'.*?(Sent|Delete|Trash|Draft).*?',box,re.M|re.I):
@@ -52,7 +52,7 @@ class EmailReceive(object):
                 else:
                     state, en = self.imap_mail.search(None,'ALL')
                 print(state,en)
-                print('en',str(en))
+                # print('en',str(en))
                 for num in en[0].split()[::-1]:
                     typ, data = self.imap_mail.fetch(num, '(RFC822)')
                     # print('data',data)
@@ -63,12 +63,20 @@ class EmailReceive(object):
                     if keyword is None:
                         result.append(EmailReceive.getOneMail(data, getAttach))
                     else:
+                        flag_ = 0
                         for keyItem in keyword:
-                            if keyItem in header[0] or keyItem in header[1] or keyItem in header[2]:
-                                result.append(EmailReceive.getOneMail(data,getAttach))
-                                if not findAll:
-                                    self.close()
-                                    return result
+                            if keyItem in header[0] or keyItem in header[1] or keyItem in header[2] or keyItem in header[3]:
+                                pass
+                                # result.append(EmailReceive.getOneMail(data,getAttach))
+                            else:
+                                flag_ = 1
+                                break
+                        if flag_ == 0:
+                            result.append(EmailReceive.getOneMail(data,getAttach))
+                            if not findAll:
+                                self.close()
+                                return result
+
             except Exception as e:
                 print(e)
         self.close()

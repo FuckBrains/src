@@ -3,7 +3,7 @@ import random
 from xlrd import xldate_as_tuple
 
 
-Delay, Config, Mission_conf, Email_list  = Cam4_allin.Config_read()
+# Delay, Config, Mission_conf, Email_list  = Cam4_allin.Config_read()
 
 '''
 Already handled:
@@ -51,6 +51,15 @@ def Submit_handle(submit):
     return submit
 
 
+def get_zip(zip_):
+    zip_ = zip_.split('.')[0]
+    if len(zip_) == 4:
+        zip_ = '0' + zip_
+    return zip_ 
+
+
+
+
 def get_auto_birthday(date):
     if '/' in date:
         birthday = date.split('/')
@@ -87,7 +96,7 @@ def chansfer_float_into_int(str_float):
 if __name__ == '__main__':
     Mission_list = [10001] 
     Excel_names = ['Auto','Uspd']
-    submit = db.read_one_info(Config['IP_country'],Mission_list,Email_list,Excel_names)
-    print(submit)
-    birthday = get_auto_birthday(submit['Uspd']['date_of_birth'])
-    print(birthday)
+    # submit = db.read_one_info(Config['IP_country'],Mission_list,Email_list,Excel_names)
+    # print(submit)
+    # birthday = get_auto_birthday(submit['Uspd']['date_of_birth'])
+    # print(birthday)
