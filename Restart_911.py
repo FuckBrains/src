@@ -137,7 +137,7 @@ def kill_OK():
 
 def restart911():
     # print('start kill_911')
-    # kill_911()
+    kill_911()
     # print('After kill_911 finished')
     os.system(r'start ..\tools\911S5\Client.exe')
     # print('After client started,begin login_911')

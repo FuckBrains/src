@@ -65,7 +65,7 @@ def web_submit(submit,debug=0):
     s1.select_by_index(num)     
     # button
     chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/button').click()
-    sleep(30)
+    sleep(15)
     return
 
 

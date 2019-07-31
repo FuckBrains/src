@@ -139,7 +139,7 @@ def email_confirm(submit):
             if 'http' in url_link :
                 break
             title = ('supportlivecam.com','')
-            pattern = r'.*?Confirm Your Email.*?(http://trk.email.supportlivecam.com/[0-9a-zA-Z]{1,30}/[0-9a-zA-Z]{1,1000})'
+            pattern = r'.*?Confirm Your Email.*?(http://trk.email.supportlivecam.com/[0-9a-zA-Z]{1,30}/[0-9a-zA-Z]{1,1000})By clicking on the'
             url_link = emaillink.get_email(name,pwd,title,pattern,True)
             if 'http' in url_link :
                 break            
