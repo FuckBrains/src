@@ -64,11 +64,11 @@ class EmailReceive(object):
                         result.append(EmailReceive.getOneMail(data, getAttach))
                     else:
                         flag_ = 0
-                        print('=======')
-                        print('keyword',keyword)
+                        # print('=======')
+                        # print('keyword',keyword)
                         for keyItem in keyword:
-                            print('--------')
-                            print('keyItem',keyItem)
+                            # print('--------')
+                            # print('keyItem',keyItem)
                             if keyItem in header[0] or keyItem in header[1] or keyItem in header[2] or keyItem in header[3]:
                                 pass
                                 # result.append(EmailReceive.getOneMail(data,getAttach))
