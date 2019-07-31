@@ -30,6 +30,9 @@ def kill_911():
         if p.name() == 'MonitorGUI.exe':
             cmd = 'taskkill /F /IM MonitorGUI.exe'
             os.system(cmd)                  
+        if 'Socket.exe' in p.name():
+            cmd = 'taskkill /F /IM ' + p.name()
+            os.system(cmd)             
 
 
 def click_position(hwd, x_position, y_position, sleeps):
@@ -88,6 +91,8 @@ def login_911():
     print('page2,click login button')
     click_position(subHandle,20,20,3) 
     sleep(3)
+    flag = 0
+    num_time = 0
     while True:
         try:
             left1, top1, right1, bottom2 = win32gui.GetWindowRect(handle)
@@ -96,10 +101,14 @@ def login_911():
             sleep(3)
             click_position(subHandle,20,20,3)  
             sleep(3)
-            
+            num_time += 1
+            if num_time >= 10:
+                break
         except Exception as e:
             print(str(e))
+            flag = 1
             break
+    return flag
     # 查找choose server按钮
     # subHandle = 0
     # while subHandle == 0:
@@ -137,20 +146,22 @@ def kill_OK():
 
 def restart911():
     # print('start kill_911')
-    kill_911()
-    # print('After kill_911 finished')
-    os.system(r'start ..\tools\911S5\Client.exe')
-    # print('After client started,begin login_911')
-    login_911()
-    print('login_911 finished')
+    flag = 0
+    while flag == 0:    
+        kill_911()
+        # print('After kill_911 finished')
+        os.system(r'start ..\tools\911S5\Client.exe')
+        # print('After client started,begin login_911')
+        flag = login_911()
+        print('login_911 finished')
     # print('end')    
 
 
 
 if __name__=='__main__':
-    # for i in range(100):
+    for i in range(100):
     #     kill_911()
-    restart911()
+        restart911()
     #     sleep(5)
     
     #     sleep(5)
