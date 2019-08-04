@@ -424,7 +424,8 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
         desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
         Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
     else:
-        Excel_name[1] = {}
+        # Excel_name[1] = {}
+        Email_dict = {}
     Info_dicts = {}
     if len(BasicInfo_dict) != 0:
         list_BasicInfo = random.sample(range(len(BasicInfo_dict)),len(BasicInfo_dict))
@@ -462,7 +463,8 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
             if flag == 0:
                 Info_dict2 = Email_dict[i]
                 break
-    Info_dicts['Email'] = Info_dict2
+    if len(Info_dict2) != 0:
+        Info_dicts['Email'] = Info_dict2
     login_out_sql(conn,cursor)
     # submit = dict(Info_dict,**Info_dict2)
     return Info_dicts

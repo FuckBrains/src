@@ -14,3 +14,4 @@ pip install PyMysql
 pip install shutil
 pip install ntplib
 pip install PyQt5
+pip install PySocks

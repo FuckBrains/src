@@ -67,12 +67,17 @@ def get_auto_birthday(date):
         birthday = date.split('-')    
     else:
         # 'MM/DD/Year'
-        birthday = [str(random.randint(1,12)),str(random.randint(1,25)) ,str(random.randint(1960,1980))]  
-    if len(birthday[0]) == 1:
+        if '.0' in date:
+            birthday_ = xldate_as_tuple(float(date),0)
+            birthday = [str(birthday_[1]),str(birthday_[2]),str(birthday_[0])]
+        else:
+            birthday = [str(random.randint(1,12)),str(random.randint(1,25)) ,str(random.randint(1970,1990))]  
+    if len(str(birthday[0])) == 1:
         birthday[0] = '0'+str(birthday[0])  
-    if len(birthday[1]) == 1:
-        birthday[1] = '0'+str(birthday[1])  
-
+    if len(str(birthday[1])) == 1:
+        birthday[1] = '0'+str(birthday[1]) 
+    if int(birthday[2]) <= 1970:
+        birthday[2] = str(random.randint(1970,1990))
     return birthday
 
 

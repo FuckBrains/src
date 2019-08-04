@@ -21,7 +21,7 @@ def get_ua_all():
 
 def get_ua_random(uas):
     num = random.randint(0,len(uas)-1)
-    print(uas[num])
+    # print(uas[num])
     return uas[num]
 
 
