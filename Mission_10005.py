@@ -12,6 +12,11 @@ import email_imap as imap
 
 
 
+'''
+Cam4
+'''
+
+
 def detect_email():
     url = r'https://www.cam4.com/signup/email?pageLocale=en'
     url2 = r'https://www.cam4.com/signup/username?pageLocale=en'

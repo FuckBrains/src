@@ -159,7 +159,7 @@ def restart911():
 
 
 if __name__=='__main__':
-    for i in range(100):
+    for i in range(1):
     #     kill_911()
         restart911()
     #     sleep(5)

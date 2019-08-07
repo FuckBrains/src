@@ -18,7 +18,9 @@ import email_imap as imap
 import name_get
 
 
-
+'''
+STAR_STABLE
+'''
 
 
 

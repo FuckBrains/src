@@ -14,6 +14,10 @@ import name_get
 import emaillink
 
 
+'''
+Stripchat(Done)
+'''
+
 
 def web_submit(submit,debug=0):
     if debug == 1:
