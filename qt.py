@@ -66,8 +66,11 @@ def Add_New_Config(Offer_name,Offer_config_new):
 def translate_offer_tonum(Offer_list):
     return 
 
-def Add_New_Link(new_offer):
-    file_Offer_link = r'ini\Offer_link.ini'    
+def Add_New_Link(new_offer,all_links = 0):
+    if all_links == 0 :
+        file_Offer_link = r'ini\Offer_link.ini'    
+    else:
+        file_Offer_link = r'ini\Offer_all_links.ini'
     type_dict = type({})
     new_offer['Offer']=new_offer['Offer'].split('.')[1]
     Offer_link = Read_Ini(file_Offer_link)  
@@ -107,50 +110,74 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.offer = Read_Ini(file_Offer)
         i = 0
         end = len(self.offer)
-        text = 'Already in config links\n'
+        # text = 'Already in config links\n'
         for item in self.offer:
             if i >= end:
                 break
-            self.comboBox.addItem("")
-            self.comboBox.setItemText(i, _translate("MainWindow", item))
+            self.comboBox1.addItem("")
+            self.comboBox1.setItemText(i, _translate("MainWindow", item))
             i+=1
         self.set_comboBox2()
-        self.set_text()
+        self.set_text_woring_links()
+        self.set_text_all_links()
         self.set_comboBox3()
+        self.set_comboBox4()
 
     def set_comboBox2(self):
         _translate = QtCore.QCoreApplication.translate
         j = 0
-        self.comboBox_2.clear()
+        self.comboBox2.clear()
         print('========')
-        item = self.comboBox.currentText()
+        item = self.comboBox1.currentText()
         if item != '':
             for offer_ in self.offer[item]:
                 if j >= len(self.offer[item]):
                     break                
-                self.comboBox_2.addItem("")
-                self.comboBox_2.setItemText(j, _translate("MainWindow", str(j+1)+'.'+offer_))            
+                self.comboBox2.addItem("")
+                self.comboBox2.setItemText(j, _translate("MainWindow", str(j+1)+'.'+offer_))            
                 j+=1
+    
     def set_comboBox3(self):
         _translate = QtCore.QCoreApplication.translate      
         j = 0
         print('set_comboBox3')
-        self.comboBox_3.clear()
+        self.comboBox3.clear()
         self.offer_link = Read_Ini(self.file_Offer_link)
         for item in self.offer_link:
             if j >= len(self.offer_link):
                 break                
-            self.comboBox_3.addItem("")
-            self.comboBox_3.setItemText(j, _translate("MainWindow", str(int(item)+1)))            
+            self.comboBox3.addItem("")
+            self.comboBox3.setItemText(j, _translate("MainWindow", str(int(item)+1)))            
             j+=1
 
-    def set_text(self):
+    def set_comboBox4(self):
+        _translate = QtCore.QCoreApplication.translate      
+        j = 0
+        print('set_comboBox4')
+        self.comboBox4.clear()
+        self.offer_link_all = Read_Ini(self.file_Offer_link_all)
+        for item in self.offer_link_all:
+            if j >= len(self.offer_link_all):
+                break                
+            self.comboBox4.addItem("")
+            self.comboBox4.setItemText(j, _translate("MainWindow", str(int(item)+1)))            
+            j+=1
+
+    def set_text_woring_links(self):
         self.file_Offer_link = r'ini\Offer_link.ini'
         self.offer_link = Read_Ini(self.file_Offer_link)
         text = 'Already in config links\n'
         for item in self.offer_link:
             text += str(int(item)+1)+' : '+self.offer_link[item]['Alliance']+' '+self.offer_link[item]['Offer']+' '+self.offer_link[item]['url_link']+'\n'
-        self.textBrowser.setText(text)        
+        self.textBrowser2.setText(text)        
+
+    def set_text_all_links(self):
+        self.file_Offer_link_all = r'ini\Offer_all_links.ini'
+        self.offer_link_all = Read_Ini(self.file_Offer_link_all)
+        text = 'Already in config links\n'
+        for item in self.offer_link_all:
+            text += str(int(item)+1)+' : '+self.offer_link_all[item]['Alliance']+' '+self.offer_link_all[item]['Offer']+' '+self.offer_link_all[item]['url_link']+'\n'
+        self.textBrowser1.setText(text) 
 
     # @pyqtSlot()
     def on_comboBox_currentIndexChanged(self):
@@ -158,7 +185,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.set_comboBox2()
 
     @pyqtSlot()
-    def on_pushButton_clicked(self):
+    def on_pushButton1_clicked(self):
         # print(self.comboBox.currentText())
         # print(self.comboBox_2.currentText())
         # print(self.lineEdit.text())
@@ -166,15 +193,15 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         # print('=========')
         # self.lineEdit.setText('')
         new_offer = {}
-        new_offer['Alliance'] = self.comboBox.currentText()
-        new_offer['Offer'] = self.comboBox_2.currentText()
+        new_offer['Alliance'] = self.comboBox1.currentText()
+        new_offer['Offer'] = self.comboBox2.currentText()
         new_offer['url_link'] = self.lineEdit.text()
         if 'http' not in new_offer['url_link']:
             print('++++')
             return
         print('1111')
-        Add_New_Link(new_offer)
-        self.set_text()
+        Add_New_Link(new_offer,1)
+        self.set_text_all_links()
         self.set_comboBox3()
         # self.lineEdit.setText('')
 
@@ -236,6 +263,10 @@ if __name__ == '__main__':
     # New_Offers = ['Stripchat(Done)']
     # Add_New_Offer(Alliance,New_Offers)    
 
+    # new_link = {'Offer':'1.Stripchat(Done)'}
+    # new_link['Alliance'] = 'Finaff'
+    # new_link['url_link'] = 'http'
+    # Add_New_Link(new_link,0)
 
 
 

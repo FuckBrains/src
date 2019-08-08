@@ -28,7 +28,7 @@ Best Obama Care - US(Done)
 def web_submit(submit,debug=0):
     # test
     if debug == 1:
-        site = 'http://tracking.bbadstrack.com/aff_c?offer_id=1032&aff_id=4236'
+        site = 'http://lub.lubetadating.com/c/12981/4?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]&device=[device]&browser=[browser]&carrier=[carrier'
         submit['Site'] = site
     chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
@@ -86,16 +86,16 @@ def web_submit(submit,debug=0):
 
     # mobile
     phone = Submit_handle.chansfer_float_into_int(submit['Auto']['homephone'])
-    chrome_driver.find_element_by_xpath('//*[@id="phone_home_visible"]').send_keys(phone)
+    chrome_driver.find_element_by_xpath('//*[@id="phone_home_visible"]').send_keys(int(phone))
 
     # birthday
     birthday = Submit_handle.get_auto_birthday(submit['Auto']['dateofbirth'])
     element = chrome_driver.find_element_by_xpath('//*[@id="date_of_birth_visible"]')
     element.click()
-    element.send_keys(birthday[0])
-    element.send_keys(birthday[1])
-    element.send_keys(birthday[2])
-
+    element.send_keys(int(birthday[0]))
+    element.send_keys(int(birthday[1]))
+    element.send_keys(int(birthday[2]))
+    sleep(2)
     # gender
     if submit['Auto']['gender'] == 'Female':
         chrome_driver.find_element_by_xpath('//*[@id="form-part-three"]/div[6]/label[3]/input').click()
@@ -110,88 +110,6 @@ def web_submit(submit,debug=0):
     return
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    if submit['Auto']['gender'] == 'Female':
-        # women
-        chrome_driver.find_element_by_xpath('//*[@id="female"]').click()
-    else:
-        # man
-        chrome_driver.find_element_by_xpath('//*[@id="male"]').click()
-
-    # firstname
-    chrome_driver.find_element_by_xpath('//*[@id="firstname"]').send_keys(submit['Auto']['firstname'])
-    # lastname
-    chrome_driver.find_element_by_xpath('//*[@id="lastname"]').send_keys(submit['Auto']['lastname'])
-    # email
-    chrome_driver.find_element_by_xpath('//*[@id="email"]').send_keys(submit['Email']['Email_emu'])
-    # corfirm email
-    chrome_driver.find_element_by_xpath('//*[@id="confirmemail"]').send_keys(submit['Email']['Email_emu'])
-    # choose
-    chrome_driver.find_element_by_xpath('//*[@id="checkbox"]').click()
-    sleep(2)
-    # button
-    chrome_driver.find_element_by_xpath('//*[@id="registerBtn"]').click()
-    sleep(5)
-    site = ''
-    flag = 0
-    handle = chrome_driver.current_window_handle
-    try:            
-        site = email_confirm(submit)  
-        print(site)      
-    except Exception as e:
-        print(str(e))
-        pass
-        # writelog('email check failed',str(e))
-    if site != '':
-        newwindow='window.open("' + site + '");'
-        chrome_driver.execute_script(newwindow)  
-    else:
-        flag = 1
-        chrome_driver.close()
-        chrome_driver.quit()
-        return flag        
-    handles=chrome_driver.window_handles   
-    for i in handles:
-        if i != handle:
-            chrome_driver.switch_to.window(i)
-            chrome_driver.refresh() 
-            birthday = Submit_handle.get_auto_birthday(submit['Auto']['dateofbirth'])
-            # mm
-            chrome_driver.find_element_by_xpath('//*[@id="siq-monthdob-id"]').send_keys(birthday[0])
-            # dd
-            chrome_driver.find_element_by_xpath('//*[@id="siq-daydob-id"]').send_keys(birthday[1])
-            # yy
-            chrome_driver.find_element_by_xpath('//*[@id="siq-yeardob-id"]').send_keys(birthday[2])
-            # # country
-            # chrome_driver.find_element_by_xpath()
-            # # language
-            # chrome_driver.find_element_by_xpath()
-            # # selector
-            chrome_driver.find_element_by_xpath('//*[@id="siq-agreetermscond-id-1"]').click()
-            # button
-            chrome_driver.find_element_by_xpath('//*[@id="sip-confirm"]').click()
-
-            chrome_driver.close()
-            chrome_driver.quit()
-            return flag    
 
 
 
