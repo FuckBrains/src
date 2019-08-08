@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>970</width>
+    <width>965</width>
     <height>547</height>
    </rect>
   </property>
@@ -84,10 +84,22 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <widget class="QComboBox" name="comboBox1"/>
+      <widget class="QComboBox" name="comboBox1">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+      </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBox2"/>
+      <widget class="QComboBox" name="comboBox2">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -132,6 +144,13 @@
       <width>301</width>
       <height>391</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
     </property>
     <property name="verticalScrollBarPolicy">
      <enum>Qt::ScrollBarAlwaysOn</enum>
@@ -242,6 +261,11 @@
       <height>391</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="verticalScrollBarPolicy">
      <enum>Qt::ScrollBarAlwaysOn</enum>
     </property>
@@ -321,7 +345,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>970</width>
+     <width>965</width>
      <height>21</height>
     </rect>
    </property>

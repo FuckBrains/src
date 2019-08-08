@@ -72,7 +72,8 @@ def Add_New_Link(new_offer,all_links = 0):
     else:
         file_Offer_link = r'ini\Offer_all_links.ini'
     type_dict = type({})
-    new_offer['Offer']=new_offer['Offer'].split('.')[1]
+    if '.' in new_offer['Offer']:
+        new_offer['Offer']=new_offer['Offer'].split('.')[1]
     Offer_link = Read_Ini(file_Offer_link)  
     if type(Offer_link)!= type_dict:
         Offer_link = {}
@@ -82,24 +83,30 @@ def Add_New_Link(new_offer,all_links = 0):
     keys = []
     for item in Offer_config:
         keys.append(item)
-    # print(keys)
-    # print(new_offer['Offer'])
+    print(keys)
+    print(new_offer['Offer'])
     if new_offer['Offer'] in keys:
         Offer_link[str(len(Offer_link)-1)] = dict(Offer_link[str(len(Offer_link)-1)],**Offer_config[new_offer['Offer']])    
         Write_Ini(file_Offer_link,Offer_link)            
     return
 
-def Delete_Link(key):
-    file_Offer_link = r'ini\Offer_link.ini' 
+def Delete_Link(key,all_links = 0):
+    if all_links == 0 :
+        file_Offer_link = r'ini\Offer_link.ini'    
+    else:
+        file_Offer_link = r'ini\Offer_all_links.ini'    
+    # file_Offer_link = r'ini\Offer_link.ini' 
     Offer_link = Read_Ini(file_Offer_link)
     if len(Offer_link) == 0:
         return
-    Offer_link.pop(str(key))
+    target_link = Offer_link.pop(str(key))
     num_link = len(Offer_link)
+    # target_link = num_link[key]
     for i in range(num_link):
         if i >= key:
             Offer_link[str(i)] = Offer_link.pop(str(i+1))
     Write_Ini(file_Offer_link,Offer_link)
+    return target_link
 
 class Mywindow(QMainWindow,Ui_MainWindow):
     def __init__(self,parent = None):
@@ -142,7 +149,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         j = 0
         print('set_comboBox3')
         self.comboBox3.clear()
-        self.offer_link = Read_Ini(self.file_Offer_link)
+        self.offer_link = Read_Ini(self.file_Offer_link_all)
         for item in self.offer_link:
             if j >= len(self.offer_link):
                 break                
@@ -155,7 +162,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         j = 0
         print('set_comboBox4')
         self.comboBox4.clear()
-        self.offer_link_all = Read_Ini(self.file_Offer_link_all)
+        self.offer_link_all = Read_Ini(self.file_Offer_link)
         for item in self.offer_link_all:
             if j >= len(self.offer_link_all):
                 break                
@@ -180,7 +187,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.textBrowser1.setText(text) 
 
     # @pyqtSlot()
-    def on_comboBox_currentIndexChanged(self):
+    def on_comboBox1_currentIndexChanged(self):
         print('----------')
         self.set_comboBox2()
 
@@ -199,7 +206,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         if 'http' not in new_offer['url_link']:
             print('++++')
             return
-        print('1111')
+        print(new_offer)
         Add_New_Link(new_offer,1)
         self.set_text_all_links()
         self.set_comboBox3()
@@ -207,29 +214,51 @@ class Mywindow(QMainWindow,Ui_MainWindow):
 
 
     @pyqtSlot()
-    def on_pushButton_2_clicked(self):
+    def on_pushButton2_clicked(self):
         # print(self.comboBox.currentText())
         # print(self.comboBox_2.currentText())
-        key = self.comboBox_3.currentText()
+        key = self.comboBox3.currentText()
         if key == '':
             return
         key = int(key) - 1 
-        Delete_Link(key)
-        self.set_text()
+        print(key)
+        file_Offer_link = r'ini\Offer_all_links.ini'    
+        # file_Offer_link = r'ini\Offer_link.ini' 
+        Offer_link = Read_Ini(file_Offer_link)
+        if len(Offer_link) == 0:
+            return
+        new_offer = Offer_link[str(key)]        
+        # new_offer = Delete_Link(key,1)
+        print(new_offer)
+        Add_New_Link(new_offer)
+        self.set_text_all_links()
         self.set_comboBox3()
+        self.set_text_woring_links()
+        self.set_comboBox4()
 
     @pyqtSlot()
-    def on_pushButton_3_clicked(self):
-        file_Offer = r'ini\Offer.ini'
-        self.offer = Read_Ini(file_Offer)        
-        print(self.comboBox_3.currentText())
-        key = self.comboBox_3.currentText()
+    def on_pushButton3_clicked(self):
+        key = self.comboBox3.currentText()
+        if key == '':
+            return
+        key = int(key) - 1 
+        Delete_Link(key,1)
+        self.set_text_all_links()
+        self.set_comboBox3()
+        self.set_text_woring_links()
+        self.set_comboBox4()
+
+
+    @pyqtSlot()
+    def on_pushButton4_clicked(self):
+        key = self.comboBox4.currentText()
         if key == '':
             return
         key = int(key) - 1 
         Delete_Link(key)
-        self.set_text()
-        self.set_comboBox3()
+        self.set_text_woring_links()
+        self.set_comboBox4()
+
 
     # def on_lineEdit_selectionChanged(self):
     #     self.lineEdit.setText('')
