@@ -22,6 +22,7 @@ import Submit_handle
 
 '''
 Best Obama Care - US(Done)
+Auto
 '''
 
 
@@ -92,8 +93,10 @@ def web_submit(submit,debug=0):
     birthday = Submit_handle.get_auto_birthday(submit['Auto']['dateofbirth'])
     element = chrome_driver.find_element_by_xpath('//*[@id="date_of_birth_visible"]')
     element.click()
-    element.send_keys(int(birthday[0]))
-    element.send_keys(int(birthday[1]))
+    for key in birthday[0]:
+        element.send_keys(int(key))
+    for key in birthday[1]:
+        element.send_keys(int(key))
     element.send_keys(int(birthday[2]))
     sleep(2)
     # gender

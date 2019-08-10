@@ -76,6 +76,8 @@ def get_auto_birthday(date):
         birthday[0] = '0'+str(birthday[0])  
     if len(str(birthday[1])) == 1:
         birthday[1] = '0'+str(birthday[1]) 
+    if len(str(birthday[2])) == 2:
+        birthday[2] = '19'+birthday[2]
     if int(birthday[2]) <= 1970:
         birthday[2] = str(random.randint(1970,1990))
     return birthday

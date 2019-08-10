@@ -20,6 +20,8 @@ import name_get
 
 '''
 STAR_STABLE
+GB
+Email
 '''
 
 

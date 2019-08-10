@@ -16,7 +16,7 @@ from selenium.webdriver.support.ui import Select
 
 
 '''
-Admain health
+Adsmain health
 Auto
 '''
 
@@ -27,7 +27,8 @@ def web_submit(submit,debug=0):
         submit['Site'] = site     
     chrome_driver = Chrome_driver.get_chrome(submit)
     print('===========================')
-    chrome_driver.get(submit['Site'])  
+    chrome_driver.get(submit['Site']) 
+    sleep(3000) 
     flag = 0
     i = 0
     while i <=3:
@@ -166,8 +167,8 @@ if __name__=='__main__':
     submit['Email_emu_pwd'] = 'G9x1C1zf'
 	# LlwthdKlhcvr@hotmail.com----glL9jPND4nDp    
     # site='http://www.baidu.com'
-    # web_Submit(submit)
+    web_submit(submit)
     # BettinaNavarroGx@aol.com	G9x1C1zf
     # site = email_confirm(submit)
     # print(site)
-    test()
+    # test()

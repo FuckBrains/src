@@ -179,19 +179,7 @@ def sort_Mission_conf(Mission_conf_list):
     return Mission_conf_duplicated_all
 
 
-def change__delay_config():
-    file_Offer_config = r'ini\Offer_config.ini'
-    Offer_config = read_ini(file_Offer_config)
-    Offer_config['Delay'] = {}
-    Offer_config['Delay']['up'] = 3
-    Offer_config['Delay']['down'] = 5
-    Offer_config['Delay']['threads']= 5
-    Offer_config['Email_list'] = {}
-    Offer_config['Email_list']['hotmail.com'] = 1
-    Offer_config['Email_list']['outlook.com'] = 1
-    Offer_config['Email_list']['yahoo.com'] = 1
-    Offer_config['Email_list']['aol.com'] = 1
-    write_ini(file_Offer_config,Offer_config)
+
     
 
 def EMU_multi():
@@ -203,12 +191,9 @@ def EMU_multi():
     file_Offer_link = r'ini\Offer_link.ini'
     Offer_links = read_ini(file_Offer_link)
     # sort all links into lists
-    # print(Offer_links)
     Mission_conf_duplicated_all = sort_Mission_conf(Offer_links)
-    # print(Mission_conf_duplicated_all)
     file_Offer_config = r'ini\Offer_config.ini'
     Offer_config = read_ini(file_Offer_config)  
-    # print(Offer_config)
     Email_list_new = []
     Email_list = Offer_config['Email_list']
     for item in Email_list:
@@ -216,8 +201,6 @@ def EMU_multi():
             Email_list_new.append(item)
     # go through all the links from lists
     for Mission_conf_duplicated in Mission_conf_duplicated_all:     
-        # print(Mission_conf_duplicated)
-        # print(Mission_conf_duplicated)
         Mission_Ids = []
         for index in Mission_conf_duplicated:
             if Mission_conf_duplicated[index]['Mission_Id'] not in Mission_Ids:

@@ -24,7 +24,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>330</y>
+      <y>380</y>
       <width>75</width>
       <height>41</height>
      </rect>
@@ -78,8 +78,8 @@
      <rect>
       <x>110</x>
       <y>160</y>
-      <width>160</width>
-      <height>80</height>
+      <width>151</width>
+      <height>81</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -107,7 +107,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>250</y>
+      <y>300</y>
       <width>61</width>
       <height>71</height>
      </rect>
@@ -127,7 +127,7 @@
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>280</y>
+      <y>330</y>
       <width>211</width>
       <height>20</height>
      </rect>
@@ -338,6 +338,71 @@
     <property name="text">
      <string>Remove</string>
     </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>260</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Country</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox5">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>260</y>
+      <width>149</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <item>
+     <property name="text">
+      <string>US</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>CA</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>GB</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>AU</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>FR</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>DE</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

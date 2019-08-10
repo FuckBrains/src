@@ -22,6 +22,7 @@ import Submit_handle
 
 '''
 GETAROUND
+Auto
 '''
 
 

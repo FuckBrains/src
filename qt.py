@@ -10,6 +10,9 @@ from uiclass import Ui_MainWindow
 from PyQt5.QtCore import pyqtSlot
 
 
+
+
+
 def Read_Ini(file):
     submits = []
     with open(file,'r') as f:
@@ -36,32 +39,32 @@ def Write_Ini(file,content):
         # content += '\n'
         f.write(content)
 
-def Add_New_Offer(Alliance,New_Offers):
-    '''
-    Alliance= 'Finaff'
-    New_Offers = ['Cam4,'Stripchat]
-    '''
-    file_Offer_config = r'ini\Offer.ini'
-    Alliance_Offer_Config = Read_Ini(file_Offer_config)
-    type_dict = type({})
-    if type(Alliance_Offer_Config) != type_dict:
-        Alliance_Offer_Config = {}
-    keys = []
-    for item in Alliance_Offer_Config:
-        keys.append(item)
-    if Alliance in keys:
-        for offer in New_Offers:
-            if offer not in Alliance_Offer_Config[Alliance]:
-                Alliance_Offer_Config[Alliance].append(offer)
-    else:
-        Alliance_Offer_Config[Alliance] = New_Offers
-    Write_Ini(file_Offer_config,Alliance_Offer_Config)
+# def Add_New_Offer(Alliance,New_Offers):
+#     '''
+#     Alliance= 'Finaff'
+#     New_Offers = ['Cam4,'Stripchat]
+#     '''
+#     file_Offer_config = r'ini\Offer.ini'
+#     Alliance_Offer_Config = Read_Ini(file_Offer_config)
+#     type_dict = type({})
+#     if type(Alliance_Offer_Config) != type_dict:
+#         Alliance_Offer_Config = {}
+#     keys = []
+#     for item in Alliance_Offer_Config:
+#         keys.append(item)
+#     if Alliance in keys:
+#         for offer in New_Offers:
+#             if offer not in Alliance_Offer_Config[Alliance]:
+#                 Alliance_Offer_Config[Alliance].append(offer)
+#     else:
+#         Alliance_Offer_Config[Alliance] = New_Offers
+#     Write_Ini(file_Offer_config,Alliance_Offer_Config)
 
-def Add_New_Config(Offer_name,Offer_config_new):
-    file_Offer_config = r'ini\Offer_config.ini'
-    Offer_config = Read_Ini(file_Offer_config) 
-    Offer_config[Offer_name] = Offer_config_new
-    Write_Ini(file_Offer_config,Offer_config)
+# def Add_New_Config(Offer_name,Offer_config_new):
+#     file_Offer_config = r'ini\Offer_config.ini'
+#     Offer_config = Read_Ini(file_Offer_config) 
+#     Offer_config[Offer_name] = Offer_config_new
+#     Write_Ini(file_Offer_config,Offer_config)
 
 def translate_offer_tonum(Offer_list):
     return 
@@ -203,6 +206,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         new_offer['Alliance'] = self.comboBox1.currentText()
         new_offer['Offer'] = self.comboBox2.currentText()
         new_offer['url_link'] = self.lineEdit.text()
+        new_offer['Country'] = self.comboBox5.currentText()
         if 'http' not in new_offer['url_link']:
             print('++++')
             return
@@ -276,17 +280,25 @@ def main():
     ui.show()                       # 执行QMainWindow的show()方法，显示这个QMainWindow
     sys.exit(app.exec_())
 
-def Add_new_module_test():
-    Offer_name = 'Health(Done)'
-    Offer_config_new = {"Mission_Id": "10010", "Excel": ["Auto", ""], "Country": "US"}
-    Add_New_Config(Offer_name,Offer_config_new)
-    Alliance = 'Adsmain'
-    New_Offers = [Offer_name]
-    Add_New_Offer(Alliance,New_Offers)
+# def Add_new_module_test():
+#     Offer_name = 'Health(Done)'
+#     Offer_config_new = {"Mission_Id": "10010", "Excel": ["Auto", ""]}
+#     Add_New_Config(Offer_name,Offer_config_new)
+#     Alliance = 'Adsmain'
+#     New_Offers = [Offer_name]
+#     Add_New_Offer(Alliance,New_Offers)
+
+def Update_Offer_config():
+    pass
+
+
 
 
 if __name__ == '__main__':
     main()
+    # Write_Offer_config()
+
+
     # Add_new_module_test()
     # Alliance = 'Offer18'
     # New_Offers = ['Stripchat(Done)']
