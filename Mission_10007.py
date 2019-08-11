@@ -87,8 +87,10 @@ def web_submit(submit,debug=0):
 
     # mobile
     phone = Submit_handle.chansfer_float_into_int(submit['Auto']['homephone'])
-    chrome_driver.find_element_by_xpath('//*[@id="phone_home_visible"]').send_keys(int(phone))
 
+    element = chrome_driver.find_element_by_xpath('//*[@id="phone_home_visible"]')
+    for key in phone:
+        element.send_keys(int(key))
     # birthday
     birthday = Submit_handle.get_auto_birthday(submit['Auto']['dateofbirth'])
     element = chrome_driver.find_element_by_xpath('//*[@id="date_of_birth_visible"]')
@@ -97,7 +99,8 @@ def web_submit(submit,debug=0):
         element.send_keys(int(key))
     for key in birthday[1]:
         element.send_keys(int(key))
-    element.send_keys(int(birthday[2]))
+    for key in birthday[2]:
+        element.send_keys(int(key))    
     sleep(2)
     # gender
     if submit['Auto']['gender'] == 'Female':
@@ -145,7 +148,14 @@ def test():
     Excel_names = ['Auto','Uspd']
     submit = db.read_one_info(Country,Mission_list,Email_list,Excel_names)
     print(submit)
-    web_submit(submit,1)
+    birthday = Submit_handle.get_auto_birthday(submit['Auto']['dateofbirth'])
+    print(birthday)
+    for key in birthday[0]:
+        print(int(key))
+    for key in birthday[1]:
+        print(int(key))  
+    print(int(birthday[2]))  
+    # web_submit(submit,1)
 
 
 def test_2():
