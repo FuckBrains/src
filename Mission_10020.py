@@ -65,7 +65,8 @@ def web_submit(submit,debug=0):
     # zipcode
     zipcode = Submit_handle.get_zip(submit['Uspd']['zip'])
     print('zipcode:',zipcode)
-    chrome_driver.find_element_by_xpath('//*[@id="postal_code"]').send_keys(zipcode)
+    for key in zipcode:
+        chrome_driver.find_element_by_xpath('//*[@id="postal_code"]').send_keys(int(key))
     # city
     chrome_driver.find_element_by_xpath('//*[@id="locality"]').send_keys(submit['Uspd']['city'])
     # state
@@ -76,7 +77,8 @@ def web_submit(submit,debug=0):
     # cellphone
     cellphone = Submit_handle.chansfer_float_into_int(submit['Uspd']['home_phone'])
     print('cellphone:',cellphone)
-    chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[9]/input').send_keys(submit['Uspd']['home_phone'])
+    for key in cellphone:
+        chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[9]/input').send_keys(int(key))
     date_of_birth = Submit_handle.get_auto_birthday(submit['Uspd']['date_of_birth'])
     # MM
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="month"]'))
