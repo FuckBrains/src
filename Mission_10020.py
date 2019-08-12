@@ -35,7 +35,7 @@ import random
 def web_submit(submit,debug=0):
     # test
     if debug == 1:
-        site = 'http://zh.moneymethods.net/click.php?c=7&key=bbcprqa35ns2a5f44z14k2k3'
+        site = 'http://lub.lubetadating.com/c/13526/1?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]&device=[device]&browser=[browser]&carrier=[carrier]'
         submit['Site'] = site
     chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
@@ -90,11 +90,18 @@ def web_submit(submit,debug=0):
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="year"]'))
     s1.select_by_value(date_of_birth[2])   
     sleep(5)
-    # get paid
-    chrome_driver.find_element_by_xpath('//*[@id="signup_coreg"]/div/div/label/input[1]').click()
+
     # i agree
     element = selenium_funcs.scroll_and_find_up(chrome_driver,'//*[@id="signupForm"]/div[12]/label/input')
     element.click()
+    # sleep(2)
+    try:
+        # get paid
+        element = selenium_funcs.scroll_and_find_up(chrome_driver,'//*[@id="signup_coreg"]/div/div/label/input[1]')
+        element.click()   
+    except:
+        pass     
+        # chrome_driver.find_element_by_xpath('').click()    
     # chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[12]/label/input').click()
     # continue
     chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/button').click()
