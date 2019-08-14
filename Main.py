@@ -208,7 +208,10 @@ def EMU_multi():
         country = Mission_conf_duplicated[index]['Country']
         print(country)
         print(Mission_Ids)
-        killpid()
+        try:
+            killpid()
+        except:
+            pass
         # print(modules)
         # print('Reading config from sql server...')
         Excels_dup = ['','']
@@ -256,7 +259,10 @@ def EMU_multi():
         requests = threadpool.makeRequests(multi_reg, submits)
         [pool.putRequest(req) for req in requests]
         pool.wait() 
-        killpid()
+        try:
+            killpid()
+        except:
+            pass
     if len(Mission_conf_duplicated_all) == 0:
         return
     # time_delay = random.randint(Delay['up']*60,Delay['down']*60)

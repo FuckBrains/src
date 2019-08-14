@@ -25,3 +25,42 @@ LindaRichardsonel@yahoo.com login failed :
 2019-07-01 19:47:28 : 
 ChristopherJohnsonh0@yahoo.com login failed : 
 [WinError 10054] An existing connection was forcibly closed by the remote host
+2019-08-12 17:13:48 : 
+HayleyGreergW@aol.com login failed : 
+[Errno 11004] getaddrinfo failed
+2019-08-12 17:13:50 : 
+JohnnieWebbe@aol.com login failed : 
+[Errno 11004] getaddrinfo failed
+2019-08-12 17:13:53 : 
+PamHaydens@aol.com login failed : 
+[Errno 11004] getaddrinfo failed
+2019-08-12 17:13:55 : 
+AdairBenton7n@aol.com login failed : 
+[Errno 11004] getaddrinfo failed
+2019-08-12 17:13:58 : 
+BonnyJohnson6@aol.com login failed : 
+[Errno 11004] getaddrinfo failed
+2019-08-12 17:14:01 : 
+LambertCaldwellwl@aol.com login failed : 
+[Errno 11004] getaddrinfo failed
+2019-08-12 17:14:08 : 
+PenelopeCamachoY@aol.com login failed : 
+[Errno 11004] getaddrinfo failed
+2019-08-12 17:14:10 : 
+MillardMcmillanM@aol.com login failed : 
+[Errno 11004] getaddrinfo failed
+2019-08-12 17:14:13 : 
+SteinWileyC@aol.com login failed : 
+[Errno 11004] getaddrinfo failed
+2019-08-12 17:14:16 : 
+ValerieSniderx@aol.com login failed : 
+[Errno 11004] getaddrinfo failed
+2019-08-12 17:14:18 : 
+LucindaTownsendS@aol.com login failed : 
+[Errno 11004] getaddrinfo failed
+2019-08-12 17:14:21 : 
+BarlowCombsw@aol.com login failed : 
+[Errno 11004] getaddrinfo failed
+2019-08-13 16:52:19 : 
+AddisCaseyk@aol.com login failed : 
+[WinError 10054] An existing connection was forcibly closed by the remote host

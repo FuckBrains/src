@@ -8,6 +8,7 @@ import os
 os.system(r'pyuic5 -o uiclass.py ui\test.ui')
 from uiclass import Ui_MainWindow
 from PyQt5.QtCore import pyqtSlot
+import Update_config as up
 
 
 
@@ -271,6 +272,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     #     self.lineEdit.setText('')
 
 def main():
+    up.main()
     print('111')
     app = QtWidgets.QApplication(sys.argv)  # 创建一个QApplication，也就是你要开发的软件app
     MainWindow = QMainWindow()    # 创建一个QMainWindow，用来装载你需要的各种组件、控件
