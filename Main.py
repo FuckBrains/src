@@ -268,6 +268,7 @@ def EMU_multi():
     # time_delay = random.randint(Delay['up']*60,Delay['down']*60)
     # print('Sleeping',time_delay,'Minutes')
     # sleep(time_delay)
+    sleep(300)
     changer.Restart()
 
 def Hotmail_Login():

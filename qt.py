@@ -9,6 +9,7 @@ os.system(r'pyuic5 -o uiclass.py ui\test.ui')
 from uiclass import Ui_MainWindow
 from PyQt5.QtCore import pyqtSlot
 import Update_config as up
+import db
 
 
 
@@ -119,6 +120,8 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         file_Offer = r'ini\Offer.ini'
         _translate = QtCore.QCoreApplication.translate
         self.offer = Read_Ini(file_Offer)
+        file_Offer_config = r'ini\Offer_config.ini'
+        self.Offer_config = Read_Ini(file_Offer_config)         
         i = 0
         end = len(self.offer)
         # text = 'Already in config links\n'
@@ -179,7 +182,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.offer_link = Read_Ini(self.file_Offer_link)
         text = 'Already in config links\n'
         for item in self.offer_link:
-            text += str(int(item)+1)+' : '+self.offer_link[item]['Alliance']+' '+self.offer_link[item]['Offer']+' '+self.offer_link[item]['url_link']+'\n'
+            text += str(int(item)+1)+' : '+self.offer_link[item]['Alliance']+' '+self.offer_link[item]['Offer']+'\n     '+self.offer_link[item]['url_link']+'\n'
         self.textBrowser2.setText(text)        
 
     def set_text_all_links(self):
@@ -187,13 +190,50 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.offer_link_all = Read_Ini(self.file_Offer_link_all)
         text = 'Already in config links\n'
         for item in self.offer_link_all:
-            text += str(int(item)+1)+' : '+self.offer_link_all[item]['Alliance']+' '+self.offer_link_all[item]['Offer']+' '+self.offer_link_all[item]['url_link']+'\n'
+            text += str(int(item)+1)+' : '+self.offer_link_all[item]['Alliance']+' '+self.offer_link_all[item]['Offer']+'\n     '+self.offer_link_all[item]['url_link']+'\n'
         self.textBrowser1.setText(text) 
 
     # @pyqtSlot()
     def on_comboBox1_currentIndexChanged(self):
-        print('----------')
+        # print('----------')
         self.set_comboBox2()
+
+
+    def get_config_info(self):
+        BasicInfo_dict,Email_dict,Mission_dict = read_rest(Mission_list,Excel_name,Email_list)
+        for offer_chosen in self.Offer_config:
+            Mission_Id = self.Offer_config[offer_chosen]['Mission_Id']
+            print(Mission_Id)
+            Excel_used = self.Offer_config[offer_chosen]['Excel']
+            text = Excel_used[0]+Excel_used[1]
+            Mission_list = [str(Mission_Id)]
+            Email_list = self.Offer_config['Email_list']
+            # offer = {}
+            # offer['Mission_Id'] = Mission_Id
+            # offer['Excel'] = Excel
+            # offer['Email_list'] = Email_list
+            rest = db.read_rest(offer)        
+
+    # @pyqtSlot()
+    def on_comboBox2_currentIndexChanged(self):
+        # print('----------')
+        print(self.comboBox2.currentText())
+        if self.comboBox2.currentText() == '':
+            return
+        offer_chosen = self.comboBox2.currentText().split('.')[1]
+        print(self.Offer_config[offer_chosen])
+        Mission_Id = self.Offer_config[offer_chosen]['Mission_Id']
+        print(Mission_Id)
+        Excel_used = self.Offer_config[offer_chosen]['Excel']
+        text = Excel_used[0]+Excel_used[1]
+        Mission_list = [str(Mission_Id)]
+        Email_list = self.Offer_config['Email_list']
+        rest = db.read_rest(Mission_list,Excel_used,Email_list)
+        print(rest)
+        text_rest = Excel_used[0]+':'+str(rest[0])+','+Excel_used[1]+':'+str(rest[1])        
+        self.lineEdit_5.setText(text)
+        self.lineEdit_6.setText(Mission_Id)
+        self.lineEdit_7.setText(text_rest)
 
     @pyqtSlot()
     def on_pushButton1_clicked(self):
@@ -215,7 +255,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         Add_New_Link(new_offer,1)
         self.set_text_all_links()
         self.set_comboBox3()
-        # self.lineEdit.setText('')
+        self.lineEdit.setText('')
 
 
     @pyqtSlot()

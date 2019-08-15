@@ -551,5 +551,73 @@ def init():
     create_all_tables()
     upload_data()    
 
+def read_rest(Mission_list,Excel_name,Email_list):
+    print('     Start reading info from sql server...')
+    account = get_account()
+    conn,cursor=login_sql(account)
+    if Excel_name[0] != '' : 
+        res = cursor.execute('SELECT * from BasicInfo WHERE Excel_name = "%s"'%Excel_name[0])
+        desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+        BasicInfo_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来    
+    else:
+        BasicInfo_dict = {}
+    res = cursor.execute('SELECT * from Mission')
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来      
+    if Excel_name[1] != '':
+        res = cursor.execute('SELECT * from Email')
+        desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+        Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
+    else:
+        # Excel_name[1] = {}
+        Email_dict = {}
+    Info_dicts = [0,0]
+    if len(BasicInfo_dict) != 0:
+        list_BasicInfo = random.sample(range(len(BasicInfo_dict)),len(BasicInfo_dict))
+        for i in list_BasicInfo:
+            flag = 0
+            '''
+            BasicInfo_dict[i]['BasicInfo_Id'] should not in table Mission
+            '''
+            for j in range(len(Mission_dict)):
+                if str(Mission_dict[j]['Mission_Id']) in Mission_list: 
+                    if BasicInfo_dict[i]['BasicInfo_Id'] == Mission_dict[j]['BasicInfo_Id']:
+                        flag = 1
+                        print(BasicInfo_dict[i]['BasicInfo_Id'])
+                        break
+            if flag == 0:
+                Info_dicts[0] += 1
+    # Info_dict2 = {}
+    if len(Email_dict) != 0:
+        list_Email = random.sample(range(len(Email_dict)),len(Email_dict))
+        for i in list_Email:
+            # if Email_dict[i]['Status'] == 'Bad':
+            #     continue
+            a = Email_dict[i]['Email_emu'].find('@')
+            end = Email_dict[i]['Email_emu'][a+1:]
+            # print(Email_dict[i]['Email_emu'])
+            # print(end)
+            if end not in Email_list:
+                continue 
+            flag = 0
+            for j in range(len(Mission_dict)):
+                if Mission_dict[j]['Mission_Id'] in Mission_list: 
+                    if Email_dict[i]['Email_Id'] == Mission_dict[j]['Email_Id']:
+                        flag = 1
+                        break
+            if flag == 0:
+                Info_dicts[1] += 1
+    login_out_sql(conn,cursor)
+    # submit = dict(Info_dict,**Info_dict2)
+    return Info_dicts
+
+def test_rest():
+    Mission_list = [10000]
+    Excel_name = ['Auto','Email']
+    Email_list = ['hotmail.com','aol.com','outlook.com','yahoo.com']
+    rest = read_rest(Mission_list,Excel_name,Email_list)
+    print(rest)
+
 if __name__ == '__main__':
-    init()
+    test_rest()
+    # init()
