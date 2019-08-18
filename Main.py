@@ -222,7 +222,11 @@ def EMU_multi():
             if Excel[1] != '':
                 Excels_dup[1] = Excel[1]
         while True:
-            submit1 = db.read_one_excel(Mission_Ids,Excels_dup,Email_list)
+            try:
+                submit1 = db.read_one_excel(Mission_Ids,Excels_dup,Email_list)
+            except:
+                changer.Restart()
+                return
             print(submit1)
             print('Reading config from sql server success')
             if Excels_dup[1] != '':

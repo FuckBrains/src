@@ -262,7 +262,7 @@ def upload_data():
     for path_excel in excels_path:
         # print(path_excel)
         Excel_name = ((os.path.split(path_excel))[1].split('.'))[0]
-        # print(Excel_name)
+        print(Excel_name)
         sheet = get_sheet(path_excel)    
         keys = sheet.row_values(0)
         keys = [key.lower().replace(' ','') for key in keys] 
@@ -619,5 +619,6 @@ def test_rest():
     print(rest)
 
 if __name__ == '__main__':
-    test_rest()
-    # init()
+    # test_rest()
+    init()
+    # upload_data()

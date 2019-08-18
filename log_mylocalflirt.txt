@@ -64,3 +64,6 @@ BarlowCombsw@aol.com login failed :
 2019-08-13 16:52:19 : 
 AddisCaseyk@aol.com login failed : 
 [WinError 10054] An existing connection was forcibly closed by the remote host
+2019-08-16 18:56:35 : 
+HealyNoeltW@aol.com login failed : 
+[Errno 0] Error

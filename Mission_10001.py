@@ -16,6 +16,7 @@ from selenium.webdriver.support.ui import Select
 import Chrome_driver
 import email_imap as imap
 import name_get
+import db
 
 
 '''
@@ -29,8 +30,8 @@ Email
 def web_submit(submit):
     print(submit)
     # test
-    # site = 'https://finaff.go2affise.com/click?pid=3464&offer_id=9436'
-    # submit['Site'] = site
+    site = 'http://im.datingwithlili.com/im/click.php?c=19&key=9ujpwgfe3d8bkaai63ncck9u'
+    submit['Site'] = site
     chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])   
     name = name_get.gen_one_word_digit(lowercase=False)
@@ -101,6 +102,7 @@ def web_submit(submit):
         chrome_driver.quit()
         return flag        
     handles=chrome_driver.window_handles   
+    sleep(2000)
     for i in handles:
         if i != handle:
             chrome_driver.switch_to.window(i)
@@ -131,8 +133,13 @@ def email_confirm(submit):
             site = msg_content[a+35:b-50].replace('\r','').replace('\n','')
             # print(len(site))
             site += "=" * ((4 - len(site) % 4) % 4)
-            # print(site)
-            site = str(base64.b64decode(site))   
+            for i in range(4):
+                # print(site)
+                try:
+                    site = str(base64.b64decode(site[:-1-i]))   
+                    break
+                except:
+                    pass
             site_a = site.find('http://email.starstable.com/wf/click?upn=')         
             site_b = site.find('"',site_a)
             site = site[site_a:site_b]
@@ -146,25 +153,5 @@ def email_confirm(submit):
 
 
 if __name__=='__main__':
-    submit={}
-    submit['Ua'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'
-    submit['Firstname'] = 'KIRSTEN'
-    submit['Lastname'] = 'WOLD'
-    submit['City'] = 'SPOKANE'
-    submit['State'] = 'WA'
-    submit['Homephone'] = '5093270780'
-    submit['Email'] = 'kdwold@live.com'
-    submit['Address'] = '2509 W. SHARP AVE.'   
-    submit['zipcode'] = '79108'
-    submit['month'] = '4'
-    submit['day'] = '12'
-    submit['year'] = '1964'
-    submit['Height_FT'] = '5'
-    submit['Height_Inch'] = '11'
-    submit['Weight'] = '175'
-    submit['Email_emu'] = 'IsidoreChadbUuCg@yahoo.com'
-    submit['Email_emu_pwd'] = 'pmV7T6oMy'
-    # test_num()
-    # web_Submit(submit)
-    site=email_confirm(submit)
-    print(site)
+    submit = db.get_one_info()
+    web_submit(submit)
