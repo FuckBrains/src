@@ -34,7 +34,7 @@ def test_s5(socket_s5):
         # 'Connection': 'Keep-Alive',
         'User-Agent': ua
     }
-    url = 'http://bklo.xyz/click.php?c=5&key=1oq0ng6n9e522t25108wzlhk'    
+    url = 'http://whoer.net'    
     proxy_s5 = socket_s5.split(':')
     print(proxy_s5)
     proxyaddr_ = proxy_s5[0]
@@ -48,17 +48,37 @@ def test_s5(socket_s5):
         resp_html = resp.read()
         print(resp_html.decode())
         write_proxy(proxyaddr_,proxyport_)
-    except:
+    except Exception as e:
+        # print(str(e))
         print('connect failed')
         pass    
 
 
+def test_chrome():
+    from selenium import webdriver
+    from selenium.webdriver.common.proxy import Proxy, ProxyType
+    print(help(webdriver.Chrome))
+    return
+    myProxy = "207.97.174.134:1080"
+    proxy = Proxy({
+        'proxyType': ProxyType.MANUAL,
+        'httpProxy': myProxy,
+        'ftpProxy': myProxy,
+        'sslProxy': myProxy,
+        'noProxy': '' # set this value as desired
+        })
+    driver = webdriver.Chrome(proxy=proxy)
+    # driver = webdriver.Chrome(proxy=proxy)
+    driver.get("http://www.google.com")    
+
+
 def main():
     sockets = read_proxy()
-    requests = threadpool.makeRequests(test_s5, sockets[5000:-1])
+    print(len(sockets))
+    requests = threadpool.makeRequests(test_s5, sockets[:])
     [pool.putRequest(req) for req in requests]
     pool.wait()      
 
 if __name__ == '__main__':
-    main()
+    test_chrome()
 

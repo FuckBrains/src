@@ -470,18 +470,18 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
     return Info_dicts
 
 def write_one_info(Mission_list,submit,Cookie = ''):
-    try:
-        Email_Id = submit['Email']['Email_Id']
-    except:
-        Email_Id = '' 
+    Email_Id = ''
+    BasicInfo_Id = '' 
     account = get_account()
     conn,cursor=login_sql(account)  
     for item in submit:  
         if item == 'Email':
-            continue    
-        for Mission_Id in Mission_list:
-            sql_content = 'INSERT INTO Mission(Mission_Id,Email_Id,BasicInfo_Id,Cookie)VALUES("%s","%s","%s","%s")'%(Mission_Id,Email_Id,submit[item]['BasicInfo_Id'],Cookie)
-            res = cursor.execute(sql_content)    
+            Email_Id = submit['Email']['Email_Id']
+        else:
+            BasicInfo_Id = submit[item]['BasicInfo_Id']
+    for Mission_Id in Mission_list:
+        sql_content = 'INSERT INTO Mission(Mission_Id,Email_Id,BasicInfo_Id,Cookie)VALUES("%s","%s","%s","%s")'%(Mission_Id,Email_Id,BasicInfo_Id,Cookie)
+        res = cursor.execute(sql_content)    
     login_out_sql(conn,cursor)
 
 def updata_email_status(Email_Id,flag = 1):
@@ -619,6 +619,7 @@ def test_rest():
     print(rest)
 
 if __name__ == '__main__':
-    # test_rest()
-    init()
-    # upload_data()
+    # init()
+    Mission = [10100,10101]
+    submit = {'Email':{'Email_Id':111111111111111}}
+    write_one_info(Mission,submit)

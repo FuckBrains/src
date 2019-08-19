@@ -51,13 +51,14 @@ def get_chrome(submit = None):
     options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])
     options.add_experimental_option("prefs", prefs) 
     chrome_driver = webdriver.Chrome(chrome_options=options)
-    chrome_driver.implicitly_wait(20)  # 最长等待8秒    
+    chrome_driver.set_page_load_timeout(30)
+    # chrome_driver.implicitly_wait(20)  # 最长等待8秒    
     return chrome_driver
 
 if __name__ == '__main__':
     chrome_driver = get_chrome()
-    chrome_driver.get('https://tool.lu/useragent')
-    # print()
+    chrome_driver.get('http://google.com')
+    print('ppppppppp')
     sleep(20)
     chrome_driver.quit()
     # sleep(20)
