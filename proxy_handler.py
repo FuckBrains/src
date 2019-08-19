@@ -6,10 +6,11 @@ import random
 import sys
 sys.path.append("..")
 import Chrome_driver
+from time import sleep
 
 
 
-pool = threadpool.ThreadPool(100)
+pool = threadpool.ThreadPool(500)
 def read_proxy():
     with open('vipsocks.txt') as f:
         lines = f.readlines()
@@ -34,7 +35,7 @@ def test_s5(socket_s5):
         # 'Connection': 'Keep-Alive',
         'User-Agent': ua
     }
-    url = 'http://whoer.net'    
+    url = 'https://www.google.com/'    
     proxy_s5 = socket_s5.split(':')
     print(proxy_s5)
     proxyaddr_ = proxy_s5[0]
@@ -53,6 +54,14 @@ def test_s5(socket_s5):
         print('connect failed')
         pass    
 
+def test_s5_requests(socket_s5):
+    from requests_html import HTMLSession
+    session = HTMLSession()
+    proxy = {"http": "socks5://"+socket_s5,"https": "socks5://"+socket_s5}
+    url = "https://www.google.co.jp"
+    req = session.get(url, proxies=proxy)
+    print(req.text)    
+
 
 def test_chrome():
     from selenium import webdriver
@@ -67,32 +76,46 @@ def test_chrome():
     #     'sslProxy': myProxy,
     #     'noProxy': '' # set this value as desired
     #     })
-    proxy = '207.97.174.134:1080'
-    prox = Proxy()
-    prox.proxy_type = ProxyType.MANUAL
+    # proxy = '207.97.174.134:1080'
+    # prox = Proxy()
+    # prox.proxy_type = ProxyType.MANUAL
     # prox.http_proxy = proxy
-    prox.socks_proxy = proxy
+    # prox.socks_proxy = proxy
     # print(help(prox))
-    return
-
-    # prox.ssl_proxy = proxy
-    capabilities = webdriver.DesiredCapabilities.CHROME
-    prox.add_to_capabilities(capabilities)
-    print(capabilities)
     # return
-    driver = webdriver.Chrome(desired_capabilities=capabilities)
+
+    # pproxy -r ${HTTP_PROXY}\#${PROXY_AUTH} -l http://:8080 -v
+    # 1.2.3.4:1234 is remote address:port, username and password is used auth for remote proxy.
+    
+     # pproxy -r http://207.97.174.134:1080\#username:password  -l http://:8080 -v
+     # pproxy -r http://207.97.174.134:1080  -l http://:8080 -v
+     
+    
+    
+    # prox.ssl_proxy = proxy
+    # capabilities = webdriver.DesiredCapabilities.CHROME
+    # prox.add_to_capabilities(capabilities)
+    # print(capabilities)
+    # return
+    options = webdriver.ChromeOptions()
+    PROXY_IP = '94.74.182.134:4145'
+    options.add_argument("--proxy-server=%s" % PROXY_IP)
+    driver = webdriver.Chrome(chrome_options=options)
     # driver = webdriver.Chrome(proxy=proxy)
     # driver = webdriver.Chrome(proxy=proxy)
-    driver.get("http://www.google.com")    
+    driver.get("http://www.google.com")  
+    print('=======')
+    sleep(1000)  
 
 
 def main():
     sockets = read_proxy()
     print(len(sockets))
-    requests = threadpool.makeRequests(test_s5, sockets[:])
+    requests = threadpool.makeRequests(test_s5_requests, sockets[:])
     [pool.putRequest(req) for req in requests]
     pool.wait()      
 
 if __name__ == '__main__':
-    test_chrome()
+    # test_chrome()
+    main()
 
