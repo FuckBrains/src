@@ -55,12 +55,24 @@ def test_s5(socket_s5):
         pass    
 
 def test_s5_requests(socket_s5):
+    # socket_s5 = '27.155.64.249:8081'
+    proxy_s5 = socket_s5.split(':')
+    proxyaddr_ = proxy_s5[0]
+    proxyport_ = int(proxy_s5[1])    
     from requests_html import HTMLSession
     session = HTMLSession()
     proxy = {"http": "socks5://"+socket_s5,"https": "socks5://"+socket_s5}
-    url = "https://www.google.co.jp"
-    req = session.get(url, proxies=proxy)
-    print(req.text)    
+    url = "https://www.google.com"
+    # url = 'http://myip.kkcha.com/'
+    try:
+        req = session.get(url, proxies=proxy,timeout=20)
+        # req = session.get(url,timeout=20)        
+        print(req.text)    
+        write_proxy(proxyaddr_,proxyport_)
+    except Exception as e:
+        # print(str(e))
+        # print('connect failed')
+        pass
 
 
 def test_chrome():
@@ -97,13 +109,18 @@ def test_chrome():
     # prox.add_to_capabilities(capabilities)
     # print(capabilities)
     # return
-    options = webdriver.ChromeOptions()
-    PROXY_IP = '94.74.182.134:4145'
-    options.add_argument("--proxy-server=%s" % PROXY_IP)
-    driver = webdriver.Chrome(chrome_options=options)
+    chrome_options = webdriver.ChromeOptions()
+    PROXY_IP = '47.94.142.38:7302'
+    chrome_options.add_argument('--proxy-server=socks5://%s'% PROXY_IP)
+    driver = webdriver.Chrome(chrome_options=chrome_options)
+    driver.set_page_load_timeout(90)
+    # driver.get('http://myip.ms')
+
     # driver = webdriver.Chrome(proxy=proxy)
     # driver = webdriver.Chrome(proxy=proxy)
     driver.get("http://www.google.com")  
+    # driver.get("http://www.baidu.com")  
+
     print('=======')
     sleep(1000)  
 
@@ -118,4 +135,4 @@ def main():
 if __name__ == '__main__':
     # test_chrome()
     main()
-
+    # test_s5_requests('')

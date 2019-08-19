@@ -57,7 +57,7 @@ def get_chrome(submit = None):
 
 if __name__ == '__main__':
     chrome_driver = get_chrome()
-    chrome_driver.get('http://google.com')
+    chrome_driver.get('http://www.baidu.com')
     print('ppppppppp')
     sleep(20)
     chrome_driver.quit()
