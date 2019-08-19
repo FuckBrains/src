@@ -57,17 +57,31 @@ def test_s5(socket_s5):
 def test_chrome():
     from selenium import webdriver
     from selenium.webdriver.common.proxy import Proxy, ProxyType
-    print(help(webdriver.Chrome))
+    # print(help(webdriver.Chrome))
+    # return
+    # myProxy = "207.97.174.134:1080"
+    # proxy = Proxy({
+    #     'proxyType': ProxyType.MANUAL,
+    #     'httpProxy': myProxy,
+    #     'ftpProxy': myProxy,
+    #     'sslProxy': myProxy,
+    #     'noProxy': '' # set this value as desired
+    #     })
+    proxy = '207.97.174.134:1080'
+    prox = Proxy()
+    prox.proxy_type = ProxyType.MANUAL
+    # prox.http_proxy = proxy
+    prox.socks_proxy = proxy
+    # print(help(prox))
     return
-    myProxy = "207.97.174.134:1080"
-    proxy = Proxy({
-        'proxyType': ProxyType.MANUAL,
-        'httpProxy': myProxy,
-        'ftpProxy': myProxy,
-        'sslProxy': myProxy,
-        'noProxy': '' # set this value as desired
-        })
-    driver = webdriver.Chrome(proxy=proxy)
+
+    # prox.ssl_proxy = proxy
+    capabilities = webdriver.DesiredCapabilities.CHROME
+    prox.add_to_capabilities(capabilities)
+    print(capabilities)
+    # return
+    driver = webdriver.Chrome(desired_capabilities=capabilities)
+    # driver = webdriver.Chrome(proxy=proxy)
     # driver = webdriver.Chrome(proxy=proxy)
     driver.get("http://www.google.com")    
 

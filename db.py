@@ -619,7 +619,7 @@ def test_rest():
     print(rest)
 
 if __name__ == '__main__':
-    # init()
-    Mission = [10100,10101]
-    submit = {'Email':{'Email_Id':111111111111111}}
-    write_one_info(Mission,submit)
+    init()
+    # Mission = [10100,10101]
+    # submit = {'Email':{'Email_Id':111111111111111}}
+    # write_one_info(Mission,submit)
