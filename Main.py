@@ -188,7 +188,7 @@ def EMU_multi():
     '''
     get all links without sorted
     '''
-    file_Offer_link = r'ini\Offer_link.ini'
+    file_Offer_link = r'..\res\Offer_link.ini'
     Offer_links = read_ini(file_Offer_link)
     # sort all links into lists
     Mission_conf_duplicated_all = sort_Mission_conf(Offer_links)

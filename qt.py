@@ -1,5 +1,6 @@
 import json
 import sys
+sys.path.append("..")
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow , QApplication,QWidget, QMessageBox
 # from PyQt5.QtCore import pyqtSignature
@@ -73,9 +74,9 @@ def translate_offer_tonum(Offer_list):
 
 def Add_New_Link(new_offer,all_links = 0):
     if all_links == 0 :
-        file_Offer_link = r'ini\Offer_link.ini'    
+        file_Offer_link = r'..\res\Offer_link.ini'    
     else:
-        file_Offer_link = r'ini\Offer_all_links.ini'
+        file_Offer_link = r'..\res\Offer_all_links.ini'
     type_dict = type({})
     if '.' in new_offer['Offer']:
         new_offer['Offer']=new_offer['Offer'].split('.')[1]
@@ -97,9 +98,9 @@ def Add_New_Link(new_offer,all_links = 0):
 
 def Delete_Link(key,all_links = 0):
     if all_links == 0 :
-        file_Offer_link = r'ini\Offer_link.ini'    
+        file_Offer_link = r'..\res\Offer_link.ini'    
     else:
-        file_Offer_link = r'ini\Offer_all_links.ini'    
+        file_Offer_link = r'..\res\Offer_all_links.ini'    
     # file_Offer_link = r'ini\Offer_link.ini' 
     Offer_link = Read_Ini(file_Offer_link)
     if len(Offer_link) == 0:
@@ -178,7 +179,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             j+=1
 
     def set_text_woring_links(self):
-        self.file_Offer_link = r'ini\Offer_link.ini'
+        self.file_Offer_link = r'..\res\Offer_link.ini'
         self.offer_link = Read_Ini(self.file_Offer_link)
         text = 'Already in config links\n'
         for item in self.offer_link:
@@ -186,7 +187,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.textBrowser2.setText(text)        
 
     def set_text_all_links(self):
-        self.file_Offer_link_all = r'ini\Offer_all_links.ini'
+        self.file_Offer_link_all = r'..\res\Offer_all_links.ini'
         self.offer_link_all = Read_Ini(self.file_Offer_link_all)
         text = 'Already in config links\n'
         for item in self.offer_link_all:
@@ -267,7 +268,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             return
         key = int(key) - 1 
         print(key)
-        file_Offer_link = r'ini\Offer_all_links.ini'    
+        file_Offer_link = r'..\res\Offer_all_links.ini'    
         # file_Offer_link = r'ini\Offer_link.ini' 
         Offer_link = Read_Ini(file_Offer_link)
         if len(Offer_link) == 0:
