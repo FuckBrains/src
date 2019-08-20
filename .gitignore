@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+
+Offer_link.ini
+Offer_all_links.ini
+
 # Distribution / packaging
 .Python
 build/
