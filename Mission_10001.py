@@ -29,9 +29,9 @@ Email
 
 def web_submit(submit):
     print(submit)
-    # test
-    site = 'http://im.datingwithlili.com/im/click.php?c=19&key=9ujpwgfe3d8bkaai63ncck9u'
-    submit['Site'] = site
+    # # test
+    # site = 'http://im.datingwithlili.com/im/click.php?c=19&key=9ujpwgfe3d8bkaai63ncck9u'
+    # submit['Site'] = site
     chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])   
     name = name_get.gen_one_word_digit(lowercase=False)
