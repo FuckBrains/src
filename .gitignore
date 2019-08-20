@@ -7,8 +7,8 @@ __pycache__/
 *.so
 
 
-Offer_link.ini
-Offer_all_links.ini
+# Offer_link.ini
+# Offer_all_links.ini
 
 # Distribution / packaging
 .Python
