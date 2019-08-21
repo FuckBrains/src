@@ -24,6 +24,8 @@ import json
 'testeeeee'
 '''
 
+Falg_threads = 0
+
 def read_ini(file):
     submits = []
     with open(file,'r') as f:
@@ -90,6 +92,9 @@ def multi_reg(submit):
         Module.web_submit(submit)
     except:
         pass
+    global Falg_threads
+    Falg_threads += 1
+
 
 
 def get_modules():
@@ -183,6 +188,8 @@ def EMU_multi():
             Email_list_new.append(item)
     # go through all the links from lists
     for Mission_conf_duplicated in Mission_conf_duplicated_all:     
+        global Falg_threads
+        Falg_threads = 0
         Mission_Ids = []
         for index in Mission_conf_duplicated:
             if Mission_conf_duplicated[index]['Mission_Id'] not in Mission_Ids:
@@ -242,6 +249,14 @@ def EMU_multi():
         requests = threadpool.makeRequests(multi_reg, submits)
         [pool.putRequest(req) for req in requests]
         pool.wait() 
+        flag_next = len(submits) 
+        while True:
+            if Falg_threads >= flag_next:
+                break
+            else:
+                print('++++++++++++++++=================')
+                print('Falg_threads:',Falg_threads)
+                sleep(10)        
         killpid()
     if len(Mission_conf_duplicated_all) == 0:
         return

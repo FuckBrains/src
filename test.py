@@ -1,4 +1,12 @@
 import json
+import threading
+import threadpool
+import random
+pool = threadpool.ThreadPool(5)
+Falg_threads = 0
+import Chrome_driver
+from time import sleep
+import psutil
 
 def read_ini():
     file = r'Offer_conf.ini'
@@ -45,5 +53,58 @@ def main():
     print(offer_conf)
 
 
+def multi_test(submit):
+    chrome_driver = Chrome_driver.get_chrome()
+    chrome_driver.get('http://www.baidu.com')
+    print('ppppppppp')
+    sleep_time = random.randint(10,30)
+    sleep(sleep_time)
+    chrome_driver.quit()    
+    global Falg_threads
+    Falg_threads += 1
+    print('Falg_threads:',Falg_threads)
+
+
+def killpid():
+    pids = psutil.pids()
+    print(pids)
+    for pid in pids:
+        try:
+            p = psutil.Process(pid)
+        except:
+            continue
+        kill_list = ['chrome.exe','chromedriver.exe','Client.exe','Monitor.exe','MonitorGUI.exe','Socket.exe']
+        for key in kill_list:
+            if p.name() == key:
+                cmd = 'taskkill /F /IM '+key
+                try:
+                    os.system(cmd)            
+                except:
+                    pass
+
+
+def test():
+    for i in range(5):
+        # global Falg_threads
+        Falg_threads=0
+        submits = ['','','','']
+        requests = threadpool.makeRequests(multi_test, submits)
+        [pool.putRequest(req) for req in requests]
+        print('1111111111111111')
+        pool.wait()   
+        flag_next = len(submits) 
+        killpid() 
+        # while True:
+        #     if Falg_threads >= flag_next:
+        #         break
+        #     else:
+        #         print('++++++++++++++++=================')
+        #         print('Falg_threads:',Falg_threads)
+        #         sleep(10)
+
+
+
+
+
 if __name__ == '__main__':
-    main()
+    test()
