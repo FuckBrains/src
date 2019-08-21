@@ -63,7 +63,9 @@ def web_submit(submit,debug=0):
     except:
         pass
     sleep(20)
-
+    chrome_driver.close()
+    chrome_driver.quit()
+    return  
 
 
 

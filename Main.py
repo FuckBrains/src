@@ -118,6 +118,22 @@ def import_Module(module):
     module_name = importlib.import_module(module)
     return module_name
 
+def clean_download():
+    modules = os.listdir(r'c:\emu_download')
+    # print(modules)
+    path = os.path.join(os.getcwd(),r'c:\emu_download')
+    modules_path = [os.path.join(path,file) for file in modules]
+    print(modules_path)
+    [os.remove(file) for file in modules_path]    
+    return 
+
+def makedir_download(path=r'c:\emu_download'):
+    isExists=os.path.exists(path)
+    if isExists:
+        return
+    else:
+        os.makedirs(path)
+
 def sort_Mission_conf(Mission_conf_list):
     '''
     Mission_conf_list = {"0": {"Alliance": "Finaff", "Offer": "Royal Cams(Done)", "url_link": "http"}, "1": {"Alliance": "Finaff", "Offer": "Royal Cams(Done)", "url_link": "http"}}
@@ -171,6 +187,8 @@ def sort_Mission_conf(Mission_conf_list):
     return Mission_conf_duplicated_all
 
 def EMU_multi():
+    makedir_download()
+    clean_download()
     # test
     Excel_names = db.get_excel_names()
     '''
@@ -198,7 +216,10 @@ def EMU_multi():
         country = Mission_conf_duplicated[index]['Country']
         print(country)
         print(Mission_Ids)
-        killpid()
+        try:
+            killpid()
+        except:
+            pass
         # print(modules)
         # print('Reading config from sql server...')
         Excels_dup = ['','']
@@ -258,7 +279,10 @@ def EMU_multi():
         #         print('++++++++++++++++=================')
         #         print('Falg_threads:',Falg_threads)
         #         sleep(10)        
-        killpid()
+        try:
+            killpid()
+        except:
+            pass
     if len(Mission_conf_duplicated_all) == 0:
         return
     # time_delay = random.randint(Delay['up']*60,Delay['down']*60)

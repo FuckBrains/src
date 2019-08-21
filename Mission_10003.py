@@ -123,6 +123,9 @@ def web_submit(submit):
             chrome_driver.switch_to.window(i)
             chrome_driver.refresh() 
             sleep(30)       
+    chrome_driver.close()
+    chrome_driver.quit()
+    return flag             
 
 
 

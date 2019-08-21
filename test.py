@@ -1,3 +1,4 @@
+import os
 import json
 import threading
 import threadpool
@@ -103,8 +104,23 @@ def test():
         #         sleep(10)
 
 
+def makedir_download(path=r'c:\emu_download'):
+    isExists=os.path.exists(path)
+    if isExists:
+        return
+    else:
+        os.makedirs(path)
 
 
+
+def clean_download():
+    modules = os.listdir(r'c:\emu_download')
+    # print(modules)
+    path = os.path.join(os.getcwd(),r'c:\emu_download')
+    modules_path = [os.path.join(path,file) for file in modules]
+    print(modules_path)
+    [os.remove(file) for file in modules_path]    
+    return 
 
 if __name__ == '__main__':
-    test()
+    clean_download()

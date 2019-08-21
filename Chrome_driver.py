@@ -35,7 +35,7 @@ def get_chrome(submit = None):
              "download.directory_upgrade": True,
              "safebrowsing.enabled": True
              }    
-    # prefs = {'profile.default_content_settings.popups': 0, 'download.default_directory': 'c:\\'}
+    prefs = {'profile.default_content_settings.popups': 0, 'download.default_directory': 'c:\\emu_download'}
     # options.add_experimental_option('prefs', prefs)
     # extension_path = '../tools/extension/1.1.0_0.crx'   
     # options.add_extension(extension_path) 
@@ -51,7 +51,7 @@ def get_chrome(submit = None):
     options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])
     options.add_experimental_option("prefs", prefs) 
     chrome_driver = webdriver.Chrome(chrome_options=options)
-    chrome_driver.set_page_load_timeout(120)
+    chrome_driver.set_page_load_timeout(300)
     chrome_driver.implicitly_wait(20)  # 最长等待8秒    
     return chrome_driver
 
