@@ -24,7 +24,7 @@ import json
 'testeeeee'
 '''
 
-Falg_threads = 0
+# Falg_threads = 0
 
 def read_ini(file):
     submits = []
@@ -92,9 +92,9 @@ def multi_reg(submit):
         Module.web_submit(submit)
     except Exception as e:
         print(str(e))
-    global Falg_threads
-    Falg_threads += 1
-    print('Falg_threads:',Falg_threads)
+    # global Falg_threads
+    # Falg_threads += 1
+    # print('Falg_threads:',Falg_threads)
 
 
 

@@ -30,7 +30,7 @@ Opinion_Outpost(Done)
 def web_submit(submit,debug=0):
     # test
     if debug == 1:
-        site = 'http://ares.goldmaketing.com/c/10655/a?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]&device=[device]&browser=[browser]&carrier=[carrier]'
+        site = 'http://im.datingwithlili.com/im/click.php?c=37&key=ke4vt3yj5mu5i073gefwk9cv'
         submit['Site'] = site
     chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
@@ -105,7 +105,30 @@ def web_submit(submit,debug=0):
             chrome_driver.find_element_by_xpath('//*[@id="siq-agreetermscond-id-1"]').click()
             # button
             chrome_driver.find_element_by_xpath('//*[@id="sip-confirm"]').click()
-            sleep(30)
+            # page2
+            # race
+            s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="siq-raceUS-id"]'))
+            s1.select_by_value(str(1))  # 选择value="o2"的项   
+            # ethnicity
+            s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="siq-ethnicityUS-id"]'))
+            s1.select_by_value(str(2))  # 选择value="o2"的项              
+            # income
+            num_income = random.randint(2,9)
+            s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="siq-incomeNova-id"]'))
+            s1.select_by_index(num_income)  # 选择value="o2"的项               
+            # home address_1_state
+            chrome_driver.find_element_by_xpath('//*[@id="siq-addressline1-id"]').send_keys(submit['Auto']['address'])
+            # city
+            chrome_driver.find_element_by_xpath('//*[@id="siq-city-id"]').send_keys(submit['Auto']['city'])
+            # zip code
+            zipcode = submit['Auto']['zip'].split('.')[0]
+            for key in zipcode:
+                chrome_driver.find_element_by_xpath('//*[@id="siq-postalcodeNoCheck-id"]').send_keys(int(key))
+            # state
+            # //*[@id="siq-state-id"]
+            # next
+
+            sleep(3000)
             chrome_driver.close()
             chrome_driver.quit()
             return flag    
@@ -135,39 +158,29 @@ def email_confirm(submit):
 
 
 
+
+
 def test():
-    Country ='US'
     Mission_list = ['10004']
-    Email_list = ['hotmail','aol.com','yahoo.com','outlook.com']
-    Excel_names = ['Auto','Usloan']
-    submit = db.read_one_info(Country,Mission_list,Email_list,Excel_names)
+    Excel_name = ['Auto','Email']
+    Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
+    submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
     print(submit)
-    print(len(submit))
-    web_submit(submit)
+    # date_of_birth = Submit_handle.get_auto_birthday(submit['Uspd']['date_of_birth'])
+    # print(date_of_birth)
+    # web_submit(submit,1)
+    # print(submit['Uspd'])
+    # print(submit['Uspd']['state'])
+    # print(submit['Uspd']['city'])
+    # print(submit['Uspd']['zip'])
+    # print(submit['Uspd']['date_of_birth'])
+    # print(submit['Uspd']['ssn'])
 
+ 
 
-def test_2():
-    Country ='US'
-    Mission_list = ['10004']
-    Email_list = ['hotmail','aol.com','yahoo.com','outlook.com']
-    Excel_names = ['Auto','Usloan']
-    dateofbirth_list = []
-    for i in range(30):
-        submit = db.read_one_info(Country,Mission_list,Email_list,Excel_names)
-        # print(submit['Auto']['dateofbirth'])    
-        dateofbirth_list.append(submit['Auto']['dateofbirth'])
-    print('=================')
-    print(dateofbirth_list)
-    dateofbirth_list = ['9/19/1989', '9/19/1989', '9/19/1989', '6/25/1952', '12/21/1962', '3/18/1948', '11/13/1985', '6/25/1952', '11-01-1978', '10-07-1957', '11/13/1985', '10-07-1957', '10-02-1962', '12/21/1971', '3/13/1981', '11/13/1985', '12/21/1962', '09-01-1952', '10-07-1957', '12/21/1971', '9/19/1989', '7/19/1948', '5/31/1985', '09-01-1952', '11-11-1947', '3/13/1981', '3/18/1948', '12-08-1969', '01-05-1985', '9/19/1989']
-    for date in dateofbirth_list:
-        if '/' in date:
-            birthday = date.split('/')
-        elif '-' in date:
-            birthday = date.split('-')
-        print(birthday)
-
-
-
+def test1():
+    num_gender = random.randint(0,1)
+    print(num_gender)
 
 if __name__=='__main__':
     test()

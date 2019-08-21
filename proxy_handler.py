@@ -71,7 +71,7 @@ def test_s5_requests(socket_s5):
         write_proxy(proxyaddr_,proxyport_)
     except Exception as e:
         # print(str(e))
-        # print('connect failed')
+        print('connect failed')
         pass
 
 
