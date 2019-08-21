@@ -306,6 +306,16 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.set_comboBox4()
 
 
+    @pyqtSlot()
+    def on_pushButton5_clicked(self):
+        up = self.lineEdit_2.text()
+        down = self.lineEdit_3.text()
+        threads = self.lineEdit_4.text()
+        change__delay_config(up,down,threads)
+        print('Set sleep time success')
+
+
+
     # def on_lineEdit_selectionChanged(self):
     #     self.lineEdit.setText('')
 
@@ -334,6 +344,33 @@ def main():
 def Update_Offer_config():
     pass
 
+
+
+def change__delay_config(up,down,threads):
+    try:
+        up = int(up)
+    except:
+        up=0
+    try:
+        down = int(down)
+    except:
+        down = 0
+    try:
+        threads = int(threads)
+    except:
+        threads = 5
+    file_Offer_config = r'ini\Offer_config.ini'
+    Offer_config = Read_Ini(file_Offer_config)
+    Offer_config['Delay'] = {}
+    Offer_config['Delay']['up'] = up
+    Offer_config['Delay']['down'] = down
+    Offer_config['Delay']['threads']= threads
+    Offer_config['Email_list'] = {}
+    Offer_config['Email_list']['hotmail.com'] = 1
+    Offer_config['Email_list']['outlook.com'] = 1
+    Offer_config['Email_list']['yahoo.com'] = 1
+    Offer_config['Email_list']['aol.com'] = 1
+    Write_Ini(file_Offer_config,Offer_config)
 
 
 

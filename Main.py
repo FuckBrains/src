@@ -65,29 +65,15 @@ def killpid():
             p = psutil.Process(pid)
         except:
             continue
-        # print('pid-%s,pname-%s' % (pid, p.name()))
-        if p.name() == 'chrome.exe':
-            cmd = 'taskkill /F /IM chrome.exe'
-            os.system(cmd)
-        if 'chromedriver.exe' in p.name() :
-            cmd = 'taskkill /F /IM '+p.name()
-            os.system(cmd)   
-        # test   
-        if p.name() == 'Client.exe':
-            cmd = 'taskkill /F /IM Client.exe'
-            os.system(cmd)
-        if p.name() == 'Monitor.exe':
-            cmd = 'taskkill /F /IM Monitor.exe'
-            os.system(cmd)            
-        if p.name() == 'MonitorGUI.exe':
-            cmd = 'taskkill /F /IM MonitorGUI.exe'
-            os.system(cmd)                  
-        if 'CCleaner' in p.name():
-            cmd = 'taskkill /F /IM ' + p.name()
-            os.system(cmd) 
-        if 'Socket.exe' in p.name():
-            cmd = 'taskkill /F /IM ' + p.name()
-            os.system(cmd)                         
+        kill_list = ['chrome.exe','chromedriver.exe','Client.exe','Monitor.exe','MonitorGUI.exe','Socket.exe']
+        for key in kill_list:
+            if p.name() == key:
+                cmd = 'taskkill /F /IM '+key
+                try:
+                    os.system(cmd)            
+                except:
+                    pass
+                      
   
 def multi_reg(submit):
     # print('Starting Mission',submit['Num'])
@@ -178,10 +164,6 @@ def sort_Mission_conf(Mission_conf_list):
         Mission_conf_duplicated_all.append(Mission_conf_one)
     return Mission_conf_duplicated_all
 
-
-
-    
-
 def EMU_multi():
     # test
     Excel_names = db.get_excel_names()
@@ -208,10 +190,7 @@ def EMU_multi():
         country = Mission_conf_duplicated[index]['Country']
         print(country)
         print(Mission_Ids)
-        try:
-            killpid()
-        except:
-            pass
+        killpid()
         # print(modules)
         # print('Reading config from sql server...')
         Excels_dup = ['','']
@@ -263,16 +242,18 @@ def EMU_multi():
         requests = threadpool.makeRequests(multi_reg, submits)
         [pool.putRequest(req) for req in requests]
         pool.wait() 
-        try:
-            killpid()
-        except:
-            pass
+        killpid()
     if len(Mission_conf_duplicated_all) == 0:
         return
     # time_delay = random.randint(Delay['up']*60,Delay['down']*60)
     # print('Sleeping',time_delay,'Minutes')
     # sleep(time_delay)
-    sleep(600)
+    file_Offer_config = r'ini\Offer_config.ini'
+    Offer_config = read_ini(file_Offer_config) 
+    up = Offer_config['Delay']['up']   
+    down = Offer_config['Delay']['down']
+    time_delay = random.randint(up*60,down*60)
+    sleep(time_delay)
     changer.Restart()
 
 def Hotmail_Login():

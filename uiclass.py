@@ -191,6 +191,9 @@ class Ui_MainWindow(object):
         self.comboBox4.setGeometry(QtCore.QRect(60, 450, 69, 22))
         self.comboBox4.setObjectName("comboBox4")
         self.tabWidget.addTab(self.tab_2, "")
+        self.pushButton5 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton5.setGeometry(QtCore.QRect(190, 110, 75, 41))
+        self.pushButton5.setObjectName("pushButton5")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 690, 21))
@@ -239,6 +242,7 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "All_links"))
         self.pushButton4.setText(_translate("MainWindow", "Remove"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Working_links"))
+        self.pushButton5.setText(_translate("MainWindow", "Save"))
         self.menuFile.setTitle(_translate("MainWindow", "Offer"))
         self.actionAppend_offer.setText(_translate("MainWindow", "Append offer"))
 
