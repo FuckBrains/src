@@ -102,7 +102,7 @@ def web_submit(submit):
         chrome_driver.quit()
         return flag        
     handles=chrome_driver.window_handles   
-    sleep(2000)
+    # sleep(2000)
     for i in handles:
         if i != handle:
             chrome_driver.switch_to.window(i)

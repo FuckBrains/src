@@ -90,10 +90,11 @@ def multi_reg(submit):
     submit['Site'] = submit['Config']['url_link']
     try:
         Module.web_submit(submit)
-    except:
-        pass
+    except Exception as e:
+        print(str(e))
     global Falg_threads
     Falg_threads += 1
+    print('Falg_threads:',Falg_threads)
 
 
 
@@ -188,8 +189,8 @@ def EMU_multi():
             Email_list_new.append(item)
     # go through all the links from lists
     for Mission_conf_duplicated in Mission_conf_duplicated_all:     
-        global Falg_threads
-        Falg_threads = 0
+        # global Falg_threads
+        # Falg_threads = 0
         Mission_Ids = []
         for index in Mission_conf_duplicated:
             if Mission_conf_duplicated[index]['Mission_Id'] not in Mission_Ids:
@@ -249,14 +250,14 @@ def EMU_multi():
         requests = threadpool.makeRequests(multi_reg, submits)
         [pool.putRequest(req) for req in requests]
         pool.wait() 
-        flag_next = len(submits) 
-        while True:
-            if Falg_threads >= flag_next:
-                break
-            else:
-                print('++++++++++++++++=================')
-                print('Falg_threads:',Falg_threads)
-                sleep(10)        
+        # flag_next = len(submits) 
+        # while True:
+        #     if Falg_threads >= flag_next:
+        #         break
+        #     else:
+        #         print('++++++++++++++++=================')
+        #         print('Falg_threads:',Falg_threads)
+        #         sleep(10)        
         killpid()
     if len(Mission_conf_duplicated_all) == 0:
         return
