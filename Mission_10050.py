@@ -55,7 +55,7 @@ def web_submit(submit,debug=0):
     # email
     chrome_driver.find_element_by_xpath('//*[@id="email"]').send_keys(submit['Uspd']['email'])
     #  phone
-    chrome_driver.find_element_by_xpath('//*[@id="home_phone"]').send_keys(submit['Uspd']['homephone'])
+    chrome_driver.find_element_by_xpath('//*[@id="home_phone"]').send_keys(submit['Uspd']['home_phone'])
     # home adress
     chrome_driver.find_element_by_xpath('//*[@id="address"]').send_keys(submit['Uspd']['address']) 
     # zip
@@ -109,7 +109,7 @@ def web_submit(submit,debug=0):
     s1.select_by_index(num_income)
     sleep(5)
     # work phone number
-    chrome_driver.find_element_by_xpath('//*[@id="emp_phone"]').send_keys(submit['Uspd']['workphone'])
+    chrome_driver.find_element_by_xpath('//*[@id="emp_phone"]').send_keys(submit['Uspd']['work_phone'])
     #  Available
     num_done = random.randint(0,1)
     if num_done == 0:

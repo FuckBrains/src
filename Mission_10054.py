@@ -42,7 +42,9 @@ def web_submit(submit,debug=0):
     chrome_driver.maximize_window()    
     chrome_driver.refresh()
     # click
+    sleep(2)
     chrome_driver.find_element_by_xpath('//*[@id="zip-form"]/div[1]/button').click()
+    sleep(5)
     # date of birth
     date_of_birth = Submit_handle.get_auto_birthday(submit[Excel_10054]['date_of_birth'])
     for key in date_of_birth[0]:
@@ -58,19 +60,19 @@ def web_submit(submit,debug=0):
     chrome_driver.find_element_by_xpath('//*[@id="height-inches"]').send_keys(str(num_info['Height_Inch']))
     # weight
     chrome_driver.find_element_by_xpath('//*[@id="weight"]').send_keys(str(num_info['Weight']))
-    sleep(5)
+    sleep(3)
     # household Size
     index = random.randint(1,11)
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="household-size"]'))
     s1.select_by_index(index)
-    sleep(5)
+    sleep(3)
     # gender
     num_gender = random.randint(0,1)
     if num_gender == 0:
         chrome_driver.find_element_by_xpath('//*[@id="section-one"]/div[4]/div/label[1]').click()
     else:
         chrome_driver.find_element_by_xpath('//*[@id="section-one"]/div[4]/div/label[2]').click()
-    sleep(5)
+    sleep(3)
     #  A&B
     num_AB = random.randint(0,1)
     if num_AB == 0:
@@ -105,7 +107,7 @@ def web_submit(submit,debug=0):
     s1.select_by_value(submit[Excel_10054]['state'])
     sleep(2)
     # phone
-    chrome_driver.find_element_by_xpath('//*[@id="phone-number"]').send_keys(submit[Excel_10054]['homephone'])
+    chrome_driver.find_element_by_xpath('//*[@id="phone-number"]').send_keys(submit[Excel_10054]['home_phone'])
     sleep(2)
     # email
     chrome_driver.find_element_by_xpath('//*[@id="email-address"]').send_keys(submit[Excel_10054]['email'])
