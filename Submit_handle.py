@@ -155,4 +155,6 @@ if __name__ == '__main__':
         # print(birthday[0]+'-'+birthday[1]+'-'+birthday[2])
     # city,state = get_city_by_zip(18444)
     # print(city,state)
-    transfer_zipcode_into_city()
+    # transfer_zipcode_into_city()
+    day=get_auto_birthday('')
+    print(day)
