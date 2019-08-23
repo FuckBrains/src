@@ -1,5 +1,5 @@
 from time import sleep 
-
+from selenium.webdriver.common.keys import Keys
 
 
 
@@ -25,4 +25,9 @@ def overlay_click(chrome_driver,element):
 	js = 'arguments[0].click();'
 	chrome_driver.execute_script(js) 
 
+
+
+def clear_deep(element):
+	element.send_keys(Keys.CONTROL,'a')
+	element.send_keys(Keys.BACK_SPACE)
 

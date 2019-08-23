@@ -12,6 +12,34 @@ Already handled:
 '''
 
 
+def password_get():
+    a = '0123456789'
+    b = '!@#$%^&'
+    c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    d = 'abcdefghijklmnopqrstuvwxyz'
+    num = random.randint(9,15)
+    pwd = ''
+    for i in range(num):
+        num_pwd = random.randint(0,3)
+        if i == 5:
+            num_pwd = 0
+        if i == 7:
+            num_pwd = 1            
+        if i == 3:
+            num_pwd = 2  
+        if i == 8:
+            num_pwd = 3                         
+        if num_pwd == 0:
+            pwd += a[random.randint(0,len(a)-1)]
+        elif num_pwd == 1:
+            pwd += b[random.randint(0,len(b)-1)]
+        elif num_pwd == 2:
+            pwd += c[random.randint(0,len(c)-1)]
+        else :
+            pwd += d[random.randint(0,len(d)-1)]                                    
+    return pwd
+
+
 def Submit_handle(submit):
     try:
         submit['Home_phone'] = str(int(submit['Home_phone'])).replace('-','')
@@ -156,5 +184,7 @@ if __name__ == '__main__':
     # city,state = get_city_by_zip(18444)
     # print(city,state)
     # transfer_zipcode_into_city()
-    day=get_auto_birthday('')
-    print(day)
+    # day=get_auto_birthday('')
+    pwd=password_get()
+    print(pwd)
+    # print(day)

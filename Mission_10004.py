@@ -19,12 +19,13 @@ import db
 import emaillink
 import Submit_handle
 import selenium_funcs
+import State_Mapper
+
 
 
 '''
 Opinion_Outpost(Done)
 '''
-
 
 
 def web_submit(submit,debug=0):
@@ -103,8 +104,10 @@ def web_submit(submit,debug=0):
             # chrome_driver.find_element_by_xpath()
             # # selector
             chrome_driver.find_element_by_xpath('//*[@id="siq-agreetermscond-id-1"]').click()
+            sleep(2)
             # button
             chrome_driver.find_element_by_xpath('//*[@id="sip-confirm"]').click()
+            sleep(2)
             # page2
             # race
             s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="siq-raceUS-id"]'))
@@ -117,25 +120,46 @@ def web_submit(submit,debug=0):
             s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="siq-incomeNova-id"]'))
             s1.select_by_index(num_income)  # 选择value="o2"的项               
             # home address_1_state
-            chrome_driver.find_element_by_xpath('//*[@id="siq-addressline1-id"]').send_keys(submit['Auto']['address'])
+            element = chrome_driver.find_element_by_xpath('//*[@id="siq-addressline1-id"]')
+            selenium_funcs.clear_deep(element)
+            sleep(1)
+            element.send_keys(submit['Auto']['address'])
             # city
-            chrome_driver.find_element_by_xpath('//*[@id="siq-city-id"]').send_keys(submit['Auto']['city'])
+            element = chrome_driver.find_element_by_xpath('//*[@id="siq-city-id"]')
+            selenium_funcs.clear_deep(element)
+            element.send_keys(submit['Auto']['city'])
+            sleep(1)            
             # zip code
+            element = chrome_driver.find_element_by_xpath('//*[@id="siq-postalcodeNoCheck-id"]')
             zipcode = submit['Auto']['zip'].split('.')[0]
+            selenium_funcs.clear_deep(element)
+            sleep(1)            
             for key in zipcode:
-                chrome_driver.find_element_by_xpath('//*[@id="siq-postalcodeNoCheck-id"]').send_keys(int(key))
+                element.send_keys(int(key))
             # state
             # //*[@id="siq-state-id"]
+            state = State_Mapper.Mapping_state()
+            s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="siq-state-id"]'))
+            s1.select_by_visible_text(state[submit['Auto']['state']])  # 选择value="o2"的项             
             # next
-
-            sleep(3000)
+            sleep(3)
+            chrome_driver.find_element_by_xpath('//*[@id="sip-confirm"]').click()
+            sleep(15)
+            pwd = Submit_handle.password_get()
+            chrome_driver.find_element_by_xpath('//*[@id="siq-password-id"]').send_keys(pwd)
+            sleep(1)
+            chrome_driver.find_element_by_xpath('//*[@id="siq-confirmpassword-id"]').send_keys(pwd)
+            sleep(1)
+            chrome_driver.find_element_by_xpath('//*[@id="sip-confirm"]').click()
+            sleep(15)
             chrome_driver.close()
             chrome_driver.quit()
             return flag    
 
 
 
- 
+
+
 
 def email_confirm(submit):
     print('----------')
@@ -165,10 +189,12 @@ def test():
     Excel_name = ['Auto','Email']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
-    print(submit)
+    # print(submit)
+    # state = State_Mapper.Mapping_state()
+    # print(state)
     # date_of_birth = Submit_handle.get_auto_birthday(submit['Uspd']['date_of_birth'])
     # print(date_of_birth)
-    # web_submit(submit,1)
+    web_submit(submit,1)
     # print(submit['Uspd'])
     # print(submit['Uspd']['state'])
     # print(submit['Uspd']['city'])
