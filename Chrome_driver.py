@@ -47,6 +47,10 @@ def get_chrome(submit = None):
     # } 
     # }   
     options.add_argument('user-agent=' + ua) 
+    # options.add_argument('--single-process')
+    # options.add_argument('--process-per-tab')    
+    
+    # options.add_argument('--disable-gpu')        
     options.add_argument("--disable-automation")
     options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])
     options.add_experimental_option("prefs", prefs) 
@@ -59,7 +63,7 @@ if __name__ == '__main__':
     chrome_driver = get_chrome()
     chrome_driver.get('http://www.baidu.com')
     print('ppppppppp')
-    sleep(20)
+    sleep(200)
     chrome_driver.quit()
     # sleep(20)
     # uas = get_ua_all()

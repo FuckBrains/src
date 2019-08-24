@@ -381,8 +381,10 @@ def read_one_info(Country,Mission_list,Email_list,Excel_names):
     Info_dict2 = {}
     list_Email = random.sample(range(len(Email_dict)),len(Email_dict))
     for i in list_Email:
+        print(i)
         if Email_dict[i]['Status'] == 'Bad':
             continue
+        print(Email_dict[i]['Status'])
         a = Email_dict[i]['Email_emu'].find('@')
         end = Email_dict[i]['Email_emu'][a+1:]
         # print(Email_dict[i]['Email_emu'])
@@ -420,7 +422,7 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来      
     if Excel_name[1] != '':
-        res = cursor.execute('SELECT * from Email WHERE Status != "Bad"')
+        res = cursor.execute('SELECT * from Email')
         desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
         Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
     else:
@@ -448,9 +450,14 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
     Info_dict2 = {}
     if len(Email_dict) != 0:
         list_Email = random.sample(range(len(Email_dict)),len(Email_dict))
+        print(len(Email_dict))
         for i in list_Email:
+            # print(i)
             if Email_dict[i]['Status'] == 'Bad':
                 continue
+            if Email_dict[i]['Status'] == 'Good':
+                continue                
+            print('========',Email_dict[i]['Status'])
             a = Email_dict[i]['Email_emu'].find('@')
             end = Email_dict[i]['Email_emu'][a+1:]
             # print(Email_dict[i]['Email_emu'])
@@ -555,6 +562,21 @@ def Execute_sql(sql_contents):
         print(sql_content)
         res = cursor.execute(sql_content)
     login_out_sql(conn,cursor)     
+
+def email_test():
+    sql_content1 = 'SELECT * from Email'
+    sql_contents = [sql_content1]
+    account = get_account()
+    conn,cursor = login_sql(account)
+    for sql_content in sql_contents:
+        print(sql_content)
+        res = cursor.execute(sql_content)
+        response = cursor.fetchall()
+        print(response)
+        print(type(response))
+    login_out_sql(conn,cursor)  
+
+
 
 def get_one_info():
     Country ='US'

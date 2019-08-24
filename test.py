@@ -59,7 +59,7 @@ def multi_test(submit):
     chrome_driver = Chrome_driver.get_chrome()
     chrome_driver.get('http://www.baidu.com')
     print('ppppppppp')
-    sleep_time = random.randint(10,30)
+    sleep_time = random.randint(100,300)
     sleep(sleep_time)
     chrome_driver.quit()    
     global Falg_threads
@@ -134,5 +134,6 @@ def test_rest():
 
 if __name__ == '__main__':
     # clean_download()
-    excels,emails,Missions = db.read_all_info()
-    print(excels,emails,Missions)
+    # excels,emails,Missions = db.read_all_info()
+    # print(excels,emails,Missions)
+    test()

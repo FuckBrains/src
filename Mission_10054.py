@@ -161,11 +161,21 @@ def web_submit(submit,debug=0):
 
 
 def test():
-    Mission_list = ['10005','10009']
+    # db.email_test()
+    Mission_list = ['10009']
     Excel_name = ['','Email']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
-    print(submit)
+    # print(submit)
+    # excel_list = []
+    # for i in range(400):
+    #     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
+    #     # print(submit)
+    #     excel_list.append(submit['Email']['Email_Id'])
+    # # print(excel_list)
+    # print(len(excel_list))
+    # print(len(set(excel_list)))
+
     # date_of_birth = Submit_handle.get_auto_birthday(submit['Uspd']['date_of_birth'])
     # print(date_of_birth)
     # web_submit(submit,1)
