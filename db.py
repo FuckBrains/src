@@ -455,11 +455,14 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
             if end not in Email_list:
                 continue 
             flag = 0
-            for j in range(len(Mission_dict)):
-                if Mission_dict[j]['Mission_Id'] in Mission_list: 
-                    if Email_dict[i]['Email_Id'] == Mission_dict[j]['Email_Id']:
-                        flag = 1
-                        break
+            for Mission in Mission_list:
+                for j in range(len(Mission_dict)):
+                    if Mission_dict[j]['Mission_Id'] in list(Mission): 
+                        if Email_dict[i]['Email_Id'] == Mission_dict[j]['Email_Id']:
+                            flag = 1
+                            break
+                if flag == 1:
+                    break
             if flag == 0:
                 Info_dict2 = Email_dict[i]
                 break
@@ -571,6 +574,7 @@ def read_rest(Mission_list,Excel_name,Email_list):
     else:
         # Excel_name[1] = {}
         Email_dict = {}
+    Info_dicts_all = [0,0]
     Info_dicts = [0,0]
     if len(BasicInfo_dict) != 0:
         list_BasicInfo = random.sample(range(len(BasicInfo_dict)),len(BasicInfo_dict))
@@ -583,7 +587,7 @@ def read_rest(Mission_list,Excel_name,Email_list):
                 if str(Mission_dict[j]['Mission_Id']) in Mission_list: 
                     if BasicInfo_dict[i]['BasicInfo_Id'] == Mission_dict[j]['BasicInfo_Id']:
                         flag = 1
-                        print(BasicInfo_dict[i]['BasicInfo_Id'])
+                        # print(BasicInfo_dict[i]['BasicInfo_Id'])
                         break
             if flag == 0:
                 Info_dicts[0] += 1
@@ -601,7 +605,7 @@ def read_rest(Mission_list,Excel_name,Email_list):
                 continue 
             flag = 0
             for j in range(len(Mission_dict)):
-                if Mission_dict[j]['Mission_Id'] in Mission_list: 
+                if str(Mission_dict[j]['Mission_Id']) in Mission_list: 
                     if Email_dict[i]['Email_Id'] == Mission_dict[j]['Email_Id']:
                         flag = 1
                         break
@@ -611,9 +615,58 @@ def read_rest(Mission_list,Excel_name,Email_list):
     # submit = dict(Info_dict,**Info_dict2)
     return Info_dicts
 
+
+
+def read_all_info():
+    print('     Start reading info from sql server...')
+    account = get_account()
+    conn,cursor=login_sql(account)
+    res = cursor.execute('SELECT Excel_name from BasicInfo')
+    # res = cursor.execute('SELECT COUNT(*) FROM BasicInfo') 
+    # res = cursor.execute('SELECT COUNT(*) FROM BasicInfo where Excel_name = "Uspd"')     
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    BasicInfo_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来    
+    # print(BasicInfo_dict)
+    excels = {}
+    for info in BasicInfo_dict:
+        if info['Excel_name'] not in excels:
+            excels[info['Excel_name']] = 0
+        else:
+            excels[info['Excel_name']] += 1
+    # print(excels)
+    # return excels
+    # for key in BasicInfo_dict:
+        # print(key)
+    res = cursor.execute('SELECT Mission_Id from Mission')
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来      
+    Missions = {}
+    for Mission in Mission_dict:
+        if Mission['Mission_Id'] not in Missions:
+            Missions[Mission['Mission_Id']] = 0
+        else:
+            Missions[Mission['Mission_Id']] += 1
+    # print(Missions)
+    res = cursor.execute('SELECT COUNT(*) from Email WHERE Status != "Bad"')
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
+    # print(Email_dict)
+    # return
+    emails = {}
+    emails['Email'] = Email_dict[0]['COUNT(*)']
+    # for email in Email_dict:
+    #     if email['Mission_Id'] not in emails:
+    #         email[Mission['Mission_Id']] = 0
+    #     else:
+    #         email[Mission['Mission_Id']] += 1
+    # print(emails)    
+    # print(excels,emails,Missions)
+    return excels,emails,Missions
+
+
 def test_rest():
-    Mission_list = [10000]
-    Excel_name = ['Auto','Email']
+    Mission_list = [10005]
+    Excel_name = ['','Email']
     Email_list = ['hotmail.com','aol.com','outlook.com','yahoo.com']
     rest = read_rest(Mission_list,Excel_name,Email_list)
     print(rest)
