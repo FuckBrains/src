@@ -259,6 +259,7 @@ def EMU_multi():
                 break
             if num_ip == 5:
                 print('Net wrong...!!!!!!')
+                changer.Restart()
                 return
         submits = []
         submit = {}
