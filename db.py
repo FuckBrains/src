@@ -420,7 +420,7 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来      
     if Excel_name[1] != '':
-        res = cursor.execute('SELECT * from Email')
+        res = cursor.execute('SELECT * from Email WHERE Status != "Bad"')
         desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
         Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
     else:
@@ -436,7 +436,7 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
             '''
             for Mission in Mission_list:
                 for j in range(len(Mission_dict)):
-                    if Mission_dict[j]['Mission_Id'] in list(Mission): 
+                    if str(Mission_dict[j]['Mission_Id']) in list(str(Mission)): 
                         if BasicInfo_dict[i]['BasicInfo_Id'] == Mission_dict[j]['BasicInfo_Id']:
                             flag = 1
                             break
@@ -460,8 +460,11 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
             flag = 0
             for Mission in Mission_list:
                 for j in range(len(Mission_dict)):
-                    if Mission_dict[j]['Mission_Id'] in list(Mission): 
+                    print(Mission_dict[j]['Mission_Id'])
+                    if str(Mission_dict[j]['Mission_Id']) in list(str(Mission)): 
+                        print('---------')
                         if Email_dict[i]['Email_Id'] == Mission_dict[j]['Email_Id']:
+                            print('22222222222222')
                             flag = 1
                             break
                 if flag == 1:

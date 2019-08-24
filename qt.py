@@ -140,21 +140,29 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.set_comboBox4()
         self.setWindowTitle('EMU_MultiMission')
         # self.resize(500,300)   
-        excel_list = [] 
+        excel_list = [''] 
         for excel in self.excels:
+            excel = excel+'('+str(self.excels[excel])+')'
             excel_list.append(excel)  
         cols = len(excel_list)  
-        self.model=QtGui.QStandardItemModel(4,cols)
+        self.model=QtGui.QStandardItemModel(50,10)
         self.model.setHorizontalHeaderLabels(excel_list)
-        for row in range(4):
-            for column in range(4):
-                item=QtGui.QStandardItem('row %s,column %s'%(row,column))
-                #设置每个位置的文本值
-                self.model.setItem(row,column,item)
+        keys = []
+        for item in self.Missions:
+            keys.append(item)
+        keys.sort()
+        print('keys of Missions')
+        print(keys)
+        # print(self.Missions[keys[row]])
+        for row in range(len(self.Missions)):
+            item=QtGui.QStandardItem(str(keys[row]))
+            #设置每个位置的文本值
+            self.model.setItem(row,0,item)
 
         #实例化表格视图，设置模型为自定义的模型
         # self.tableView=QtWidgets.QTableView()
         self.tableView.setModel(self.model)   
+        print(self.excels,self.emails,self.Missions)
         #设置布局
         # layout=QtWidgets.QVBoxLayout()
         # layout.addWidget(self.tableView)
