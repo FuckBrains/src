@@ -8,6 +8,7 @@ Falg_threads = 0
 import Chrome_driver
 from time import sleep
 import psutil
+import db
 
 def read_ini():
     file = r'Offer_conf.ini'
@@ -122,5 +123,16 @@ def clean_download():
     [os.remove(file) for file in modules_path]    
     return 
 
+
+def test_rest():
+    Mission_list = ['10005']
+    Excel_name = ['','Email']
+    Email_list = ['hotmail.com','aol.com','outlook.com','yahoo.com']
+    rest = db.read_rest(Mission_list,Excel_name,Email_list)
+    print(rest)
+
+
 if __name__ == '__main__':
-    clean_download()
+    # clean_download()
+    excels,emails,Missions = db.read_all_info()
+    print(excels,emails,Missions)

@@ -434,11 +434,14 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
             '''
             BasicInfo_dict[i]['BasicInfo_Id'] should not in table Mission
             '''
-            for j in range(len(Mission_dict)):
-                if Mission_dict[j]['Mission_Id'] in Mission_list: 
-                    if BasicInfo_dict[i]['BasicInfo_Id'] == Mission_dict[j]['BasicInfo_Id']:
-                        flag = 1
-                        break
+            for Mission in Mission_list:
+                for j in range(len(Mission_dict)):
+                    if Mission_dict[j]['Mission_Id'] in list(Mission): 
+                        if BasicInfo_dict[i]['BasicInfo_Id'] == Mission_dict[j]['BasicInfo_Id']:
+                            flag = 1
+                            break
+                if flag == 1:
+                    break
             if flag == 0:
                 Info_dicts[BasicInfo_dict[i]['Excel_name']] = BasicInfo_dict[i]
                 break

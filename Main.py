@@ -293,6 +293,7 @@ def EMU_multi():
     up = Offer_config['Delay']['up']   
     down = Offer_config['Delay']['down']
     time_delay = random.randint(up*60,down*60)
+    print('Finish all tasks,starting sleep:',time_delay)    
     sleep(time_delay)
     changer.Restart()
 

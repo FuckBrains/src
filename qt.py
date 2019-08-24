@@ -116,6 +116,7 @@ def Delete_Link(key,all_links = 0):
 
 class Mywindow(QMainWindow,Ui_MainWindow):
     def __init__(self,parent = None):
+        self.excels,self.emails,self.Missions = db.read_all_info()
         QMainWindow.__init__(self,parent)
         self.setupUi(self) 
         file_Offer = r'ini\Offer.ini'
@@ -137,6 +138,28 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.set_text_all_links()
         self.set_comboBox3()
         self.set_comboBox4()
+        self.setWindowTitle('EMU_MultiMission')
+        # self.resize(500,300)   
+        excel_list = [] 
+        for excel in self.excels:
+            excel_list.append(excel)  
+        cols = len(excel_list)  
+        self.model=QtGui.QStandardItemModel(4,cols)
+        self.model.setHorizontalHeaderLabels(excel_list)
+        for row in range(4):
+            for column in range(4):
+                item=QtGui.QStandardItem('row %s,column %s'%(row,column))
+                #设置每个位置的文本值
+                self.model.setItem(row,column,item)
+
+        #实例化表格视图，设置模型为自定义的模型
+        # self.tableView=QtWidgets.QTableView()
+        self.tableView.setModel(self.model)   
+        #设置布局
+        # layout=QtWidgets.QVBoxLayout()
+        # layout.addWidget(self.tableView)
+        # self.setLayout(layout)  
+        print('===========++++')      
 
     def set_comboBox2(self):
         _translate = QtCore.QCoreApplication.translate
@@ -198,6 +221,29 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     def on_comboBox1_currentIndexChanged(self):
         # print('----------')
         self.set_comboBox2()
+        print(self.comboBox2.currentText())
+        if self.comboBox2.currentText() == '':
+            return
+        offer_chosen = self.comboBox2.currentText().split('.')[1]
+        print(self.Offer_config[offer_chosen])
+        Mission_Id = self.Offer_config[offer_chosen]['Mission_Id']
+        print(Mission_Id)
+        Excel_used = self.Offer_config[offer_chosen]['Excel']
+        text = Excel_used[0]+Excel_used[1]
+        Mission_list = [str(Mission_Id)]
+        Email_list_dict = self.Offer_config['Email_list']
+        Email_list = []
+        print(Email_list_dict)
+        for item in Email_list_dict:
+            if str(Email_list_dict[item]) == '1':
+                Email_list.append(item)
+        print(Mission_list,Excel_used,Email_list)
+        rest = db.read_rest(Mission_list,Excel_used,Email_list)
+        print(rest)
+        text_rest = Excel_used[0]+':'+str(rest[0])+','+Excel_used[1]+':'+str(rest[1])        
+        self.lineEdit_5.setText(text)
+        self.lineEdit_6.setText(Mission_Id)
+        self.lineEdit_7.setText(text_rest)        
 
 
     def get_config_info(self):
@@ -215,6 +261,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             # offer['Email_list'] = Email_list
             rest = db.read_rest(offer)        
 
+
     # @pyqtSlot()
     def on_comboBox2_currentIndexChanged(self):
         # print('----------')
@@ -228,7 +275,13 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         Excel_used = self.Offer_config[offer_chosen]['Excel']
         text = Excel_used[0]+Excel_used[1]
         Mission_list = [str(Mission_Id)]
-        Email_list = self.Offer_config['Email_list']
+        Email_list_dict = self.Offer_config['Email_list']
+        Email_list = []
+        print(Email_list_dict)
+        for item in Email_list_dict:
+            if str(Email_list_dict[item]) == '1':
+                Email_list.append(item)
+        print(Mission_list,Excel_used,Email_list)
         rest = db.read_rest(Mission_list,Excel_used,Email_list)
         print(rest)
         text_rest = Excel_used[0]+':'+str(rest[0])+','+Excel_used[1]+':'+str(rest[1])        
