@@ -436,7 +436,7 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
             '''
             for Mission in Mission_list:
                 for j in range(len(Mission_dict)):
-                    if str(Mission_dict[j]['Mission_Id']) in list(str(Mission)): 
+                    if str(Mission_dict[j]['Mission_Id']) in str(Mission): 
                         if BasicInfo_dict[i]['BasicInfo_Id'] == Mission_dict[j]['BasicInfo_Id']:
                             flag = 1
                             break
@@ -458,18 +458,29 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
             if end not in Email_list:
                 continue 
             flag = 0
+            # print('===============')
+            # print(Mission_list)
+            # print(Email_dict[i]['Email_Id'])
             for Mission in Mission_list:
+                print('On going search:',Mission)
                 for j in range(len(Mission_dict)):
-                    print(Mission_dict[j]['Mission_Id'])
-                    if str(Mission_dict[j]['Mission_Id']) in list(str(Mission)): 
-                        print('---------')
+                    # print(Mission_dict[j]['Mission_Id'])
+                    # print(Mission)
+                    # print(list(str(Mission)))
+                    if str(Mission_dict[j]['Mission_Id']) == str(Mission): 
+                        # print('---------')
                         if Email_dict[i]['Email_Id'] == Mission_dict[j]['Email_Id']:
-                            print('22222222222222')
+                            print('Duplicated email:',Mission_dict[j]['Email_Id'])
+                            # print('22222222222222')
                             flag = 1
                             break
+                        else:
+                            pass
+                            # print(Email_dict[i]['Email_Id'],Mission_dict[j]['Email_Id'])
                 if flag == 1:
                     break
             if flag == 0:
+                print('Unique email for all Missions required:',Email_dict[i])
                 Info_dict2 = Email_dict[i]
                 break
     if len(Info_dict2) != 0:
