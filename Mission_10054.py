@@ -166,6 +166,7 @@ def test():
     Excel_name = ['','Email']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
+    db.read_all_info()
     # print(submit)
     # excel_list = []
     # for i in range(400):

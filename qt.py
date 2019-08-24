@@ -141,7 +141,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.set_comboBox4()
         self.setWindowTitle('EMU_MultiMission')
         # self.resize(500,300)   
-        excel_list = [''] 
+        excel_list = ['Mission_Id','Offer'] 
         for excel in self.excels:
             excel = excel+'('+str(self.excels[excel])+')'
             excel_list.append(excel)  
@@ -156,29 +156,42 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         print(keys)
         # print(self.Missions[keys[row]])
         for row in range(len(self.Missions)):
+            print(str(keys[row]))
             item=QtGui.QStandardItem(str(keys[row]))
             #设置每个位置的文本值
-            self.model.setItem(row,0,item)
-            print('+++++++++++++')
-            print(self.Offer_config)
+            self.model.setItem(row,0,item)          
+            # print('+++++++++++++')
+            # print(self.Offer_config)
             for offer in self.Offer_config:
                 if offer == 'Delay' or offer == 'Email_list':
                     continue
                 if str(self.Offer_config[offer]['Mission_Id']) == str(keys[row]):
                     Excel_used_ = self.Offer_config[offer]['Excel']
+                    Offer_name = offer
+            item=QtGui.QStandardItem(Offer_name)
+            #设置每个位置的文本值
+            self.model.setItem(row,1,item)                      
             # Excel_used_ = self.Offer_config[int(item)]['Excel']
-
+            key_list = ['Mission_Id','Offer']
             # for name in excel_list:
-            excel_list = [excel.split('(')[0] for excel in excel_list]
+            excel_list = [excel.split('(')[0] for excel in excel_list if excel not in key_list]
             print(self.Missions)
             for index_excel in Excel_used_:
                 # print(index_excel)
                 if index_excel == '':
                     continue
-                col = excel_list.index(index_excel)
+                if index_excel in key_list:
+                    continue
+                col = excel_list.index(index_excel)+2
                 # print(col)
                 # print(self.Missions[int(keys[row])])
-                item_=QtGui.QStandardItem(str(self.Missions[int(keys[row])]))
+                if index_excel !='Email':
+                    print('total:',self.excels[index_excel])
+                    print('Used:',self.Missions[int(keys[row])])
+                    num_left = self.excels[index_excel] - self.Missions[int(keys[row])]
+                else:
+                    num_left = self.emails['Email'] - self.Missions[int(keys[row])]                    
+                item_=QtGui.QStandardItem(str(num_left))
                 self.model.setItem(row,col,item_)
 
         #实例化表格视图，设置模型为自定义的模型

@@ -686,13 +686,18 @@ def read_all_info():
         else:
             Missions[Mission['Mission_Id']] += 1
     # print(Missions)
-    res = cursor.execute('SELECT COUNT(*) from Email WHERE Status != "Bad"')
+    res = cursor.execute('SELECT * from Email')
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
-    Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
-    # print(Email_dict)
-    # return
+    Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来      
+    print(Email_dict)
+    num = 0
+    for i in range(len(Email_dict)):
+        # print(i)
+        if Email_dict[i]['Status'] == 'Bad':
+            continue
+        num+=1
     emails = {}
-    emails['Email'] = Email_dict[0]['COUNT(*)']
+    emails['Email'] = num
     # for email in Email_dict:
     #     if email['Mission_Id'] not in emails:
     #         email[Mission['Mission_Id']] = 0
