@@ -190,10 +190,14 @@ def test():
  
 
 def test1():
-    num_gender = random.randint(0,1)
-    print(num_gender)
-
+    # num_gender = random.randint(0,1)
+    # print(num_gender)
+    Mission_list = ['10009']
+    email_list = ['aol.com','yahoo.com']
+    email = db.read_one_selected_email(Mission_list,email_list)
+    # db.write_one_info(Mission_list,email,Cookie = '')
+    print(email)
 
 if __name__=='__main__':
-    test()
+    test1()
     print('......')

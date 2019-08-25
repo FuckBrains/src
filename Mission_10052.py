@@ -34,6 +34,21 @@ import random
 
 def web_submit(submit,debug=0):
     # test
+    email_list = ['aol.com','gmail.com','hotmail.com','outlook.com']
+    Mission_list = ['10052']    
+    print(submit['Email'])
+    end = submit['Email']['Email_emu'].split('@')[1]
+    print(end)
+    if end not in email_list:
+        email = db.read_one_selected_email(Mission_list,email_list)
+        print(email)
+        if len(email) == 0:
+            return
+        if debug == 0:
+            db.write_one_info(Mission_list,email,Cookie = '')        
+        submit['Email'] = email['Email']
+    print(submit['Email'])
+    return
     if debug == 1:
         site = 'https://adpgtrack.com/click/5d15c5d8a035945cc309af93/157000/224520/subaccount'
         submit['Site'] = site

@@ -496,6 +496,67 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
     # submit = dict(Info_dict,**Info_dict2)
     return Info_dicts
 
+def read_one_selected_email(Mission_list,Email_list):
+    print('     Start reading info from sql server...')
+    account = get_account()
+    conn,cursor=login_sql(account)
+
+    res = cursor.execute('SELECT * from Mission')
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来      
+    res = cursor.execute('SELECT * from Email')
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
+    Info_dicts = {}
+    Info_dict2 = {}
+    if len(Email_dict) != 0:
+        list_Email = random.sample(range(len(Email_dict)),len(Email_dict))
+        print(len(Email_dict))
+        for i in list_Email:
+            # print(i)
+            if Email_dict[i]['Status'] == 'Bad':
+                continue
+            # if Email_dict[i]['Status'] == 'Good':
+            #     continue                
+            print('========',Email_dict[i]['Status'])
+            a = Email_dict[i]['Email_emu'].find('@')
+            end = Email_dict[i]['Email_emu'][a+1:]
+            # print(Email_dict[i]['Email_emu'])
+            # print(end)
+            if end not in Email_list:
+                continue 
+            flag = 0
+            # print('===============')
+            # print(Mission_list)
+            # print(Email_dict[i]['Email_Id'])
+            for Mission in Mission_list:
+                print('On going search:',Mission)
+                for j in range(len(Mission_dict)):
+                    # print(Mission_dict[j]['Mission_Id'])
+                    # print(Mission)
+                    # print(list(str(Mission)))
+                    if str(Mission_dict[j]['Mission_Id']) == str(Mission): 
+                        # print('---------')
+                        if Email_dict[i]['Email_Id'] == Mission_dict[j]['Email_Id']:
+                            print('Duplicated email:',Mission_dict[j]['Email_Id'])
+                            # print('22222222222222')
+                            flag = 1
+                            break
+                        else:
+                            pass
+                            # print(Email_dict[i]['Email_Id'],Mission_dict[j]['Email_Id'])
+                if flag == 1:
+                    break
+            if flag == 0:
+                print('Unique email for all Missions required:',Email_dict[i])
+                Info_dict2 = Email_dict[i]
+                break
+    if len(Info_dict2) != 0:
+        Info_dicts['Email'] = Info_dict2
+    login_out_sql(conn,cursor)
+    # submit = dict(Info_dict,**Info_dict2)
+    return Info_dicts    
+
 def write_one_info(Mission_list,submit,Cookie = ''):
     Email_Id = ''
     BasicInfo_Id = '' 
@@ -559,8 +620,11 @@ def Execute_sql(sql_contents):
     account = get_account()
     conn,cursor = login_sql(account)
     for sql_content in sql_contents:
+        print('\n\n\n')
         print(sql_content)
         res = cursor.execute(sql_content)
+        response = cursor.fetchall()
+        print(response)
     login_out_sql(conn,cursor)     
 
 def email_test():
@@ -575,8 +639,6 @@ def email_test():
         print(response)
         print(type(response))
     login_out_sql(conn,cursor)  
-
-
 
 def get_one_info():
     Country ='US'
@@ -654,8 +716,6 @@ def read_rest(Mission_list,Excel_name,Email_list):
     # submit = dict(Info_dict,**Info_dict2)
     return Info_dicts
 
-
-
 def read_all_info():
     print('     Start reading info from sql server...')
     account = get_account()
@@ -707,7 +767,6 @@ def read_all_info():
     # print(excels,emails,Missions)
     return excels,emails,Missions
 
-
 def test_rest():
     Mission_list = [10005]
     Excel_name = ['','Email']
@@ -715,8 +774,59 @@ def test_rest():
     rest = read_rest(Mission_list,Excel_name,Email_list)
     print(rest)
 
+def delete_old_data():
+    print('     Start reading info from sql server...')
+    account = get_account()
+    conn,cursor=login_sql(account)    
+    res = cursor.execute('SELECT Email_Id,BasicInfo_Id from Mission')
+    response = cursor.fetchall()
+    # print(response)
+    Email_sets = []
+    [Email_sets.append(a[0]) for a in response]
+    Basicinfo_sets = []
+    [Basicinfo_sets.append(a[1]) for a in response]    
+    print(len(Email_sets))
+    print(len(Basicinfo_sets))
+    # print(Mission_dict)
+    res = cursor.execute('SELECT BasicInfo_Id from BasicInfo')
+    response = cursor.fetchall()
+    # BasicInfo_Id_dict = [dict(zip('BasicInfo_Id', row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来      
+    # print(BasicInfo_Id_dict)
+    # print(response)
+    BasicInfo_Id_dict = []
+    [BasicInfo_Id_dict.append(a[0]) for a in response]
+    print('Total',len(BasicInfo_Id_dict),'BasicInfos in BasicInfo db')
+
+    # print(BasicInfo_Id_dict)
+    # print(len(BasicInfo_Id_dict))
+    # print(len(set(BasicInfo_Id_dict)))
+    res = cursor.execute('SELECT Email_Id from Email')
+    response = cursor.fetchall()    
+    Email_Id_dict = []
+    [Email_Id_dict.append(a[0]) for a in response]
+    # print(Email_Id_dict)
+    print('Total',len(Email_Id_dict),'Emails in email db')
+    Email_sets_todelete = [a for a in Email_sets if a not in Email_Id_dict and  a != '' ]
+    BasicInfo_sets_todelete = [a for a in Basicinfo_sets if a not in BasicInfo_Id_dict and  a != '' ]    
+    print(Email_sets_todelete)
+    print('TO delete email id:',len(Email_sets_todelete))
+    print(BasicInfo_sets_todelete)
+    print('TO delete BasicInfo id:',len(BasicInfo_sets_todelete))
+    sql_contents=[]
+    [sql_contents.append('DELETE  from Mission WHERE Email_Id = "%s"'%Email_Id) for Email_Id in Email_sets_todelete]
+    [sql_contents.append('DELETE  from Mission WHERE BasicInfo_Id = "%s"'%BasicInfo_Id) for BasicInfo_Id in BasicInfo_sets_todelete]    
+    login_out_sql(conn,cursor)
+    Execute_sql(sql_contents)
+    return
+
+def get_duplicated_mission_record():
+    sql_content1 = 'SELECT Mission_Id,Basicinfo_Id,count(*) as count from mission group by Mission_Id,Basicinfo_Id having count>1;'
+    sql_content2 = 'SELECT Mission_Id,Email_Id,count(*) as count from mission group by Mission_Id,Email_Id having count>1;'
+
+    Execute_sql([sql_content1,sql_content2])
+
+
 if __name__ == '__main__':
     init()
-    # Mission = [10100,10101]
-    # submit = {'Email':{'Email_Id':111111111111111}}
-    # write_one_info(Mission,submit)
+    delete_old_data()
+    # get_duplicated_mission_record()
