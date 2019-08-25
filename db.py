@@ -455,8 +455,8 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
             # print(i)
             if Email_dict[i]['Status'] == 'Bad':
                 continue
-            if Email_dict[i]['Status'] == 'Good':
-                continue                
+            # if Email_dict[i]['Status'] == 'Good':
+            #     continue                
             print('========',Email_dict[i]['Status'])
             a = Email_dict[i]['Email_emu'].find('@')
             end = Email_dict[i]['Email_emu'][a+1:]
