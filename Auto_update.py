@@ -1,3 +1,4 @@
+import tools
 import Chrome_driver
 from time import sleep
 import zipfile
@@ -134,11 +135,8 @@ def delete_folder():
 
 
 def main():
-    # unfold_zip()
+    tools.killpid()
     get_code()
-    # source_path = Chrome_driver.get_dir()
-    # target_path = os.getcwd()
-    # move_folder(source_path,target_path)
 
 
 def test():

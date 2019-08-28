@@ -12,6 +12,7 @@ from PyQt5.QtCore import pyqtSlot
 import Update_config as up
 import db
 import email_imap
+import Auto_update
 
 
 
@@ -359,8 +360,6 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         os.system(command)        
 
 
-
-
     @pyqtSlot()
     def on_pushButton7_clicked(self):
         print('start delete bad email ')
@@ -438,7 +437,13 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         # self.setLayout(layout)  
         print('===========++++')    
 
-
+    # @pyqtSlot()
+    # def on_pushButton10_clicked(self):
+    #     print('start delete bad email ')
+    #     command = '''start cmd /k "python Auto_update.py "{$name$:$qcy$}" && exit"'''
+    #     os.system(command)        
+    #     command = '''start cmd /k "python email_imap.pyc "{$name$:$qcy$}" && exit"'''        
+    #     os.system(command)
     # def on_lineEdit_selectionChanged(self):
     #     self.lineEdit.setText('')
 
