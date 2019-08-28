@@ -1,8 +1,5 @@
 '''
-Adsmain
-Trusted Health Quotes
-https://track.amcmpn.com/click?pid=668&offer_id=19917
-Uspd
+Flirt
 '''
 
 from selenium import webdriver
@@ -134,7 +131,7 @@ def web_submit(submit,debug=0):
     if site != '':
         newwindow='window.open("' + site + '");'
         chrome_driver.execute_script(newwindow)
-        sleep(50)        
+        sleep(30)        
     else:
         chrome_driver.close()
         chrome_driver.quit()
@@ -145,10 +142,15 @@ def web_submit(submit,debug=0):
         for i in handles:
             if i != handle:
                 chrome_driver.switch_to.window(i)
-                if 'Email successfully confirmed' not in chrome_driver.page_source:
+                try:
                     chrome_driver.refresh()
-                else:
-                    pass  
+                    sleep(20)
+                    try:
+                        chrome_driver.find_element_by_xpath('//*[@id="mainContainer"]/div/section/ul[1]/li[3]/div/a').click()
+                    except:
+                        pass
+                except:
+                    pass                        
     except:
         pass
 
@@ -163,8 +165,8 @@ def email_confirm(submit):
             name = submit['Email']['Email_emu']
             pwd = submit['Email']['Email_emu_pwd']
             title = ('service@ga.mydates.com','')
-            'https://mydates.com?code=0df6c9c9-12ba-46a6-8282-7b6a4c9f2103&trk=5fzb3wd'
-            pattern = r'.*?(https://mydates.com\?code=[0-9a-zA-Z]{1,10}-[0-9a-zA-Z]{1,10}-[0-9a-zA-Z]{1,10}-[0-9a-zA-Z]{1,10}-[0-9a-zA-Z]{1,20}&amp;trk=[0-9a-zA-Z]{1,10})'
+            # 'https://mydates.com?code=0df6c9c9-12ba-46a6-8282-7b6a4c9f2103&trk=5fzb3wd'
+            pattern = r'.*?(https://mydates.com\?code=[0-9a-zA-Z]{1,10}-[0-9a-zA-Z]{1,10}-[0-9a-zA-Z]{1,10}-[0-9a-zA-Z]{1,10}-[0-9a-zA-Z]{1,20}&trk=[0-9a-zA-Z]{1,10})'
             # url_link = emaillink.get_email(name,pwd,title,pattern)
             # if 'http' in url_link :
             #     print(url_link)
@@ -181,6 +183,18 @@ def email_confirm(submit):
             print('===')
             pass
     return url_link
+
+
+def web_confirm():
+    url='https://mydates.com/?code=685bae42-d07c-400e-9eef-91b1627f94c1&trk=5g2959w'
+    chrome_driver = Chrome_driver.get_chrome()
+    chrome_driver.get(url)    
+    try:
+        chrome_driver.find_element_by_xpath('//*[@id="mainContainer"]/div/section/ul[1]/li[3]/div/a').click()
+    except:    
+        pass
+    sleep(300)
+
 
 
 def test():
@@ -214,10 +228,10 @@ def test():
 
 def email_test():
     
-    submit = {'Email':{'Email_Id': '702af22c-aa34-11e9-802e-0003b7e49bfc', 'Email_emu': 'GailMontgomerya@outlook.com', 'Email_emu_pwd': 'ogqZ06eH', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': 'Good'}}
+    submit = {'Email':{'Email_Id': '6f4ff393-aa34-11e9-a4ec-0003b7e49bfc', 'Email_emu': 'SummerCopelandk@aol.com', 'Email_emu_pwd': 'reo3xzpL', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': 'Good'}}
     email_confirm(submit)
 
 
 if __name__=='__main__':
-    test()
+    web_confirm()
     print('......')

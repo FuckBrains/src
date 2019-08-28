@@ -17,3 +17,4 @@ pip install PyQt5
 pip install PySocks
 pip install pproxy
 pip install requests_html
+pip install globalvar

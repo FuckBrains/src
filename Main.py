@@ -238,6 +238,7 @@ def EMU_multi():
             print(submit1)
             print('Reading config from sql server success')
             if Excels_dup[1] != '':
+                print('testing email.........')
                 flag = imap_test.Email_emu_getlink(submit1['Email'])
                 if flag == 0:
                     print('Bad email:',submit1['Email']['Email_emu'])
@@ -251,16 +252,19 @@ def EMU_multi():
                 break
         # changing IP
         for num_ip in range(6):
-            if Excels_dup[0] != '':
-                city = ip_test.ip_Test('',state = submit1[Excels_dup[0]]['state'],country=country )
-            else:
-                city = ip_test.ip_Test('','',country=country )
-            if  city != 'Not found':
-                break
-            if num_ip == 5:
-                print('Net wrong...!!!!!!')
+            try:
+                if Excels_dup[0] != '':
+                    city = ip_test.ip_Test('',state = submit1[Excels_dup[0]]['state'],country=country )
+                else:
+                    city = ip_test.ip_Test('','',country=country )
+                if  city != 'Not found':
+                    break
+                if num_ip == 5:
+                    print('Net wrong...!!!!!!')
+                    changer.Restart()
+                    return
+            except:
                 changer.Restart()
-                return
         submits = []
         submit = {}
         for item in Mission_conf_duplicated:

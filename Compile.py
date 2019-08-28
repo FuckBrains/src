@@ -50,9 +50,9 @@ def main():
     src = r'C:\Coding\src'
     modules_path = get_modules()
     for file in modules_path:
-    	dirname,filename = os.path.split(file)
-    	src_file = os.path.join(src,filename)
-    	copyfile(file,src_file)
+        dirname,filename = os.path.split(file)
+        src_file = os.path.join(src,filename)
+        copyfile(file,src_file)
     Mission_path = get_Mission_files()
     for file in Mission_path:
         dirname,filename = os.path.split(file)

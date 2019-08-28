@@ -144,7 +144,7 @@ def web_submit(submit,debug=0):
             # next
             sleep(3)
             chrome_driver.find_element_by_xpath('//*[@id="sip-confirm"]').click()
-            sleep(15)
+            sleep(30)
             pwd = Submit_handle.password_get()
             chrome_driver.find_element_by_xpath('//*[@id="siq-password-id"]').send_keys(pwd)
             sleep(1)

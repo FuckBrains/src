@@ -86,8 +86,11 @@ def Email_emu_getlink(submit,keyword = ''):
         return ''  
     try:             
         box = imaplib.IMAP4_SSL(server)
-    except Exception as msg:
-        writelog(submit['Email_emu'] + ' login failed : ',str(msg))
+        print('email server login success....')
+    except Exception as e:
+        pritn(str(e))
+        print('email server login failed....')        
+        # writelog(submit['Email_emu'] + ' login failed : ',str(msg))
         return 0        
     msg_content = ''    
     try:

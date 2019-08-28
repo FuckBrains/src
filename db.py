@@ -635,10 +635,10 @@ def email_test():
     for sql_content in sql_contents:
         print(sql_content)
         res = cursor.execute(sql_content)
-        response = cursor.fetchall()
-        print(response)
-        print(type(response))
+        desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+        Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
     login_out_sql(conn,cursor)  
+    return Email_dict
 
 def get_one_info():
     Country ='US'

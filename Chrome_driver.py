@@ -1,8 +1,10 @@
 from selenium import webdriver
+import os
 import sys
 sys.path.append("..")
 from time import sleep
 import random
+import zipfile
 
 def get_ua_all():
     uas = []
@@ -30,12 +32,13 @@ def get_chrome(submit = None):
     ua = get_ua_random(uas)
     print(ua)
     options = webdriver.ChromeOptions()
-    prefs = {"download.default_directory": 'c:\\',
+    path_download = get_dir()
+    prefs = {"download.default_directory": path_download,
              "download.prompt_for_download": False,
              "download.directory_upgrade": True,
-             "safebrowsing.enabled": True
+             "safebrowsing.enabled": True,
+             'profile.default_content_settings.popups': 0
              }    
-    prefs = {'profile.default_content_settings.popups': 0, 'download.default_directory': 'c:\\emu_download'}
     # options.add_experimental_option('prefs', prefs)
     # extension_path = '../tools/extension/1.1.0_0.crx'   
     # options.add_extension(extension_path) 
@@ -59,15 +62,67 @@ def get_chrome(submit = None):
     chrome_driver.implicitly_wait(20)  # 最长等待8秒    
     return chrome_driver
 
+def get_dir():
+    path = os.getcwd()
+    print(path)
+    path_up = path[:-3] 
+    print(path_up)
+    path_download = os.path.join(path_up,'download')
+    print(path_download)
+    return path_download
+
+def clean_download():
+    path_download = get_dir()
+    misc_init(path_download)
+    return 
+
+def download_status():
+    path_download = get_dir()
+    modules = os.listdir(path_download)
+    return modules
+
+
+
+def misc_init(target_folder):
+    import os
+    import shutil
+    import traceback
+    # import globalvar    
+    # clean the test result folder
+    # get the current path
+    current_path = target_folder
+    # some folder not delete
+    # except_folders = globalvar.Except_Folders
+    except_folders = ['']
+    # get the folder uder current path
+    current_filelist = os.listdir(current_path)
+    print(current_filelist)
+    for f in current_filelist:
+    # f should be a absolute path, if python is not run on current path
+        if os.path.isdir(os.path.join(current_path,f)):
+            print('------')
+            if f in except_folders:
+                continue
+            else:
+                print('++++++++++')
+                real_folder_path = os.path.join(current_path, f)
+                try:
+                    for root, dirs, files in os.walk(real_folder_path):
+                        for name in files:
+                            print(name)
+                            # delete the log and test result
+                            del_file = os.path.join(root, name)
+                            os.remove(del_file)
+                            print('remove file[%s] successfully' % del_file)
+                    shutil.rmtree(real_folder_path)
+                    print('remove foler[%s] successfully' % real_folder_path)
+                except Exception as e:
+                    # traceback.print_exc()
+                    print('===========')
+        else:
+            os.remove(os.path.join(current_path,f))
+
+
+
 if __name__ == '__main__':
-    chrome_driver = get_chrome()
-    chrome_driver.get('http://www.baidu.com')
-    print('ppppppppp')
-    sleep(200)
-    chrome_driver.quit()
-    # sleep(20)
-    # uas = get_ua_all()
-    # for ua in uas:
-    #     print(ua)
-    # print(uas[0:30])
-    # print(len(uas))
+    clean_download()

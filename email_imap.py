@@ -7,8 +7,12 @@ import time
 import base64
 import db
 from time import sleep
+import threading
+import threadpool
 
 
+pool = threadpool.ThreadPool(100)
+Falg_threads = 0
 
 def writelog(runinfo,e=''):
     file=open(os.getcwd()+"\log.txt",'a+')
@@ -128,6 +132,9 @@ def num_confirm(res):
     print(num)
 
 def clean_email(submit):
+    flag = 0
+    if submit['Status'] == 'Bad':
+        return
     if 'outlook' in submit['Email_emu']:
         server = "imap-mail.outlook.com"
     elif 'aol' in submit['Email_emu']:
@@ -137,24 +144,33 @@ def clean_email(submit):
     elif 'yahoo' in  submit['Email_emu']:
         server = 'imap.mail.yahoo.com'
     else:
-        writelog('bad Email_emu')
+        # writelog('bad Email_emu')
         return 'bad Email_emu' 
-    box = imaplib.IMAP4_SSL(server)    
-    box.login(submit['Email_emu'], submit['Email_emu_pwd'])
+    try:
+        box = imaplib.IMAP4_SSL(server)  
+    except:
+        flag = 0
+        return flag
+    try:  
+        box.login(submit['Email_emu'], submit['Email_emu_pwd'])
+    except Exception as e:
+        print(str(e))
+        flag = 1
+        return flag
     for item in box.list()[1]:
-        print()
+        # print()
         box_selector = item.decode().split(' \"/\" ')[-1]
         if  re.match(r'.*?(Sent|Delete|Trash|Draft).*?',box_selector,re.M|re.I):
             continue
-        print(box_selector)    
+        # print(box_selector)    
         box.select(box_selector)
         # 如果是查找收件箱所有邮件则是box.search(None, 'ALL')
         # typ, data = box.search(None, 'from', 'mailer-daemon@googlemail.com')
         typ, data = box.search(None, 'ALL') 
-        print(data[0].split())        
+        # print(data[0].split())        
         while True:
             for num in data[0].split():
-                print(num)  
+                # print(num)  
                 try:
                     box.store(num, '+FLAGS', '\\Deleted')
                 except:
@@ -162,25 +178,49 @@ def clean_email(submit):
             box.expunge()
             sleep(3)
             typ, data = box.search(None, 'ALL') 
-            print(data[0].split())            
+            # print(data[0].split())            
             if len(data[0].split()) == 0:
                 break
+    print(submit['Email_emu'],'clean finished!')
+    flag = 2
     box.close()
-    box.logout()    
+    box.logout() 
+    return flag   
+
+def multi_delete_email(submit):
+    global Falg_threads
+    Falg_threads += 1
+    flag = 2
+    try:
+        flag=clean_email(submit)
+        print(Falg_threads,'------->',submit['Email_emu'],'----->',flag)
+        if flag == 1:
+            try:
+                db.updata_email_status(submit['Email_Id'],0)
+                print('Status uploaded success:Bad email')
+            except Exception as e:
+                print(str(e))
+        elif flag == 2:
+            db.updata_email_status(submit['Email_Id'],1)
+            print('Status uploaded success:Good email')            
+        else:
+            pass        
+    except:
+        pass
+
+
+def main():
+    submits = db.email_test()
+    print('Total:',len(submits))
+    requests = threadpool.makeRequests(multi_delete_email, submits)
+    [pool.putRequest(req) for req in requests]
+    pool.wait() 
+
+
 
 
 if __name__=='__main__':
-    Country ='US'
-    Mission_list = ['10004']
-    Email_list = ['hotmail','aol.com','yahoo.com','outlook.com']
-    Excel_names = ['Auto','Usloan']
-    submit = db.read_one_info(Country,Mission_list,Email_list,Excel_names)
-    # print(submit['Email'])
-    # submit = {}
-    # submit['Email'] = {'Email_Id': '6f760998-aa34-11e9-8125-0003b7e49bfc', 'Email_emu': 'RichBrooksKP@aol.com', 'Email_emu_pwd': 'fsT1Ngq2', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}
-    clean_email(submit['Email'])
-    # email_getlink(submit['Email'])
-
+    main()
 
 
 

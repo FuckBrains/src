@@ -48,7 +48,7 @@ def web_submit(submit,debug=0):
             db.write_one_info(Mission_list,email,Cookie = '')        
         submit['Email'] = email['Email']
     print(submit['Email'])
-    return
+    # return
     if debug == 1:
         site = 'https://adpgtrack.com/click/5d15c5d8a035945cc309af93/157000/224520/subaccount'
         submit['Site'] = site
