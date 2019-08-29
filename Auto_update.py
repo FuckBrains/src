@@ -8,12 +8,13 @@ from shutil import copyfile
 
 
 def get_code():
+    account_coding = read_account()
     chrome_driver = Chrome_driver.get_chrome()
     url_back = r'https://emu_multi.coding.net/signin?redirect=%2Fuser'
     url_code = r'https://emu_multi.coding.net/p/src/git/archive/master'
     chrome_driver.get(url_back)
-    chrome_driver.find_element_by_xpath('//*[@id="userName"]').send_keys('18122710376')
-    chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys('Ddf!@s345a1asd')
+    chrome_driver.find_element_by_xpath('//*[@id="userName"]').send_keys(account_coding['name'])
+    chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(account_coding['pwd'])
     sleep(2)
     chrome_driver.find_element_by_xpath('//*[@id="container"]/div/div[2]/div[2]/form/div[3]/button').click()
     sleep(2)
@@ -137,6 +138,27 @@ def delete_folder():
 def main():
     tools.killpid()
     get_code()
+
+def read_account():
+    path = os.path.abspath(os.path.join(os.getcwd(), ".."))
+    path_config = os.path.join(path,r'res\Coding.txt')
+    print(path_config)
+    account_coding = {}
+    with open(path_config) as f:
+        line = f.readline()
+        account = line.split(',')
+        account_coding['name'] = account[0]
+        account_coding['pwd'] = account[1]
+    return account_coding
+
+
+def makedir_account(path=r'c:\emu_download'):
+    isExists=os.path.exists(path)
+    if isExists:
+        return
+    else:
+        os.makedirs(path)
+
 
 
 def test():

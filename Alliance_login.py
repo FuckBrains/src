@@ -129,13 +129,13 @@ def Get_roboform_account():
 
 
 def main(i):
-    # tools.killpid()
+    tools.killpid()
     roboform_account = Get_roboform_account()
-    # city = 'Not found'
-    # for j in range(10):
-        # city = ip_test.ip_Test(city=roboform_account[i-1]['city'],state=roboform_account[i-1]['state'],country=roboform_account[i-1]['Country'])
-        # if  city != 'Not found':
-            # break    
+    city = 'Not found'
+    for j in range(10):
+        city = ip_test.ip_Test(city=roboform_account[i-1]['city'],state=roboform_account[i-1]['state'],country=roboform_account[i-1]['Country'])
+        if  city != 'Not found':
+            break    
     path = os.path.abspath(os.path.join(os.getcwd(), ".."))
     dir_account = os.path.join(path,r'alliance\account'+str(i))
     # dir_account = r'..\alliance\account1'

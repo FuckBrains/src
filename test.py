@@ -133,11 +133,17 @@ def test_rest():
     print(rest)
 
 
+def test_coding():
+    import Auto_update
+    Auto_update.read_account()
+
+
 if __name__ == '__main__':
     # clean_download()
     # excels,emails,Missions = db.read_all_info()
     # print(excels,emails,Missions)
     # test()
-    Alliance_login.Get_Alliance_name()
+    # Alliance_login.Get_Alliance_name()
     # accounts = Alliance_login.Get_roboform_account()
     # print(accounts)
+    test_coding()
