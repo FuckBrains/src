@@ -1,3 +1,4 @@
+import Alliance_login
 import os
 import json
 import threading
@@ -136,4 +137,7 @@ if __name__ == '__main__':
     # clean_download()
     # excels,emails,Missions = db.read_all_info()
     # print(excels,emails,Missions)
-    test()
+    # test()
+    Alliance_login.Get_Alliance_name()
+    # accounts = Alliance_login.Get_roboform_account()
+    # print(accounts)

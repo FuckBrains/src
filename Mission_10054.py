@@ -33,7 +33,7 @@ import random
 def web_submit(submit,debug=0):
     # test
     # Excel_10054 = 'Data2000'
-    Excel_10054 = 'Uspd'    
+    Excel_10054 = 'Auto'    
     if debug == 1:
         site = 'https://track.amcmpn.com/click?pid=668&offer_id=19917'
         submit['Site'] = site
@@ -46,7 +46,7 @@ def web_submit(submit,debug=0):
     chrome_driver.find_element_by_xpath('//*[@id="zip-form"]/div[1]/button').click()
     sleep(5)
     # date of birth
-    date_of_birth = Submit_handle.get_auto_birthday(submit[Excel_10054]['date_of_birth'])
+    date_of_birth = Submit_handle.get_auto_birthday(submit[Excel_10054]['dateofbirth'])
     for key in date_of_birth[0]:
         chrome_driver.find_element_by_xpath('//*[@id="dob"]').send_keys(key)
     for key in date_of_birth[1]:
@@ -87,10 +87,10 @@ def web_submit(submit,debug=0):
     chrome_driver.find_element_by_xpath('//*[@id="submit"]').click()
     sleep(2)
     # fisrt name
-    chrome_driver.find_element_by_xpath('//*[@id="first-name"]').send_keys(submit[Excel_10054]['first_name'])
+    chrome_driver.find_element_by_xpath('//*[@id="first-name"]').send_keys(submit[Excel_10054]['firstname'])
     # last name
     sleep(2)
-    chrome_driver.find_element_by_xpath('//*[@id="last-name"]').send_keys(submit[Excel_10054]['last_name'])
+    chrome_driver.find_element_by_xpath('//*[@id="last-name"]').send_keys(submit[Excel_10054]['lastname'])
     # address
     sleep(2)
     chrome_driver.find_element_by_xpath('//*[@id="address"]').send_keys(submit[Excel_10054]['address'])
@@ -107,7 +107,7 @@ def web_submit(submit,debug=0):
     s1.select_by_value(submit[Excel_10054]['state'])
     sleep(2)
     # phone
-    chrome_driver.find_element_by_xpath('//*[@id="phone-number"]').send_keys(submit[Excel_10054]['home_phone'])
+    chrome_driver.find_element_by_xpath('//*[@id="phone-number"]').send_keys(submit[Excel_10054]['homephone'])
     sleep(2)
     # email
     chrome_driver.find_element_by_xpath('//*[@id="email-address"]').send_keys(submit[Excel_10054]['email'])

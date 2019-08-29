@@ -13,6 +13,7 @@ import Update_config as up
 import db
 import email_imap
 import Auto_update
+import Alliance_login
 
 
 
@@ -71,8 +72,6 @@ def Write_Ini(file,content):
 #     Offer_config[Offer_name] = Offer_config_new
 #     Write_Ini(file_Offer_config,Offer_config)
 
-def translate_offer_tonum(Offer_list):
-    return 
 
 def Add_New_Link(new_offer,all_links = 0):
     if all_links == 0 :
@@ -140,8 +139,18 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.set_comboBox3()
         self.set_comboBox4()
         self.setWindowTitle('EMU_MultiMission')
+        self.accounts = Alliance_login.Get_roboform_account()
+        self.on_comboBox6_currentIndexChanged()
+
+
         # self.resize(500,300)   
   
+    def set_comboBox3(self):
+        _translate = QtCore.QCoreApplication.translate    
+        num_accounts = len(self.accounts)
+        for i in range(len(num_accounts)):
+            self.comboBox2.addItem("")
+            self.comboBox2.setItemText(i, _translate("MainWindow",str(i+1)))            
 
     def set_comboBox2(self):
         _translate = QtCore.QCoreApplication.translate
@@ -437,18 +446,43 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         # self.setLayout(layout)  
         print('===========++++')    
 
-    # @pyqtSlot()
-    # def on_pushButton10_clicked(self):
-    #     print('start delete bad email ')
-    #     command = '''start cmd /k "python Auto_update.py "{$name$:$qcy$}" && exit"'''
-    #     os.system(command)        
-    #     command = '''start cmd /k "python email_imap.pyc "{$name$:$qcy$}" && exit"'''        
-    #     os.system(command)
+
+    def set_table2(self):
+        Alliance,site,Alliance_dict = Alliance_login.Get_Alliance_name()
+        excel_list = ['Alliance','site']
+        self.model=QtGui.QStandardItemModel(200,4)
+        self.model.setHorizontalHeaderLabels(excel_list)
+        for row in range(len(Alliance)):
+            item=QtGui.QStandardItem(Alliance[row])
+            #设置每个位置的文本值
+            self.model.setItem(row,0,item)         
+            item=QtGui.QStandardItem(site[row])
+            #设置每个位置的文本值
+            self.model.setItem(row,1,item) 
+        self.tableView_2.setModel(self.model)   
+
+
+    @pyqtSlot()
+    def on_pushButton9_clicked(self):
+        i = self.comboBox6.currentText()
+        print('start open 10 Alliance once,push next to go on ')
+        command = '''start cmd /k "python Alliance_login.py %s "{$name$:$qcy$}" && exit"'''%(str(i))
+        os.system(command)        
+        command = '''start cmd /k "python Alliance_login.pyc %s "{$name$:$qcy$}" && exit"'''%(str(i))
+        os.system(command)
     # def on_lineEdit_selectionChanged(self):
     #     self.lineEdit.setText('')
 
     # def on_lineEdit_editingFinished(self):
     #     self.lineEdit.setText('')
+    def on_comboBox6_currentIndexChanged(self):
+        # print('----------')
+        i = self.comboBox6.currentText()        
+        self.set_table2()
+        self.lineEdit_5.setText(self.accounts[int(i)-1]['name_roboform'])
+        self.lineEdit_6.setText(self.accounts[int(i)-1]['pwd_roboform'])
+
+
 
 def main():
     up.main()
@@ -468,9 +502,6 @@ def main():
 #     Alliance = 'Adsmain'
 #     New_Offers = [Offer_name]
 #     Add_New_Offer(Alliance,New_Offers)
-
-def Update_Offer_config():
-    pass
 
 
 
@@ -499,6 +530,8 @@ def change__delay_config(up,down,threads):
     Offer_config['Email_list']['yahoo.com'] = 1
     Offer_config['Email_list']['aol.com'] = 1
     Write_Ini(file_Offer_config,Offer_config)
+
+
 
 
 
