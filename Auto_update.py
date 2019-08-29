@@ -136,6 +136,8 @@ def delete_folder():
 
 
 def main():
+    path_download = Chrome_driver.get_dir()
+    makedir_account(path_download)
     tools.killpid()
     get_code()
 
