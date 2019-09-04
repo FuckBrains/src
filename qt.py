@@ -1,4 +1,5 @@
 import json
+import luminati
 import sys
 sys.path.append("..")
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -140,17 +141,17 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.set_comboBox4()
         self.setWindowTitle('EMU_MultiMission')
         self.accounts = Alliance_login.Get_roboform_account()
-        self.on_comboBox6_currentIndexChanged()
+        self.set_comboBox6()
 
 
         # self.resize(500,300)   
   
-    def set_comboBox3(self):
+    def set_comboBox6(self):
         _translate = QtCore.QCoreApplication.translate    
         num_accounts = len(self.accounts)
-        for i in range(len(num_accounts)):
-            self.comboBox2.addItem("")
-            self.comboBox2.setItemText(i, _translate("MainWindow",str(i+1)))            
+        for i in range(num_accounts):
+            self.comboBox6.addItem("")
+            self.comboBox6.setItemText(i, _translate("MainWindow",str(i+1)))            
 
     def set_comboBox2(self):
         _translate = QtCore.QCoreApplication.translate
@@ -438,7 +439,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
 
         #实例化表格视图，设置模型为自定义的模型
         # self.tableView=QtWidgets.QTableView()
-        self.tableView.setModel(self.model)   
+        self.tableView.setModel(self.model)  
+        self.tableView.horizontalHeader().setStretchLastSection(True)
+        self.tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch) 
         print(self.excels,self.emails,self.Missions)
         #设置布局
         # layout=QtWidgets.QVBoxLayout()
@@ -459,7 +462,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             item=QtGui.QStandardItem(site[row])
             #设置每个位置的文本值
             self.model.setItem(row,1,item) 
-        self.tableView_2.setModel(self.model)   
+        self.tableView_2.setModel(self.model) 
+        self.tableView_2.horizontalHeader().setStretchLastSection(True)
+        self.tableView_2.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)  
 
 
     @pyqtSlot()
@@ -470,6 +475,23 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         os.system(command)        
         command = '''start cmd /k "python Alliance_login.pyc %s "{$name$:$qcy$}" && exit"'''%(str(i))
         os.system(command)
+
+    @pyqtSlot()
+    def on_pushButton11_clicked(self):
+        plan_id = int(self.comboBox7.currentText())
+        Offer_links = self.offer_link
+        print(Offer_links)
+        plans = luminati.create_plan_data(plan_id,Offer_links)
+        db.upload_plans(plans)
+
+    @pyqtSlot()
+    def on_pushButton12_clicked(self):
+        plan_id = int(self.comboBox8.currentText())
+        luminati.delete_port()
+        db.clean_table(plan_id)
+
+
+
     # def on_lineEdit_selectionChanged(self):
     #     self.lineEdit.setText('')
 
@@ -477,10 +499,13 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     #     self.lineEdit.setText('')
     def on_comboBox6_currentIndexChanged(self):
         # print('----------')
-        i = self.comboBox6.currentText()        
+        i = self.comboBox6.currentText()  
+        if i == '':
+            i = 1      
         self.set_table2()
         self.lineEdit_5.setText(self.accounts[int(i)-1]['name_roboform'])
         self.lineEdit_6.setText(self.accounts[int(i)-1]['pwd_roboform'])
+        self.lineEdit_7.setText(self.accounts[int(i)-1]['Country'])
 
 
 

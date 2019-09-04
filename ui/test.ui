@@ -252,7 +252,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="widget">
      <attribute name="title">
@@ -428,13 +428,13 @@
        </font>
       </property>
       <property name="text">
-       <string>Data</string>
+       <string>Data Import</string>
       </property>
      </widget>
      <widget class="QPushButton" name="pushButton7">
       <property name="geometry">
        <rect>
-        <x>70</x>
+        <x>180</x>
         <y>70</y>
         <width>75</width>
         <height>41</height>
@@ -461,14 +461,14 @@
        </font>
       </property>
       <property name="text">
-       <string>Emails</string>
+       <string>Emails clean</string>
       </property>
      </widget>
      <widget class="QPushButton" name="pushButton6">
       <property name="geometry">
        <rect>
-        <x>70</x>
-        <y>20</y>
+        <x>180</x>
+        <y>10</y>
         <width>71</width>
         <height>41</height>
        </rect>
@@ -477,27 +477,45 @@
        <string>Import</string>
       </property>
      </widget>
-    </widget>
-    <widget class="QWidget" name="tab_4">
-     <attribute name="title">
-      <string>Alliance_login</string>
-     </attribute>
-     <widget class="QTableView" name="tableView_2">
+     <widget class="QLabel" name="label_16">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>10</x>
         <y>150</y>
-        <width>561</width>
-        <height>341</height>
+        <width>81</width>
+        <height>21</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Upload plan</string>
+      </property>
      </widget>
-     <widget class="QComboBox" name="comboBox6">
+     <widget class="QPushButton" name="pushButton11">
       <property name="geometry">
        <rect>
-        <x>120</x>
-        <y>40</y>
-        <width>111</width>
+        <x>180</x>
+        <y>140</y>
+        <width>75</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Start</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox7">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>150</y>
+        <width>41</width>
         <height>25</height>
        </rect>
       </property>
@@ -531,12 +549,165 @@
         <string>5</string>
        </property>
       </item>
+      <item>
+       <property name="text">
+        <string>6</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>7</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>8</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>9</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>10</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_17">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>220</y>
+        <width>111</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Delete All ports</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton12">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>210</y>
+        <width>75</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delete</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox8">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>220</y>
+        <width>41</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <item>
+       <property name="text">
+        <string>1</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>3</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>4</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>5</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>6</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>7</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>8</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>9</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>10</string>
+       </property>
+      </item>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_4">
+     <attribute name="title">
+      <string>Alliance_login</string>
+     </attribute>
+     <widget class="QTableView" name="tableView_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>150</y>
+        <width>561</width>
+        <height>341</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox6">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>30</y>
+        <width>111</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
      </widget>
      <widget class="QLabel" name="label_12">
       <property name="geometry">
        <rect>
-        <x>50</x>
-        <y>40</y>
+        <x>320</x>
+        <y>30</y>
         <width>81</width>
         <height>21</height>
        </rect>
@@ -549,14 +720,14 @@
        </font>
       </property>
       <property name="text">
-       <string>Alliance</string>
+       <string>Account Lists</string>
       </property>
      </widget>
      <widget class="QPushButton" name="pushButton9">
       <property name="geometry">
        <rect>
-        <x>240</x>
-        <y>30</y>
+        <x>430</x>
+        <y>70</y>
         <width>75</width>
         <height>41</height>
        </rect>
@@ -565,71 +736,80 @@
        <string>Login</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_13">
+     <widget class="QWidget" name="gridLayoutWidget_2">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>80</y>
-        <width>121</width>
-        <height>21</height>
+        <x>20</x>
+        <y>10</y>
+        <width>271</width>
+        <height>121</height>
        </rect>
       </property>
-      <property name="font">
-       <font>
-        <pointsize>10</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Roboform name</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_14">
-      <property name="geometry">
-       <rect>
-        <x>40</x>
-        <y>110</y>
-        <width>101</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>10</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Roboform pwd</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lineEdit_5">
-      <property name="geometry">
-       <rect>
-        <x>150</x>
-        <y>80</y>
-        <width>161</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lineEdit_6">
-      <property name="geometry">
-       <rect>
-        <x>150</x>
-        <y>110</y>
-        <width>161</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineEdit_5">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_14">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Roboform pwd</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_13">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Roboform name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="lineEdit_6">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_15">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Country</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="lineEdit_7">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
    </widget>

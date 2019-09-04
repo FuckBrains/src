@@ -19,6 +19,7 @@ import pymysql
 import db
 import re
 import json
+import luminati
 
 '''
 'testeeeee'
@@ -76,19 +77,38 @@ def killpid():
                 except:
                     pass
                       
-def multi_reg(submit):
+def multi_reg(Config):
+    # print(Config)
+    # return
     # print('Starting Mission',submit['Num'])
     # Module_list,modules = get_modules()
     # print(Module_list)
     # print('============')
     # print(type(submit['Config']['Mission_Id']))
     # print(submit['Config']['Mission_Id'])
-    module = 'Mission_'+submit['Config']['Mission_Id']
-    print(module)
+    file_Offer_config = r'ini\Offer_config.ini'    
+    Offer_config = read_ini(file_Offer_config)  
+    Email_list_new = []
+    Email_list = Offer_config['Email_list']    
+    Mission_Ids,Excels_dup = [Config['Mission_Id']],Config['Excel']
+    # print(Excels_dup)
+    submit = db.read_one_excel(Mission_Ids,Excels_dup,Email_list)
+    # print(submit)
+    submit['ip_lpm'] = Config['ip_lpm']
+    submit['prot_lpm'] = Config['prot_lpm']
+    if Excels_dup[0] == '':
+        state = ''
+    else:
+        state = submit[Excels_dup[0]]['state']
+    luminati.ip_test(submit['ip_lpm'],submit['prot_lpm'],state=state ,country='')     
+    module = 'Mission_'+Config['Mission_Id']
+    # print(module)
     Module = import_Module(module)
-    submit['Site'] = submit['Config']['url_link']
+    submit['Site'] = Config['url_link']
+    submit['Mission_dir'] = Config['Mission_dir']
     try:
         Module.web_submit(submit)
+        print(submit)
     except Exception as e:
         print(str(e))
     # global Falg_threads
@@ -115,8 +135,8 @@ def import_Module(module):
     module_name = importlib.import_module(module)
     return module_name
 
-def clean_download():
-    modules = os.listdir(r'c:\emu_download')
+def clean_download(path=r'c:\emu_download'):
+    modules = os.listdir(path)
     # print(modules)
     path = os.path.join(os.getcwd(),r'c:\emu_download')
     modules_path = [os.path.join(path,file) for file in modules]
@@ -124,71 +144,18 @@ def clean_download():
     [os.remove(file) for file in modules_path]    
     return 
 
-def makedir_download(path=r'c:\emu_download'):
+def makedir_file(path=r'c:\emu_download'):
     isExists=os.path.exists(path)
     if isExists:
         return
     else:
         os.makedirs(path)
-
-def sort_Mission_conf(Mission_conf_list):
-    '''
-    Mission_conf_list = {"0": {"Alliance": "Finaff", "Offer": "Royal Cams(Done)", "url_link": "http"}, "1": {"Alliance": "Finaff", "Offer": "Royal Cams(Done)", "url_link": "http"}}
-    Mission_conf_duplicated_one ={'0':{"Alliance": "Finaff", "Offer": "Royal Cams(Done)", "url_link": "http"},...}
-    1 <= num <= len(Mission_conf_list['1000x'])
-    '''
-    # file_Offer_config = r'ini\Offer_config.ini'
-    # Offer_config = read_ini(file_Offer_config)
-    # keys = []
-    # for item in Offer_config:
-    #     keys.append(item)
-    # for index in Mission_conf_list:
-    #     if Mission_conf_list[index]['Offer'] in keys:
-
-    Mission_conf_duplicated_all = []
-    while True:
-        Mission_conf_one = {}
-        items = []
-        for dicts in Mission_conf_duplicated_all:
-            for index_item in dicts:
-                items.append(index_item)
-        for item in Mission_conf_list:
-            if item in items:
-                continue
-            if len(Mission_conf_one) == 0:
-                Mission_conf_one[item] = Mission_conf_list[item]
-                continue
-            Alliances = []
-            country = ''
-            Mission_Id = []
-            Excel = ''
-            for index in Mission_conf_one:
-                Alliances.append(Mission_conf_one[index]['Alliance'])
-                Mission_Id.append(Mission_conf_one[index]['Mission_Id']) 
-                if Mission_conf_one[index]['Excel'][0] != '':
-                    Excel = Mission_conf_one[index]['Excel'][0]
-            Country = Mission_conf_one[index]['Country']
-            if Mission_conf_list[item]['Alliance'] in Alliances:
-                continue
-            if Mission_conf_list[item]['Country'] != Country:
-                continue
-            if Excel !='':
-                if Mission_conf_list[item]['Excel'][0] != Excel:
-                    continue
-            if Mission_conf_list[item]['Mission_Id'] in Mission_Id :
-                continue
-            Mission_conf_one[item] = Mission_conf_list[item]
-        if len(Mission_conf_one) == 0:
-            break
-        Mission_conf_duplicated_all.append(Mission_conf_one)
-    return Mission_conf_duplicated_all
-
-
+        print('Making dir:',path,'success')
 
 
 def EMU_multi():
     makedir_download()
-    clean_download()
+    # clean_download()
     # test
     Excel_names = db.get_excel_names()
     '''
@@ -305,13 +272,36 @@ def EMU_multi():
     sleep(time_delay)
     changer.Restart()
 
-def Hotmail_Login():
-    path_excel = r'..\res\Hotmail_Login.xlsx'
-    hotmail.Login(path_excel)
+def create_emu_chrome(offerlist):
+    offer_file = {}
+    for i in range(len(offerlist)):
+        offer_file[offerlist[i]] = offerlist.count(offerlist[i])
+    print(offer_file)
 
-def Hotmail_Recovery():
-    path_excel = r'..\res\Hotmail_Recover.xlsx'
-    hotmail.recover(path_excel)
+def emu_chrome_count():
+    emu_chromes = os.listdir(r'..\emu_chromes')
+    print(emu_chromes)
+    emu_chromes_count = {}
+    for i in range(len(emu_chromes)):
+        mission = emu_chromes[i].split(',')[0]
+        if mission not in emu_chromes_count:
+            emu_chromes_count[mission] = 1
+        else:
+            emu_chromes_count[mission] += 1
+    print('emu_chromes_count:',emu_chromes_count)
+
+
+def main():
+    plan_id = 1
+    plans = db.read_plans(plan_id)
+    print(plans)
+
+    requests = threadpool.makeRequests(multi_reg, plans)
+    [pool.putRequest(req) for req in requests]
+    pool.wait() 
+    # print(len(Configs))
+    # print(Configs)
+
 
 def test():
     # submit = read_excel()
@@ -328,7 +318,7 @@ if __name__ == '__main__':
     i = int(paras[1])
     if i == 1:
         # test()
-        EMU_multi()
+        main()
     elif i == 2:
         Hotmail_Login()
     elif i == 3:

@@ -92,6 +92,10 @@ def test_s5_requests(socket_s5):
         pass
 
 
+def test_size():
+    import requests
+    
+
 
 def main():
     sockets = read_proxy()

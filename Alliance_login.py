@@ -1,3 +1,4 @@
+import xlrd
 import db
 from selenium import webdriver
 import os
@@ -9,10 +10,32 @@ import ip_test
 import tools
 
 
+def get_ua_all():
+    uas = []
+    with open(r'../res/ua.txt') as f:
+        lines = f.readlines()
+        for line in lines:
+            if line.strip('\n') != '':
+                if 'Windows' not in line:
+                    continue 
+                if 'Chrome' in line:
+                    uas.append(line.strip('"').strip("'").strip('\n'))
+
+    # for ua in uas.split('/n'):
+        # print(ua)
+    return uas
+
+def get_ua_random(uas):
+    num = random.randint(0,len(uas)-1)
+    # print(uas[num])
+    return uas[num]
+
 def get_chrome(user_data_dir,submit=None):
     options = webdriver.ChromeOptions()
     # (?# __browser_url = r'C:\Users\xixi\AppData\Local\Google\Chrome\Application')
-    
+    uas = get_ua_all()
+    ua = get_ua_random(uas)
+    print(ua)    
     options.add_argument('--user-data-dir='+user_data_dir)
     # options.binary_location=__browser_url
     prefs = {"download.default_directory": 'c:\\',
@@ -39,7 +62,7 @@ def get_chrome(user_data_dir,submit=None):
     # 'profile.default_content_settings.popups': 0,
     # } 
     # }   
-    # options.add_argument('user-agent=' + ua) 
+    options.add_argument('user-agent=' + ua) 
     # options.add_argument('--single-process')
     # options.add_argument('--process-per-tab')    
     
@@ -51,6 +74,9 @@ def get_chrome(user_data_dir,submit=None):
     chrome_driver = webdriver.Chrome(chrome_options=options)
     chrome_driver.set_page_load_timeout(300)
     chrome_driver.implicitly_wait(20)  # 最长等待8秒    
+    # cookies = chrome_driver.get_cookies()  
+    # print(cookies)
+    # chrome_driver.delete_all_cookies()    
     return chrome_driver
 
 def Alliance_login(dir_account,url_lists):
@@ -77,7 +103,7 @@ def Alliance_login(dir_account,url_lists):
         print('Opening alliance site:',url,'.........................')
         chrome_driver.switch_to.window(handle)
         newwindow='window.open("' + url + '");'
-        chrome_driver.execute_script(newwindow) 
+        chrome_driver.execute_script(newwindow)      
         # chrome_driver.get(url)  
         j+=1	
     while True:
@@ -93,14 +119,43 @@ def makedir_account(path=r'c:\emu_download'):
 def Get_Alliance_name():
     path = os.path.abspath(os.path.join(os.getcwd(), ".."))
     dir_alliance = os.path.join(path,r'alliance\Alliance_name.xlsx')    
-    sheet = db.get_sheet(dir_alliance)
-    Alliance = sheet.col_values(0)
-    Alliance.remove('Alliance')
-    print(Alliance)
-    site = sheet.col_values(1)
-    site.remove('site')
-    print(site)
-    Alliance_dict = dict(zip(Alliance,site))  # 列表表达式把数据组装起来    
+    workbooks = xlrd.open_workbook(dir_alliance)
+    names = workbooks.sheet_names()
+    # print(names)
+    Alliance_dict = {}
+    for name in names:
+        if name == 'Sites':
+            sheet = workbooks.sheet_by_name('Sites')
+            Alliance = sheet.col_values(0)
+            Alliance.remove('Alliance')
+            # print(Alliance)
+            site = sheet.col_values(1)
+            site.remove('site')
+            # print(site)
+            Alliance_dict_sites = dict(zip(Alliance,site))  # 列表表达式把数据组装起来    
+            # print(Alliance_dict_sites)
+            Alliance_dict[name] = Alliance_dict_sites
+        else:
+            sheet = workbooks.sheet_by_name(name)
+            keys = sheet.row_values(0)
+            ncols = sheet.ncols
+            accounts = {}
+            for i in range(ncols):
+                if i == 0:
+                    print(i)
+                    print(keys[i])
+                    alliance_list = sheet.col_values(i)
+                    alliance_list.remove(keys[i])
+                    print('alliance_list:',alliance_list)
+                else:
+                    print(i)
+                    account_list = sheet.col_values(i)
+                    # account_list = [str(name) for name in account_list if type(name) != type('1')]
+                    # account_list = [name.split(',') for name in account_list if ',' in name]
+                    account_list.remove(keys[i]) 
+                    print('account_list:',account_list)
+                    accounts[keys[i]] = dict(zip(alliance_list,account_list))
+            Alliance_dict[name] = accounts            
     print(Alliance_dict)
     return Alliance,site,Alliance_dict
 
@@ -127,6 +182,26 @@ def Get_roboform_account():
     return accounts
 
 
+def cookies_test():
+    i = 1
+    path = os.path.abspath(os.path.join(os.getcwd(), ".."))
+    dir_account = os.path.join(path,r'alliance\account'+str(i))    
+    chrome_driver = get_chrome(dir_account)   
+    url_test = 'http://lub.lubetadating.com/c/13556/0?'
+    chrome_driver.get(url_test) 
+    cookies = chrome_driver.get_cookies()
+    print(cookies)          
+    chrome_driver.delete_all_cookies() 
+    print('===================')
+    cookies = chrome_driver.get_cookies()
+    print(cookies)    
+    chrome_driver.get(url_test)     
+    print('+++++++++++++++++++++++++')
+    cookies = chrome_driver.get_cookies()
+    print(cookies)    
+    sleep(3000)  
+
+
 
 def main(i):
     tools.killpid()
@@ -146,8 +221,9 @@ def main(i):
     # sleep(3000)
 
 if __name__ == '__main__':
-    paras=sys.argv
-    # test    
+    # paras=sys.argv
+    # # test    
     # paras = [0,1,2,3,4]
-    i = int(paras[1])
-    main(i)
+    # i = int(paras[1])
+    # main(i)
+    cookies_test()

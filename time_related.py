@@ -16,9 +16,9 @@ def Time_end():
     print(endtime)
     return str(endtime)[:19]
 
-# def Time_used(starttime,endtime):    
-#     time_used = (endtime - starttime).seconds
-#     return time_used
+def Time_used(starttime,endtime):    
+    time_used = (endtime - starttime).seconds
+    return time_used
 
 def update_time_system():
     while True:

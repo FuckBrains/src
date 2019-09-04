@@ -118,11 +118,56 @@ def test_chrome():
 
     # driver = webdriver.Chrome(proxy=proxy)
     # driver = webdriver.Chrome(proxy=proxy)
-    driver.get("http://www.google.com")  
+    driver.get("whoer.net")  
+    sleep(3)
+    driver.get("whoer.net")  
+
+
     # driver.get("http://www.baidu.com")  
 
     print('=======')
     sleep(1000)  
+
+
+
+
+# {'http': 'http://lum-customer-%s-zone-%s:%s@zproxy.lum-superproxy.io:22225'%(customer,zone_name,pwd)}))
+
+
+    #driver.quit()
+
+
+
+def test_luminati2():
+    from selenium import webdriver
+    # http://username:password@localhost:8080
+    username = 'caichao'
+    password = 'abitpt3isvvj'
+    port = 22225
+    zone_name = 'zone2'
+    PROXY = 'http://lum-customer-%s-zone-%s:%s@zproxy.lum-superproxy.io:22225'%(username,zone_name,password)
+    # Create a copy of desired capabilities object.
+    desired_capabilities = webdriver.DesiredCapabilities.CHROME.copy()
+    # Change the proxy properties of that copy.
+    desired_capabilities['proxy'] = {
+        "httpProxy":PROXY,
+        "ftpProxy":PROXY,
+        "sslProxy":PROXY,
+        "noProxy":None,
+        "proxyType":"MANUAL",
+        "class":"org.openqa.selenium.Proxy",
+        "autodetect":False
+    }
+    # you have to use remote, otherwise you'll have to code it yourself in python to 
+    # dynamically changing the system proxy preferences
+    driver = webdriver.Remote("http://localhost:4444/wd/hub", desired_capabilities)    
+    driver.get('http://lumtest.com/myip.json')
+    time.sleep(2000)
+
+
+
+
+
 
 
 def main():
@@ -134,5 +179,5 @@ def main():
 
 if __name__ == '__main__':
     # test_chrome()
-    main()
+    get_luminati()
     # test_s5_requests('')

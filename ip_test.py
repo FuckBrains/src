@@ -66,6 +66,7 @@ def whoer_get(city =None):
         chrome_driver.close()
         chrome_driver.quit()
         return city,-1
+    chrome_driver.find_element_by_xpath().text
     return city,totalCount
 
 

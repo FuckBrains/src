@@ -225,18 +225,20 @@ def create_BasicInfo(keys):
     login_out_sql(conn,cursor)        
 
 def create_all_tables():
+    '''
+    login db
+    init table email,mission,plans,ip_pools if not exists
+    '''
     create_db()
     sql_contents = []
-    sql_email = "CREATE TABLE  IF NOT EXISTS Email (Email_Id VARCHAR(50) PRIMARY KEY NOT NULL,Email_emu VARCHAR(50) UNIQUE NOT NULL,Email_emu_pwd VARCHAR(50) NOT NULL,Email_assist VARCHAR(50) NULL,Email_assist_pwd VARCHAR(50) NULL,Status VARCHAR(20) NULL);"
-    sql_mission = "CREATE TABLE  IF NOT EXISTS Mission (Mission_Id INT(10) NOT NULL,Email_Id VARCHAR(50),BasicInfo_Id VARCHAR(50),Cookie VARCHAR(1000));"
-    sql_ip = "CREATE TABLE  IF NOT EXISTS Ip_Pools (Ip VARCHAR(50) UNIQUE NOT NULL,Type VARCHAR(20) NOT NULL,Status VARCHAR(20) NULL);"
-    sql_contents = [sql_email,sql_mission,sql_ip]
+    sql_email = "CREATE TABLE  IF NOT EXISTS Email (Email_Id VARCHAR(50) PRIMARY KEY NOT NULL,Email_emu VARCHAR(50) UNIQUE NOT NULL,Email_emu_pwd VARCHAR(50) NOT NULL,Email_assist VARCHAR(50) NULL,Email_assist_pwd VARCHAR(50) NULL,Status VARCHAR(20) NULL,create_time timestamp DEFAULT CURRENT_TIMESTAMP);"
+    sql_mission = "CREATE TABLE  IF NOT EXISTS Mission (Mission_Id INT(10) NOT NULL,Email_Id VARCHAR(50),BasicInfo_Id VARCHAR(50),Cookie VARCHAR(1000),create_time timestamp DEFAULT CURRENT_TIMESTAMP);"    
+    sql_plans = "CREATE TABLE  IF NOT EXISTS Plans (Plan_Id INT(10) NOT NULL,Alliance VARCHAR(50),Offer VARCHAR(50),url_link VARCHAR(200),Country VARCHAR(50),Excel VARCHAR(50),Mission_Id VARCHAR(50),Mission_dir VARCHAR(100),ip_lpm VARCHAR(50),prot_lpm VARCHAR(50),create_time timestamp DEFAULT CURRENT_TIMESTAMP);"    
+    sql_ip = "CREATE TABLE  IF NOT EXISTS Ip_Pools (Ip VARCHAR(50) UNIQUE NOT NULL,Type VARCHAR(20) NOT NULL,Status VARCHAR(20) NULL,create_time timestamp DEFAULT CURRENT_TIMESTAMP);"
+    sql_contents = [sql_email,sql_plans,sql_mission,sql_ip]
     Execute_sql(sql_contents)
     keys = check_keys()
     create_BasicInfo(keys)  
-
-
-
 
 '''
 Upload data together for all the excels in file folder res
@@ -583,10 +585,10 @@ def updata_email_status(Email_Id,flag = 1):
     res = cursor.execute(sql_content)    
     login_out_sql(conn,cursor)
 
-def update_ip_pools(values):
+def update_data(table,keys,values):
     # values=[proxy,'Socket5','Good']
-    table = 'Ip_Pools'
-    keys = ['Ip','Type','Status']
+    # table = 'Ip_Pools'
+    # keys = ['Ip','Type','Status']
     sql_content = get_upload_sql_content(table,keys,values)
     print(sql_content)
     sql_contents = []
@@ -608,6 +610,8 @@ def get_upload_sql_content(table,keys=None,values=None):
     type_str = type('1')
     type_int = type(1)    
     for i in range(len(values)):
+        print(values)
+        # print(values[i])
         if type(values[i]) == type_str:
             a+='"{}",'
         else:
@@ -618,6 +622,7 @@ def get_upload_sql_content(table,keys=None,values=None):
 
 def Execute_sql(sql_contents):
     account = get_account()
+    print(account)
     conn,cursor = login_sql(account)
     for sql_content in sql_contents:
         print('\n\n\n')
@@ -825,8 +830,71 @@ def get_duplicated_mission_record():
 
     Execute_sql([sql_content1,sql_content2])
 
+def read_plans(plan_id):
+    '''
+    return:
+        plans:list of plans,eg.[plan1,plan2]
+            plan1: list of Offer_links ,containing lpm_port
+                Offer_links = [{'Mission_Id':10009,lpm_port:24002...},{'Mission_Id':10009,lpm_port:24003...},{'Mission_Id':10003,lpm_port:24004...}...]
+                palns = {'1':Offer_links1,'2':Offer_links2,...}                
+    '''
+    print('     Start reading info from sql server...')
+    account = get_account()
+    conn,cursor=login_sql(account)
+    res = cursor.execute('SELECT * from Plans WHERE Plan_Id = %d'%plan_id)
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    plans = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来    
+    login_out_sql(conn,cursor)
+    for plan in plans:
+        plan['Mission_dir'] = plan['Mission_dir'].replace('//','\\')  
+        plan['Excel'] = plan['Excel'].split(',')
+    return plans
+
+def upload_plans(plans):
+    table = 'Plans'
+    sql_contents = []    
+    for item in plans:
+        list_keys , list_values =list(plans[item].keys()), list(plans[item].values()) 
+        for i in range(len(list_values)):
+            if type(list_values[i]) == type([]):
+                list_values[i] = list_values[i][0]+','+list_values[i][1]
+        print(list_values)
+        sql_content = get_upload_sql_content(table,list_keys,list_values)
+        print(sql_content)
+        sql_contents.append(sql_content)
+    Execute_sql(sql_contents)    
+    # update_data(table,keys,values)
+
+
+def test_dict():
+    dict_test = {'0': {'Alliance': 'Finaff', 'Offer': 'Royal Cams(Done)', 'url_link': 'http', 'Country': 'US', 'Mission_Id': '10000', 'Excel': ['', 'Email']}}
+    list_keys , list_values = dict_test['0'].keys(), dict_test['0'].values()    
+    print(list(list_keys))
+    # print(type(list_keys))
+    print(list(list_values))
+
+
+def add_key_db():
+    sql_content = "ALTER TABLE Plans ADD Mission_id VARCHAR(50) DEFAULT '' AFTER Excel"
+    Execute_sql([sql_content])
+
+def clean_table(plan_id):
+    sql_content = 'delete from Plans WHERE plan_id = %d'%int(plan_id)
+    Execute_sql([sql_content])
+
+def update_key():
+    sql_content = "UPDATE Plans SET Plan_Id = 1 WHERE Mission_id = '%s'" % ('10000')
+    Execute_sql([sql_content])
+
+
 
 if __name__ == '__main__':
     init()
-    delete_old_data()
+    # delete_old_data()
     # get_duplicated_mission_record()
+    plans = {'0': {'Alliance': 'Finaff', 'Offer': 'Royal Cams(Done)', 'url_link': 'http', 'Country': 'US', 'Mission_Id': '10000', 'Excel': ['', 'Email']}}
+    # upload_plans(plans)
+    # add_key_db()
+    # plans = read_plans()
+    # print(plans)
+    # update_key()

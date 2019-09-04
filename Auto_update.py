@@ -126,7 +126,12 @@ def delete_folder():
     modules_file = [os.path.join(path_src,file) for file in modules_path if '.'  in file]
     print(modules_path)
     modules_folder = [os.path.join(path_src,file) for file in modules_path if '.' not in file]
-    [os.remove(file) for file in modules_file if '.' in file and  'Auto_update' not in file and '.git' not in file]    
+    try:
+        [os.remove(file) for file in modules_file if '.' in file and  'Auto_update' not in file and '.git' not in file]    
+    except Exception as e:
+        print(str(e))
+    print('finish delete files without Auto_update...................')
+    print(os.listdir(path_src))
     for folder in modules_folder:
         file_folder = os.listdir(folder)
         file_folder_path = [os.path.join(folder,file) for file in file_folder]
@@ -151,6 +156,7 @@ def read_account():
         account = line.split(',')
         account_coding['name'] = account[0]
         account_coding['pwd'] = account[1]
+    print(account_coding)
     return account_coding
 
 

@@ -137,13 +137,16 @@ def test_coding():
     import Auto_update
     Auto_update.read_account()
 
+def test_html():
+    chrome_driver = Chrome_driver.get_chrome()
+    chrome_driver.get('https://trk.hracmp.com/click?pid=190&offer_id=2492')
+    sleep(3000)
+
+
+
+def test_db():
+    plans = db.read_plans(1)
+    print(plans)
 
 if __name__ == '__main__':
-    # clean_download()
-    # excels,emails,Missions = db.read_all_info()
-    # print(excels,emails,Missions)
-    # test()
-    # Alliance_login.Get_Alliance_name()
-    # accounts = Alliance_login.Get_roboform_account()
-    # print(accounts)
-    test_coding()
+    test_db()

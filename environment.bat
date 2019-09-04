@@ -15,6 +15,5 @@ pip install shutil
 pip install ntplib
 pip install PyQt5
 pip install PySocks
-pip install pproxy
+pip install pproxy==0.9.3
 pip install requests_html
-pip install globalvar

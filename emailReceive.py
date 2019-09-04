@@ -15,7 +15,9 @@ class EmailReceive(object):
             if serverInfo[2]:
                 self.imap_mail = imaplib.IMAP4_SSL(serverInfo[0],serverInfo[1])
             else:
+                print('Imap4 logining server...........')
                 self.imap_mail = imaplib.IMAP4(serverInfo[0], serverInfo[1])
+            print('Imap4 logining account:',address,password)
             self.imap_mail.login(address,password)
         except Exception as e:
             print(e)

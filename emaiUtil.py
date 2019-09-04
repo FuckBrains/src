@@ -4,13 +4,15 @@ from emailSend import EmailSend
 
 class EmailUtil(object):
     @staticmethod
-    def getLink(address,password,title=('title',),regular=r'http',findAll=False):
+    def getLink(address,password,title=('title',),regular=r'http',findAll=False,debug=0):
+        print('Getting into EmailReceive............')
         allRes = EmailReceive(address, password).getEmail(keyword=title, onlyUnsee=False, findAll=findAll)
         if  allRes is None or allRes == []:
             print('find email wrong:',title)
             return 'Good'
         print('find email ok:',title)
-        # print(allRes)
+        if debug == 1:
+            print(allRes)
         pattern = re.compile(regular)
         for head,body in allRes:
             if body :

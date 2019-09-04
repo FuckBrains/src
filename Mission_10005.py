@@ -21,7 +21,6 @@ def detect_email():
     url = r'https://www.cam4.com/signup/email?pageLocale=en'
     url2 = r'https://www.cam4.com/signup/username?pageLocale=en'
 
-
 def check_email(submit):
     print(submit['Email_emu'])
     data = {'email': submit['Email_emu']}
@@ -44,9 +43,6 @@ def check_email(submit):
     else:
         print(submit['Email_emu'],'is GOOD_EMAIL')
         return 0 #success
-
-
-
 
 def web_submit(submit):
     chrome_driver = Chrome_driver.get_chrome(submit)
@@ -137,7 +133,6 @@ def web_submit(submit):
     return flag
         # submit['name'] = ng.gen_one_word_digit(lowercase=False)
         # status,submit['name'] = web_Submit(submit)
-
  
 def check_email(submit):
     print(submit['Email_emu'])
@@ -161,8 +156,6 @@ def check_email(submit):
     else:
         print(submit['Email_emu'],'is GOOD_EMAIL')
         return 0 #success
-    
-
 
 def email_confirm(submit):
     site = ''
@@ -179,6 +172,14 @@ def email_confirm(submit):
             site = msg_content[a:b]
             return site
     return site
+
+def activate():
+    site_url = 'https://www.baidu.com'
+    # https://www.cam4.com/
+    chrome_driver = Chrome_driver.get_chrome()
+    chrome_driver.get(site_url)
+    print('cam4....................')
+    sleep(3000)
 
 
 

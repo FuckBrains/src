@@ -30,8 +30,9 @@ def main():
 
 
 
-def get_email(email,pwd,title = ('title',),pattern=r'http',findAll=False):
-    site = EmailUtil.getLink(email,pwd,title,pattern,findAll) 
+def get_email(email,pwd,title = ('title',),pattern=r'http',findAll=False,debug=0):
+    print('Getting into EmailUtil..........')
+    site = EmailUtil.getLink(email,pwd,title,pattern,findAll,debug) 
     return  site
 
 if __name__=='__main__':

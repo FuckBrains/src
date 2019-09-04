@@ -38,6 +38,7 @@ def get_chrome(submit = None):
              "download.directory_upgrade": True,
              "safebrowsing.enabled": True,
              'profile.default_content_settings.popups': 0
+             # "profile.managed_default_content_settings.images": 2
              }    
     # options.add_experimental_option('prefs', prefs)
     # extension_path = '../tools/extension/1.1.0_0.crx'   
@@ -50,16 +51,25 @@ def get_chrome(submit = None):
     # } 
     # }   
     options.add_argument('user-agent=' + ua) 
+    if 'Mission_dir' in submit:
+        submit['Mission_dir'] = submit['Mission_dir'].replace('//','\\') 
+        print('Selenium in using user-data-dir:',submit['Mission_dir'])
+        options.add_argument('--user-data-dir='+submit['Mission_dir'])
+    if 'ip_lpm' in submit:
+        ip = submit['ip_lpm']
+        port = submit['prot_lpm']
+        proxy = 'socks5://%s:%s'%(ip,port)
+        options.add_argument('--proxy-server=%s'%proxy)
     # options.add_argument('--single-process')
     # options.add_argument('--process-per-tab')    
-    
     # options.add_argument('--disable-gpu')        
     options.add_argument("--disable-automation")
     options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])
     options.add_experimental_option("prefs", prefs) 
     chrome_driver = webdriver.Chrome(chrome_options=options)
     chrome_driver.set_page_load_timeout(300)
-    chrome_driver.implicitly_wait(20)  # 最长等待8秒    
+    chrome_driver.implicitly_wait(20)  # 最长等待8秒  
+    # chrome_driver.set_window_size(500,500)
     return chrome_driver
 
 def get_dir():
@@ -125,4 +135,7 @@ def misc_init(target_folder):
 
 
 if __name__ == '__main__':
-    clean_download()
+    # clean_download()
+    chrome_driver = get_chrome()
+    chrome_driver.get('http://whoer.net')
+    sleep(1000)
