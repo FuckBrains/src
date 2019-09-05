@@ -318,9 +318,10 @@ def main(proxy):
     get_lpm_ip(proxy)
 
 def ports_get(ip_lpm):
+    print('ports_get',ip_lpm)
     url_ports = 'http://%s:22999/api/proxies_running'%ip_lpm
     res = requests.get(url_ports)
-    # print(res.text)
+    print(res.text)
     config_info = json.loads(res.text)
     ports_used = [] 
     for config in config_info:
@@ -338,14 +339,8 @@ def test_ip():
 
 def create_plan_data(plan_id,Offer_links):
     account = db.get_account()
-    if account['IP'] == '127.0.0.1':
-        myname = socket.getfqdn(socket.gethostname(  ))
-        print(myname)
-        myaddr = socket.gethostbyname(myname)
-        print(myaddr)
-        ip_lpm = myaddr
-    else:
-        ip_lpm = account['IP']
+    print('===================')
+    print('account',account)
     Configs = []
     ports_used = ports_get(ip_lpm)
     if len(ports_used) == 0:
@@ -355,6 +350,14 @@ def create_plan_data(plan_id,Offer_links):
     print('Basic_port:',basic_port) 
     path = os.path.abspath(os.path.join(os.getcwd(), ".."))
     dir_account_chrome = os.path.join(path,r'emu_chromes')
+    if account['IP'] == '127.0.0.1':
+        myname = socket.getfqdn(socket.gethostname(  ))
+        print(myname)
+        myaddr = socket.gethostbyname(myname)
+        print(myaddr)
+        ip_lpm = myaddr
+    else:
+        ip_lpm = account['IP']    
     for item in Offer_links:
         Config = Offer_links[item]
         num_mission = 1
