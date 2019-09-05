@@ -341,7 +341,7 @@ def create_plan_data(plan_id,Offer_links):
     account = db.get_account()
     print('===================')
     print('account',account)
-    Configs = []
+    Configs = db.read_plans(plan_id)
     ip_lpm = account['IP']
     ports_used = ports_get(ip_lpm)
     if len(ports_used) == 0:

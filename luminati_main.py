@@ -185,7 +185,8 @@ def emu_chrome_count():
 
 
 def main():
-    plan_id = 1
+    account = db.get_account()
+    plan_id = account['plan_id']
     plans = db.read_plans(plan_id)
     print(plans)
 

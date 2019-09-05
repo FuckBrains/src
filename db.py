@@ -901,10 +901,10 @@ def get_luminati_submit(Config):
     submit['Mission_Id'] = Config['Mission_Id']
     submit['Site'] = Config['url_link']
     submit['Excels_dup'] = Excels_dup
-    print('fffffffffffffffffffffffffffffffff')
-    print('fffffffffffffffffffffffffffffffff')
-    print('fffffffffffffffffffffffffffffffff')
-    print('fffffffffffffffffffffffffffffffff')    
+    # print('fffffffffffffffffffffffffffffffff')
+    # print('fffffffffffffffffffffffffffffffff')
+    # print('fffffffffffffffffffffffffffffffff')
+    # print('fffffffffffffffffffffffffffffffff')    
     print(submit['Site'])
     submit['Mission_dir'] = Config['Mission_dir']    
     return submit
