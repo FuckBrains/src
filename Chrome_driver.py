@@ -51,15 +51,16 @@ def get_chrome(submit = None):
     # } 
     # }   
     options.add_argument('user-agent=' + ua) 
-    if 'Mission_dir' in submit:
-        submit['Mission_dir'] = submit['Mission_dir'].replace('//','\\') 
-        print('Selenium in using user-data-dir:',submit['Mission_dir'])
-        options.add_argument('--user-data-dir='+submit['Mission_dir'])
-    if 'ip_lpm' in submit:
-        ip = submit['ip_lpm']
-        port = submit['prot_lpm']
-        proxy = 'socks5://%s:%s'%(ip,port)
-        options.add_argument('--proxy-server=%s'%proxy)
+    if type(submit) != type(None):
+        if 'Mission_dir' in submit:
+            submit['Mission_dir'] = submit['Mission_dir'].replace('//','\\') 
+            print('Selenium in using user-data-dir:',submit['Mission_dir'])
+            options.add_argument('--user-data-dir='+submit['Mission_dir'])
+        if 'ip_lpm' in submit:
+            ip = submit['ip_lpm']
+            port = submit['prot_lpm']
+            proxy = 'socks5://%s:%s'%(ip,port)
+            options.add_argument('--proxy-server=%s'%proxy)
     # options.add_argument('--single-process')
     # options.add_argument('--process-per-tab')    
     # options.add_argument('--disable-gpu')        
