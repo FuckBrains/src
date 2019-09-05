@@ -342,6 +342,7 @@ def create_plan_data(plan_id,Offer_links):
     print('===================')
     print('account',account)
     Configs = []
+    ip_lpm = account['IP']
     ports_used = ports_get(ip_lpm)
     if len(ports_used) == 0:
         basic_port = 24000
