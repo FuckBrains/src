@@ -38,7 +38,7 @@ def web_submit(submit):
     # print('=========')
     name = name_get.gen_one_word_digit(lowercase=False)
     chrome_driver.maximize_window()
-    chrome_driver.refresh()
+    # chrome_driver.refresh()
     # sleep(2)
     # try:
     #     chrome_driver.find_element_by_xpath('//*[@id="layout_9"]/div[11]/div/a').click()

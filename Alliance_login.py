@@ -226,4 +226,4 @@ if __name__ == '__main__':
     # paras = [0,1,2,3,4]
     # i = int(paras[1])
     # main(i)
-    cookies_test()
+    main(1)

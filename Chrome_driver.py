@@ -68,11 +68,12 @@ def get_chrome(submit = None):
     options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])
     options.add_experimental_option("prefs", prefs) 
     chrome_driver = webdriver.Chrome(chrome_options=options)
-    chrome_driver.set_page_load_timeout(300)
+    chrome_driver.set_page_load_timeout(120)
     chrome_driver.implicitly_wait(20)  # 最长等待8秒  
     # chrome_driver.set_window_size(500,500)
     if type(submit) != type(None):   
         print('prepareing for deleting cookies') 
+        print(submit['Site'])
         chrome_driver.get(submit['Site']) 
         cookies = chrome_driver.get_cookies()
         chrome_driver.delete_all_cookies()  

@@ -233,7 +233,7 @@ def create_all_tables():
     sql_contents = []
     sql_email = "CREATE TABLE  IF NOT EXISTS Email (Email_Id VARCHAR(50) PRIMARY KEY NOT NULL,Email_emu VARCHAR(50) UNIQUE NOT NULL,Email_emu_pwd VARCHAR(50) NOT NULL,Email_assist VARCHAR(50) NULL,Email_assist_pwd VARCHAR(50) NULL,Status VARCHAR(20) NULL,create_time timestamp DEFAULT CURRENT_TIMESTAMP);"
     sql_mission = "CREATE TABLE  IF NOT EXISTS Mission (Mission_Id INT(10) NOT NULL,Email_Id VARCHAR(50),BasicInfo_Id VARCHAR(50),Cookie VARCHAR(1000),create_time timestamp DEFAULT CURRENT_TIMESTAMP);"    
-    sql_plans = "CREATE TABLE  IF NOT EXISTS Plans (Plan_Id INT(10) NOT NULL,Alliance VARCHAR(50),Offer VARCHAR(50),url_link VARCHAR(200),Country VARCHAR(50),Excel VARCHAR(50),Mission_Id VARCHAR(50),Mission_dir VARCHAR(100),ip_lpm VARCHAR(50),prot_lpm VARCHAR(50),create_time timestamp DEFAULT CURRENT_TIMESTAMP);"    
+    sql_plans = "CREATE TABLE  IF NOT EXISTS Plans (Plan_Id INT(10) NOT NULL,Alliance VARCHAR(50),Offer VARCHAR(50),url_link VARCHAR(1000),Country VARCHAR(50),Excel VARCHAR(50),Mission_Id VARCHAR(50),Mission_dir VARCHAR(100),ip_lpm VARCHAR(50),prot_lpm VARCHAR(50),create_time timestamp DEFAULT CURRENT_TIMESTAMP);"    
     sql_ip = "CREATE TABLE  IF NOT EXISTS Ip_Pools (Ip VARCHAR(50) UNIQUE NOT NULL,Type VARCHAR(20) NOT NULL,Status VARCHAR(20) NULL,create_time timestamp DEFAULT CURRENT_TIMESTAMP);"
     sql_contents = [sql_email,sql_plans,sql_mission,sql_ip]
     Execute_sql(sql_contents)
@@ -900,6 +900,12 @@ def get_luminati_submit(Config):
         submit['state_'] = submit[Excels_dup[0]]['state']
     submit['Mission_Id'] = Config['Mission_Id']
     submit['Site'] = Config['url_link']
+    submit['Excels_dup'] = Excels_dup
+    print('fffffffffffffffffffffffffffffffff')
+    print('fffffffffffffffffffffffffffffffff')
+    print('fffffffffffffffffffffffffffffffff')
+    print('fffffffffffffffffffffffffffffffff')    
+    print(submit['Site'])
     submit['Mission_dir'] = Config['Mission_dir']    
     return submit
 

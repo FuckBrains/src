@@ -49,7 +49,7 @@ def web_submit(submit):
     chrome_driver.get(submit['Site'])
     name = name_get.gen_one_word_digit(lowercase=False)
     chrome_driver.maximize_window()
-    chrome_driver.refresh()
+    # chrome_driver.refresh()
     flag = 0
     i = 0
     while i <=3:

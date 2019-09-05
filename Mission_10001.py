@@ -36,7 +36,7 @@ def web_submit(submit):
     chrome_driver.get(submit['Site'])   
     name = name_get.gen_one_word_digit(lowercase=False)
     chrome_driver.maximize_window()
-    chrome_driver.refresh()
+    # chrome_driver.refresh()
     # sleep(10000)
     sleep(10)
     # num = random.randint(0,30)

@@ -89,11 +89,35 @@ def multi_reg(Config):
     # print(type(submit['Config']['Mission_Id']))
     # print(submit['Config']['Mission_Id'])
     time_cheat = random.randint(0,5)
+    print('Sleep for',time_cheat*60,'-------------')    
     sleep(time_cheat*60)
-    submit = db.get_luminati_submit(Config)
+    while True:
+        try:
+            submit = db.get_luminati_submit(Config)
+            print('Data for this mission:')
+            print(submit)
+        except Exception as e:
+            print(str(e))
+            # changer.Restart()
+            return
+        print('Reading config from sql server success')
+        if submit['Excels_dup'][1] != '':
+            print('testing email.........')
+            flag = imap_test.Email_emu_getlink(submit['Email'])
+            if flag == 0:
+                print('Bad email:',submit['Email']['Email_emu'])
+                db.updata_email_status(submit['Email']['Email_Id'],0)
+                continue
+            else:
+                print("Good email")
+                db.updata_email_status(submit['Email']['Email_Id'],1)
+                break
+        else:
+            break              
     module = 'Mission_'+submit['Mission_Id']
     Module = importlib.import_module(module)    
-    luminati.ip_test(submit['ip_lpm'],submit['prot_lpm'],state=submit['state_'] ,country='')             
+    db.write_one_info([submit['Mission_Id']],submit)
+    luminati.ip_test(submit['ip_lpm'],submit['prot_lpm'],state=submit['state_'] ,country='')               
     try:
         Module.web_submit(submit)
         print(submit)

@@ -36,7 +36,7 @@ def web_submit(submit,debug=0):
     chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()
-    chrome_driver.refresh()    
+    # chrome_driver.refresh()    
     # email
     element = selenium_funcs.scroll_and_find(chrome_driver,'//*[@id="email2"]')
     element.send_keys(submit['Email']['Email_emu'])

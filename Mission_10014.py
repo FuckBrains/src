@@ -61,7 +61,7 @@ def web_submit(submit,debug=0):
     chrome_driver.get(submit['Site'])
     # name = name_get.gen_one_word_digit(lowercase=False)
     chrome_driver.maximize_window()
-    chrome_driver.refresh()
+    # chrome_driver.refresh()
     if 'desperatebbws.com/landing?' not in chrome_driver.current_url:
         chrome_driver.close()
         chrome_driver.quit()

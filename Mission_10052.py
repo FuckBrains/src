@@ -55,7 +55,7 @@ def web_submit(submit,debug=0):
     chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
-    chrome_driver.refresh()
+    # chrome_driver.refresh()
     # point
     chrome_driver.find_element_by_xpath('//*[@id="scroll2"]/span').click()
     sleep(5)

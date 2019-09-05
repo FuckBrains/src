@@ -35,7 +35,7 @@ def web_submit(submit,debug = 0):
     chrome_driver.get(submit['Site'])
     # sleep(2000)
     chrome_driver.maximize_window()
-    chrome_driver.refresh()
+    # chrome_driver.refresh()
     # sleep(1000)
 
     # page1

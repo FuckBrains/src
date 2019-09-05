@@ -37,7 +37,7 @@ def web_submit(submit,debug=0):
     chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()
-    chrome_driver.refresh()      
+    # chrome_driver.refresh()      
     sleep(5)
     chrome_driver.find_element_by_xpath('//*[@id="regform"]/div[1]/div[1]/div/div/div/div[1]/label').click()
     sleep(2)
