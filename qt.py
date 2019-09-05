@@ -481,8 +481,8 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         plan_id = int(self.comboBox7.currentText())
         self.file_Offer_link = r'..\res\Offer_link.ini'
         self.offer_link = Read_Ini(self.file_Offer_link)
-        print(Offer_links)
-        plans = luminati.create_plan_data(plan_id,Offer_links)
+        # print(Offer_links)
+        plans = luminati.create_plan_data(plan_id,self.offer_link)
         db.upload_plans(plans)
 
     @pyqtSlot()
