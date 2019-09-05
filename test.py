@@ -11,6 +11,7 @@ import Chrome_driver
 from time import sleep
 import psutil
 import db
+import luminati
 
 def read_ini():
     file = r'Offer_conf.ini'
@@ -156,5 +157,23 @@ def test_ip():
     myaddr = socket.gethostbyname(myname)
     print(myaddr)
 
+def test_luminati():
+    ip = '192.168.30.131'
+    port = 24000
+    luminati.get_lpm_ip(ip,port)
+
+def test_chrome_luminati():
+    import importlib
+    plans = db.read_plans(10)
+    print(plans)
+    # return
+    submit = db.get_luminati_submit(plans[0])
+    print(submit)
+    module = 'Mission_'+submit['Mission_Id']
+    Module = importlib.import_module(module)     
+    luminati.ip_test(submit['ip_lpm'],submit['prot_lpm'],state=submit['state_'] ,country='')             
+    Module.web_submit(submit) 
+
 if __name__ == '__main__':
-    test_ip()
+    test_chrome_luminati()
+

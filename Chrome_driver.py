@@ -71,6 +71,12 @@ def get_chrome(submit = None):
     chrome_driver.set_page_load_timeout(300)
     chrome_driver.implicitly_wait(20)  # 最长等待8秒  
     # chrome_driver.set_window_size(500,500)
+    if type(submit) != type(None):   
+        print('prepareing for deleting cookies') 
+        chrome_driver.get(submit['Site']) 
+        cookies = chrome_driver.get_cookies()
+        chrome_driver.delete_all_cookies()  
+        print(cookies)    
     return chrome_driver
 
 def get_dir():
@@ -137,6 +143,7 @@ def misc_init(target_folder):
 
 if __name__ == '__main__':
     # clean_download()
+    url_test = 'http://tbx.gamemass.website/c/14549/7?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]'
     chrome_driver = get_chrome()
-    chrome_driver.get('http://whoer.net')
+    chrome_driver.get(url_test)
     sleep(1000)

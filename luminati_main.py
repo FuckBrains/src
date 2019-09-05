@@ -76,7 +76,9 @@ def killpid():
                     os.system(cmd)            
                 except:
                     pass
-                      
+
+
+                    
 def multi_reg(Config):
     # print(Config)
     # return
@@ -86,26 +88,12 @@ def multi_reg(Config):
     # print('============')
     # print(type(submit['Config']['Mission_Id']))
     # print(submit['Config']['Mission_Id'])
-    file_Offer_config = r'ini\Offer_config.ini'    
-    Offer_config = read_ini(file_Offer_config)  
-    Email_list_new = []
-    Email_list = Offer_config['Email_list']    
-    Mission_Ids,Excels_dup = [Config['Mission_Id']],Config['Excel']
-    # print(Excels_dup)
-    submit = db.read_one_excel(Mission_Ids,Excels_dup,Email_list)
-    # print(submit)
-    submit['ip_lpm'] = Config['ip_lpm']
-    submit['prot_lpm'] = Config['prot_lpm']
-    if Excels_dup[0] == '':
-        state = ''
-    else:
-        state = submit[Excels_dup[0]]['state']
-    luminati.ip_test(submit['ip_lpm'],submit['prot_lpm'],state=state ,country='')     
-    module = 'Mission_'+Config['Mission_Id']
-    # print(module)
-    Module = import_Module(module)
-    submit['Site'] = Config['url_link']
-    submit['Mission_dir'] = Config['Mission_dir']
+    time_cheat = random.randint(0,5)
+    sleep(time_cheat*60)
+    submit = db.get_luminati_submit(Config)
+    module = 'Mission_'+submit['Mission_Id']
+    Module = importlib.import_module(module)    
+    luminati.ip_test(submit['ip_lpm'],submit['prot_lpm'],state=submit['state_'] ,country='')             
     try:
         Module.web_submit(submit)
         print(submit)
@@ -152,125 +140,6 @@ def makedir_file(path=r'c:\emu_download'):
         os.makedirs(path)
         print('Making dir:',path,'success')
 
-
-def EMU_multi():
-    makedir_download()
-    # clean_download()
-    # test
-    Excel_names = db.get_excel_names()
-    '''
-    get all links without sorted
-    '''
-    file_Offer_link = r'..\res\Offer_link.ini'
-    Offer_links = read_ini(file_Offer_link)
-    # sort all links into lists
-    Mission_conf_duplicated_all = sort_Mission_conf(Offer_links)
-    file_Offer_config = r'ini\Offer_config.ini'
-    Offer_config = read_ini(file_Offer_config)  
-    Email_list_new = []
-    Email_list = Offer_config['Email_list']
-    for item in Email_list:
-        if Email_list[item] == 1:
-            Email_list_new.append(item)
-    # go through all the links from lists
-    for Mission_conf_duplicated in Mission_conf_duplicated_all:     
-        # global Falg_threads
-        # Falg_threads = 0
-        Mission_Ids = []
-        for index in Mission_conf_duplicated:
-            if Mission_conf_duplicated[index]['Mission_Id'] not in Mission_Ids:
-                Mission_Ids.append(Mission_conf_duplicated[index]['Mission_Id'])
-        country = Mission_conf_duplicated[index]['Country']
-        print(country)
-        print(Mission_Ids)
-        try:
-            killpid()
-        except:
-            pass
-        # print(modules)
-        # print('Reading config from sql server...')
-        Excels_dup = ['','']
-        for index in Mission_conf_duplicated:
-            Excel = Mission_conf_duplicated[index]['Excel'] 
-            if Excel[0] != '':
-                Excels_dup[0] = Excel[0]
-            if Excel[1] != '':
-                Excels_dup[1] = Excel[1]
-        while True:
-            try:
-                print('Mission_Ids,Excels_dup,Email_list:')
-                print(Mission_Ids,Excels_dup,Email_list)
-                submit1 = db.read_one_excel(Mission_Ids,Excels_dup,Email_list)
-            except Exception as e:
-                print(str(e))
-                # changer.Restart()
-                return
-            print(submit1)
-            print('Reading config from sql server success')
-            if Excels_dup[1] != '':
-                print('testing email.........')
-                flag = imap_test.Email_emu_getlink(submit1['Email'])
-                if flag == 0:
-                    print('Bad email:',submit1['Email']['Email_emu'])
-                    db.updata_email_status(submit1['Email']['Email_Id'],0)
-                    continue
-                else:
-                    print("Good email")
-                    db.updata_email_status(submit1['Email']['Email_Id'],1)
-                    break
-            else:
-                break
-        # changing IP
-        for num_ip in range(6):
-            try:
-                if Excels_dup[0] != '':
-                    city = ip_test.ip_Test('',state = submit1[Excels_dup[0]]['state'],country=country )
-                else:
-                    city = ip_test.ip_Test('','',country=country )
-                if  city != 'Not found':
-                    break
-                if num_ip == 5:
-                    print('Net wrong...!!!!!!')
-                    changer.Restart()
-                    return
-            except:
-                changer.Restart()
-        submits = []
-        submit = {}
-        for item in Mission_conf_duplicated:
-            submit = submit1.copy()
-            submit['Config'] = Mission_conf_duplicated[item]
-            submits.append(submit)
-            submit = {}
-        db.write_one_info(Mission_Ids,submit1)
-        requests = threadpool.makeRequests(multi_reg, submits)
-        [pool.putRequest(req) for req in requests]
-        pool.wait() 
-        # flag_next = len(submits) 
-        # while True:
-        #     if Falg_threads >= flag_next:
-        #         break
-        #     else:
-        #         print('++++++++++++++++=================')
-        #         print('Falg_threads:',Falg_threads)
-        #         sleep(10)        
-        try:
-            killpid()
-        except:
-            pass
-    if len(Mission_conf_duplicated_all) == 0:
-        return
-    # time_delay = random.randint(Delay['up']*60,Delay['down']*60)
-    # print('Sleeping',time_delay,'Minutes')
-    # sleep(time_delay)
-    file_Offer_config = r'ini\Offer_config.ini'
-    Offer_config = read_ini(file_Offer_config) 
-    up = Offer_config['Delay']['up']   
-    down = Offer_config['Delay']['down']
-    time_delay = random.randint(up*60,down*60)
-    print('Finish all tasks,starting sleep:',time_delay)    
-    sleep(time_delay)
-    changer.Restart()
 
 def create_emu_chrome(offerlist):
     offer_file = {}

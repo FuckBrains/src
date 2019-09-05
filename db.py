@@ -886,6 +886,22 @@ def update_key():
     sql_content = "UPDATE Plans SET Plan_Id = 1 WHERE Mission_id = '%s'" % ('10000')
     Execute_sql([sql_content])
 
+def get_luminati_submit(Config): 
+    Email_list = {"hotmail.com": 1, "outlook.com": 1, "yahoo.com": 1, "aol.com": 1}
+    Mission_Ids,Excels_dup = [Config['Mission_Id']],Config['Excel']
+    # print(Excels_dup)
+    submit = read_one_excel(Mission_Ids,Excels_dup,Email_list)
+    # print(submit)
+    submit['ip_lpm'] = Config['ip_lpm']
+    submit['prot_lpm'] = Config['prot_lpm']
+    if Excels_dup[0] == '':
+        submit['state_'] = ''
+    else:
+        submit['state_'] = submit[Excels_dup[0]]['state']
+    submit['Mission_Id'] = Config['Mission_Id']
+    submit['Site'] = Config['url_link']
+    submit['Mission_dir'] = Config['Mission_dir']    
+    return submit
 
 
 if __name__ == '__main__':

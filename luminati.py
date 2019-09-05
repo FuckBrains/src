@@ -387,8 +387,9 @@ def create_plans():
 
 
 if __name__ == '__main__':
-    port = 24029
+    port = 24001
     ip = '192.168.30.131'
+    get_lpm_ip(ip,port)
     # create_plan_data(1)
     # a = random.random()
     # print(str(a))
@@ -402,4 +403,4 @@ if __name__ == '__main__':
     Mission_num_str = '1,1'
     dir_account = os.path.join(dir_account_chrome,Mission_num_str) 
     # dir_account_chrome = dir_account_chrome.replace('//','\\')                        
-    print(dir_account)    
+    # print(dir_account)    
