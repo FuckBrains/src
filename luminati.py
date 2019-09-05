@@ -336,8 +336,11 @@ def test_ip():
         print('Test',i,'used',time_used_lists[i],'seconds')
 
 def create_plan_data(plan_id,Offer_links):
-    account = db.get_account()
-    ip_lpm = account['IP']
+    myname = socket.getfqdn(socket.gethostname(  ))
+    print(myname)
+    myaddr = socket.gethostbyname(myname)
+    print(myaddr)
+    ip_lpm = myaddr
     Configs = []
     ports_used = ports_get(ip_lpm)
     if len(ports_used) == 0:

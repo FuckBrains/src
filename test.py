@@ -1,3 +1,4 @@
+import socket
 import Alliance_login
 import os
 import json
@@ -148,5 +149,12 @@ def test_db():
     plans = db.read_plans(1)
     print(plans)
 
+
+def test_ip():
+    myname = socket.getfqdn(socket.gethostname(  ))
+    print(myname)
+    myaddr = socket.gethostbyname(myname)
+    print(myaddr)
+
 if __name__ == '__main__':
-    test_db()
+    test_ip()
