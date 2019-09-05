@@ -351,14 +351,10 @@ def create_plan_data(plan_id,Offer_links):
     print('Basic_port:',basic_port) 
     path = os.path.abspath(os.path.join(os.getcwd(), ".."))
     dir_account_chrome = os.path.join(path,r'emu_chromes')
-    if account['IP'] == '127.0.0.1':
-        myname = socket.getfqdn(socket.gethostname(  ))
-        print(myname)
-        myaddr = socket.gethostbyname(myname)
-        print(myaddr)
-        ip_lpm = myaddr
-    else:
-        ip_lpm = account['IP']    
+    myname = socket.getfqdn(socket.gethostname(  ))
+    print(myname)
+    myaddr = socket.gethostbyname(myname)
+    print(myaddr)
     for item in Offer_links:
         Config = Offer_links[item]
         num_mission = 1
@@ -370,7 +366,10 @@ def create_plan_data(plan_id,Offer_links):
         dir_account = dir_account.replace('\\','//')                
         Offer_links[item]['Mission_dir'] = dir_account
         print('dir_account:',dir_account)
-        Offer_links[item]['ip_lpm'] = ip_lpm
+        if account['IP'] == '127.0.0.1':
+            Offer_links[item]['ip_lpm'] = myaddr
+        else:
+            Offer_links[item]['ip_lpm'] = ip_lpm            
         Offer_links[item]['prot_lpm'] = basic_port + 1  
         print('Start adding proxy port:',Offer_links[item]['prot_lpm'])
         add_proxy(Offer_links[item]['prot_lpm'],country=Offer_links[item]['Country'],ip_lpm=ip_lpm)
