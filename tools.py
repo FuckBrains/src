@@ -1,4 +1,5 @@
 import psutil
+import os
 
 def killpid():
     pids = psutil.pids()
@@ -9,9 +10,10 @@ def killpid():
             continue
         kill_list = ['chrome.exe','chromedriver.exe','Client.exe','Monitor.exe','MonitorGUI.exe','Socket.exe']
         for key in kill_list:
+            # print(key)
             if p.name() == key:
                 cmd = 'taskkill /F /IM '+key
                 try:
                     os.system(cmd)            
-                except:
-                    pass
+                except Exception as e:
+                    print(str(e))

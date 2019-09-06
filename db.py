@@ -564,11 +564,15 @@ def write_one_info(Mission_list,submit,Cookie = ''):
     BasicInfo_Id = '' 
     account = get_account()
     conn,cursor=login_sql(account)  
-    for item in submit:  
+    for item in submit:
+
         if item == 'Email':
             Email_Id = submit['Email']['Email_Id']
         else:
-            BasicInfo_Id = submit[item]['BasicInfo_Id']
+            try:
+                BasicInfo_Id = submit[item]['BasicInfo_Id']
+            except:
+                pass
     for Mission_Id in Mission_list:
         sql_content = 'INSERT INTO Mission(Mission_Id,Email_Id,BasicInfo_Id,Cookie)VALUES("%s","%s","%s","%s")'%(Mission_Id,Email_Id,BasicInfo_Id,Cookie)
         res = cursor.execute(sql_content)    

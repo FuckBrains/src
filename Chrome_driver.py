@@ -70,7 +70,8 @@ def get_chrome(submit = None):
     chrome_driver = webdriver.Chrome(chrome_options=options)
     chrome_driver.set_page_load_timeout(120)
     chrome_driver.implicitly_wait(20)  # 最长等待8秒  
-    # chrome_driver.set_window_size(500,500)
+    size = get_size()
+    chrome_driver.set_window_size(size[0],size[1])
     if type(submit) != type(None):   
         print('prepareing for deleting cookies') 
         print(submit['Site'])
@@ -79,6 +80,31 @@ def get_chrome(submit = None):
         chrome_driver.delete_all_cookies()  
         print(cookies)    
     return chrome_driver
+
+def get_size():
+    sizes = [
+    [800,600],
+    [1024,768],
+    [1152,864],
+    [1280,720],
+    [1280,768],
+    [1280,800],
+    [1280,960],
+    [1280,1024],  
+    [1360,768],
+    [1366,768],
+    [1440,900],
+    [1600,900],
+    [1600,1024],
+    [1680,1050],
+    [1920,1080]
+    ]
+    size_rand_num = random.randint(0,len(sizes))
+    size_rand = sizes[size_rand_num] 
+    return size_rand
+
+
+
 
 def get_dir():
     path = os.getcwd()
@@ -144,7 +170,9 @@ def misc_init(target_folder):
 
 if __name__ == '__main__':
     # clean_download()
-    url_test = 'http://tbx.gamemass.website/c/14549/7?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]'
-    chrome_driver = get_chrome()
-    chrome_driver.get(url_test)
-    sleep(1000)
+    # url_test = 'http://tbx.gamemass.website/c/14549/7?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]'
+    # chrome_driver = get_chrome()
+    # chrome_driver.get(url_test)
+    # sleep(1000)
+    size = get_size()
+    print(size)

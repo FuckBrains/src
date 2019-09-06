@@ -20,6 +20,7 @@ import db
 import re
 import json
 import luminati
+import tools
 
 '''
 'testeeeee'
@@ -27,67 +28,12 @@ import luminati
 
 # Falg_threads = 0
 
-def read_ini(file):
-    submits = []
-    with open(file,'r') as f:
-        jss = f.readlines()
-        # print(jss)
-        for js in jss:
-            submit = json.loads(js)
-            submits.append(submit)
-            # print(submit)
-    if len(submits) >= 1:
-        return submits[-1]
-    else:
-        return []
-
-def write_ini(file,content):
-    '''
-    write dict into txt file
-    eg: write a dict into a.txt
-    requires the target file with path and the dict to write in
-    return nothing,just write content into file
-    '''
-    content = json.dumps(content) 
-    with open(file,'w') as f:
-        # content += '\n'
-        f.write(content)
 
 
 pool = threadpool.ThreadPool(5)
 
-# def writelog(runinfo,e=''):
-#     file=open(os.getcwd()+"\log.txt",'a+')
-#     file.write(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))+" : \n"+runinfo+"\n"+e+'\n')
-#     file.close()
-
-def killpid():
-    pids = psutil.pids()
-    for pid in pids:
-        try:
-            p = psutil.Process(pid)
-        except:
-            continue
-        kill_list = ['chrome.exe','chromedriver.exe','Client.exe','Monitor.exe','MonitorGUI.exe','Socket.exe']
-        for key in kill_list:
-            if p.name() == key:
-                cmd = 'taskkill /F /IM '+key
-                try:
-                    os.system(cmd)            
-                except:
-                    pass
-
-
-                    
+                 
 def multi_reg(Config):
-    # print(Config)
-    # return
-    # print('Starting Mission',submit['Num'])
-    # Module_list,modules = get_modules()
-    # print(Module_list)
-    # print('============')
-    # print(type(submit['Config']['Mission_Id']))
-    # print(submit['Config']['Mission_Id'])
     time_cheat = random.randint(0,5)
     print('Sleep for',time_cheat*60,'-------------')    
     sleep(time_cheat*60)
@@ -116,7 +62,7 @@ def multi_reg(Config):
             break              
     module = 'Mission_'+submit['Mission_Id']
     Module = importlib.import_module(module)    
-    db.write_one_info([submit['Mission_Id']],submit)
+    db.write_one_info([str(submit['Mission_Id'])],submit)
     luminati.ip_test(submit['ip_lpm'],submit['prot_lpm'],state=submit['state_'] ,country='')               
     try:
         Module.web_submit(submit)
@@ -147,44 +93,13 @@ def import_Module(module):
     module_name = importlib.import_module(module)
     return module_name
 
-def clean_download(path=r'c:\emu_download'):
-    modules = os.listdir(path)
-    # print(modules)
-    path = os.path.join(os.getcwd(),r'c:\emu_download')
-    modules_path = [os.path.join(path,file) for file in modules]
-    print(modules_path)
-    [os.remove(file) for file in modules_path]    
-    return 
-
-def makedir_file(path=r'c:\emu_download'):
-    isExists=os.path.exists(path)
-    if isExists:
-        return
-    else:
-        os.makedirs(path)
-        print('Making dir:',path,'success')
-
-
-def create_emu_chrome(offerlist):
-    offer_file = {}
-    for i in range(len(offerlist)):
-        offer_file[offerlist[i]] = offerlist.count(offerlist[i])
-    print(offer_file)
-
-def emu_chrome_count():
-    emu_chromes = os.listdir(r'..\emu_chromes')
-    print(emu_chromes)
-    emu_chromes_count = {}
-    for i in range(len(emu_chromes)):
-        mission = emu_chromes[i].split(',')[0]
-        if mission not in emu_chromes_count:
-            emu_chromes_count[mission] = 1
-        else:
-            emu_chromes_count[mission] += 1
-    print('emu_chromes_count:',emu_chromes_count)
-
 
 def main():
+    try:
+        tools.killpid()
+    except Exception as e:
+        print(str(e))
+        pass    
     account = db.get_account()
     plan_id = account['plan_id']
     plans = db.read_plans(plan_id)
@@ -193,6 +108,10 @@ def main():
     requests = threadpool.makeRequests(multi_reg, plans)
     [pool.putRequest(req) for req in requests]
     pool.wait() 
+    restart_time = random.randint(3,5)
+    print('Sleep',restart_time,'minutes')
+    sleep(restart_time*60)
+    changer.Restart()
     # print(len(Configs))
     # print(Configs)
 
