@@ -72,6 +72,7 @@ def get_chrome(submit = None):
     chrome_driver.set_page_load_timeout(120)
     chrome_driver.implicitly_wait(20)  # 最长等待8秒  
     size = get_size()
+    print('Chrome size:',size)
     chrome_driver.set_window_size(size[0],size[1])
     if type(submit) != type(None):   
         print('prepareing for deleting cookies') 
@@ -106,11 +107,11 @@ def get_size():
 
 def get_dir():
     path = os.getcwd()
-    print(path)
+    # print(path)
     path_up = path[:-3] 
-    print(path_up)
+    # print(path_up)
     path_download = os.path.join(path_up,'download')
-    print(path_download)
+    # print(path_download)
     return path_download
 
 def clean_download():

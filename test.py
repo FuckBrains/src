@@ -175,13 +175,21 @@ def test_chrome_luminati():
     Module.web_submit(submit) 
 
 def test_cam4():
-    chrome_driver = Chrome_driver.get_chrome()
-    # chrome_driver.get('https://google.com')
-    url = 'http://www.cam4.com/signup/confirm?uname=Lara382&rcode2=7d73751b-d916-495b-baa8-a8a05bfb9b8e\n'
-    # url = 'https://google.com'
-    url = url.replace('\n','').replace(' ','')
+    import Mission_10005
+    url = Mission_10005.test_url()
     print(url)
-    newwindow='window.open("' + url + '");'
+    chrome_driver = Chrome_driver.get_chrome()
+    chrome_driver.get('https://google.com')
+    # url = 'http://www.cam4.com/signup/confirm?uname=Lara382&rcode2=7d73751b-d916-495b-baa8-a8a05bfb9b8e\n'
+    # url = 'https://google.com'
+    # url = url.replace('\n','').replace(' ','')
+    # print(url)
+    try:
+        newwindow='window.open("' + url + '");'
+        chrome_driver.execute_script(newwindow)
+    except Exception as e:
+        print(str(e))
+    sleep(10)
     # try:
     #     chrome_driver.execute_script(newwindow)   
     #     sleep(20) 
@@ -198,11 +206,13 @@ def test_write():
     print(submit)
     db.write_one_info([str(submit['Mission_Id'])],submit)    
 
-
-if __name__ == '__main__':
+def test_update():
     submit = {}
     submit['Cookie'] = 'test'
     submit['Mission_Id'] = '10000'
     submit['Email_Id'] = '9f705978-c827-11e9-8c6c-000d7567cc3c'
-    db.update_cookie(submit)
+    db.update_cookie(submit)    
+
+if __name__ == '__main__':
+    test_cam4()
 

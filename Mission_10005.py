@@ -1,3 +1,4 @@
+import emaillink
 from time import sleep
 import random
 import os
@@ -112,7 +113,7 @@ def web_submit(submit):
     site = ''
     handle = chrome_driver.current_window_handle
     try:            
-        site = email_confirm(submit['Email'])  
+        site = email_confirm(submit)  
         print(site)      
     except Exception as e:
         print('email check failed',str(e))
@@ -134,7 +135,8 @@ def web_submit(submit):
                 url_active = 'https://www.cam4.com/'
                 chrome_driver.get(url_active)
                 submit['Cookie'] = chrome_driver.get_cookies()                 
-                db.update_cookie()
+                db.update_cookie(submit)
+                sleep(10)
     except Exception as e:
         chrome_driver.close()
         chrome_driver.quit()    
@@ -169,7 +171,7 @@ def check_email(submit):
         print(submit['Email_emu'],'is GOOD_EMAIL')
         return 0 #success
 
-def email_confirm(submit):
+# def email_confirm(submit):
     site = ''
     for i in range(3):
         msg_content = imap.email_getlink(submit,'Subject: Verify at Cam4 to Continue')
@@ -178,10 +180,13 @@ def email_confirm(submit):
             print('Target Email Not Found !')
             sleep(10)
         else:
+            # print(msg_content)
             c = msg_content.find('get verified:')
             a = msg_content.find('http://www.cam4.com/signup/confirm?uname=',c)
-            b = msg_content.find('\n',a)
-            site = msg_content[a:b].replace('\n','').replace(' ','')
+            b = msg_content.find('\n',a+5)
+            # site = msg_content[a:b].replace('\n','').replace(' ','')
+            site = msg_content[a:b].replace('\n','').replace(' ','').replace('\t','')          
+            # site = site[:-1]
             return site
     return site
 
@@ -193,23 +198,45 @@ def activate():
     print('cam4....................')
     sleep(3000)
 
+def email_confirm(submit,debug=0):
+    print('----------')
+    for i in range(3):
+        url_link = ''
+        try:
+            name = submit['Email']['Email_emu']
+            pwd = submit['Email']['Email_emu_pwd']          
+            title = ('Verify at Cam4 to Continue','welcome@cam4.biz')
+            pattern = r'.*?get verified:.*?(http://www.cam4.com/signup/confirm\?uname=.*?)Thank you'
+            url_link = emaillink.get_email(name,pwd,title,pattern,True,debug)
+            if 'http' in url_link :
+                break                            
+        except Exception as e:
+            print(str(e))
+            print('===')
+            pass
+    return url_link
 
 
-if __name__=='__main__':
+
+def test_url():
     submit={}
     submit1 = {}
     submit1['ua'] = ''
     submit1['name'] = 'dfdss2343'
     submit1['pwd'] = 'cvbsasdsddasz'
-    submit1['Email_emu'] = 'BettinaNavarroGx@aol.com'
-    submit1['Email_emu_pwd'] = 'G9x1C1zf'
+    submit1['Email_emu'] = 'JaneAguilarl@yahoo.com'
+    submit1['Email_emu_pwd'] = 'JIo7Ul0J'
     submit['Email'] = submit1
-	# LlwthdKlhcvr@hotmail.com----glL9jPND4nDp    
+    # LlwthdKlhcvr@hotmail.com----glL9jPND4nDp    
     # site='http://www.baidu.com'
-    submit['Site'] = 'http://teamanita.com/click.php?c=2&key=l13335ju3dk7yyfdkh780kpw'
-    web_submit(submit)
-    # BettinaNavarroGx@aol.com	G9x1C1zf
-    # site = email_confirm(submit)
-    # print(site)
-    check_name()
+    submit1['Site'] = 'http://teamanita.com/click.php?c=2&key=l13335ju3dk7yyfdkh780kpw'
+    # web_submit(submit)
+    # BettinaNavarroGx@aol.com  G9x1C1zf
+    site = email_confirm(submit,1)
+    print(site)
+    return site
+    # check_name()    
+
+if __name__=='__main__':
+    test_url()
 
