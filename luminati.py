@@ -94,19 +94,41 @@ def refresh_proxy(ip,port):
             print(str(e))
     return flag
 
-def get_lpm_ip(ip,port):
+def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",debug=0):
     proxy = 'socks5://%s:%s'%(ip,port)
     import requests
+    import re
+    import Chrome_driver
+    uas = Chrome_driver.get_ua_all()
+    ua = Chrome_driver.get_ua_random(uas) 
+    headers = {
+        'User-Agent':ua
+    }   
     session = requests.session()
     session.proxies = {'http': proxy,
                        'https': proxy}    
-    resp=session.get("http://lumtest.com/myip.json")
+    resp=session.get(url,headers=headers)
+    print(headers)
     print(resp.text)
+    # print(resp.headers)
+    print(resp.status_code)
     try:
         proxy_info = json.loads(resp.text)
     except Exception as e:
         print(str(e))
         proxy_info = ''
+    if debug != 0:
+        while True:
+            a = resp.text.find('window.location = "')
+            if a == -1:
+                break
+            else:
+                b = resp.text.find('"',a+22)
+                print(a,b)
+                print(resp.text[a:b])
+                url = (resp.text)[a+19:b]
+                print(url)
+                resp=session.get(url,headers=headers)
     return proxy_info
 
 def add_proxy(port_add,country='us',ip_lpm='127.0.0.1'):  
@@ -138,7 +160,6 @@ def add_proxy(port_add,country='us',ip_lpm='127.0.0.1'):
         except Exception as e:
             print(str(e))  
 
-
 def delete_port():
     account = db.get_account()
     ip_lpm = account['IP']
@@ -158,7 +179,6 @@ def delete_port():
         print(str(resp))
         if '204' in str(resp):
             print('delete success:',port_delete)
-
 
 def get_luminati():
     import random
@@ -232,19 +252,6 @@ def get_proxy_test():
     print(proxy_details)
     data = json.loads(proxy_details)
     print(data)
-    
-    
-    PROXY = data['ip']+":"+"22225"
-    print(PROXY)
-    options = webdriver.ChromeOptions()
-    options.add_argument('--proxy-server=http://%s' % PROXY)
-    
-    
-    driver = webdriver.Chrome(options=options)
-    driver.set_page_load_timeout(120)
-    
-    driver.get("https://whatismyipaddress.com/")    
-    time.sleep(300)
 
 def ip_test(ip_lpm,prot_lpm,state = '',country=''):
     '''
@@ -387,20 +394,13 @@ def create_plans():
 
 
 if __name__ == '__main__':
+
     port = 24001
     ip = '192.168.30.131'
-    get_lpm_ip(ip,port)
-    # create_plan_data(1)
-    # a = random.random()
-    # print(str(a))
-    # ip_test(ip,port,state='IL')
-    # test_ip()
-    # config_info = ports_get(ip)
-    # print(config_info[1])    
-    path = os.path.abspath(os.path.join(os.getcwd(), ".."))
-    dir_account_chrome = os.path.join(path,r'emu_chromes') 
-    # dir_account_chrome = dir_account_chrome.replace('\\','//')                    
-    Mission_num_str = '1,1'
-    dir_account = os.path.join(dir_account_chrome,Mission_num_str) 
-    # dir_account_chrome = dir_account_chrome.replace('//','\\')                        
-    # print(dir_account)    
+    url = 'http://gm.ad3game.com/click.php?c=4&key=f616bd07e1rsw45tgvm9z140'
+    'http://tbx.gamemass.website/c/14549/7?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]&device=[device]&browser=[browser]&carrier=[carrier]'
+    
+    for i in range(10):
+        print(i)
+        refresh_proxy(ip,port)
+        get_lpm_ip(ip,port,url = url,debug=1)

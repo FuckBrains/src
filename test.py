@@ -174,6 +174,35 @@ def test_chrome_luminati():
     luminati.ip_test(submit['ip_lpm'],submit['prot_lpm'],state=submit['state_'] ,country='')             
     Module.web_submit(submit) 
 
+def test_cam4():
+    chrome_driver = Chrome_driver.get_chrome()
+    # chrome_driver.get('https://google.com')
+    url = 'http://www.cam4.com/signup/confirm?uname=Lara382&rcode2=7d73751b-d916-495b-baa8-a8a05bfb9b8e\n'
+    # url = 'https://google.com'
+    url = url.replace('\n','').replace(' ','')
+    print(url)
+    newwindow='window.open("' + url + '");'
+    # try:
+    #     chrome_driver.execute_script(newwindow)   
+    #     sleep(20) 
+    #     print('======')
+    # except Exception  as e:
+    #     print(str(e))
+
+def test_write():
+    # account = db.get_account()
+    plan_id = 1
+    print('Plan_id:',plan_id,',connecting sql for plan info...')
+    plans = db.read_plans(plan_id)    
+    submit = db.get_luminati_submit(plans[0])
+    print(submit)
+    db.write_one_info([str(submit['Mission_Id'])],submit)    
+
+
 if __name__ == '__main__':
-    test_chrome_luminati()
+    submit = {}
+    submit['Cookie'] = 'test'
+    submit['Mission_Id'] = '10000'
+    submit['Email_Id'] = '9f705978-c827-11e9-8c6c-000d7567cc3c'
+    db.update_cookie(submit)
 

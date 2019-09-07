@@ -32,14 +32,17 @@ import tools
 
 pool = threadpool.ThreadPool(5)
 
+
                  
 def multi_reg(Config):
     time_cheat = random.randint(0,5)
-    print('Sleep for',time_cheat*60,'-------------')    
+    print(Config)
+    print('Sleep for random time:',time_cheat*60,'-------------')    
     sleep(time_cheat*60)
     while True:
         try:
             submit = db.get_luminati_submit(Config)
+            db.write_one_info([str(submit['Mission_Id'])],submit)
             print('Data for this mission:')
             print(submit)
         except Exception as e:
@@ -62,7 +65,7 @@ def multi_reg(Config):
             break              
     module = 'Mission_'+submit['Mission_Id']
     Module = importlib.import_module(module)    
-    db.write_one_info([str(submit['Mission_Id'])],submit)
+    
     luminati.ip_test(submit['ip_lpm'],submit['prot_lpm'],state=submit['state_'] ,country='')               
     try:
         Module.web_submit(submit)
@@ -102,13 +105,16 @@ def main():
         pass    
     account = db.get_account()
     plan_id = account['plan_id']
+    print('Plan_id:',plan_id,',connecting sql for plan info...')
     plans = db.read_plans(plan_id)
+    print('Mission:')
     print(plans)
 
     requests = threadpool.makeRequests(multi_reg, plans)
     [pool.putRequest(req) for req in requests]
     pool.wait() 
     restart_time = random.randint(3,5)
+    print('Mission completed.........')
     print('Sleep',restart_time,'minutes')
     sleep(restart_time*60)
     changer.Restart()

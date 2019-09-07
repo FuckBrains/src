@@ -232,8 +232,8 @@ def create_all_tables():
     create_db()
     sql_contents = []
     sql_email = "CREATE TABLE  IF NOT EXISTS Email (Email_Id VARCHAR(50) PRIMARY KEY NOT NULL,Email_emu VARCHAR(50) UNIQUE NOT NULL,Email_emu_pwd VARCHAR(50) NOT NULL,Email_assist VARCHAR(50) NULL,Email_assist_pwd VARCHAR(50) NULL,Status VARCHAR(20) NULL,create_time timestamp DEFAULT CURRENT_TIMESTAMP);"
-    sql_mission = "CREATE TABLE  IF NOT EXISTS Mission (Mission_Id INT(10) NOT NULL,Email_Id VARCHAR(50),BasicInfo_Id VARCHAR(50),Cookie VARCHAR(1000),create_time timestamp DEFAULT CURRENT_TIMESTAMP);"    
-    sql_plans = "CREATE TABLE  IF NOT EXISTS Plans (Plan_Id INT(10) NOT NULL,Alliance VARCHAR(50),Offer VARCHAR(50),url_link VARCHAR(1000),Country VARCHAR(50),Excel VARCHAR(50),Mission_Id VARCHAR(50),Mission_dir VARCHAR(100),ip_lpm VARCHAR(50),prot_lpm VARCHAR(50),create_time timestamp DEFAULT CURRENT_TIMESTAMP);"    
+    sql_mission = "CREATE TABLE  IF NOT EXISTS Mission (Alliance_email VARCHAR(50),Account_email VARCHAR(50),Mission_Id INT(10) NOT NULL,Email_Id VARCHAR(50),BasicInfo_Id VARCHAR(50),Cookie VARCHAR(1000),create_time timestamp DEFAULT CURRENT_TIMESTAMP);"    
+    sql_plans = "CREATE TABLE  IF NOT EXISTS Plans (Plan_Id INT(10) NOT NULL,Alliance VARCHAR(50),Account VARCHAR(50),Offer VARCHAR(50),url_link VARCHAR(1000),Country VARCHAR(50),Excel VARCHAR(50),Mission_Id VARCHAR(50),Mission_dir VARCHAR(100),ip_lpm VARCHAR(50),prot_lpm VARCHAR(50),create_time timestamp DEFAULT CURRENT_TIMESTAMP);"    
     sql_ip = "CREATE TABLE  IF NOT EXISTS Ip_Pools (Ip VARCHAR(50) UNIQUE NOT NULL,Type VARCHAR(20) NOT NULL,Status VARCHAR(20) NULL,create_time timestamp DEFAULT CURRENT_TIMESTAMP);"
     sql_contents = [sql_email,sql_plans,sql_mission,sql_ip]
     Execute_sql(sql_contents)
@@ -565,7 +565,6 @@ def write_one_info(Mission_list,submit,Cookie = ''):
     account = get_account()
     conn,cursor=login_sql(account)  
     for item in submit:
-
         if item == 'Email':
             Email_Id = submit['Email']['Email_Id']
         else:
@@ -573,8 +572,10 @@ def write_one_info(Mission_list,submit,Cookie = ''):
                 BasicInfo_Id = submit[item]['BasicInfo_Id']
             except:
                 pass
+    Alliance = submit['Alliance']
+    Account = submit['Account']
     for Mission_Id in Mission_list:
-        sql_content = 'INSERT INTO Mission(Mission_Id,Email_Id,BasicInfo_Id,Cookie)VALUES("%s","%s","%s","%s")'%(Mission_Id,Email_Id,BasicInfo_Id,Cookie)
+        sql_content = 'INSERT INTO Mission(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,Cookie)VALUES("%s","%s","%s","%s","%s","%s")'%(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,Cookie)
         res = cursor.execute(sql_content)    
     login_out_sql(conn,cursor)
 
@@ -878,8 +879,8 @@ def test_dict():
     print(list(list_values))
 
 
-def add_key_db():
-    sql_content = "ALTER TABLE Plans ADD Mission_id VARCHAR(50) DEFAULT '' AFTER Excel"
+def add_key_db(sql_content):
+    sql_content = "ALTER TABLE Mission ADD Alliance_basic DEFAULT '' AFTER BasicInfo_Id"
     Execute_sql([sql_content])
 
 def clean_table(plan_id):
@@ -905,18 +906,39 @@ def get_luminati_submit(Config):
     submit['Mission_Id'] = Config['Mission_Id']
     submit['Site'] = Config['url_link']
     submit['Excels_dup'] = Excels_dup
-    # print('fffffffffffffffffffffffffffffffff')
-    # print('fffffffffffffffffffffffffffffffff')
-    # print('fffffffffffffffffffffffffffffffff')
-    # print('fffffffffffffffffffffffffffffffff')    
+    submit['Alliance'] = Config['Alliance']
+    submit['Account'] = Config['Account']
+    submit['Offer'] = Config['Offer']
     print(submit['Site'])
     submit['Mission_dir'] = Config['Mission_dir']    
+    print(submit)
     return submit
+
+def update_cookie(submit):
+    print('Uploading cookie')
+    print('Mission_Id:',submit['Mission_Id'])
+    print('Email_Id:',submit['Mission_Id'])
+    print('Cookie:')
+    print(submit['Cookie'])
+    sql_content = "UPDATE Mission SET Cookie = '%s' WHERE Mission_id = '%s' and Email_Id = '%s'" % (submit['Cookie'],submit['Mission_Id'],submit['Email_Id'])
+    Execute_sql([sql_content])
+
+def hotupdate():
+    sql_content1 = "ALTER TABLE Mission ADD Alliance VARCHAR(100) AFTER Mission_Id;"    
+    sql_content2 = "ALTER TABLE Mission ADD Account VARCHAR(100) AFTER Mission_Id;"    
+    '''
+    plans
+    '''
+    sql_content3 = "ALTER TABLE Plans ADD Account VARCHAR(50) AFTER Alliance;"    
+
+    Execute_sql([sql_content2,sql_content1,sql_content3])
+
+
 
 
 if __name__ == '__main__':
     init()
-    # delete_old_data()
+    delete_old_data()
     # get_duplicated_mission_record()
     plans = {'0': {'Alliance': 'Finaff', 'Offer': 'Royal Cams(Done)', 'url_link': 'http', 'Country': 'US', 'Mission_Id': '10000', 'Excel': ['', 'Email']}}
     # upload_plans(plans)
