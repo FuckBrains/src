@@ -917,9 +917,9 @@ def get_luminati_submit(Config):
 def update_cookie(submit):
     print('Uploading cookie')
     print('Mission_Id:',submit['Mission_Id'])
-    print('Email_Id:',submit['Mission_Id'])
+    print('Email_Id:',submit['Email']['Email_Id'])
     print('Cookie:',submit['Cookie'])
-    sql_content = "UPDATE Mission SET Cookie = '%s' WHERE Mission_id = '%s' and Email_Id = '%s'" % (submit['Cookie'],submit['Mission_Id'],submit['Email_Id'])
+    sql_content = "UPDATE Mission SET Cookie = '%s' WHERE Mission_id = '%s' and Email_Id = '%s'" % (submit['Cookie'],submit['Mission_Id'],submit['Email']['Email_Id'])
     Execute_sql([sql_content])
 
 

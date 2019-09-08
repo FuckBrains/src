@@ -131,15 +131,11 @@ def web_submit(submit):
         for i in handles:
             if i != handle:
                 chrome_driver.switch_to.window(i)
-                cookies = chrome_driver.get_cookies()
-                cookie_str = json.dumps(cookies)
-                submit['Cookie'] = cookie_str
-                db.update_cookie(submit)
-                chrome_driver.refresh() 
-                cookies = chrome_driver.get_cookies()
-                cookie_str = json.dumps(cookies)
-                submit['Cookie'] = cookie_str
-                db.update_cookie(submit)                
+                try:
+                    chrome_driver.refresh() 
+                except:
+                    pass
+
                 # url_active = 'https://www.cam4.com/'
                 # chrome_driver.get(url_active)
                 # chrome_driver.find_element_by_xpath('//*[@id="femalePreference"]').click()
@@ -147,12 +143,24 @@ def web_submit(submit):
                 # Chrome_driver.find_element_by_xpath('//*[@id="startWatching"]').click()
                 # submit['Cookie'] = chrome_driver.get_cookies()                 
                 # db.update_cookie(submit)
-                sleep(30)
+                sleep(10)
     except Exception as e:
         print(str(e))
         chrome_driver.close()
         chrome_driver.quit()    
-        return flag    
+        return flag 
+    chrome_driver.switch_to.window(handle)   
+    url_active = 'https://www.cam4.com/'
+    try:
+        chrome_driver.get(url_active)    
+    except:
+        pass
+    cookies = chrome_driver.get_cookies()
+    print(type(cookies))
+    cookie_str = json.dumps(cookies)
+    submit['Cookie'] = cookie_str
+    db.update_cookie(submit)   
+    sleep(20) 
     chrome_driver.close()
     chrome_driver.quit()
     return flag

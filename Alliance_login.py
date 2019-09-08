@@ -53,8 +53,6 @@ def get_chrome(user_data_dir,submit=None):
     options.add_extension(extension_path) 
     extension_path = '../tools/extension/8.6.0.0_0.crx'       
     options.add_extension(extension_path) 
-    
-    
     # prefs = {
     # 'profile.default_content_setting_values': {
     # # "User-Agent": ua, # 更换UA
