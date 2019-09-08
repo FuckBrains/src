@@ -37,8 +37,11 @@ pool = threadpool.ThreadPool(5)
 def multi_reg(Config):
     time_cheat = random.randint(0,5)
     print(Config)
-    print('Sleep for random time:',time_cheat*60,'-------------')    
-    sleep(time_cheat*60)
+    if Config['Alliance'] != 'Test':
+        print('Sleep for random time:',time_cheat*60,'-------------')    
+        sleep(time_cheat*60)
+    else:
+        print('test...........')
     while True:
         try:
             submit = db.get_luminati_submit(Config)
@@ -65,7 +68,8 @@ def multi_reg(Config):
             break              
     module = 'Mission_'+submit['Mission_Id']
     Module = importlib.import_module(module)    
-    
+    if Config['Alliance'] == 'Test':
+        submit['state_'] = ''
     luminati.ip_test(submit['ip_lpm'],submit['prot_lpm'],state=submit['state_'] ,country='')               
     try:
         Module.web_submit(submit)
@@ -97,29 +101,29 @@ def import_Module(module):
     return module_name
 
 
-def main():
-    try:
-        tools.killpid()
-    except Exception as e:
-        print(str(e))
-        pass    
-    account = db.get_account()
-    plan_id = account['plan_id']
-    print('Plan_id:',plan_id,',connecting sql for plan info...')
-    plans = db.read_plans(plan_id)
-    print('Mission:')
-    print(plans)
-
-    requests = threadpool.makeRequests(multi_reg, plans)
-    [pool.putRequest(req) for req in requests]
-    pool.wait() 
-    restart_time = random.randint(3,5)
-    print('Mission completed.........')
-    print('Sleep',restart_time,'minutes')
-    sleep(restart_time*60)
-    changer.Restart()
-    # print(len(Configs))
-    # print(Configs)
+def main(i):
+    while True:
+        try:
+            tools.killpid()
+        except Exception as e:
+            print(str(e))
+            pass    
+        account = db.get_account()
+        plan_id = account['plan_id']
+        print('Plan_id:',plan_id,',connecting sql for plan info...')
+        plans = db.read_plans(plan_id)
+        print('Missions:')
+        print(plans)
+        requests = threadpool.makeRequests(multi_reg, plans)
+        [pool.putRequest(req) for req in requests]
+        pool.wait() 
+        if i == 1:
+            restart_time = random.randint(3,5)
+            print('Mission completed.........')
+            print('Sleep',restart_time,'minutes')
+            sleep(restart_time*60)
+            changer.Restart()
+            sleep(200)
 
 
 def test():
@@ -133,17 +137,19 @@ def test():
 if __name__ == '__main__':
     paras=sys.argv
     # test    
-    paras = [0,1,2,3,4]
+    # paras = [0,1,2,3,4]
     i = int(paras[1])
-    if i == 1:
-        # test()
-        main()
-    elif i == 2:
-        Hotmail_Login()
-    elif i == 3:
-        Hotmail_Recovery()
-    elif i == 4:
-        test()
+    main(i)
+
+    # if i == 1:
+    #     # test()
+    #     main()
+    # elif i == 2:
+    #     Hotmail_Login()
+    # elif i == 3:
+    #     Hotmail_Recovery()
+    # elif i == 4:
+    #     test()
 
     
     # get_modules()

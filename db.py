@@ -918,10 +918,14 @@ def update_cookie(submit):
     print('Uploading cookie')
     print('Mission_Id:',submit['Mission_Id'])
     print('Email_Id:',submit['Mission_Id'])
-    print('Cookie:')
-    print(submit['Cookie'])
+    print('Cookie:',submit['Cookie'])
     sql_content = "UPDATE Mission SET Cookie = '%s' WHERE Mission_id = '%s' and Email_Id = '%s'" % (submit['Cookie'],submit['Mission_Id'],submit['Email_Id'])
     Execute_sql([sql_content])
+
+
+def get_activate_account():
+    pass
+
 
 def hotupdate():
     sql_content1 = "ALTER TABLE Mission ADD Alliance VARCHAR(100) AFTER Mission_Id;"    

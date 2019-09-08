@@ -496,7 +496,14 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         luminati.delete_port()
         db.clean_table(plan_id)
 
-
+    @pyqtSlot()
+    def on_pushButton13_clicked(self):
+        i = self.comboBox6.currentText()
+        print('start open test link ')
+        command = '''start cmd /k "python luminati_main.py 0 %s "{$name$:$qcy$}" && exit"'''%(str(i))
+        os.system(command)        
+        command = '''start cmd /k "python luminati_main.pyc 0 %s "{$name$:$qcy$}" && exit"'''%(str(i))
+        os.system(command)
 
     # def on_lineEdit_selectionChanged(self):
     #     self.lineEdit.setText('')

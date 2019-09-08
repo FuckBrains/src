@@ -69,7 +69,7 @@ def get_chrome(submit = None):
     options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])
     options.add_experimental_option("prefs", prefs) 
     chrome_driver = webdriver.Chrome(chrome_options=options)
-    chrome_driver.set_page_load_timeout(120)
+    chrome_driver.set_page_load_timeout(60)
     chrome_driver.implicitly_wait(20)  # 最长等待8秒  
     size = get_size()
     print('Chrome size:',size)
@@ -77,7 +77,10 @@ def get_chrome(submit = None):
     if type(submit) != type(None):   
         print('prepareing for deleting cookies') 
         print(submit['Site'])
-        chrome_driver.get(submit['Site']) 
+        try:
+            chrome_driver.get(submit['Site']) 
+        except Exception as e:
+            print(str(e))
         cookies = chrome_driver.get_cookies()
         chrome_driver.delete_all_cookies()  
         print(cookies)    
@@ -101,7 +104,7 @@ def get_size():
     [1680,1050],
     [1920,1080]
     ]
-    size_rand_num = random.randint(0,len(sizes))
+    size_rand_num = random.randint(0,len(sizes)-1)
     size_rand = sizes[size_rand_num] 
     return size_rand
 
@@ -185,6 +188,7 @@ if __name__ == '__main__':
     # chrome_driver = get_chrome()
     # chrome_driver.get(url_test)
     # sleep(1000)
-    # size = get_size()
-    # print(size)
-    test()
+    for i in range(100):
+        size = get_size()
+        print(size)
+    # test()

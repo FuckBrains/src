@@ -44,23 +44,24 @@ def import_Module(module):
     return module_name
 
 def main(country='US',Module_list=[]):
-    modules = ['Mission_'+str(num) for num in Module_list]
-    # Module_list = get_modules(modules)
-    for num_ip in range(6):
-        try:
-            city = ip_test.ip_Test('','',country=country)
-            if  city != 'Not found':
-                break
-            if num_ip == 5:
-                print('Net wrong...!!!!!!')
-                changer.Restart()
-                return
-        except:
-            changer.Restart()
-    requests = threadpool.makeRequests(multi_activate, modules)
+    try:
+        tools.killpid()
+    except Exception as e:
+        print(str(e))
+        pass    
+
+    plans = db.read_plans(plan_id)
+    print('Mission:')
+    print(plans)
+
+    requests = threadpool.makeRequests(multi_reg, plans)
     [pool.putRequest(req) for req in requests]
     pool.wait() 
-
+    restart_time = random.randint(3,5)
+    print('Mission completed.........')
+    print('Sleep',restart_time,'minutes')
+    sleep(restart_time*60)
+    changer.Restart()
 
 if __name__ == '__main__':
     country = 'US'

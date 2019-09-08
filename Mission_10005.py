@@ -42,7 +42,7 @@ def check_name():
                 break
         print(page)
         if 'OK' not in str(page):
-            print('try',i,time) #fail
+            print('try',i,'time') #fail
         else:
             print('find good name:',name)
             break    #success
@@ -69,7 +69,7 @@ def web_submit(submit):
             i = i + 1   
     chrome_driver.find_element_by_xpath("/html/body/div[1]/div[1]/div/div[1]").click()      #18+
     chrome_driver.find_element_by_xpath("/html/body/div[1]/div[1]/div/div[1]").click()      #18+        
-    name = name_get.gen_one_word_digit(lowercase=False)    
+    # name = name_get.gen_one_word_digit(lowercase=False)    
     try:
         chrome_driver.find_element_by_xpath("/html/body/div[1]/div[2]/div/div[1]").click()      #question2
         chrome_driver.find_element_by_xpath("/html/body/div[1]/div[3]/div/div[1]").click()      #question3
@@ -131,13 +131,25 @@ def web_submit(submit):
         for i in handles:
             if i != handle:
                 chrome_driver.switch_to.window(i)
-                chrome_driver.refresh() 
-                url_active = 'https://www.cam4.com/'
-                chrome_driver.get(url_active)
-                submit['Cookie'] = chrome_driver.get_cookies()                 
+                cookies = chrome_driver.get_cookies()
+                cookie_str = json.dumps(cookies)
+                submit['Cookie'] = cookie_str
                 db.update_cookie(submit)
-                sleep(10)
+                chrome_driver.refresh() 
+                cookies = chrome_driver.get_cookies()
+                cookie_str = json.dumps(cookies)
+                submit['Cookie'] = cookie_str
+                db.update_cookie(submit)                
+                # url_active = 'https://www.cam4.com/'
+                # chrome_driver.get(url_active)
+                # chrome_driver.find_element_by_xpath('//*[@id="femalePreference"]').click()
+                # sleep(3)
+                # Chrome_driver.find_element_by_xpath('//*[@id="startWatching"]').click()
+                # submit['Cookie'] = chrome_driver.get_cookies()                 
+                # db.update_cookie(submit)
+                sleep(30)
     except Exception as e:
+        print(str(e))
         chrome_driver.close()
         chrome_driver.quit()    
         return flag    
@@ -234,7 +246,7 @@ def test_url():
     # BettinaNavarroGx@aol.com  G9x1C1zf
     site = email_confirm(submit,1)
     print(site)
-    return site
+    return site,submit
     # check_name()    
 
 if __name__=='__main__':
