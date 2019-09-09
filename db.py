@@ -846,7 +846,12 @@ def read_plans(plan_id):
     print('     Start reading info from sql server...')
     account = get_account()
     conn,cursor=login_sql(account)
-    res = cursor.execute('SELECT * from Plans WHERE Plan_Id = %d'%plan_id)
+    plan_id = int(plan_id)
+    if plan_id != -1:
+        sql_content = 'SELECT * from Plans WHERE Plan_Id = %d'%plan_id
+    else:
+        sql_content = 'SELECT * from Plans'        
+    res = cursor.execute(sql_content)
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     plans = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来    
     login_out_sql(conn,cursor)
@@ -937,7 +942,9 @@ def hotupdate():
 
     Execute_sql([sql_content2,sql_content1,sql_content3])
 
-
+def hotupdate2():
+    sql_content = 'delete from email WHERE status = "Bad"'
+    Execute_sql([sql_content])
 
 
 if __name__ == '__main__':

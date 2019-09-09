@@ -151,8 +151,6 @@ def get_city_by_zip(zip_):
 
     # print(requests.get('https://adpgtrack.com/click/5d43f1a4a03594103a75da46/146827/233486/subaccount').text) 
 
-
-
 def chansfer_float_into_int(str_float):
     str_int = (str_float.split('.'))[0]
     return str_int
@@ -169,6 +167,11 @@ def transfer_zipcode_into_city():
                 print('')
 
 
+def get_phone(phone):
+    phone_ = phone.replace('(','').replace(')','').replace('-','')
+    if '.' in phone_:
+        phone_ = (phone_).split('.')[0]
+    return phone_
 
 if __name__ == '__main__':
     # Mission_list = [10001] 

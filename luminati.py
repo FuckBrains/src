@@ -267,7 +267,7 @@ def ip_test(ip_lpm,prot_lpm,state = '',country=''):
     # ip_lpm = '192.168.30.131'
     # prot_lpm = '24003'
     flag = 0
-    while True:
+    for i in range(50):
         refresh_proxy(ip_lpm,prot_lpm)
         try:
             proxy_info = get_lpm_ip(ip_lpm,prot_lpm)
@@ -276,10 +276,14 @@ def ip_test(ip_lpm,prot_lpm,state = '',country=''):
             print('fail to get lpm ip')
             continue
         if state == '':
-            print(proxy_info)            
+            print(proxy_info)  
+            flag = 1          
             break
         print(proxy_info)
-        state_proxy = proxy_info['geo']['region'] 
+        try:
+            state_proxy = proxy_info['geo']['region'] 
+        except:
+            continue
         print(state_proxy)
         if state_proxy == state:
             print('Find target state:',state_proxy)
@@ -328,7 +332,7 @@ def ports_get(ip_lpm):
     print('ports_get',ip_lpm)
     url_ports = 'http://%s:22999/api/proxies_running'%ip_lpm
     res = requests.get(url_ports)
-    print(res.text)
+    # print(res.text)
     config_info = json.loads(res.text)
     ports_used = [] 
     for config in config_info:
@@ -403,4 +407,6 @@ if __name__ == '__main__':
     for i in range(10):
         print(i)
         refresh_proxy(ip,port)
-        get_lpm_ip(ip,port,url = url,debug=1)
+        # get_lpm_ip(ip,port,url = url,debug=1)
+        get_lpm_ip(ip,port)
+

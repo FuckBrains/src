@@ -220,7 +220,7 @@ def activate():
 
 def email_confirm(submit,debug=0):
     print('----------')
-    for i in range(3):
+    for i in range(5):
         url_link = ''
         try:
             name = submit['Email']['Email_emu']
@@ -234,6 +234,7 @@ def email_confirm(submit,debug=0):
             print(str(e))
             print('===')
             pass
+        sleep(15)
     return url_link
 
 

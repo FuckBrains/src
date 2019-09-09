@@ -33,7 +33,7 @@ import random
 def web_submit(submit,debug=0):
     # test
     # Excel_10054 = 'Data2000'
-    Excel_10054 = 'Auto'    
+    Excel_10054 = 'health'    
     if debug == 1:
         site = 'https://track.amcmpn.com/click?pid=668&offer_id=19917'
         submit['Site'] = site
@@ -107,7 +107,8 @@ def web_submit(submit,debug=0):
     s1.select_by_value(submit[Excel_10054]['state'])
     sleep(2)
     # phone
-    chrome_driver.find_element_by_xpath('//*[@id="phone-number"]').send_keys(submit[Excel_10054]['homephone'])
+    homephone = Submit_handle.get_phone(submit[Excel_10054]['homephone'])
+    chrome_driver.find_element_by_xpath('//*[@id="phone-number"]').send_keys(homephone)
     sleep(2)
     # email
     chrome_driver.find_element_by_xpath('//*[@id="email-address"]').send_keys(submit[Excel_10054]['email'])
@@ -115,48 +116,6 @@ def web_submit(submit,debug=0):
     # click view quotes
     chrome_driver.find_element_by_xpath('//*[@id="submit"]').click()
     sleep(30)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # # sleep(2000)
-    # # chrome_driver.find_element_by_xpath('').click()
-    # # chrome_driver.find_element_by_xpath('').send_keys(submit['Uspd']['state'])
-
-    # # firstname
-    # chrome_driver.find_element_by_xpath('//*[@id="user_add_form"]/div/div/div[2]/input').send_keys(submit['Ukpd']['firstname'])    
-    # # email    
-    # chrome_driver.find_element_by_xpath('//*[@id="inputEmail"]').send_keys(submit['Ukpd']['email'])
-
-    # # comfirm1
-    # chrome_driver.find_element_by_xpath('//*[@id="user_add_form"]/div/div/div[13]/div/label/span').click()
-    # # comfirm2
-    # chrome_driver.find_element_by_xpath('//*[@id="user_add_form"]/div/div/div[14]/div/label/span').click()
-    # # claim button
-    # chrome_driver.find_element_by_xpath('//*[@id="user_add_form"]/div/div/button[2]').click()    
-    # sleep(10)
-    # try:
-    #     chrome_driver.find_element_by_xpath('//*[@id="congratspopup"]/div/div/div/div/button').click()
-    # except:
-    #     pass
-    # sleep(20)
-
 
 
 
@@ -199,5 +158,7 @@ def test1():
     print(email)
 
 if __name__=='__main__':
-    test1()
-    print('......')
+    # test1()
+    # print('......')
+    date_of_birth = Submit_handle.get_auto_birthday('null')
+    print(date_of_birth)
