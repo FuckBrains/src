@@ -5,6 +5,9 @@ sys.path.append("..")
 from time import sleep
 import random
 import zipfile
+# from selenium.webdriver.common.desired_capabilities import DesiredCapabilities 
+
+
 
 def get_ua_all():
     uas = []
@@ -28,17 +31,20 @@ def get_ua_random(uas):
 
 
 def get_chrome(submit = None):
+    # desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none" 
+    # driver = webdriver.Chrome(chrome_options=chrome_options, desired_capabilities=desired_capabilities)    
     uas = get_ua_all()
     ua = get_ua_random(uas)
     print(ua)
     options = webdriver.ChromeOptions()
     path_download = get_dir()
-    prefs = {"download.default_directory": path_download,
+    prefs = {
+            "download.default_directory": path_download,
              "download.prompt_for_download": False,
              "download.directory_upgrade": True,
              "safebrowsing.enabled": True,
-             'profile.default_content_settings.popups': 0
-             # "profile.managed_default_content_settings.images": 2
+             'profile.default_content_settings.popups': 0,
+             "profile.managed_default_content_settings.images": 2
              }    
     # options.add_experimental_option('prefs', prefs)
     # extension_path = '../tools/extension/1.1.0_0.crx'   
@@ -55,7 +61,7 @@ def get_chrome(submit = None):
         if 'Mission_dir' in submit:
             submit['Mission_dir'] = submit['Mission_dir'].replace('//','\\') 
             print('Selenium in using user-data-dir:',submit['Mission_dir'])
-            options.add_argument('--user-data-dir='+submit['Mission_dir'])
+            # options.add_argument('--user-data-dir='+submit['Mission_dir'])
         if 'ip_lpm' in submit:
             ip = submit['ip_lpm']
             port = submit['prot_lpm']
@@ -69,21 +75,28 @@ def get_chrome(submit = None):
     options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])
     options.add_experimental_option("prefs", prefs) 
     chrome_driver = webdriver.Chrome(chrome_options=options)
+    # chrome_driver = webdriver.Chrome(chrome_options=options,desired_capabilities=desired_capabilities)
     chrome_driver.set_page_load_timeout(120)
+    # chrome_driver.set_script_timeout(240)
     chrome_driver.implicitly_wait(20)  # 最长等待8秒  
     size = get_size()
     print('Chrome size:',size)
     chrome_driver.set_window_size(size[0],size[1])
-    if type(submit) != type(None):   
-        print('prepareing for deleting cookies') 
-        print(submit['Site'])
-        try:
-            chrome_driver.get(submit['Site']) 
-        except Exception as e:
-            print(str(e))
-        cookies = chrome_driver.get_cookies()
-        chrome_driver.delete_all_cookies()  
-        print(cookies)    
+    # if type(submit) != type(None):   
+    #     print('prepareing for deleting cookies') 
+    #     print(submit['Site'])
+    #     # for i in range(3):
+    #     try:
+    #         chrome_driver.get(submit['Site']) 
+    #     except Exception as e:
+    #         print('1111111111111111')
+    #         print('1111111111111111')            
+    #         print(str(e))
+    #         # continue
+    #     cookies = chrome_driver.get_cookies()
+    #     print('Before delet:',cookies)
+    #     chrome_driver.delete_all_cookies()  
+        # print('cookies:',cookies)  
     return chrome_driver
 
 def get_size():
@@ -184,11 +197,12 @@ def test():
 
 if __name__ == '__main__':
     # clean_download()
-    # url_test = 'http://tbx.gamemass.website/c/14549/7?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]'
-    # chrome_driver = get_chrome()
-    # chrome_driver.get(url_test)
-    # sleep(1000)
-    for i in range(100):
-        size = get_size()
-        print(size)
+    url_test = 'http://www.baidu.com'
+    # 'http://tbx.gamemass.website/c/14549/7?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]
+    chrome_driver = get_chrome()
+    chrome_driver.get(url_test)
+    sleep(1000)
+    # for i in range(100):
+    #     size = get_size()
+    #     print(size)
     # test()

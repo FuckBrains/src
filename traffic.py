@@ -13,17 +13,19 @@ def traffic_test(traffic):
     ip = traffic['ip_lpm']
     url = traffic['url_link']    
     click = 400
+    referer = 'http://www.moneymethods.net/'
     for i in range(click):
         print(i)
         luminati.refresh_proxy(ip,port)
-        luminati.get_lpm_ip(ip,port,url = url,debug=1)
+        luminati.get_lpm_ip(ip,port,url = url,Referer = referer,debug=1)
+    luminati.delete_port([port])
 
 
 
 def main():
     account = db.get_account()
     plan_id = account['plan_id']    
-    traffics = db.read_plans(-1)
+    traffics = db.read_plans(plan_id)
     print(traffics)
     print(len(traffics))
     ip_lpm = account['IP']

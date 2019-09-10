@@ -30,6 +30,7 @@ import random
 
 
 
+
 def web_submit(submit,debug=0):
     # test
     # Excel_10054 = 'Data2000'
@@ -38,12 +39,21 @@ def web_submit(submit,debug=0):
         site = 'https://track.amcmpn.com/click?pid=668&offer_id=19917'
         submit['Site'] = site
     chrome_driver = Chrome_driver.get_chrome(submit)
-    chrome_driver.get(submit['Site'])
-    chrome_driver.maximize_window()    
+    try:
+        chrome_driver.get(submit['Site'])
+    except:
+        pass
+    chrome_driver.maximize_window() 
     # chrome_driver.refresh()
     # click
     sleep(2)
-    chrome_driver.find_element_by_xpath('//*[@id="zip-form"]/div[1]/button').click()
+    try:
+        chrome_driver.find_element_by_xpath('//*[@id="zip-form"]/div[1]/button').click()
+    except:
+        print("can't find zip button")
+        chrome_driver.close()
+        chrome_driver.quit()
+        return
     sleep(5)
     # date of birth
     date_of_birth = Submit_handle.get_auto_birthday(submit[Excel_10054]['dateofbirth'])
@@ -116,6 +126,8 @@ def web_submit(submit,debug=0):
     # click view quotes
     chrome_driver.find_element_by_xpath('//*[@id="submit"]').click()
     sleep(30)
+    chrome_driver.close()
+    chrome_driver.quit()
 
 
 

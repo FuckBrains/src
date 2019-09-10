@@ -94,7 +94,7 @@ def refresh_proxy(ip,port):
             print(str(e))
     return flag
 
-def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",debug=0):
+def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",Referer='',debug=0):
     proxy = 'socks5://%s:%s'%(ip,port)
     import requests
     import re
@@ -102,7 +102,8 @@ def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",debug=0):
     uas = Chrome_driver.get_ua_all()
     ua = Chrome_driver.get_ua_random(uas) 
     headers = {
-        'User-Agent':ua
+        'User-Agent':ua,
+        'Referer':Referer
     }   
     session = requests.session()
     session.proxies = {'http': proxy,
@@ -160,10 +161,11 @@ def add_proxy(port_add,country='us',ip_lpm='127.0.0.1'):
         except Exception as e:
             print(str(e))  
 
-def delete_port():
-    account = db.get_account()
-    ip_lpm = account['IP']
-    ports = ports_get(ip_lpm)
+def delete_port(ports=''):
+    if ports == '':
+        account = db.get_account()
+        ip_lpm = account['IP']
+        ports = ports_get(ip_lpm)
     for port_delete in ports:
         url_ = 'http://%s:22999/api/proxies/%s'%(ip_lpm,str(port_delete))
         headers = {
@@ -179,6 +181,8 @@ def delete_port():
         print(str(resp))
         if '204' in str(resp):
             print('delete success:',port_delete)
+
+
 
 def get_luminati():
     import random
@@ -388,7 +392,6 @@ def create_plan_data(plan_id,Offer_links):
         basic_port += 1
         Configs.append(Config)
     return Offer_links    
-
 
 def create_plans():
     plan_id = 1

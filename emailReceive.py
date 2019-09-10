@@ -12,8 +12,11 @@ class EmailReceive(object):
     def __login(self,address,password):
         try:
             serverInfo=EmailService.getIMAPServer(address.split('@')[-1].split('.')[0])
+            print('server:',serverInfo)
             if serverInfo[2]:
+                print('Imap4_ssl logining server...........')
                 self.imap_mail = imaplib.IMAP4_SSL(serverInfo[0],serverInfo[1])
+                print('login finished')
             else:
                 print('Imap4 logining server...........')
                 self.imap_mail = imaplib.IMAP4(serverInfo[0], serverInfo[1])

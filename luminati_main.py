@@ -81,6 +81,7 @@ def multi_reg(Config):
         print(submit)
     except Exception as e:
         print(str(e))
+    print('Mission_Id:',submit['Mission_Id'],'finished')
     # global Falg_threads
     # Falg_threads += 1
     # print('Falg_threads:',Falg_threads)
@@ -117,6 +118,9 @@ def main(i):
         plan_id = account['plan_id']
         print('Plan_id:',plan_id,',connecting sql for plan info...')
         plans = db.read_plans(plan_id)
+        if len(plans) == 0:
+            print('No plan for this computer!!!!!!')
+            return
         print('Missions:')
         print(plans)
         requests = threadpool.makeRequests(multi_reg, plans)
@@ -125,8 +129,8 @@ def main(i):
         if i == 1:
             restart_time = random.randint(3,5)
             print('Mission completed.........')
-            print('Sleep',restart_time,'minutes')
-            sleep(restart_time*60)
+            # print('Sleep',restart_time,'minutes')
+            # sleep(restart_time*60)
             changer.Restart()
             sleep(200)
 
@@ -144,7 +148,8 @@ if __name__ == '__main__':
     # test    
     # paras = [0,1,2,3,4]
     i = int(paras[1])
-    print(i)
+    # print(i)
+    # i=0
     main(i)
 
     # if i == 1:

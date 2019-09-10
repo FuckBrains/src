@@ -31,19 +31,15 @@ def web_submit(submit,debug=0):
     name = name_get.gen_one_word_digit(lowercase=False)      
     pwd = Submit_handle.password_get()
     chrome_driver.find_element_by_xpath('//*[@id="cemail"]').send_keys(submit['Email']['Email_emu'])
+    sleep(2)
     chrome_driver.find_element_by_xpath('//*[@id="nick_name"]').send_keys(name)
+    sleep(2)
     chrome_driver.find_element_by_xpath('//*[@id="new_password"]').send_keys(pwd)
     sleep(2)
     chrome_driver.find_element_by_xpath('//*[@id="term_and_cond"]').click()
-    sleep(2)
+    sleep(15)
     chrome_driver.find_element_by_xpath('//*[@id="registration_form"]/div/input').click()
-    sleep(2000)
-
-
-
-
-
-
+    # sleep(2000)
     # chrome_driver.maximize_window()
     # chrome_driver.refresh()    
     # sleep(2000)  

@@ -83,10 +83,10 @@ def ip_Test(city = None,state = 'All',country='US'):
     # return
     ip_new(city,state,country)
     sleep(10)
-    city,totalCount = whoer_get(city)
-    print(city,totalCount)
-    if totalCount == -1:
-        city = 'Not found'
+    # city,totalCount = whoer_get(city)
+    # print(city,totalCount)
+    # if totalCount == -1:
+    #     city = 'Not found'
     return city
        
     # path='C:/cam4/driver'
