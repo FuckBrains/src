@@ -39,7 +39,7 @@ def multi_reg(Config):
     print(Config)
     if Config['Alliance'] != 'Test':
         print('Sleep for random time:',time_cheat*60,'-------------')    
-        sleep(time_cheat*60)
+        # sleep(time_cheat*60)
     else:
         print('test...........')
     while True:
@@ -126,6 +126,7 @@ def main(i):
         requests = threadpool.makeRequests(multi_reg, plans)
         [pool.putRequest(req) for req in requests]
         pool.wait() 
+        print('All Missions finished..............')
         if i == 1:
             restart_time = random.randint(3,5)
             print('Mission completed.........')
