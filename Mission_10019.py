@@ -102,20 +102,27 @@ def web_submit(submit,debug=0):
 
 def email_confirm(submit):
     print('----------')
-    for i in range(1):
+    for i in range(2):
         url_link = ''
         try:
             name = submit['Email']['Email_emu']
             pwd = submit['Email']['Email_emu_pwd']
             title = ('Complete Your Sign Up Process','confirm@vs3.com')
             pattern = r'.*?Confirm Your Account.*?(https://u10352769.ct.sendgrid.net/wf/click\?upn=.*?)">Please Confirm Your Account'
+            url_link = emaillink.get_email(name,pwd,title,pattern,True,debug = 1)
+            if 'http' in url_link :
+                print(url_link)
+                break    
+            pattern = r'.*?Confirm Your Account.*?(http://www.flirt4free.com/register/\?a=confirm.*?)">Please Confirm Your Account'
             url_link = emaillink.get_email(name,pwd,title,pattern,True,debug = 0)
             if 'http' in url_link :
-                break            
+                print(url_link)
+                break                  
         except Exception as e:
             print(str(e))
             print('===')
             pass
+        sleep(30)
     return url_link
 
 def activate():
@@ -155,7 +162,10 @@ if __name__=='__main__':
     # link = email_confirm(submit)
     print('=============')
     # print(link)
-    submit ={'Email': {'Email_Id': '702d538c-aa34-11e9-b468-0003b7e49bfc', 'Email_emu': 'calvertroberts@yahoo.com', 'Email_emu_pwd': '32d8WIJq', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
+    # RoxanaCashpt@yahoo.com J0eOScPz
+    submit ={'Email': {'Email_Id': '702d538c-aa34-11e9-b468-0003b7e49bfc', 'Email_emu': 'RoxanaCashpt@yahoo.com', 'Email_emu_pwd': 'J0eOScPz', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
+    # flag = imap_test.Email_emu_getlink(submit['Email'])
+    # print(flag)
     # submit= {'Email': {'Email_Id': '6fdec625-aa34-11e9-9489-0003b7e49bfc', 'Email_emu': 'CarrieBrookso7@aol.com', 'Email_emu_pwd': 'Bh9ZbPOR', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
     # submit = {'Email': {'Email_Id': '6faf2a9d-aa34-11e9-b0fa-0003b7e49bfc', 'Email_emu': 'AnnieBestKw@aol.com', 'Email_emu_pwd': 'BBI2C6Tq', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
     # submit = {'Email': {'Email_Id': '702fb4ec-aa34-11e9-a0a1-0003b7e49bfc', 'Email_emu': 'FredaHarlanaVmQyE@yahoo.com', 'Email_emu_pwd': 'uCPQ22t41', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
