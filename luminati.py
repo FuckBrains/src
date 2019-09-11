@@ -9,6 +9,8 @@ import requests
 import sys
 import json
 from time import sleep
+import re
+import Chrome_driver
 
 def test_luminati():
     customer = 'caichao'
@@ -96,22 +98,25 @@ def refresh_proxy(ip,port):
 
 def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",Referer='',debug=0):
     proxy = 'socks5://%s:%s'%(ip,port)
-    import requests
-    import re
-    import Chrome_driver
+
     uas = Chrome_driver.get_ua_all()
     ua = Chrome_driver.get_ua_random(uas) 
-    headers = {
-        'User-Agent':ua,
-        'Referer':Referer
-    }   
+    if Referer != '': 
+        headers = {
+            'User-Agent':ua,
+            'Referer':Referer
+        }   
+    else:
+        headers = {
+            'User-Agent':ua
+        }          
     session = requests.session()
     session.proxies = {'http': proxy,
                        'https': proxy}    
     resp=session.get(url,headers=headers)
-    print(headers)
-    print(resp.text)
-    # print(resp.headers)
+    # print(headers)
+    # print(resp.text)
+    print(resp.headers)
     print(resp.status_code)
     try:
         proxy_info = json.loads(resp.text)
@@ -125,26 +130,42 @@ def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",Referer='',debug=0):
                 break
             else:
                 b = resp.text.find('"',a+22)
-                print(a,b)
-                print(resp.text[a:b])
+                # print(a,b)
+                # print(resp.text[a:b])
                 url = (resp.text)[a+19:b]
                 print(url)
                 resp=session.get(url,headers=headers)
     return proxy_info
 
-def add_proxy(port_add,country='us',ip_lpm='127.0.0.1'):  
-    data = {
-    "proxy": {
-        "country": country,
-        "keep_alive": True,
-        "password": "ysm1014wszqn",
-        "pool_size": 1,
-        "port": port_add,
-        "proxy_resolve": True,
-        "secure_proxy": True,
-        "zone": "jia1"
-    }
-    }    
+def add_proxy(port_add,country='us',traffic_=False,ip_lpm='127.0.0.1'):  
+    if traffic_:
+        data = {
+        "proxy": {
+            "country": country,
+            "keep_alive": True,
+            "password": "abitpt3isvvj",
+            "pool_size": 1,
+            "port": port_add,
+            "proxy_resolve": True,
+            "secure_proxy": True,
+            "zone": "zone2"
+        }    
+        }
+        print(data)
+    else:
+        data = {
+        "proxy": {
+            "country": country,
+            "keep_alive": True,
+            "password": "ysm1014wszqn",
+            "pool_size": 1,
+            "port": port_add,
+            "proxy_resolve": True,
+            "secure_proxy": True,
+            "zone": "jia1"
+        }
+        }    
+        print(data)        
     data = json.dumps(data)
     headers = {
     'Content-Type': 'application/json'
@@ -162,9 +183,9 @@ def add_proxy(port_add,country='us',ip_lpm='127.0.0.1'):
             print(str(e))  
 
 def delete_port(ports=''):
-    if ports == '':
-        account = db.get_account()
-        ip_lpm = account['IP']
+    account = db.get_account()
+    ip_lpm = account['IP']
+    if ports == '':        
         ports = ports_get(ip_lpm)
     for port_delete in ports:
         url_ = 'http://%s:22999/api/proxies/%s'%(ip_lpm,str(port_delete))
@@ -401,15 +422,7 @@ def create_plans():
 
 
 if __name__ == '__main__':
-
-    port = 24001
+    port = 24010
     ip = '192.168.30.131'
-    url = 'http://gm.ad3game.com/click.php?c=4&key=f616bd07e1rsw45tgvm9z140'
-    'http://tbx.gamemass.website/c/14549/7?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]&device=[device]&browser=[browser]&carrier=[carrier]'
-    
-    for i in range(10):
-        print(i)
-        refresh_proxy(ip,port)
-        # get_lpm_ip(ip,port,url = url,debug=1)
-        get_lpm_ip(ip,port)
+    add_proxy(port,country='us',traffic_=True,ip_lpm=ip)
 

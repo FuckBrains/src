@@ -26,7 +26,8 @@ import tools
 'testeeeee'
 '''
 
-# Falg_threads = 0
+Falg_threads = 0
+Mission_num = 0
 
 
 
@@ -35,11 +36,17 @@ pool = threadpool.ThreadPool(5)
 
                  
 def multi_reg(Config):
+    return_rand = random.randint(0,5)
+    if return_rand == 0:
+        print('unique  random,return for Mission_Id:',Config)
+        return
     time_cheat = random.randint(0,5)
     print(Config)
     if Config['Alliance'] != 'Test':
-        print('Sleep for random time:',time_cheat*60,'-------------')    
-        # sleep(time_cheat*60)
+        print('Sleep for random time:',time_cheat*60,'-------------')   
+        # for i in range(60): 
+            # print('sleep',i,Config['Mission_Id'])
+        sleep(time_cheat*60)
     else:
         print('test...........')
     while True:
@@ -82,8 +89,17 @@ def multi_reg(Config):
     except Exception as e:
         print(str(e))
     print('Mission_Id:',submit['Mission_Id'],'finished')
-    # global Falg_threads
-    # Falg_threads += 1
+    global Falg_threads
+    Falg_threads += 1
+    print('Falg_threads',Falg_threads)
+    print('Mission_num:',Mission_num)
+    if Falg_threads == Mission_num:
+        try:
+            tools.killpid()
+        except Exception as e:
+            print(str(e))
+            pass    
+
     # print('Falg_threads:',Falg_threads)
 
 def get_modules():
@@ -117,12 +133,19 @@ def main(i):
         account = db.get_account()
         plan_id = account['plan_id']
         print('Plan_id:',plan_id,',connecting sql for plan info...')
-        plans = db.read_plans(plan_id)
+        try:
+            plans = db.read_plans(plan_id)
+        except Exception as e:
+            print(str(e))
+            print('get db failed,restart........')
+            changer.Restart()
         if len(plans) == 0:
             print('No plan for this computer!!!!!!')
             return
         print('Missions:')
         print(plans)
+        global Mission_num
+        Mission_num = len(plans)
         requests = threadpool.makeRequests(multi_reg, plans)
         [pool.putRequest(req) for req in requests]
         pool.wait() 
@@ -130,8 +153,8 @@ def main(i):
         if i == 1:
             restart_time = random.randint(3,5)
             print('Mission completed.........')
-            # print('Sleep',restart_time,'minutes')
-            # sleep(restart_time*60)
+            print('Sleep',restart_time,'minutes')
+            sleep(restart_time*60)
             changer.Restart()
             sleep(200)
 
@@ -149,8 +172,8 @@ if __name__ == '__main__':
     # test    
     # paras = [0,1,2,3,4]
     i = int(paras[1])
-    # print(i)
-    # i=0
+    print(paras)
+    # i=1
     main(i)
 
     # if i == 1:

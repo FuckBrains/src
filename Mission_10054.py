@@ -44,7 +44,7 @@ def web_submit(submit,debug=0):
     except:
         pass
     chrome_driver.maximize_window() 
-    # chrome_driver.refresh()
+    chrome_driver.refresh()
     # click
     sleep(2)
     try:

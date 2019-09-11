@@ -493,7 +493,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     @pyqtSlot()
     def on_pushButton12_clicked(self):
         plan_id = int(self.comboBox8.currentText())
-        luminati.delete_port()
+        plans = db.read_plans(plan_id)
+        ports = [plan['prot_lpm'] for plan in plans]
+        luminati.delete_port(ports)
         db.clean_table(plan_id)
 
     @pyqtSlot()
@@ -504,6 +506,15 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         os.system(command)        
         command = '''start cmd /k "python luminati_main.pyc 0 %s "{$name$:$qcy$}" && exit"'''%(str(i))
         os.system(command)
+
+    @pyqtSlot()
+    def on_pushButton14_clicked(self):
+        plan_id = int(self.comboBox8.currentText())
+        # plans = db.read_plans(plan_id)
+        # ports = [plan['prot_lpm'] for plan in plans]
+        luminati.delete_port()
+        for i in range(15):
+            db.clean_table(i)
 
     # def on_lineEdit_selectionChanged(self):
     #     self.lineEdit.setText('')

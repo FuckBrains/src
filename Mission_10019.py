@@ -39,71 +39,8 @@ def web_submit(submit,debug=0):
     chrome_driver.find_element_by_xpath('//*[@id="term_and_cond"]').click()
     sleep(15)
     chrome_driver.find_element_by_xpath('//*[@id="registration_form"]/div/input').click()
-    # sleep(2000)
-    # chrome_driver.maximize_window()
-    # chrome_driver.refresh()    
-    # sleep(2000)  
-    # 'https://creative.strpjmp.com/LPExperience/?action=signUpModalDirectLinkInteractive&campaignId=66a29c1c25bce64b38c92f4bcf56b4e21e619817ab1aab514ce8203143a60a47&creativeId=703743f02fd260bf1c2309c89b9ebf898145c006091f4ce79fe9822a73fddf22&domain=stripchat&exitPages=LPSierra%2CLPSierra%2CLPAkira&memberId=D-602781-1564542573-bjuOIMY723549&modelName=EvyDream&shouldRedirectMember=1&sourceId=&userId=32976296468dd516e6deecdb98dd5a54eee16e2ef856a243a1eb8e54921f0f03'
-    if 'creative.strpjmp.com' in chrome_driver.current_url:
-        try:
-            chrome_driver.find_element_by_xpath('/html/body/div/div[2]/header/div/div/nav[1]/div[1]/a').click()
-        except:
-            pass
-    chrome_driver.find_element_by_xpath('//*[@id="body"]/div/div/header/div/div/nav[2]/div[3]/a[2]').click()
-    sleep(5)
-    try:
-        chrome_driver.find_element_by_xpath('//*[@id="sign_up_input_login"]').send_keys(name)
-    except Exception as e:
-        print('get site but cannot click',str(e))
-        # sleep(2000)
-        chrome_driver.close()
-        chrome_driver.quit()
-        return 0
-    sleep(3)
-    url_current = chrome_driver.current_url
-    try:
-        # chrome_driver.find_element_by_xpath('//*[@id="sign_up_input_login"]')
-        chrome_driver.find_element_by_xpath('//*[@id="sign_up_input_email"]').send_keys(submit['Email']['Email_emu'])
-    except Exception as e:
-        print('get site but fail to register',str(e))
-        chrome_driver.close()
-        chrome_driver.quit()
-        return 0         
-    sleep(3)    
-    try:
-        chrome_driver.find_element_by_class_name('btn-login').click()
-        print('Jump1')
-    except Exception as e:
-        print('get site but fail to register',str(e))
-        chrome_driver.close()
-        chrome_driver.quit()
-        return 0 
-    sleep(10)
-    try:
-        chrome_driver.find_element_by_xpath('//*[@id="body"]/div/div/div[1]/span')
-    except:
-        a_name = ['a','b','c','d','e','f','g','h','i','j','k','l','a','b','c','d','e','f','g','h','i','j','k','l']
-        num_name = [0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9]
-        num_insert = random.randint(2,len(name))
-        # print(name[0:num_insert] )
-        name_3 = random.randint(0,10)
-        first_insert = a_name[name_3]+str(num_name[name_3])
-        name = name[0:num_insert]+ first_insert+ str(num_name[num_insert])+name[num_insert:-1]+a_name[num_insert]
-        print(name)
-        chrome_driver.find_element_by_xpath('//*[@id="sign_up_input_login"]').send_keys(name)
-        sleep(2)
-        chrome_driver.find_element_by_class_name('btn-login').click()
-        print('Jump2')
-
-    # try:
-    #     chrome_driver.find_element_by_css_selector('#sign_up_input_email')
-    #     print('get site but fail to register',str(e))
-    #     chrome_driver.close()
-    #     chrome_driver.quit()  
-    #     return 0       
-    # except Exception as e:
-    #     print('regester success')
-        
+    print('Sleep for 30 seconds........')
+    sleep(30)
     site = ''
     handle = chrome_driver.current_window_handle
     try:            
@@ -128,12 +65,12 @@ def web_submit(submit,debug=0):
                     chrome_driver.refresh()
                 else:
                     try:
-                        chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(submit['Email']['Email_emu_pwd'])
-                        sleep(2)
-                        chrome_driver.find_element_by_xpath('//*[@id="confirmPassword"]').send_keys(submit['Email']['Email_emu_pwd'])
-                        sleep(2)
-                        chrome_driver.find_element_by_xpath('//*[@id="app"]/div/div/form/div[4]/button').click()
-                        sleep(5)
+                        cookies = chrome_driver.get_cookies()
+                        print(type(cookies))
+                        cookie_str = json.dumps(cookies)
+                        submit['Cookie'] = cookie_str                        
+                        db.update_cookie(submit)
+                        sleep(10)                        
                     except Exception as e:
                         print('',str(e))
                         chrome_driver.close()
@@ -211,17 +148,17 @@ def test_email():
 
 
 if __name__=='__main__':
-    submit = {'Email': {'Email_Id': '6f89149b-aa34-11e9-aecd-0003b7e49bfc', 'Email_emu': 'KentSawyer1v@outlook.com', 'Email_emu_pwd': 'NhG0punx', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}    
+    # submit = {'Email': {'Email_Id': '6f89149b-aa34-11e9-aecd-0003b7e49bfc', 'Email_emu': 'KentSawyer1v@outlook.com', 'Email_emu_pwd': 'NhG0punx', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}    
     # submit = db.get_one_info()
     # print(submit)
     # web_submit(submit,1)
-    link = email_confirm(submit)
+    # link = email_confirm(submit)
     print('=============')
-    print(link)
-    # submit ={'Email': {'Email_Id': '702d538c-aa34-11e9-b468-0003b7e49bfc', 'Email_emu': 'SextonJoyners3@aol.com', 'Email_emu_pwd': 'QgyTOY0y', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
+    # print(link)
+    submit ={'Email': {'Email_Id': '702d538c-aa34-11e9-b468-0003b7e49bfc', 'Email_emu': 'calvertroberts@yahoo.com', 'Email_emu_pwd': '32d8WIJq', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
     # submit= {'Email': {'Email_Id': '6fdec625-aa34-11e9-9489-0003b7e49bfc', 'Email_emu': 'CarrieBrookso7@aol.com', 'Email_emu_pwd': 'Bh9ZbPOR', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
     # submit = {'Email': {'Email_Id': '6faf2a9d-aa34-11e9-b0fa-0003b7e49bfc', 'Email_emu': 'AnnieBestKw@aol.com', 'Email_emu_pwd': 'BBI2C6Tq', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
     # submit = {'Email': {'Email_Id': '702fb4ec-aa34-11e9-a0a1-0003b7e49bfc', 'Email_emu': 'FredaHarlanaVmQyE@yahoo.com', 'Email_emu_pwd': 'uCPQ22t41', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
-    # url_link=email_confirm(submit)
-    # print(url_link)
+    url_link=email_confirm(submit)
+    print(url_link)
     # test_email()

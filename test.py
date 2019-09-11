@@ -236,6 +236,13 @@ def test_update():
     submit['Email_Id'] = '9f705978-c827-11e9-8c6c-000d7567cc3c'
     db.update_cookie(submit)    
 
+def test_ports():
+    plans = db.read_plans(1)
+    print(plans)
+    ports = [plan['prot_lpm'] for plan in plans]
+    print(ports)
+
+
 if __name__ == '__main__':
-    test_update()
+    test_ports()
 

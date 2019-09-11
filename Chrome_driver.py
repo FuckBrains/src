@@ -17,8 +17,8 @@ def get_ua_all():
             if line.strip('\n') != '':
                 if 'Windows' not in line:
                     continue 
-                if 'Chrome' in line:
-                    uas.append(line.strip('"').strip("'").strip('\n'))
+                # if 'Chrome' in line:
+                uas.append(line.strip('"').strip("'").strip('\n'))
 
     # for ua in uas.split('/n'):
         # print(ua)
@@ -82,6 +82,7 @@ def get_chrome(submit = None):
     size = get_size()
     print('Chrome size:',size)
     chrome_driver.set_window_size(size[0],size[1])
+    chrome_driver.maximize_window()    
     # if type(submit) != type(None):   
     #     print('prepareing for deleting cookies') 
     #     print(submit['Site'])

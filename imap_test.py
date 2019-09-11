@@ -96,9 +96,9 @@ def Email_emu_getlink(submit,keyword = ''):
     try:
         box.login(submit['Email_emu'], submit['Email_emu_pwd'])
         print(box.list())
-        # for item in box.list()[1]:
-        #     print()
-        #     box_selector = item.decode().split(' \"/\" ')[-1]
+        for item in box.list()[1]:
+            print()
+            box_selector = item.decode().split(' \"/\" ')[-1]
         #     if  re.match(r'.*?(Sent|Delete|Trash|Draft).*?',box_selector,re.M|re.I):
         #         continue
         #     print(box_selector)    
@@ -130,7 +130,10 @@ def Email_emu_getlink(submit,keyword = ''):
         return 1
     except Exception as e:
         print('login error: %s'%e)
-        # M.close()
+        try:
+            M.close()
+        except:
+            pass
         return 0
 
 

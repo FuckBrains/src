@@ -80,6 +80,7 @@ def web_submit(submit):
     # input.click()
     # chrome_driver.refresh()
     flag = 0
+    chrome_driver.get(submit['Site'])
     i = 0
     while i <=3:
         if 'Join CAM4' in chrome_driver.title:
