@@ -76,7 +76,7 @@ def get_chrome(submit = None):
     options.add_experimental_option("prefs", prefs) 
     chrome_driver = webdriver.Chrome(chrome_options=options)
     # chrome_driver = webdriver.Chrome(chrome_options=options,desired_capabilities=desired_capabilities)
-    chrome_driver.set_page_load_timeout(120)
+    chrome_driver.set_page_load_timeout(300)
     # chrome_driver.set_script_timeout(240)
     chrome_driver.implicitly_wait(20)  # 最长等待8秒  
     size = get_size()
