@@ -35,62 +35,63 @@ pool = threadpool.ThreadPool(5)
 
 
                  
-def multi_reg(Config):
+def multi_reg(Config):  
     return_rand = random.randint(0,5)
     if return_rand == 0:
         print('unique  random,return for Mission_Id:',Config)
-        return
-    time_cheat = random.randint(0,5)
-    print(Config)
-    if Config['Alliance'] != 'Test':
-        print('Sleep for random time:',time_cheat*60,'-------------')   
-        # for i in range(60): 
-            # print('sleep',i,Config['Mission_Id'])
-        sleep(time_cheat*60)
+        # return
     else:
-        print('test...........')
-    while True:
+        time_cheat = random.randint(0,5)
+        print(Config)
+        if Config['Alliance'] != 'Test':
+            print('Sleep for random time:',time_cheat*60,'-------------')   
+            # for i in range(60): 
+                # print('sleep',i,Config['Mission_Id'])
+            sleep(time_cheat*60)
+        else:
+            print('test...........')
+        while True:
+            try:
+                submit = db.get_luminati_submit(Config)
+                if Config['Alliance'] == 'Test':
+                    submit['state_'] = ''            
+                db.write_one_info([str(submit['Mission_Id'])],submit)
+                print('Data for this mission:')
+                print(submit)
+            except Exception as e:
+                print(str(e))
+                # changer.Restart()
+                return
+            if submit['Excels_dup'][1] != '':
+                print('testing email.........')
+                flag = imap_test.Email_emu_getlink(submit['Email'])
+                if flag == 0:
+                    print('Bad email:',submit['Email']['Email_emu'])
+                    db.updata_email_status(submit['Email']['Email_Id'],0)
+                    continue
+                else:
+                    print("Good email")
+                    db.updata_email_status(submit['Email']['Email_Id'],1)
+                    # break
+            else:
+                pass
+                # break              
+            flag = luminati.ip_test(submit['ip_lpm'],submit['prot_lpm'],state=submit['state_'] ,country='')
+            if flag == 1:
+                break
+            else:
+                continue
+            print('Reading config from sql server success')
+        module = 'Mission_'+submit['Mission_Id']
+        Module = importlib.import_module(module)
         try:
-            submit = db.get_luminati_submit(Config)
-            if Config['Alliance'] == 'Test':
-                submit['state_'] = ''            
-            db.write_one_info([str(submit['Mission_Id'])],submit)
-            print('Data for this mission:')
+            Module.web_submit(submit)
             print(submit)
         except Exception as e:
             print(str(e))
-            # changer.Restart()
-            return
-        if submit['Excels_dup'][1] != '':
-            print('testing email.........')
-            flag = imap_test.Email_emu_getlink(submit['Email'])
-            if flag == 0:
-                print('Bad email:',submit['Email']['Email_emu'])
-                db.updata_email_status(submit['Email']['Email_Id'],0)
-                continue
-            else:
-                print("Good email")
-                db.updata_email_status(submit['Email']['Email_Id'],1)
-                # break
-        else:
-            pass
-            # break              
-        flag = luminati.ip_test(submit['ip_lpm'],submit['prot_lpm'],state=submit['state_'] ,country='')
-        if flag == 1:
-            break
-        else:
-            continue
-        print('Reading config from sql server success')
-    module = 'Mission_'+submit['Mission_Id']
-    Module = importlib.import_module(module)
-    try:
-        Module.web_submit(submit)
-        print(submit)
-    except Exception as e:
-        print(str(e))
-    print('Mission_Id:',submit['Mission_Id'],'finished')
+        print('Mission_Id:',submit['Mission_Id'],'finished')
     global Falg_threads
-    Falg_threads += 1
+    Falg_threads += 1  
     print('Falg_threads',Falg_threads)
     print('Mission_num:',Mission_num)
     if Falg_threads == Mission_num:
