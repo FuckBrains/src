@@ -28,17 +28,16 @@ Email
 
 
 
-def web_submit(submit):
+def web_submit(submit,chrome_driver,debug=0):
     # test
     # site = 'https://finaff.go2affise.com/click?pid=3464&offer_id=9436'
     # submit['Site'] = site
-    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     # print(10000)
     # print('=========')
     name = name_get.gen_one_word_digit(lowercase=False)
     chrome_driver.maximize_window()
-    # chrome_driver.refresh()
+    chrome_driver.refresh()
     # sleep(2)
     # try:
     #     chrome_driver.find_element_by_xpath('//*[@id="layout_9"]/div[11]/div/a').click()

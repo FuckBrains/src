@@ -32,26 +32,31 @@ import random
 
 
 
-def web_submit(submit,debug=0):
+def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
         site = 'http://resslead.o18.click/c?o=715556&m=1846&a=39977'
         submit['Site'] = site
-    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
-    # chrome_driver.refresh()    
+    chrome_driver.refresh()    
     # new car old car
-    num_gender = random.randint(0,1)
-    if num_gender == 0:
-        chrome_driver.find_element_by_xpath('//*[@id="lander_submit"]').click()
-    else:
-        chrome_driver.find_element_by_xpath('//*[@id="lander_submit"]').click()
-    sleep(3)
-    # firstname
-    chrome_driver.find_element_by_xpath('//*[@id="first_name"]').send_keys(submit['Uspd']['first_name'])
-    # lastname
-    chrome_driver.find_element_by_xpath('//*[@id="last_name"]').send_keys(submit['Uspd']['last_name'])
+    try:
+        num_gender = random.randint(0,1)
+        if num_gender == 0:
+            chrome_driver.find_element_by_xpath('//*[@id="lander_submit"]').click()
+        else:
+            chrome_driver.find_element_by_xpath('//*[@id="lander_submit"]').click()
+        sleep(3)
+        # firstname
+        chrome_driver.find_element_by_xpath('//*[@id="first_name"]').send_keys(submit['Uspd']['first_name'])
+        # lastname
+        chrome_driver.find_element_by_xpath('//*[@id="last_name"]').send_keys(submit['Uspd']['last_name'])
+    except:
+        print('submit wrong')
+        chrome_driver.close()
+        chrome_driver.quit()
+        return 0
     # email
     chrome_driver.find_element_by_xpath('//*[@id="email"]').send_keys(submit['Uspd']['email'])
     #  phone
@@ -122,8 +127,8 @@ def web_submit(submit,debug=0):
     sleep(3)
     # Apply
     chrome_driver.find_element_by_xpath('//*[@id="confirm_submit"]').click() 
-    sleep(70)
-
+    sleep(30)
+    return 1
 def test():
     Mission_list = ['10000']
     Excel_name = ['Uspd','']

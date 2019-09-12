@@ -33,15 +33,14 @@ import random
 
 
 
-def web_submit(submit,debug=0):
+def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
         site = 'https://track.amcmpn.com/click?pid=664&offer_id=18151'
         submit['Site'] = site
-    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
-    # chrome_driver.refresh()    
+    chrome_driver.refresh()    
     # sleep(2000)
     # chrome_driver.find_element_by_xpath('').click()
     # chrome_driver.find_element_by_xpath('').send_keys(submit['Uspd']['state'])

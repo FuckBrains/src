@@ -53,7 +53,7 @@ def check_name():
             break    #success
     return name
 
-def web_submit(submit):
+def web_submit(submit,chrome_driver,debug=0):
     name = check_name()
     while True:
         Mission_list = ['10005']
@@ -68,9 +68,7 @@ def web_submit(submit):
             continue
         else:
             print('find a good email:',submit['Email']['Email_emu'])
-            db.write_one_info([str(submit['Mission_Id'])],submit)            
             break
-    chrome_driver = Chrome_driver.get_chrome(submit)
     print('==============')
     # wait = WebDriverWait(chrome_driver, 60) #等待的最大时间
     # input = wait.until(
@@ -120,7 +118,6 @@ def web_submit(submit):
         return 0
     status = 'fail'
     sleep(3)
-
     for i in range(3):
         if 'success' in chrome_driver.current_url :
             # status = 'success'
@@ -137,6 +134,7 @@ def web_submit(submit):
         chrome_driver.quit()
         return flag
     site = ''
+    flag = 1
     handle = chrome_driver.current_window_handle
     try:            
         site = email_confirm(submit)  
@@ -161,7 +159,7 @@ def web_submit(submit):
                     chrome_driver.refresh() 
                 except:
                     pass
-
+                db.write_one_info([str(submit['Mission_Id'])],submit) 
                 # url_active = 'https://www.cam4.com/'
                 # chrome_driver.get(url_active)
                 # chrome_driver.find_element_by_xpath('//*[@id="femalePreference"]').click()

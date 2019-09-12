@@ -14,8 +14,7 @@ import db
 
 
 
-def web_submit(submit):
-    chrome_driver = Chrome_driver.get_chrome(submit)
+def web_submit(submit,chrome_driver,debug=0):
     try:
     	chrome_driver.get(submit['Site'])
     except Eexception as e:

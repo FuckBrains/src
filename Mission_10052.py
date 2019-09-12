@@ -32,7 +32,7 @@ import random
 
 
 
-def web_submit(submit,debug=0):
+def web_submit(submit,chrome_driver,debug=0):
     # test
     email_list = ['aol.com','gmail.com','hotmail.com','outlook.com']
     Mission_list = ['10052']    
@@ -52,10 +52,9 @@ def web_submit(submit,debug=0):
     if debug == 1:
         site = 'https://adpgtrack.com/click/5d15c5d8a035945cc309af93/157000/224520/subaccount'
         submit['Site'] = site
-    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
-    # chrome_driver.refresh()
+    chrome_driver.refresh()
     # point
     chrome_driver.find_element_by_xpath('//*[@id="scroll2"]/span').click()
     sleep(5)
@@ -74,7 +73,7 @@ def web_submit(submit,debug=0):
     chrome_driver.find_element_by_xpath('//*[@id="regForm1"]/button').click()
     chrome_driver.close()
     chrome_driver.quit()
-    return     
+    return  1   
 def test():
     Mission_list = ['10000']
     Excel_name = ['Uspd','Email']

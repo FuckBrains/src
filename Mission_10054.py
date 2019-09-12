@@ -31,14 +31,13 @@ import random
 
 
 
-def web_submit(submit,debug=0):
+def web_submit(submit,chrome_driver,debug=0):
     # test
     # Excel_10054 = 'Data2000'
     Excel_10054 = 'health'    
     if debug == 1:
         site = 'https://track.amcmpn.com/click?pid=668&offer_id=19917'
         submit['Site'] = site
-    chrome_driver = Chrome_driver.get_chrome(submit)
     try:
         chrome_driver.get(submit['Site'])
     except:
@@ -128,6 +127,7 @@ def web_submit(submit,debug=0):
     sleep(30)
     chrome_driver.close()
     chrome_driver.quit()
+    return 1
 
 
 

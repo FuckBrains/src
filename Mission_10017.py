@@ -27,17 +27,16 @@ import emaillink
 
 
 
-def web_submit(submit,debug=0):
+def web_submit(submit,chrome_driver,debug=0):
     # test
     # Excel_10054 = 'Data2000'
     # Excel_10054 = 'Uspd'    
     if debug == 1:
         site = 'http://zh.moneymethods.net/click.php?c=11&key=75uwb87m43ef55qo3ytehrd1'
         submit['Site'] = site
-    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()
-    # chrome_driver.refresh()      
+    chrome_driver.refresh()      
     sleep(5)
     chrome_driver.find_element_by_xpath('//*[@id="regform"]/div[1]/div[1]/div/div/div/div[1]/label').click()
     sleep(2)
@@ -153,6 +152,7 @@ def web_submit(submit,debug=0):
                     pass                        
     except:
         pass
+    return 1
 
 
 

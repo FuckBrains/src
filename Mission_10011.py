@@ -28,16 +28,15 @@ Auto
 
 
 
-def web_submit(submit,debug = 0):
+def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
         site = 'http://ads.g4-tracking.com/aff_c?offer_id=2954&aff_id=58624'
         submit['Site'] = site
-    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     # sleep(2000)
     chrome_driver.maximize_window()
-    # chrome_driver.refresh()
+    chrome_driver.refresh()
     # sleep(1000)
     # page1
     # zip

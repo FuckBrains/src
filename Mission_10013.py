@@ -43,17 +43,16 @@ def name_get_random(submit):
     return names[num_name] 
 
 
-def web_submit(submit,debug=0):
+def web_submit(submit,chrome_driver,debug=0):
     # test
     # Excel_10054 = 'Data2000'
     Excel_tag = 'Auto'    
     if debug == 1:
         site = 'https://www.roblox.com/?v=rc&rbx_source=3&rbx_medium=cpa&rbx_campaign=1820'
         submit['Site'] = site
-    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     # chrome_driver.maximize_window()    
-    # chrome_driver.refresh()
+    chrome_driver.refresh()
     # click
     # sleep(2000)
 

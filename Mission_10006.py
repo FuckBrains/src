@@ -28,15 +28,14 @@ GUARDIANS_OF_AMBER_DOI(Done)
 '''
 
 
-def web_submit(submit,debug=0):
+def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
         site = 'https://track.adgaem.com/click?pid=1337&offer_id=62396'
         submit['Site'] = site
-    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()
-    # chrome_driver.refresh()    
+    chrome_driver.refresh()    
     # email
     element = selenium_funcs.scroll_and_find(chrome_driver,'//*[@id="email2"]')
     element.send_keys(submit['Email']['Email_emu'])

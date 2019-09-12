@@ -27,16 +27,15 @@ Email
 
 
 
-def web_submit(submit):
+def web_submit(submit,chrome_driver,debug=0):
     print(submit)
     # # test
     # site = 'http://im.datingwithlili.com/im/click.php?c=19&key=9ujpwgfe3d8bkaai63ncck9u'
     # submit['Site'] = site
-    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])   
     name = name_get.gen_one_word_digit(lowercase=False)
     chrome_driver.maximize_window()
-    # chrome_driver.refresh()
+    chrome_driver.refresh()
     # sleep(10000)
     sleep(10)
     # num = random.randint(0,30)

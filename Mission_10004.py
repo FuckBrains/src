@@ -28,15 +28,14 @@ Opinion_Outpost(Done)
 '''
 
 
-def web_submit(submit,debug=0):
+def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
         site = 'http://im.datingwithlili.com/im/click.php?c=37&key=ke4vt3yj5mu5i073gefwk9cv'
         submit['Site'] = site
-    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()
-    # chrome_driver.refresh()
+    chrome_driver.refresh()
     # sleep(1000)
     if submit['Auto']['gender'] == 'Female':
         # women

@@ -26,16 +26,15 @@ Auto
 '''
 
 
-def web_submit(submit,debug=0):
+def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
         site = 'http://lub.lubetadating.com/c/12981/4?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]&device=[device]&browser=[browser]&carrier=[carrier'
         submit['Site'] = site
-    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
 
     chrome_driver.maximize_window()
-    # chrome_driver.refresh()
+    chrome_driver.refresh()
     # sleep(1000)
     # page1
     chrome_driver.find_element_by_xpath('//*[@id="zip-submit"]').click()

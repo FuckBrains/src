@@ -20,12 +20,11 @@ Adsmain health
 Auto
 '''
 
-def web_submit(submit,debug=0):
+def web_submit(submit,chrome_driver,debug=0):
     # url = 'http://gkd.cooldatingz.com/c/11377/4?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]&device=[device]&browser=[browser]&carrier=[carrier]'
     if debug == 1:
         site = 'http://im.datingwithlili.com/im/click.php?c=8&key=0jp93r1877b94stq2u8rd6hd'
         submit['Site'] = site     
-    chrome_driver = Chrome_driver.get_chrome(submit)
     print('===========================')
     chrome_driver.get(submit['Site']) 
     sleep(3000) 

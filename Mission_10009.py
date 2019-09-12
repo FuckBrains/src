@@ -19,16 +19,14 @@ Stripchat(Done)
 '''
 
 
-def web_submit(submit,debug=0):
+def web_submit(submit,chrome_driver,debug=0):
     if debug == 1:
         # site = 'http://track.meanclick.com/im/click.php?c=9&key=4ld1iyw2l4iwy1u0k4n8hn1c'
         site = 'https://creative.strpjmp.com/LPExperience/?action=signUpModalDirectLinkInteractive&campaignId=66a29c1c25bce64b38c92f4bcf56b4e21e619817ab1aab514ce8203143a60a47&creativeId=703743f02fd260bf1c2309c89b9ebf898145c006091f4ce79fe9822a73fddf22&domain=stripchat&exitPages=LPSierra%2CLPSierra%2CLPAkira&memberId=D-602781-1564542573-bjuOIMY723549&modelName=EvyDream&shouldRedirectMember=1&sourceId=&userId=32976296468dd516e6deecdb98dd5a54eee16e2ef856a243a1eb8e54921f0f03'
         submit['Site'] = site   
-    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     # sleep(2000)
-    chrome_driver.maximize_window()
-    # chrome_driver.refresh()    
+    chrome_driver.refresh()    
     name = name_get.gen_one_word_digit(lowercase=False)  
     # sleep(2000)  
     # 'https://creative.strpjmp.com/LPExperience/?action=signUpModalDirectLinkInteractive&campaignId=66a29c1c25bce64b38c92f4bcf56b4e21e619817ab1aab514ce8203143a60a47&creativeId=703743f02fd260bf1c2309c89b9ebf898145c006091f4ce79fe9822a73fddf22&domain=stripchat&exitPages=LPSierra%2CLPSierra%2CLPAkira&memberId=D-602781-1564542573-bjuOIMY723549&modelName=EvyDream&shouldRedirectMember=1&sourceId=&userId=32976296468dd516e6deecdb98dd5a54eee16e2ef856a243a1eb8e54921f0f03'

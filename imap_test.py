@@ -95,6 +95,7 @@ def Email_emu_getlink(submit,keyword = ''):
     msg_content = ''    
     try:
         box.login(submit['Email_emu'], submit['Email_emu_pwd'])
+        print(submit['Email_emu'],'login success.....')
         print(box.list())
         for item in box.list()[1]:
             print()
@@ -124,7 +125,7 @@ def Email_emu_getlink(submit,keyword = ''):
         #         print(data[0].split())            
         #         if len(data[0].split()) == 0:
         #             break
-        # box.close()
+        box.close()
         print('Email good')
         box.logout()  
         return 1

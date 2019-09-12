@@ -32,15 +32,14 @@ import random
 
 
 
-def web_submit(submit,debug=0):
+def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
         site = 'http://lub.lubetadating.com/c/13526/1?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]&device=[device]&browser=[browser]&carrier=[carrier]'
         submit['Site'] = site
-    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
-    # chrome_driver.refresh()    
+    chrome_driver.refresh()    
     # sleep(2000)
     # chrome_driver.find_element_by_xpath('').click()
     # chrome_driver.find_element_by_xpath('').send_keys(submit['Uspd']['state'])
@@ -48,7 +47,7 @@ def web_submit(submit,debug=0):
     	print('Url wrong!!!!!!!!!!!!!!!!!')
     	chrome_driver.close()
     	chrome_driver.quit()
-    	return
+    	return 0
     # mrs mr
     num_gender = random.randint(0,1)
     if num_gender == 0:

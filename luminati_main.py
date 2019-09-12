@@ -21,6 +21,7 @@ import re
 import json
 import luminati
 import tools
+import Chrome_driver
 
 '''
 'testeeeee'
@@ -36,30 +37,33 @@ pool = threadpool.ThreadPool(5)
 
                  
 def multi_reg(Config):  
+    # print(Config)
+    global Falg_threads    
     return_rand = random.randint(0,5)
     if return_rand == 0:
         print('unique  random,return for Mission_Id:',Config)
-        # return
     else:
         time_cheat = random.randint(0,5)
         print(Config)
         if Config['Alliance'] != 'Test':
             print('Sleep for random time:',time_cheat*60,'-------------')   
-            # for i in range(60): 
-                # print('sleep',i,Config['Mission_Id'])
-            sleep(time_cheat*60)
+            # sleep(time_cheat*60)
         else:
             print('test...........')
         while True:
+            print('getting data')
             try:
                 submit = db.get_luminati_submit(Config)
                 if Config['Alliance'] == 'Test':
                     submit['state_'] = ''            
-                db.write_one_info([str(submit['Mission_Id'])],submit)
                 print('Data for this mission:')
                 print(submit)
             except Exception as e:
                 print(str(e))
+                Falg_threads += 1
+                print('Get data wrong..................................')
+                print('Falg_threads',Falg_threads)
+                print('Mission_num:',Mission_num)                
                 # changer.Restart()
                 return
             if submit['Excels_dup'][1] != '':
@@ -72,10 +76,9 @@ def multi_reg(Config):
                 else:
                     print("Good email")
                     db.updata_email_status(submit['Email']['Email_Id'],1)
-                    # break
             else:
                 pass
-                # break              
+            print(Config['Alliance'],'email test finished')
             flag = luminati.ip_test(submit['ip_lpm'],submit['prot_lpm'],state=submit['state_'] ,country='')
             if flag == 1:
                 break
@@ -84,13 +87,23 @@ def multi_reg(Config):
             print('Reading config from sql server success')
         module = 'Mission_'+submit['Mission_Id']
         Module = importlib.import_module(module)
+        flag = 0
         try:
-            Module.web_submit(submit)
+            print('----------------====================')
+            chrome_driver = Chrome_driver.get_chrome(submit)
+            flag = Module.web_submit(submit,chrome_driver=chrome_driver)
             print(submit)
         except Exception as e:
             print(str(e))
+        try:
+            chrome_driver.close()
+            chrome_driver.quit()
+        except:
+            pass
+        if flag == 1:
+            print('Mission: ',submit['Mission_Id'],'success,uploading db')
+            db.write_one_info([str(submit['Mission_Id'])],submit)
         print('Mission_Id:',submit['Mission_Id'],'finished')
-    global Falg_threads
     Falg_threads += 1  
     print('Falg_threads',Falg_threads)
     print('Mission_num:',Mission_num)
@@ -99,7 +112,8 @@ def multi_reg(Config):
             tools.killpid()
         except Exception as e:
             print(str(e))
-            pass    
+            pass  
+    return  
 
     # print('Falg_threads:',Falg_threads)
 
@@ -144,9 +158,11 @@ def main(i):
             print('No plan for this computer!!!!!!')
             return
         print('Missions:')
-        print(plans)
+        # print(plans)
+
         global Mission_num
         Mission_num = len(plans)
+        print(Mission_num)
         requests = threadpool.makeRequests(multi_reg, plans)
         [pool.putRequest(req) for req in requests]
         pool.wait() 
@@ -169,12 +185,10 @@ def test():
 
 
 if __name__ == '__main__':
-    paras=sys.argv
-    # test    
-    # paras = [0,1,2,3,4]
-    i = int(paras[1])
-    print(paras)
-    # i=1
+    # paras=sys.argv
+    # i = int(paras[1])
+    # print(paras)
+    i=1
     main(i)
 
     # if i == 1:

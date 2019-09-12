@@ -24,11 +24,10 @@ swipe
 
 
 
-def web_submit(submit):
+def web_submit(submit,chrome_driver,debug=0):
     # test
     # site = 'https://finaff.go2affise.com/click?pid=3464&offer_id=9436'
     # submit['Site'] = site
-    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     while True:
         if 'Looking for sex tonight in your area?' in chrome_driver.page_source:

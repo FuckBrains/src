@@ -20,26 +20,32 @@ flirtforfree(Done)
 '''
 
 
-def web_submit(submit,debug=0):
+def web_submit(submit,chrome_driver,debug=0):
+    flag = 0
     if debug == 1:
         # site = 'http://track.meanclick.com/im/click.php?c=9&key=4ld1iyw2l4iwy1u0k4n8hn1c'
         site = 'https://track.advendor.net/click?pid=27543&offer_id=852'
         submit['Site'] = site   
-    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     # sleep(2000)
     name = name_get.gen_one_word_digit(lowercase=False)      
     pwd = Submit_handle.password_get()
-    chrome_driver.find_element_by_xpath('//*[@id="cemail"]').send_keys(submit['Email']['Email_emu'])
-    sleep(2)
-    chrome_driver.find_element_by_xpath('//*[@id="nick_name"]').send_keys(name)
-    sleep(2)
-    chrome_driver.find_element_by_xpath('//*[@id="new_password"]').send_keys(pwd)
-    sleep(2)
-    chrome_driver.find_element_by_xpath('//*[@id="term_and_cond"]').click()
-    sleep(15)
-    chrome_driver.find_element_by_xpath('//*[@id="registration_form"]/div/input').click()
-    print('Sleep for 30 seconds........')
+    try:
+        chrome_driver.find_element_by_xpath('//*[@id="cemail"]').send_keys(submit['Email']['Email_emu'])
+        sleep(2)
+        chrome_driver.find_element_by_xpath('//*[@id="nick_name"]').send_keys(name)
+        sleep(2)
+        chrome_driver.find_element_by_xpath('//*[@id="new_password"]').send_keys(pwd)
+        sleep(2)
+        chrome_driver.find_element_by_xpath('//*[@id="term_and_cond"]').click()
+        sleep(15)
+        chrome_driver.find_element_by_xpath('//*[@id="registration_form"]/div/input').click()
+    except:
+        print('error in registeration')
+        chrome_driver.close()
+        chrome_driver.quit()
+        return 0
+    print('After registeration,Sleep for 30 seconds........')
     sleep(30)
     site = ''
     handle = chrome_driver.current_window_handle
@@ -55,7 +61,7 @@ def web_submit(submit,debug=0):
     else:
         chrome_driver.close()
         chrome_driver.quit()
-        return         
+        return flag       
     handles=chrome_driver.window_handles   
     try:
         for i in handles:

@@ -26,16 +26,15 @@ CashRequestOnline(Done)
 
 
 
-def web_submit(submit,debug = 0):
+def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
         site = 'https://cashrequestonline.com/?cguid=8bdbc50e-ddcd-42af-a291-e6aa4508c989'
         submit['Site'] = site
-    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     # sleep(2000)
     chrome_driver.maximize_window()
-    # chrome_driver.refresh()
+    chrome_driver.refresh()
     # sleep(1000)
 
     # page1

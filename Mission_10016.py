@@ -30,14 +30,13 @@ import random
 
 
 
-def web_submit(submit,debug=0):
+def web_submit(submit,chrome_driver,debug=0):
     # test
     # Excel_10054 = 'Data2000'
     Excel_10054 = 'Uspd'    
     if debug == 1:
         site = 'https://finaff.go2affise.com/click?pid=6004&offer_id=9428'
         submit['Site'] = site
-    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get(submit['Site'])
     # sleep(3000)
     # chrome_driver.maximize_window()    
