@@ -26,6 +26,7 @@ class EmailReceive(object):
             print(e)
 
     def close(self):
+        self.imap_mail.select('INBOX')
         self.imap_mail.close()
         self.imap_mail.logout()
 
@@ -83,12 +84,14 @@ class EmailReceive(object):
                         if flag_ == 0:
                             result.append(EmailReceive.getOneMail(data,getAttach))
                             if not findAll:
-                                self.close()
+                                self.imap_mail.select('INBOX')
+                                self.imap_mail.close()
                                 return result
 
             except Exception as e:
                 print(e)
-        self.close()
+        self.imap_mail.select('INBOX')
+        self.imap_mail.close()
         return result
 
     @staticmethod

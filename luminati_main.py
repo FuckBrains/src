@@ -109,7 +109,9 @@ def multi_reg(Config):
     print('Mission_num:',Mission_num)
     if Falg_threads == Mission_num:
         try:
+            print('try killing pids')
             tools.killpid()
+            print('kill pids finished')
         except Exception as e:
             print(str(e))
             pass  
@@ -188,7 +190,7 @@ if __name__ == '__main__':
     # paras=sys.argv
     # i = int(paras[1])
     # print(paras)
-    i=1
+    i=0
     main(i)
 
     # if i == 1:

@@ -208,13 +208,39 @@ def check_email(submit):
         print(submit['Email_emu'],'is GOOD_EMAIL')
         return 0 #success
 
-def activate():
-    site_url = 'https://www.baidu.com'
+def activate(cookie):
     # https://www.cam4.com/
     chrome_driver = Chrome_driver.get_chrome()
     chrome_driver.get(site_url)
     print('cam4....................')
-    sleep(3000)
+    chrome_driver.get('http://www.cam4.com/female')
+    try:
+        chrome_driver.find_element_by_id('promotionsConsentModalLink').click()
+        print('find no thanks')
+    except:
+        print('not find no thanks')
+        
+    randtime = random.randint(3,5)
+    sleep(randtime)
+    time_num =random.randint(3,6)
+    for i in range(time_num):
+        num = random.randint(1,20)
+        try:
+            chrome_driver.get('http://www.cam4.com/female')
+            #directoryDiv > div:nth-child(7) > div > a.clearfix > img
+            #directoryDiv > div:nth-child(16) > div > a.clearfix > img
+            #chrome_driver.find_element_by_xpath('//*[@id="directoryDiv"]/div['+str(num)+']/div/a[2]').click()
+            #chrome_driver.find_element_by_css_selector('directoryDiv > div:nth-child(16) > div > a.clearfix > img')
+            a = '#directoryDiv > div:nth-child('+str(num)+') > div > a.clearfix > img'
+            chrome_driver.find_element_by_css_selector(a).click()
+            
+            print('==================')
+        except:
+            chrome_driver.get('http://www.cam4.com/female')
+            print('no vedio find')
+        sleep_time = random.randint(1,3)
+        sleep(sleep_time*60)
+    return 1
 
 def email_confirm(submit,debug=0):
     print('----------')

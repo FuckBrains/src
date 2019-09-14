@@ -88,7 +88,7 @@ def Email_emu_getlink(submit,keyword = ''):
         box = imaplib.IMAP4_SSL(server)
         print('email server login success....')
     except Exception as e:
-        pritn(str(e))
+        print(str(e))
         print('email server login failed....')        
         # writelog(submit['Email_emu'] + ' login failed : ',str(msg))
         return 0        
@@ -133,6 +133,7 @@ def Email_emu_getlink(submit,keyword = ''):
     except Exception as e:
         print('login error: %s'%e)
         try:
+            box.select("INBOX")
             box.close()
         except:
             pass
@@ -141,9 +142,12 @@ def Email_emu_getlink(submit,keyword = ''):
 
 if __name__=='__main__':
     import db
-    Mission_list = ['10000']
-    Excel_name = ['','Email']
-    Email_list = ['hotmail.com','outlook.com','','aol.com','gmail.com']
-    submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
-    print(submit)
-    Email_emu_getlink(submit['Email'])
+    for i in range(100):
+        print(i,'..........')
+        Mission_list = ['10000']
+        Excel_name = ['','Email']
+        Email_list = ['hotmail.com','outlook.com','','aol.com','gmail.com']
+        submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
+        print(submit)
+        Email_emu_getlink(submit['Email'])
+        print('finish loop......')

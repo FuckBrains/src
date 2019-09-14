@@ -49,12 +49,10 @@ def main(country='US',Module_list=[]):
     except Exception as e:
         print(str(e))
         pass    
-
     plans = db.read_plans(plan_id)
     print('Mission:')
     print(plans)
-
-    requests = threadpool.makeRequests(multi_reg, plans)
+    requests = threadpool.makeRequests(multi_activate, plans)
     [pool.putRequest(req) for req in requests]
     pool.wait() 
     restart_time = random.randint(3,5)

@@ -8,7 +8,7 @@ from xlrd import xldate_as_tuple
 import uuid
 import random
 import os
-
+import Chrome_driver
 
 '''
 4 accounts for 4 members.
@@ -574,8 +574,9 @@ def write_one_info(Mission_list,submit,Cookie = ''):
                 pass
     Alliance = submit['Alliance']
     Account = submit['Account']
+    ua = submit['ua']
     for Mission_Id in Mission_list:
-        sql_content = 'INSERT INTO Mission(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,Cookie)VALUES("%s","%s","%s","%s","%s","%s")'%(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,Cookie)
+        sql_content = 'INSERT INTO Mission(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie)VALUES("%s","%s","%s","%s","%s","%s")'%(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie)
         res = cursor.execute(sql_content)    
     login_out_sql(conn,cursor)
 
@@ -917,6 +918,10 @@ def get_luminati_submit(Config):
     print(submit['Site'])
     submit['Mission_dir'] = Config['Mission_dir']    
     print(submit)
+    uas = Chrome_driver.get_ua_all()
+    ua = Chrome_driver.get_ua_random(uas)
+    print(ua)  
+    submit['ua'] = ua  
     return submit
 
 def update_cookie(submit):
@@ -932,29 +937,24 @@ def get_activate_account():
     pass
 
 
-def hotupdate():
-    sql_content1 = "ALTER TABLE Mission ADD Alliance VARCHAR(100) AFTER Mission_Id;"    
-    sql_content2 = "ALTER TABLE Mission ADD Account VARCHAR(100) AFTER Mission_Id;"    
-    '''
-    plans
-    '''
-    sql_content3 = "ALTER TABLE Plans ADD Account VARCHAR(50) AFTER Alliance;"    
+def hotupdate(i):
+    import hotupdate_contests as hu
+    content = hu.get_contents(i)
+    print(content)
+    Execute_sql(content)
 
-    Execute_sql([sql_content2,sql_content1,sql_content3])
 
-def hotupdate2():
-    sql_content = 'delete from email WHERE status = "Bad"'
-    Execute_sql([sql_content])
 
 
 if __name__ == '__main__':
     # init()
-    delete_old_data()
-    upload_data()
+    # delete_old_data()
+    # upload_data()
     # get_duplicated_mission_record()
-    plans = {'0': {'Alliance': 'Finaff', 'Offer': 'Royal Cams(Done)', 'url_link': 'http', 'Country': 'US', 'Mission_Id': '10000', 'Excel': ['', 'Email']}}
+    # plans = {'0': {'Alliance': 'Finaff', 'Offer': 'Royal Cams(Done)', 'url_link': 'http', 'Country': 'US', 'Mission_Id': '10000', 'Excel': ['', 'Email']}}
     # upload_plans(plans)
     # add_key_db()
     # plans = read_plans()
     # print(plans)
     # update_key()
+    hotupdate(3)
