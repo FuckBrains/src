@@ -208,11 +208,12 @@ def check_email(submit):
         print(submit['Email_emu'],'is GOOD_EMAIL')
         return 0 #success
 
-def activate(cookie):
+def activate(submit):
     # https://www.cam4.com/
-    chrome_driver = Chrome_driver.get_chrome()
-    chrome_driver.get(site_url)
-    print('cam4....................')
+
+    for cookie in cookies:
+        chrome_driver.add_cookie(cookie)    
+    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get('http://www.cam4.com/female')
     try:
         chrome_driver.find_element_by_id('promotionsConsentModalLink').click()

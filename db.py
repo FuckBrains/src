@@ -876,13 +876,23 @@ def upload_plans(plans):
     Execute_sql(sql_contents)    
     # update_data(table,keys,values)
 
-
 def test_dict():
     dict_test = {'0': {'Alliance': 'Finaff', 'Offer': 'Royal Cams(Done)', 'url_link': 'http', 'Country': 'US', 'Mission_Id': '10000', 'Excel': ['', 'Email']}}
     list_keys , list_values = dict_test['0'].keys(), dict_test['0'].values()    
     print(list(list_keys))
     # print(type(list_keys))
     print(list(list_values))
+
+def get_cookie(Config=None):
+    print('     Start reading info from sql server...')
+    account = get_account()
+    conn,cursor=login_sql(account)
+    res = cursor.execute('SELECT * from Mission WHERE cookie!="" and Mission_Id="%s" and Alliance="%s" and Account="%s"'%(Config['Mission_Id'],Config['Alliance'],Config['Account']))
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
+    # print(len(Mission_dict))
+    # print(Mission_dict)
+    return Mission_dict
 
 
 def add_key_db(sql_content):
@@ -932,19 +942,14 @@ def update_cookie(submit):
     sql_content = "UPDATE Mission SET Cookie = '%s' WHERE Mission_id = '%s' and Email_Id = '%s'" % (submit['Cookie'],submit['Mission_Id'],submit['Email']['Email_Id'])
     Execute_sql([sql_content])
 
-
 def get_activate_account():
     pass
-
 
 def hotupdate(i):
     import hotupdate_contests as hu
     content = hu.get_contents(i)
     print(content)
     Execute_sql(content)
-
-
-
 
 if __name__ == '__main__':
     # init()

@@ -52,6 +52,9 @@ def main(country='US',Module_list=[]):
     plans = db.read_plans(plan_id)
     print('Mission:')
     print(plans)
+    Mission_dict = db.get_cookie(submit)
+    print(Mission_dict)
+    cookies = Mission_dict     
     requests = threadpool.makeRequests(multi_activate, plans)
     [pool.putRequest(req) for req in requests]
     pool.wait() 

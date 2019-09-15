@@ -242,7 +242,18 @@ def test_ports():
     ports = [plan['prot_lpm'] for plan in plans]
     print(ports)
 
+def test_cookies():
+    Config = {}
+    Config['Mission_Id'] = '10005'
+    Config['Alliance'] = 'highrockads'
+    Config['Account'] = '1'
+    Mission_dict = db.get_cookie(Config)
+    print()
+    print(Mission_dict)
+
+
+
 
 if __name__ == '__main__':
-    test_ports()
+    test_cookies()
 

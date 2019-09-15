@@ -187,10 +187,10 @@ def test():
 
 
 if __name__ == '__main__':
-    # paras=sys.argv
-    # i = int(paras[1])
+    paras=sys.argv
+    i = int(paras[1])
     # print(paras)
-    i=0
+    # i=0
     main(i)
 
     # if i == 1:
