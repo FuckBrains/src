@@ -171,7 +171,7 @@ def test_chrome_luminati():
     print(submit)
     module = 'Mission_'+submit['Mission_Id']
     Module = importlib.import_module(module)     
-    luminati.ip_test(submit['ip_lpm'],submit['prot_lpm'],state=submit['state_'] ,country='')             
+    luminati.ip_test(submit['ip_lpm'],submit['port_lpm'],state=submit['state_'] ,country='')             
     Module.web_submit(submit) 
 
 def test_cam4():
@@ -239,7 +239,7 @@ def test_update():
 def test_ports():
     plans = db.read_plans(1)
     print(plans)
-    ports = [plan['prot_lpm'] for plan in plans]
+    ports = [plan['port_lpm'] for plan in plans]
     print(ports)
 
 def test_cookies():
@@ -248,12 +248,27 @@ def test_cookies():
     Config['Alliance'] = 'highrockads'
     Config['Account'] = '1'
     Mission_dict = db.get_cookie(Config)
-    print()
     print(Mission_dict)
 
+def test_9_15():
+    zone = 'kang_us_2'
+    pwd = 'av5utr8ea2tz'
+    luminati.write_proxy_config(zone,pwd)
+    data = luminati.read_proxy_config()
+    print(data)
+    
+def test_port():
+    port_add = '24114'
+    luminati.add_proxy(port_add,country='us',proxy_config_name='kang_us_1',ip_lpm='192.168.30.131')
 
-
+def test_check():
+    submit = {}
+    submit['Mission_Id'] = 10005
+    submit['Email_Id'] = 'a5839-8cf9-000d7567cc3c'
+    res = db.check_mission_status(submit)
+    print(res)
+    print(len(res))
 
 if __name__ == '__main__':
-    test_cookies()
+    test_check()
 

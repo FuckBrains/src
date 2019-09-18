@@ -80,7 +80,6 @@ def web_submit(submit,chrome_driver,debug=0):
         sleep(2)
         chrome_driver.find_element_by_class_name('btn-login').click()
         print('Jump2')
-
     # try:
     #     chrome_driver.find_element_by_css_selector('#sign_up_input_email')
     #     print('get site but fail to register',str(e))
@@ -89,7 +88,7 @@ def web_submit(submit,chrome_driver,debug=0):
     #     return 0       
     # except Exception as e:
     #     print('regester success')
-        
+    db.write_one_info([str(submit['Mission_Id'])],submit)
     site = ''
     handle = chrome_driver.current_window_handle
     try:            
@@ -104,7 +103,7 @@ def web_submit(submit,chrome_driver,debug=0):
     else:
         chrome_driver.close()
         chrome_driver.quit()
-        return         
+        return 1       
     handles=chrome_driver.window_handles   
     try:
         for i in handles:
@@ -113,41 +112,60 @@ def web_submit(submit,chrome_driver,debug=0):
                 if 'Email successfully confirmed' not in chrome_driver.page_source:
                     chrome_driver.refresh()
                 else:
-                    try:
-                        chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(submit['Email']['Email_emu_pwd'])
-                        sleep(2)
-                        chrome_driver.find_element_by_xpath('//*[@id="confirmPassword"]').send_keys(submit['Email']['Email_emu_pwd'])
-                        sleep(2)
-                        chrome_driver.find_element_by_xpath('//*[@id="app"]/div/div/form/div[4]/button').click()
-                        sleep(5)
-                    except Exception as e:
-                        print('',str(e))
-                        chrome_driver.close()
-                        chrome_driver.quit()    
-                        return                          
+                    for i in range(20):
+                        try:
+                            chrome_driver.find_element_by_xpath('//*[@id="password"]')
+                        except Exception as e:
+                            sleep(5)
+                            continue
+                        try:
+                            chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(submit['Email']['Email_emu_pwd'])
+                            sleep(2)
+                            chrome_driver.find_element_by_xpath('//*[@id="confirmPassword"]').send_keys(submit['Email']['Email_emu_pwd'])
+                            sleep(2)
+                            chrome_driver.find_element_by_xpath('//*[@id="app"]/div/div/form/div[4]/button').click()
+                            sleep(5)
+                            cookies = chrome_driver.get_cookies()
+                            cookie_str = json.dumps(cookies)
+                            submit['Cookie'] = cookie_str
+                            db.update_cookie(submit)                            
+                        except Exception as e:
+                            print('',str(e))
+                            chrome_driver.close()
+                            chrome_driver.quit()    
+                            return 1                       
     except Exception as e:
         print('',str(e))
         chrome_driver.close()
         chrome_driver.quit()    
-        return  
+        return 1
     if 'Password was updated successfully' in chrome_driver.page_source:
         try:
             chrome_driver.find_element_by_xpath('//*[@id="app"]/div/div/a').click()
         except:
             chrome_driver.close()
             chrome_driver.quit()    
-            return              
+            return 1             
     sleep(5)
     try:
         chrome_driver.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div/div[3]/div[7]/div/a').click()
+        sleep(5)
+        db.write_one_info([str(submit['Mission_Id'])],submit) 
+        cookies = chrome_driver.get_cookies()
+        print(type(cookies))
+        cookie_str = json.dumps(cookies)
+        submit['Cookie'] = cookie_str
+        # submit['Cookie'] = chrome_driver.get_cookies()                 
+        db.update_cookie(submit)
+        sleep(10)        
     except:
         chrome_driver.close()
         chrome_driver.quit()
-        return
+        return 1
     sleep(30)        
     chrome_driver.close()
     chrome_driver.quit()
-    return 
+    return 1
 
 def email_confirm(submit,debug=0):
     print('----------')

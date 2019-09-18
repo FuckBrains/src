@@ -477,7 +477,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         i = self.comboBox6.currentText()
         print('start open 10 Alliance once,push next to go on ')
         command = '''start cmd /k "python Alliance_login.py %s "{$name$:$qcy$}" && exit"'''%(str(i))
-        os.system(command)        
+        os.system(command)
         command = '''start cmd /k "python Alliance_login.pyc %s "{$name$:$qcy$}" && exit"'''%(str(i))
         os.system(command)
 
@@ -494,7 +494,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     def on_pushButton12_clicked(self):
         plan_id = int(self.comboBox8.currentText())
         plans = db.read_plans(plan_id)
-        ports = [plan['prot_lpm'] for plan in plans]
+        ports = [plan['port_lpm'] for plan in plans]
         luminati.delete_port(ports)
         db.clean_table(plan_id)
 
@@ -502,16 +502,16 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     def on_pushButton13_clicked(self):
         i = self.comboBox6.currentText()
         print('start open test link ')
-        command = '''start cmd /k "python luminati_main.py 0 %s "{$name$:$qcy$}" && exit"'''%(str(i))
+        command = '''start cmd /k "python luminati_main.py  %s "{$name$:$qcy$}" && exit"'''%(str(i))
         os.system(command)        
-        command = '''start cmd /k "python luminati_main.pyc 0 %s "{$name$:$qcy$}" && exit"'''%(str(i))
+        command = '''start cmd /k "python luminati_main.pyc  %s "{$name$:$qcy$}" && exit"'''%(str(i))
         os.system(command)
 
     @pyqtSlot()
     def on_pushButton14_clicked(self):
         plan_id = int(self.comboBox8.currentText())
         # plans = db.read_plans(plan_id)
-        # ports = [plan['prot_lpm'] for plan in plans]
+        # ports = [plan['port_lpm'] for plan in plans]
         luminati.delete_port()
         for i in range(15):
             db.clean_table(i)
@@ -531,7 +531,14 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.lineEdit_6.setText(self.accounts[int(i)-1]['pwd_roboform'])
         self.lineEdit_7.setText(self.accounts[int(i)-1]['Country'])
 
-
+    @pyqtSlot()
+    def on_pushButton15_clicked(self):
+        i = self.comboBox10.currentText()
+        print('start open test link ')
+        command = '''start cmd /k "python hotupdate.py  %s "{$name$:$qcy$}" && exit"'''%(str(i))
+        os.system(command)        
+        command = '''start cmd /k "python hotupdate.pyc %s "{$name$:$qcy$}" && exit"'''%(str(i))
+        os.system(command)
 
 def main():
     up.main()

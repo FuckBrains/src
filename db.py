@@ -233,7 +233,7 @@ def create_all_tables():
     sql_contents = []
     sql_email = "CREATE TABLE  IF NOT EXISTS Email (Email_Id VARCHAR(50) PRIMARY KEY NOT NULL,Email_emu VARCHAR(50) UNIQUE NOT NULL,Email_emu_pwd VARCHAR(50) NOT NULL,Email_assist VARCHAR(50) NULL,Email_assist_pwd VARCHAR(50) NULL,Status VARCHAR(20) NULL,create_time timestamp DEFAULT CURRENT_TIMESTAMP);"
     sql_mission = "CREATE TABLE  IF NOT EXISTS Mission (Alliance_email VARCHAR(50),Account_email VARCHAR(50),Mission_Id INT(10) NOT NULL,Email_Id VARCHAR(50),BasicInfo_Id VARCHAR(50),Cookie VARCHAR(1000),create_time timestamp DEFAULT CURRENT_TIMESTAMP);"    
-    sql_plans = "CREATE TABLE  IF NOT EXISTS Plans (Plan_Id INT(10) NOT NULL,Alliance VARCHAR(50),Account VARCHAR(50),Offer VARCHAR(50),url_link VARCHAR(1000),Country VARCHAR(50),Excel VARCHAR(50),Mission_Id VARCHAR(50),Mission_dir VARCHAR(100),ip_lpm VARCHAR(50),prot_lpm VARCHAR(50),create_time timestamp DEFAULT CURRENT_TIMESTAMP);"    
+    sql_plans = "CREATE TABLE  IF NOT EXISTS Plans (Plan_Id INT(10) NOT NULL,Alliance VARCHAR(50),Account VARCHAR(50),Offer VARCHAR(50),url_link VARCHAR(1000),Country VARCHAR(50),Excel VARCHAR(50),Mission_Id VARCHAR(50),Mission_dir VARCHAR(100),ip_lpm VARCHAR(50),port_lpm VARCHAR(50),create_time timestamp DEFAULT CURRENT_TIMESTAMP);"    
     sql_ip = "CREATE TABLE  IF NOT EXISTS Ip_Pools (Ip VARCHAR(50) UNIQUE NOT NULL,Type VARCHAR(20) NOT NULL,Status VARCHAR(20) NULL,create_time timestamp DEFAULT CURRENT_TIMESTAMP);"
     sql_contents = [sql_email,sql_plans,sql_mission,sql_ip]
     Execute_sql(sql_contents)
@@ -572,11 +572,14 @@ def write_one_info(Mission_list,submit,Cookie = ''):
                 BasicInfo_Id = submit[item]['BasicInfo_Id']
             except:
                 pass
-    Alliance = submit['Alliance']
-    Account = submit['Account']
+    Alliance = str(submit['Alliance'])
+    Account = str(submit['Account'])
     ua = submit['ua']
+    print('+++++++++++++++++++++++++')
     for Mission_Id in Mission_list:
-        sql_content = 'INSERT INTO Mission(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie)VALUES("%s","%s","%s","%s","%s","%s")'%(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie)
+        sql_content = 'INSERT INTO Mission(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie)VALUES("%s","%s","%s","%s","%s","%s","%s")'%(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie)
+        print('==============')
+        print(sql_content)
         res = cursor.execute(sql_content)    
     login_out_sql(conn,cursor)
 
@@ -636,7 +639,7 @@ def Execute_sql(sql_contents):
         res = cursor.execute(sql_content)
         response = cursor.fetchall()
         print(response)
-    login_out_sql(conn,cursor)     
+    login_out_sql(conn,cursor)
 
 def email_test():
     sql_content1 = 'SELECT * from Email'
@@ -869,7 +872,7 @@ def upload_plans(plans):
         for i in range(len(list_values)):
             if type(list_values[i]) == type([]):
                 list_values[i] = list_values[i][0]+','+list_values[i][1]
-        print(list_values)
+        # print(list_values)
         sql_content = get_upload_sql_content(table,list_keys,list_values)
         print(sql_content)
         sql_contents.append(sql_content)
@@ -914,7 +917,7 @@ def get_luminati_submit(Config):
     submit = read_one_excel(Mission_Ids,Excels_dup,Email_list)
     # print(submit)
     submit['ip_lpm'] = Config['ip_lpm']
-    submit['prot_lpm'] = Config['prot_lpm']
+    submit['port_lpm'] = Config['port_lpm']
     if Excels_dup[0] == '':
         submit['state_'] = ''
     else:
@@ -942,8 +945,24 @@ def update_cookie(submit):
     sql_content = "UPDATE Mission SET Cookie = '%s' WHERE Mission_id = '%s' and Email_Id = '%s'" % (submit['Cookie'],submit['Mission_Id'],submit['Email']['Email_Id'])
     Execute_sql([sql_content])
 
-def get_activate_account():
-    pass
+def update_activate_status(submit):
+    print('Uploading activate status')
+    print('Mission_Id:',submit['Mission_Id'])
+    print('Email_Id:',submit['Email_Id'])
+    print('Cookie:',submit['Cookie'])
+    sql_content = "UPDATE Mission SET activate1 = '%s',activate2 = '%s',activate3 = '%s' WHERE Mission_id = '%s' and Email_Id = '%s'" % (submit['activate1'],submit['activate2'],submit['activate3'],submit['Mission_Id'],submit['Email_Id'])
+    Execute_sql([sql_content])
+
+def check_mission_status(submit):
+    sql_content = "SELECT * FROM Mission  WHERE Mission_id = '%s' and Email_Id = '%s'" % (submit['Mission_Id'],submit['Email_Id'])
+    account = get_account()
+    print(account)
+    conn,cursor = login_sql(account)
+    res = cursor.execute(sql_content)
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Mission_status_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来    
+    login_out_sql(conn,cursor) 
+    return Mission_status_dict  
 
 def hotupdate(i):
     import hotupdate_contests as hu
@@ -952,9 +971,12 @@ def hotupdate(i):
     Execute_sql(content)
 
 if __name__ == '__main__':
-    # init()
-    # delete_old_data()
-    # upload_data()
+    try:
+        init()
+    except:
+        pass
+    delete_old_data()
+    upload_data()
     # get_duplicated_mission_record()
     # plans = {'0': {'Alliance': 'Finaff', 'Offer': 'Royal Cams(Done)', 'url_link': 'http', 'Country': 'US', 'Mission_Id': '10000', 'Excel': ['', 'Email']}}
     # upload_plans(plans)
@@ -962,4 +984,4 @@ if __name__ == '__main__':
     # plans = read_plans()
     # print(plans)
     # update_key()
-    hotupdate(3)
+    # hotupdate(5)

@@ -54,8 +54,10 @@ def multi_reg(Config):
             print('getting data')
             try:
                 submit = db.get_luminati_submit(Config)
+                print(submit)
+                print('starting writing submit into db')
                 if Config['Alliance'] == 'Test':
-                    submit['state_'] = ''            
+                    submit['state_'] = ''
                 print('Data for this mission:')
                 print(submit)
             except Exception as e:
@@ -79,13 +81,13 @@ def multi_reg(Config):
             else:
                 pass
             print(Config['Alliance'],'email test finished')
-            flag = luminati.ip_test(submit['ip_lpm'],submit['prot_lpm'],state=submit['state_'] ,country='')
+            flag = luminati.ip_test(submit['ip_lpm'],submit['port_lpm'],state=submit['state_'] ,country='')
             if flag == 1:
                 break
             else:
                 continue
             print('Reading config from sql server success')
-        module = 'Mission_'+submit['Mission_Id']
+        module = 'Mission_'+str(submit['Mission_Id'])
         Module = importlib.import_module(module)
         flag = 0
         try:
@@ -101,8 +103,10 @@ def multi_reg(Config):
         except:
             pass
         if flag == 1:
-            print('Mission: ',submit['Mission_Id'],'success,uploading db')
-            db.write_one_info([str(submit['Mission_Id'])],submit)
+            mission_check = db.check_mission_status(submit)
+            if len(mission_check) == 0:
+                print('Mission: ',submit['Mission_Id'],'success,uploading db')
+                db.write_one_info([str(submit['Mission_Id'])],submit)
         print('Mission_Id:',submit['Mission_Id'],'finished')
     Falg_threads += 1  
     print('Falg_threads',Falg_threads)
@@ -177,32 +181,12 @@ def main(i):
             changer.Restart()
             sleep(200)
 
-
 def test():
-    # submit = read_excel()
-    # write_excel(submit)
     print(Delay)
     print(pool)
     print(Config)
 
-
 if __name__ == '__main__':
     paras=sys.argv
     i = int(paras[1])
-    # print(paras)
-    # i=0
     main(i)
-
-    # if i == 1:
-    #     # test()
-    #     main()
-    # elif i == 2:
-    #     Hotmail_Login()
-    # elif i == 3:
-    #     Hotmail_Recovery()
-    # elif i == 4:
-    #     test()
-
-    
-    # get_modules()
-    # read_excel()

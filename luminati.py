@@ -137,36 +137,14 @@ def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",Referer='',debug=0):
                 resp=session.get(url,headers=headers)
     return proxy_info
 
-def add_proxy(port_add,country='us',traffic_=False,ip_lpm='127.0.0.1'):  
-    if traffic_:
-        data = {
-        "proxy": {
-            "country": country,
-            "keep_alive": True,
-            "password": "abitpt3isvvj",
-            "pool_size": 1,
-            "port": port_add,
-            "proxy_resolve": True,
-            "secure_proxy": True,
-            "zone": "zone2"
-        }    
-        }
-        print(data)
-    else:
-        data = {
-        "proxy": {
-            "country": country,
-            "keep_alive": True,
-            "password": "ysm1014wszqn",
-            "pool_size": 1,
-            "port": port_add,
-            "proxy_resolve": True,
-            "secure_proxy": True,
-            "zone": "jia1"
-        }
-        }    
-        print(data)        
-    data = json.dumps(data)
+def add_proxy(port_add,country='us',proxy_config_name='zone2',ip_lpm='127.0.0.1'):  
+    data = {}
+    data_proxy_config = read_proxy_config()
+    data_proxy_config[proxy_config_name]['country'] = country
+    data_proxy_config[proxy_config_name]['port'] = port_add
+    data['proxy'] = data_proxy_config[proxy_config_name]
+    print('preparing to add proxy config:',data)
+    data_ = json.dumps(data)
     headers = {
     'Content-Type': 'application/json'
     }    
@@ -175,12 +153,40 @@ def add_proxy(port_add,country='us',traffic_=False,ip_lpm='127.0.0.1'):
     flag = 0
     for i in range(1):
         try:
-            resp = requests.post(url_,data=data,headers=headers)
+            resp = requests.post(url_,data=data_,headers=headers)
             print(resp)
             print(type(str(resp)))
             print(str(resp))
         except Exception as e:
             print(str(e))  
+
+def write_proxy_config(zone,pwd):
+    data = read_proxy_config() 
+    data[zone] = {
+            "country": 'us',
+            "keep_alive": True,
+            "password": pwd,
+            "pool_size": 1,
+            "port": '24001',
+            "proxy_resolve": True,
+            "secure_proxy": True,
+            "zone": zone
+        }
+    content = json.dumps(data) 
+    with open(r'..\res\proxy.ini','w+') as f:
+        # content += '\n'
+        f.write(content)    
+
+def read_proxy_config():
+    with open(r'..\res\proxy.ini','r') as f:
+        # content += '\n'
+        proxy_details =f.readline()
+        # for line in content:
+            # proxy_details = line.strip('\n')    
+            # print(proxy_details)
+    data = json.loads(proxy_details)
+    return data
+
 
 def delete_port(ports=''):
     account = db.get_account()
@@ -278,7 +284,7 @@ def get_proxy_test():
     data = json.loads(proxy_details)
     print(data)
 
-def ip_test(ip_lpm,prot_lpm,state = '',country=''):
+def ip_test(ip_lpm,port_lpm,state = '',country=''):
     '''
     choose ip with state
     args:
@@ -290,12 +296,12 @@ def ip_test(ip_lpm,prot_lpm,state = '',country=''):
     return string
     '''
     # ip_lpm = '192.168.30.131'
-    # prot_lpm = '24003'
+    # port_lpm = '24003'
     flag = 0
     for i in range(50):
-        refresh_proxy(ip_lpm,prot_lpm)
+        refresh_proxy(ip_lpm,port_lpm)
         try:
-            proxy_info = get_lpm_ip(ip_lpm,prot_lpm)
+            proxy_info = get_lpm_ip(ip_lpm,port_lpm)
         except Exception as e:
             print(str(e))
             print('fail to get lpm ip')
@@ -322,16 +328,16 @@ def ip_test(ip_lpm,prot_lpm,state = '',country=''):
 
 def ip_test_life(j):
     ip_lpm = '192.168.30.131'
-    prot_lpm = '24031'    
+    port_lpm = '24031'    
     start = datetime.datetime.utcnow()
-    refresh_proxy(ip_lpm,prot_lpm)
-    proxy_info = get_lpm_ip(ip_lpm,prot_lpm)
+    refresh_proxy(ip_lpm,port_lpm)
+    proxy_info = get_lpm_ip(ip_lpm,port_lpm)
     print(proxy_info)
     ip_first = proxy_info['ip']
     i = 0
     while True:
         try:
-            proxy_info = get_lpm_ip(ip_lpm,prot_lpm)
+            proxy_info = get_lpm_ip(ip_lpm,port_lpm)
             print('detect ip ',i,'time')
             print('proxy info:',proxy_info['ip'])
             if ip_first != proxy_info['ip']:
@@ -406,9 +412,9 @@ def create_plan_data(plan_id,Offer_links):
             Offer_links[item]['ip_lpm'] = myaddr
         else:
             Offer_links[item]['ip_lpm'] = ip_lpm            
-        Offer_links[item]['prot_lpm'] = basic_port + 1  
-        print('Start adding proxy port:',Offer_links[item]['prot_lpm'])
-        add_proxy(Offer_links[item]['prot_lpm'],country=Offer_links[item]['Country'],ip_lpm=ip_lpm)
+        Offer_links[item]['port_lpm'] = basic_port + 1  
+        print('Start adding proxy port:',Offer_links[item]['port_lpm'])
+        add_proxy(Offer_links[item]['port_lpm'],country=Offer_links[item]['Country'],proxy_config_name='jia1',ip_lpm=ip_lpm)
         Offer_links[item]['Plan_Id'] = plan_id
         basic_port += 1
         Configs.append(Config)
@@ -424,5 +430,5 @@ def create_plans():
 if __name__ == '__main__':
     port = 24010
     ip = '192.168.30.131'
-    add_proxy(port,country='us',traffic_=True,ip_lpm=ip)
+    add_proxy(port,country='us',proxy_config_name='jia1',ip_lpm=ip)
 

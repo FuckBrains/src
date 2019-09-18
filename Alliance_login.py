@@ -1,4 +1,5 @@
 import xlrd
+import luminati
 import db
 from selenium import webdriver
 import os
@@ -31,12 +32,18 @@ def get_ua_random(uas):
     return uas[num]
 
 def get_chrome(user_data_dir,submit=None):
+
     options = webdriver.ChromeOptions()
     # (?# __browser_url = r'C:\Users\xixi\AppData\Local\Google\Chrome\Application')
-    uas = get_ua_all()
-    ua = get_ua_random(uas)
-    print(ua)    
-    options.add_argument('--user-data-dir='+user_data_dir)
+    # uas = get_ua_all()
+    # ua = get_ua_random(uas)
+    # print(ua)    
+    ip = submit['ip_lpm']
+    port = submit['port_lpm']
+    proxy = 'socks5://%s:%s'%(ip,port)
+    options.add_argument('--proxy-server=%s'%proxy)
+    print(proxy)    
+    # options.add_argument('--user-data-dir='+user_data_dir)
     # options.binary_location=__browser_url
     prefs = {"download.default_directory": 'c:\\',
              "download.prompt_for_download": False,
@@ -60,7 +67,7 @@ def get_chrome(user_data_dir,submit=None):
     # 'profile.default_content_settings.popups': 0,
     # } 
     # }   
-    options.add_argument('user-agent=' + ua) 
+    # options.add_argument('user-agent=' + ua) 
     # options.add_argument('--single-process')
     # options.add_argument('--process-per-tab')    
     
@@ -77,8 +84,8 @@ def get_chrome(user_data_dir,submit=None):
     # chrome_driver.delete_all_cookies()    
     return chrome_driver
 
-def Alliance_login(dir_account,url_lists):
-    chrome_driver = get_chrome(dir_account)
+def Alliance_login(dir_account,url_lists,submit):
+    chrome_driver = get_chrome(dir_account,submit)
     # chrome_driver.get(url_lists[0])
     # while True:
     j = 0
@@ -176,6 +183,7 @@ def Get_roboform_account():
                 roboform_account['city'] = account[3]                
                 roboform_account['name_roboform'] = account[4]
                 roboform_account['pwd_roboform'] = account[5]
+                roboform_account['zone'] = account[6]
                 accounts.append(roboform_account)
     return accounts
 
@@ -201,27 +209,62 @@ def cookies_test():
 
 
 
+def test_luminati_config(i):
+    account = db.get_account()
+    ip_lpm = account['IP']
+    ports_used = luminati.ports_get(ip_lpm)
+    if len(ports_used) == 0:
+        basic_port = 24000
+    else:
+        basic_port = max(ports_used) 
+    port_lpm = basic_port + 1 
+    roboform_account = Get_roboform_account()    
+    # luminati.add_proxy(port_lpm,state=roboform_account[i-1]['state'],country=roboform_account[i-1]['Country'],traffic_=True,ip_lpm=ip_lpm)
+    proxy_config_name = roboform_account[i-1]['Country']
+    luminati.add_proxy(port_lpm,country=roboform_account[i-1]['Country'],proxy_config_name=proxy_config_name,ip_lpm=ip_lpm)
+    submit= {}
+    try:
+        flag = luminati.ip_test(ip_lpm,port_lpm,state=roboform_account[i-1]['state'])
+        submit['ip_lpm'] = ip_lpm
+        submit['port_lpm'] = port_lpm        
+    except:
+        pass
+    return submit
+
+
+
+
+
 def main(i):
+    '''
+    i:
+      -1:911
+      1:luminati,account1
+    '''
     tools.killpid()
     roboform_account = Get_roboform_account()
-    city = 'Not found'
-    for j in range(10):
-        city = ip_test.ip_Test(city=roboform_account[i-1]['city'],state=roboform_account[i-1]['state'],country=roboform_account[i-1]['Country'])
-        if  city != 'Not found':
-            break    
+    if i == -1:
+        city = 'Not found'
+        for j in range(10):
+            city = ip_test.ip_Test(city=roboform_account[0]['city'],state=roboform_account[0]['state'],country=roboform_account[0]['Country'])
+            if  city != 'Not found':
+                break 
+    else:
+        submit = test_luminati_config(i) 
+        if len(submit) == 0:
+            return 
     path = os.path.abspath(os.path.join(os.getcwd(), ".."))
     dir_account = os.path.join(path,r'alliance\account'+str(i))
     # dir_account = r'..\alliance\account1'
     Alliance,url_lists,Alliance_dict = Get_Alliance_name()
     makedir_account(dir_account)
     # user_data_dir = r'C:\Users\xixi\AppData\Local\Google\Chrome\User Data'
-    Alliance_login(dir_account,url_lists)
+    Alliance_login(dir_account,url_lists,submit)
     # sleep(3000)
 
 if __name__ == '__main__':
-    # paras=sys.argv
+    paras=sys.argv
     # # test    
     # paras = [0,1,2,3,4]
-    # i = int(paras[1])
-    # main(i)
-    main(1)
+    i = int(paras[1])
+    main(i)

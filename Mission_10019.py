@@ -47,6 +47,7 @@ def web_submit(submit,chrome_driver,debug=0):
         return 0
     print('After registeration,Sleep for 30 seconds........')
     sleep(30)
+    db.write_one_info([str(submit['Mission_Id'])],submit)    
     site = ''
     handle = chrome_driver.current_window_handle
     try:            
@@ -72,10 +73,9 @@ def web_submit(submit,chrome_driver,debug=0):
                 else:
                     try:
                         cookies = chrome_driver.get_cookies()
-                        print(type(cookies))
                         cookie_str = json.dumps(cookies)
-                        submit['Cookie'] = cookie_str                        
-                        db.update_cookie(submit)
+                        submit['Cookie'] = cookie_str
+                        db.update_cookie(submit)  
                         sleep(10)                        
                     except Exception as e:
                         print('',str(e))

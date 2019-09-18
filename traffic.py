@@ -45,7 +45,7 @@ def main():
             basic_port += 1
             print(basic_port)
             print(traffic['Country'],traffic['port_lpm'])
-            luminati.add_proxy(traffic['port_lpm'],country=traffic['Country'],traffic_=True,ip_lpm=ip_lpm)
+            luminati.add_proxy(traffic['port_lpm'],country=traffic['Country'],proxy_config_name='zone2',ip_lpm=ip_lpm)
         # return
         requests = threadpool.makeRequests(traffic_test, traffics)
         [pool.putRequest(req) for req in requests]

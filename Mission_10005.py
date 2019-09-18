@@ -28,7 +28,7 @@ def detect_email():
     url = r'https://www.cam4.com/signup/email?pageLocale=en'
     url2 = r'https://www.cam4.com/signup/username?pageLocale=en'
 
-def check_name():    
+def check_name():
     url2 = r'https://www.cam4.com/signup/username?pageLocale=en'
     for i in range(10):
         name = name_get.gen_one_word_digit(lowercase=False)
@@ -95,6 +95,10 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.find_element_by_xpath("/html/body/div[1]/div[1]/div/div[1]").click()      #18+        
     # name = name_get.gen_one_word_digit(lowercase=False)    
     try:
+        # for key in submit['Email']['Email_emu_pwd']:
+        #     if key.islower():
+
+        submit['Email']['Email_emu_pwd'] = submit['Email']['Email_emu_pwd']+''
         chrome_driver.find_element_by_xpath("/html/body/div[1]/div[2]/div/div[1]").click()      #question2
         chrome_driver.find_element_by_xpath("/html/body/div[1]/div[3]/div/div[1]").click()      #question3
         chrome_driver.find_element_by_xpath("/html/body/div[1]/div[4]/span").click()            #create account
@@ -133,6 +137,7 @@ def web_submit(submit,chrome_driver,debug=0):
         chrome_driver.close()
         chrome_driver.quit()
         return flag
+    db.write_one_info([str(submit['Mission_Id'])],submit)
     site = ''
     flag = 1
     handle = chrome_driver.current_window_handle
@@ -159,17 +164,14 @@ def web_submit(submit,chrome_driver,debug=0):
                     chrome_driver.refresh() 
                 except:
                     pass
-                db.write_one_info([str(submit['Mission_Id'])],submit) 
                 # url_active = 'https://www.cam4.com/'
                 # chrome_driver.get(url_active)
                 # chrome_driver.find_element_by_xpath('//*[@id="femalePreference"]').click()
                 # sleep(3)
                 # Chrome_driver.find_element_by_xpath('//*[@id="startWatching"]').click()
                 cookies = chrome_driver.get_cookies()
-                print(type(cookies))
                 cookie_str = json.dumps(cookies)
                 submit['Cookie'] = cookie_str
-                # submit['Cookie'] = chrome_driver.get_cookies()                 
                 db.update_cookie(submit)
                 sleep(10)
     except Exception as e:
@@ -208,22 +210,24 @@ def check_email(submit):
         print(submit['Email_emu'],'is GOOD_EMAIL')
         return 0 #success
 
-def activate(submit):
+def activate(submit,chrome_driver):
     # https://www.cam4.com/
-
+    chrome_driver.get('http://www.cam4.com/female')
+    cookies = json.loads(submit['Cookie'])
     for cookie in cookies:
+        if 'expiry' in cookie:
+            cookie['expiry'] = int(cookie['expiry']) 
         chrome_driver.add_cookie(cookie)    
-    chrome_driver = Chrome_driver.get_chrome(submit)
     chrome_driver.get('http://www.cam4.com/female')
     try:
         chrome_driver.find_element_by_id('promotionsConsentModalLink').click()
         print('find no thanks')
     except:
         print('not find no thanks')
-        
     randtime = random.randint(3,5)
     sleep(randtime)
     time_num =random.randint(3,6)
+    flag = 1
     for i in range(time_num):
         num = random.randint(1,20)
         try:
@@ -232,10 +236,15 @@ def activate(submit):
             #directoryDiv > div:nth-child(16) > div > a.clearfix > img
             #chrome_driver.find_element_by_xpath('//*[@id="directoryDiv"]/div['+str(num)+']/div/a[2]').click()
             #chrome_driver.find_element_by_css_selector('directoryDiv > div:nth-child(16) > div > a.clearfix > img')
-            a = '#directoryDiv > div:nth-child('+str(num)+') > div > a.clearfix > img'
-            chrome_driver.find_element_by_css_selector(a).click()
-            
+            a = '//*[@id="directoryDiv"]/div['+str(num)+']/div/a[2]/img'
+            chrome_driver.find_element_by_xpath(a).click()
             print('==================')
+            cookies = chrome_driver.get_cookies()
+            print(type(cookies))
+            cookie_str = json.dumps(cookies)
+            submit['Cookie'] = cookie_str
+            # submit['Cookie'] = chrome_driver.get_cookies()                 
+            db.update_cookie(submit)
         except:
             chrome_driver.get('http://www.cam4.com/female')
             print('no vedio find')

@@ -38,7 +38,12 @@ def get_chrome(submit = None):
         ua = get_ua_random(uas)
         print(ua)
     else:
-        ua = submit['ua']
+        if submit['ua'] != '':
+            ua = submit['ua']
+        else:
+            uas = get_ua_all()
+            ua = get_ua_random(uas)
+            print(ua)            
     options = webdriver.ChromeOptions()
     path_download = get_dir()
     prefs = {
@@ -67,13 +72,13 @@ def get_chrome(submit = None):
             # options.add_argument('--user-data-dir='+submit['Mission_dir'])
         if 'ip_lpm' in submit:
             ip = submit['ip_lpm']
-            port = submit['prot_lpm']
+            port = submit['port_lpm']
             proxy = 'socks5://%s:%s'%(ip,port)
             options.add_argument('--proxy-server=%s'%proxy)
             print(proxy)
     # options.add_argument('--single-process')
     # options.add_argument('--process-per-tab')    
-    # options.add_argument('--disable-gpu')        
+    options.add_argument('--disable-gpu')        
     options.add_argument("--disable-automation")
     options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])
     options.add_experimental_option("prefs", prefs) 
@@ -191,9 +196,9 @@ def test():
     submit = {}
     submit['Mission_dir'] = r'C:\EMU\emu_chromes\10000,1'
     submit['ip_lpm'] = '192.168.30.131'
-    submit['prot_lpm'] = 24001
+    submit['port_lpm'] = 24001
     submit['Site'] = 'http://teamanita.com/click.php?c=2&key=l13335ju3dk7yyfdkh780kpw'
-    luminati.refresh_proxy(submit['ip_lpm'],submit['prot_lpm'])    
+    luminati.refresh_proxy(submit['ip_lpm'],submit['port_lpm'])    
     chrome_driver = get_chrome(submit)
     chrome_driver.get(submit['Site']) 
     sleep(30)
@@ -201,7 +206,7 @@ def test():
 
 if __name__ == '__main__':
     # clean_download()
-    url_test = 'http://www.baidu.com'
+    url_test = 'http://im.datingwithlili.com/im/click.php?c=22&key=m27ib99qocowaqrf59jw2ori'
     # 'http://tbx.gamemass.website/c/14549/7?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]
     chrome_driver = get_chrome()
     chrome_driver.get(url_test)

@@ -72,6 +72,42 @@ def utc_time_compare(time_compare):
     return a 
 
 
+def getactivatetime(b):
+    # b = datetime.datetime(2019,9,15,10,10,10)
+    a1 = b + datetime.timedelta(hours=24*1)
+    a2 = b + datetime.timedelta(hours=24*2)
+    a3 = b + datetime.timedelta(hours=24*3)
+    a4 = b + datetime.timedelta(hours=24*4)
+    a5 = b + datetime.timedelta(hours=24*5)
+    a6 = b + datetime.timedelta(hours=24*6)    
+    a7 = b + datetime.timedelta(hours=24*7)
+    a = datetime.datetime.utcnow()
+    if a>a7:
+        return 0
+    elif a<a1 :
+        return 0
+    elif a1<=a <a2:
+        print('Activate1.............')
+        return 1
+    elif a2<=a<a3:
+        return 0
+    elif a3<=a<a4:
+        print('Activate2.............')
+        return 2
+    elif a4<=a<a5:
+        return 0
+    elif a5<=a<a6:
+        print('Activate3...............')
+        return 3
+    else:
+        return 0
+
+
+
+
+
+
 if __name__ == '__main__':
-    update_time_system()
+    # time_3=time_threeday_after()
+    test()
     
