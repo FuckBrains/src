@@ -99,14 +99,14 @@ def import_Module(module):
     module_name = importlib.import_module(module)
     return module_name
 
-def main():
+def main(id_):
     while True:
         try:
             tools.killpid()
         except Exception as e:
             print(str(e))
             pass    
-        plans = db.read_plans(-1)
+        plans = db.read_plans(id_)
         print('Mission:')
         print(plans)
         submits = []
@@ -133,7 +133,6 @@ def main():
                 print('%d minutes left...'%(60-i))
                 sleep(60)                
             continue
-
         # print(submit)
         # submit['activate1'] = datetime.datetime.utcnow()
         # db.update_activate_status(submit)
@@ -154,7 +153,11 @@ def test():
 
 
 if __name__ == '__main__':
-    main()
+    paras=sys.argv
+    # test    
+    # paras = [0,1,2,3,4]
+    i = int(paras[1])    
+    main(i)
 
 
 

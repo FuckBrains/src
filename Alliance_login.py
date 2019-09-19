@@ -9,7 +9,11 @@ from time import sleep
 import random
 import ip_test
 import tools
+import threadpool
 
+
+
+pool = threadpool.ThreadPool(5)
 
 def get_ua_all():
     uas = []
@@ -43,7 +47,7 @@ def get_chrome(user_data_dir,submit=None):
     proxy = 'socks5://%s:%s'%(ip,port)
     options.add_argument('--proxy-server=%s'%proxy)
     print(proxy)    
-    # options.add_argument('--user-data-dir='+user_data_dir)
+    options.add_argument('--user-data-dir='+user_data_dir)
     # options.binary_location=__browser_url
     prefs = {"download.default_directory": 'c:\\',
              "download.prompt_for_download": False,
@@ -94,6 +98,7 @@ def Alliance_login(dir_account,url_lists,submit):
     for url in url_lists:
         if  j >= 5:
             j = 0
+            print(dir_account)
             a = input('input:')
             handles=chrome_driver.window_handles
             for i in handles:
@@ -164,8 +169,6 @@ def Get_Alliance_name():
     print(Alliance_dict)
     return Alliance,site,Alliance_dict
 
-
-
 def Get_roboform_account():
     path = os.path.abspath(os.path.join(os.getcwd(), ".."))
     dir_roboform = os.path.join(path,r'alliance\roboform.txt')        
@@ -187,7 +190,6 @@ def Get_roboform_account():
                 accounts.append(roboform_account)
     return accounts
 
-
 def cookies_test():
     i = 1
     path = os.path.abspath(os.path.join(os.getcwd(), ".."))
@@ -207,8 +209,6 @@ def cookies_test():
     print(cookies)    
     sleep(3000)  
 
-
-
 def test_luminati_config(i):
     account = db.get_account()
     ip_lpm = account['IP']
@@ -220,11 +220,12 @@ def test_luminati_config(i):
     port_lpm = basic_port + 1 
     roboform_account = Get_roboform_account()    
     # luminati.add_proxy(port_lpm,state=roboform_account[i-1]['state'],country=roboform_account[i-1]['Country'],traffic_=True,ip_lpm=ip_lpm)
-    proxy_config_name = roboform_account[i-1]['Country']
+    proxy_config_name = roboform_account[i-1]['zone']
+
     luminati.add_proxy(port_lpm,country=roboform_account[i-1]['Country'],proxy_config_name=proxy_config_name,ip_lpm=ip_lpm)
     submit= {}
     try:
-        flag = luminati.ip_test(ip_lpm,port_lpm,state=roboform_account[i-1]['state'])
+        flag = luminati.ip_test(ip_lpm,port_lpm)
         submit['ip_lpm'] = ip_lpm
         submit['port_lpm'] = port_lpm        
     except:
@@ -232,39 +233,49 @@ def test_luminati_config(i):
     return submit
 
 
-
-
-
-def main(i):
-    '''
-    i:
-      -1:911
-      1:luminati,account1
-    '''
-    tools.killpid()
-    roboform_account = Get_roboform_account()
-    if i == -1:
-        city = 'Not found'
-        for j in range(10):
-            city = ip_test.ip_Test(city=roboform_account[0]['city'],state=roboform_account[0]['state'],country=roboform_account[0]['Country'])
-            if  city != 'Not found':
-                break 
-    else:
-        submit = test_luminati_config(i) 
-        if len(submit) == 0:
-            return 
+def multi_login(i):
+    submit = test_luminati_config(i) 
+    if len(submit) == 0:
+        return 
     path = os.path.abspath(os.path.join(os.getcwd(), ".."))
     dir_account = os.path.join(path,r'alliance\account'+str(i))
     # dir_account = r'..\alliance\account1'
     Alliance,url_lists,Alliance_dict = Get_Alliance_name()
     makedir_account(dir_account)
     # user_data_dir = r'C:\Users\xixi\AppData\Local\Google\Chrome\User Data'
-    Alliance_login(dir_account,url_lists,submit)
+    Alliance_login(dir_account,url_lists,submit)    
+
+def main(id_):
+    '''
+    i:
+      -1:911
+      1:luminati,account1
+    '''
+    tools.killpid()
+    # if i == -1:
+    #     city = 'Not found'
+    #     for j in range(10):
+    #         city = ip_test.ip_Test(city=roboform_account[0]['city'],state=roboform_account[0]['state'],country=roboform_account[0]['Country'])
+    #         if  city != 'Not found':
+    #             break 
+    # else:
+    accounts = Get_roboform_account()
+    accounts = [accounts[id_-1]]
+    nums = [i+1 for i in range(len(accounts))]
+    requests = threadpool.makeRequests(multi_login, nums)
+    [pool.putRequest(req) for req in requests]
+    pool.wait()
+
+
     # sleep(3000)
+
+def test():
+    accounts = Get_roboform_account()
+    print(accounts)
 
 if __name__ == '__main__':
     paras=sys.argv
-    # # test    
-    # paras = [0,1,2,3,4]
-    i = int(paras[1])
-    main(i)
+    # # # test    
+    # # paras = [0,1,2,3,4]
+    id_ = int(paras[1])
+    main(id_)

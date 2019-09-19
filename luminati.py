@@ -112,20 +112,25 @@ def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",Referer='',debug=0):
         }          
     session = requests.session()
     session.proxies = {'http': proxy,
-                       'https': proxy}    
+                       'https': proxy}  
+    print('Approaching:',url)  
     resp=session.get(url,headers=headers)
     # print(headers)
     # print(resp.text)
     print(resp.headers)
     print(resp.status_code)
     try:
+        print('--------------------')
+        print(resp.text)
         proxy_info = json.loads(resp.text)
+        print(proxy_info)
     except Exception as e:
         print(str(e))
         proxy_info = ''
     if debug != 0:
         while True:
             a = resp.text.find('window.location = "')
+            print('window.location = .......found')
             if a == -1:
                 break
             else:
@@ -135,6 +140,7 @@ def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",Referer='',debug=0):
                 url = (resp.text)[a+19:b]
                 print(url)
                 resp=session.get(url,headers=headers)
+            print(resp.text)
     return proxy_info
 
 def add_proxy(port_add,country='us',proxy_config_name='zone2',ip_lpm='127.0.0.1'):  
@@ -173,12 +179,12 @@ def write_proxy_config(zone,pwd):
             "zone": zone
         }
     content = json.dumps(data) 
-    with open(r'..\res\proxy.ini','w+') as f:
+    with open(r'ini\proxy.ini','w+') as f:
         # content += '\n'
         f.write(content)    
 
 def read_proxy_config():
-    with open(r'..\res\proxy.ini','r') as f:
+    with open(r'ini\proxy.ini','r') as f:
         # content += '\n'
         proxy_details =f.readline()
         # for line in content:

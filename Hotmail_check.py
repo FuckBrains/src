@@ -1,3 +1,4 @@
+import Chrome_driver
 import sys
 sys.path.append("../..")
 
@@ -20,7 +21,7 @@ import json
 import time
 import threadpool
 
-pool = threadpool.ThreadPool(3)
+pool = threadpool.ThreadPool(5)
 
 def writelog(runinfo,e=''):
     file=open(os.getcwd()+"\log.txt",'a+')
@@ -280,19 +281,20 @@ def Hotmail_Recover(submit):
     
 
 def Hotmail_login(submit):
-    options = webdriver.ChromeOptions()
-    options.add_argument('--incognito')
-    options.add_argument("--disable-infobars")
-    # options.add_argument("--single-process")
-    # ua = submit['ua']
-    # options.add_argument('user-agent="%s"' % ua)
-    chrome_driver = webdriver.Chrome(chrome_options=options)
-    chrome_driver.implicitly_wait(20)  # 最长等待8秒
+    # options = webdriver.ChromeOptions()
+    # options.add_argument('--incognito')
+    # options.add_argument("--disable-infobars")
+    # # options.add_argument("--single-process")
+    # # ua = submit['ua']
+    # # options.add_argument('user-agent="%s"' % ua)
+    # chrome_driver = webdriver.Chrome(chrome_options=options)
+    # chrome_driver.implicitly_wait(20)  # 最长等待8秒
+    chrome_driver = Chrome_driver.get_chrome()
     chrome_driver.get("https://outlook.live.com/owa/")
     i = 0
     while i <=3:
         try:
-            chrome_driver.find_element_by_css_selector('body > section > div > div > div.landing-section.headerHero > a:nth-child(4)').click()
+            chrome_driver.find_element_by_xpath('/html/body/header/div/aside/div/nav/ul/li[2]/a').click()
             writelog('Accessing hotmail singin page success')
             break
         except Exception as e:
@@ -308,13 +310,16 @@ def Hotmail_login(submit):
         i += 1
         if i == 3:
             break
-    chrome_driver.find_element_by_name('loginfmt').send_keys(submit['email'])
+    chrome_driver.find_element_by_name('loginfmt').send_keys(submit['Email_emu'])
     chrome_driver.find_element_by_id('idSIButton9').click()
     sleep(2)
-    chrome_driver.find_element_by_name('passwd').send_keys(submit['email_pwd'])
+    chrome_driver.find_element_by_name('passwd').send_keys(submit['Email_emu_pwd'])
     sleep(3)
     chrome_driver.find_element_by_id('idSIButton9').click()
-    return chrome_driver
+    sleep(5)
+    chrome_driver.close()
+    chrome_driver.quit()
+    return 
 
 
 def killpid():
@@ -351,13 +356,11 @@ def multi_recover(submit):
 def multi_login(submit):
     flag = 0
     try:
-        chromedriver=Hotmail_login(submit)
-        prit()
+        Hotmail_login(submit)
     except Exception as e:
-        writelog(str(e))
-    a = input()
-    chromedriver.close()
-    chromedriver.quit()
+        # writelog(str(e))
+        pass
+
 
 
 def read_excel(path_excel):
@@ -388,13 +391,12 @@ def recover(path_excel):
     pool.wait() 
 
 
-def Login(path_excel):
-    # path_excel = 'Hotmail_recover.xlsx'    
-    submits = read_excel(path_excel)
-    # print(submits)
-    print(len(submits))
-    # return
-    requests = threadpool.makeRequests(multi_login, submits)
+def Login():
+    import db
+    emails = db.get_all_emails()
+    # print(emails[0])
+    emails = [email for email in emails if 'hotmail' in email['Email_emu']]  
+    requests = threadpool.makeRequests(multi_login, emails)
     [pool.putRequest(req) for req in requests]
     pool.wait() 
     killpid()
@@ -402,5 +404,5 @@ def Login(path_excel):
 
 
 if __name__=='__main__':
-    path_excel = 'Hotmail_recover.xlsx'    
-    Login(path_excel)
+    # path_excel = 'Hotmail_recover.xlsx'    
+    Login()

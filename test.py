@@ -251,8 +251,8 @@ def test_cookies():
     print(Mission_dict)
 
 def test_9_15():
-    zone = 'kang_us_2'
-    pwd = 'av5utr8ea2tz'
+    zone = 'kang_uk_01'
+    pwd = 'o9b3zwuy9qko'
     luminati.write_proxy_config(zone,pwd)
     data = luminati.read_proxy_config()
     print(data)
@@ -270,5 +270,5 @@ def test_check():
     print(len(res))
 
 if __name__ == '__main__':
-    test_check()
+    test_9_15()
 

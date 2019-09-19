@@ -36,17 +36,22 @@ def web_submit(submit,chrome_driver,debug=0):
     name = name_get.gen_one_word_digit(lowercase=False)
     chrome_driver.maximize_window()
     chrome_driver.refresh()
+    print('Loading finished')    
     # chrome_driver.find_element_by_xpath('//*[@id="site-header"]/div/div/a[1]').click()
-    i = 0
-    while True:
-        try:
-            chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[1]/select')
-            break
-        except:
-            i+=1
-            if i >= 5:
-                break
+    # i = 0
+    # while True:
+    #     try:
+    #         chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[1]/select')
+    #         print('find selecter')
+    #         break
+    #     except:
+    #         i+=1
+    #         if i >= 5:
+    #             break
     # year
+    sleep(5)
+    selenium_funcs.scroll_and_find(chrome_driver,'//*[@id="list-lead-form"]/div[1]/select')
+    sleep(2)
     num = random.randint(2010,2018) 
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[1]/select'))
     s1.select_by_value(str(num)) 
@@ -70,7 +75,7 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(15)
     chrome_driver.close()
     chrome_driver.quit()    
-    return
+    return 1
 
 
 
@@ -81,5 +86,6 @@ def web_submit(submit,chrome_driver,debug=0):
 
 if __name__=='__main__':
     submit = db.get_one_info()
+    chrome_driver = Chrome_driver.get_chrome()
     print(submit)
-    web_submit(submit)
+    web_submit(submit,chrome_driver)

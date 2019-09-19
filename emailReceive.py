@@ -14,7 +14,7 @@ class EmailReceive(object):
             serverInfo=EmailService.getIMAPServer(address.split('@')[-1].split('.')[0])
             print('server:',serverInfo)
             if serverInfo[2]:
-                print('Imap4_ssl logining server...........')
+                print('Imap4_ssl logining server...........',serverInfo[0],serverInfo[1])
                 self.imap_mail = imaplib.IMAP4_SSL(serverInfo[0],serverInfo[1])
                 print('login finished')
             else:
@@ -38,8 +38,10 @@ class EmailReceive(object):
             print(e)
             return result
         num_c=0
+        # print('mail list')
         # print(self.imap_mail.list()[1])
         for item in self.imap_mail.list()[1]:
+            # print(item)
             box = item.decode().split(' \"/\" ')[-1]
             if  re.match(r'.*?(Sent|Delete|Trash|Draft).*?',box,re.M|re.I):
                 continue

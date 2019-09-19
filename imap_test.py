@@ -13,7 +13,11 @@ import psutil
 import poplib
 import imaplib, string, email
 import re
+import threading
+import threadpool
 
+
+pool = threadpool.ThreadPool(30)
 
 
 def writelog(runinfo,e=''):
@@ -97,34 +101,34 @@ def Email_emu_getlink(submit,keyword = ''):
         box.login(submit['Email_emu'], submit['Email_emu_pwd'])
         print(submit['Email_emu'],'login success.....')
         print(box.list())
-        # for item in box.list()[1]:
-        #     print(item)
-        #     box_selector = item.decode().split(' \"/\" ')[-1]
-        #     if  re.match(r'.*?(Sent|Delete|Trash|Draft).*?',box_selector,re.M|re.I):
-        #         continue
-        #     print(box_selector)    
-        #     box.select(box_selector)
+        for item in box.list()[1]:
+            print(item)
+            box_selector = item.decode().split(' \"/\" ')[-1]
+            if  re.match(r'.*?(Sent|Delete|Trash|Draft).*?',box_selector,re.M|re.I):
+                continue
+            print(box_selector)    
+            box.select(box_selector)
             # 如果是查找收件箱所有邮件则是box.search(None, 'ALL')
-            # typ, data = box.search(None, 'from', 'mailer-daemon@googlemail.com')
-            # typ, data = box.search(None, 'ALL') 
-            # print(data[0].split())        
-        #     while True:
-        #         i = 0
-        #         for num in data[0].split():
-        #             if i >=1:
-        #                 break
-        #             print(num)  
-        #             try:
-        #                 box.store(num, '+FLAGS', '\\Deleted')
-        #             except:
-        #                 pass
-        #             i += 1
-        #         box.expunge()
-        #         sleep(3)
-        #         typ, data = box.search(None, 'ALL') 
-        #         print(data[0].split())            
-        #         if len(data[0].split()) == 0:
-        #             break
+            typ, data = box.search(None, 'from', 'mailer-daemon@googlemail.com')
+            typ, data = box.search(None, 'ALL') 
+            print(data[0].split())        
+            while True:
+                i = 0
+                for num in data[0].split():
+                    if i >=1:
+                        break
+                    print(num)  
+                    try:
+                        box.store(num, '+FLAGS', '\\Deleted')
+                    except:
+                        pass
+                    i += 1
+                box.expunge()
+                sleep(3)
+                typ, data = box.search(None, 'ALL') 
+                print(data[0].split())            
+                if len(data[0].split()) == 0:
+                    break
         box.select("INBOX")
         box.close()        
         print('Email good')
@@ -140,14 +144,44 @@ def Email_emu_getlink(submit,keyword = ''):
         return 0
 
 
+def multi_tests(submit):
+    flag = Email_emu_getlink(submit)
+    print('finish loop......')
+    if flag == 0:
+        print('Bad email:',submit['Email_emu'])
+        db.updata_email_status(submit['Email_Id'],0)
+    else:
+        print("Good email")
+        db.updata_email_status(submit['Email_Id'],1)        
+
+
+
+
+
 if __name__=='__main__':
     import db
-    for i in range(100):
-        print(i,'..........')
-        Mission_list = ['10000']
-        Excel_name = ['','Email']
-        Email_list = ['hotmail.com','outlook.com','','aol.com','gmail.com']
-        submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
-        print(submit)
-        Email_emu_getlink(submit['Email'])
-        print('finish loop......')
+    emails = db.get_all_emails()
+    # print(emails[0])
+    emails = [email for email in emails if 'hotmail' in email['Email_emu']]
+    # print(emails[1])
+    # multi_tests(emails[1])
+    # for i in range(300):
+    #     print(i,'..........')
+    #     Mission_list = ['10000']
+    #     Excel_name = ['','Email']
+    #     Email_list = ['hotmail.com']
+    #     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
+    #     submits.append(submit)
+    print(len(emails))
+    # return
+    # requests = threadpool.makeRequests(multi_tests, emails)
+    # [pool.putRequest(req) for req in requests]
+    # pool.wait()     
+    submit = {}
+    submit= {
+    'Email_Id': '2ee711fa-d9ed-11e9-b05e-000ae8256789', 
+    'Email_emu': 'WestecbbmkOljhsfrq@hotmail.com', 
+    'Email_emu_pwd': 'v3gZUnl72i'
+    }   
+    multi_tests(submit)     
+        # print(submit)

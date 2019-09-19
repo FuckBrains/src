@@ -68,47 +68,32 @@ def web_submit(submit,chrome_driver,debug=0):
         for i in handles:
             if i != handle:
                 chrome_driver.switch_to.window(i)
-                if 'Email successfully confirmed' not in chrome_driver.page_source:
-                    chrome_driver.refresh()
-                else:
-                    try:
-                        cookies = chrome_driver.get_cookies()
-                        cookie_str = json.dumps(cookies)
-                        submit['Cookie'] = cookie_str
-                        db.update_cookie(submit)  
-                        sleep(10)                        
-                    except Exception as e:
-                        print('',str(e))
-                        chrome_driver.close()
-                        chrome_driver.quit()    
-                        return                          
+                chrome_driver.refresh()
+                try:
+                    cookies = chrome_driver.get_cookies()
+                    cookie_str = json.dumps(cookies)
+                    submit['Cookie'] = cookie_str
+                    db.update_cookie(submit)  
+                    sleep(10)                        
+                except Exception as e:
+                    print('',str(e))
+                    chrome_driver.close()
+                    chrome_driver.quit()    
+                    return                          
     except Exception as e:
         print('',str(e))
         chrome_driver.close()
         chrome_driver.quit()    
         return  
-    if 'Password was updated successfully' in chrome_driver.page_source:
-        try:
-            chrome_driver.find_element_by_xpath('//*[@id="app"]/div/div/a').click()
-        except:
-            chrome_driver.close()
-            chrome_driver.quit()    
-            return              
-    sleep(5)
-    try:
-        chrome_driver.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div/div[3]/div[7]/div/a').click()
-    except:
-        chrome_driver.close()
-        chrome_driver.quit()
-        return
+    print('sleep for 30 seconds')
     sleep(30)        
     chrome_driver.close()
     chrome_driver.quit()
-    return 
+    return 1
 
 def email_confirm(submit):
     print('----------')
-    for i in range(2):
+    for i in range(3):
         url_link = ''
         try:
             name = submit['Email']['Email_emu']

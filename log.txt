@@ -52,3 +52,76 @@ SheltonStarkTa@aol.com login failed :
 2019-08-21 18:12:14 : 
 EvelinaAdkinsN6@aol.com login failed : 
 [WinError 10054] An existing connection was forcibly closed by the remote host
+2019-09-18 08:09:18 : 
+Accessing hotmail singin page failed for0time
+Message: no such element: Unable to locate element: {"method":"css selector","selector":"body > section > div > div > div.landing-section.headerHero > a:nth-child(4)"}
+  (Session info: chrome=76.0.3809.132)
+
+2019-09-18 08:09:36 : 
+Accessing hotmail singin page failed for0time
+Message: no such element: Unable to locate element: {"method":"css selector","selector":"body > section > div > div > div.landing-section.headerHero > a:nth-child(4)"}
+  (Session info: chrome=76.0.3809.132)
+
+2019-09-18 08:09:46 : 
+Accessing hotmail singin page failed for1time
+Message: no such element: Unable to locate element: {"method":"css selector","selector":"body > section > div > div > div.landing-section.headerHero > a:nth-child(4)"}
+  (Session info: chrome=76.0.3809.132)
+
+2019-09-18 08:10:12 : 
+Accessing hotmail singin page failed for2time
+Message: no such element: Unable to locate element: {"method":"css selector","selector":"body > section > div > div > div.landing-section.headerHero > a:nth-child(4)"}
+  (Session info: chrome=76.0.3809.132)
+
+2019-09-18 08:10:13 : 
+Accessing hotmail singin page failed for0time
+Message: no such element: Unable to locate element: {"method":"css selector","selector":"body > section > div > div > div.landing-section.headerHero > a:nth-child(4)"}
+  (Session info: chrome=76.0.3809.132)
+
+2019-09-18 08:10:37 : 
+Accessing hotmail singin page failed for3time
+Message: no such element: Unable to locate element: {"method":"css selector","selector":"body > section > div > div > div.landing-section.headerHero > a:nth-child(4)"}
+  (Session info: chrome=76.0.3809.132)
+
+2019-09-18 08:10:42 : 
+Accessing hotmail singin page failed for1time
+Message: no such element: Unable to locate element: {"method":"css selector","selector":"body > section > div > div > div.landing-section.headerHero > a:nth-child(4)"}
+  (Session info: chrome=76.0.3809.132)
+
+2019-09-18 08:11:08 : 
+Accessing hotmail singin page failed for2time
+Message: no such element: Unable to locate element: {"method":"css selector","selector":"body > section > div > div > div.landing-section.headerHero > a:nth-child(4)"}
+  (Session info: chrome=76.0.3809.132)
+
+2019-09-18 08:11:34 : 
+Accessing hotmail singin page failed for3time
+Message: no such element: Unable to locate element: {"method":"css selector","selector":"body > section > div > div > div.landing-section.headerHero > a:nth-child(4)"}
+  (Session info: chrome=76.0.3809.132)
+
+2019-09-18 08:14:11 : 
+Accessing hotmail singin page success
+
+2019-09-18 08:17:41 : 
+Accessing hotmail singin page success
+
+2019-09-18 08:17:43 : 
+Accessing hotmail singin page failed for0time
+('Connection aborted.', ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))
+2019-09-18 08:18:45 : 
+Accessing hotmail singin page success
+
+2019-09-18 08:23:52 : 
+Accessing hotmail singin page success
+
+2019-09-18 08:23:57 : 
+Accessing hotmail singin page success
+
+2019-09-18 08:24:38 : 
+Accessing hotmail singin page success
+
+2019-09-18 08:25:03 : 
+Accessing hotmail singin page failed for0time
+Message: unknown error: session deleted because of page crash
+from unknown error: cannot determine loading status
+from tab crashed
+  (Session info: chrome=76.0.3809.132)
+

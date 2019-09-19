@@ -11,6 +11,7 @@ import name_get
 import Chrome_driver
 import email_imap as imap
 import db
+import Submit_handle
 # from selenium.webdriver.common.by import By
 # from selenium.webdriver.support.ui import WebDriverWait
 # from selenium.webdriver.support.wait import WebDriverWait
@@ -56,11 +57,7 @@ def check_name():
 def web_submit(submit,chrome_driver,debug=0):
     name = check_name()
     while True:
-        Mission_list = ['10005']
-        Excel_name = ['','Email']
-        Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
-        submit1 = db.read_one_excel(Mission_list,Excel_name,Email_list)
-        submit['Email'] = submit1['Email']  
+        print('checking email')
         flag_check = check_email(submit['Email'])
         if flag_check == 1:
             print('used email:',submit['Email']['Email_emu'])
@@ -69,42 +66,28 @@ def web_submit(submit,chrome_driver,debug=0):
         else:
             print('find a good email:',submit['Email']['Email_emu'])
             break
-    print('==============')
-    # wait = WebDriverWait(chrome_driver, 60) #等待的最大时间
-    # input = wait.until(
-    #     EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[1]/div/div[1]'))
-    # )
-    # chrome_driver.maximize_window()
-    # input.click()
-    # chrome_driver.refresh()
-    flag = 0
+        Mission_list = ['10005']
+        Excel_name = ['','Email']
+        Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
+        submit1 = db.read_one_excel(Mission_list,Excel_name,Email_list)
+        submit['Email'] = submit1['Email']
     chrome_driver.get(submit['Site'])
     i = 0
-    while i <=3:
-        if 'Join CAM4' in chrome_driver.title:
-            print('find cam4')
-            break
-        else:
-            try:
-                chrome_driver.get(submit['Site'])
-            except:
-                pass
-            sleep(5)
-            i = i + 1   
-    chrome_driver.find_element_by_xpath("/html/body/div[1]/div[1]/div/div[1]").click()      #18+
-    chrome_driver.find_element_by_xpath("/html/body/div[1]/div[1]/div/div[1]").click()      #18+        
+    sleep(5)
+    print('Loading finished')
+    chrome_driver.find_element_by_xpath("/html/body/div/div[1]/div/div[1]").click()      #18+        
+    sleep(2)
     # name = name_get.gen_one_word_digit(lowercase=False)    
     try:
-        # for key in submit['Email']['Email_emu_pwd']:
-        #     if key.islower():
-
-        submit['Email']['Email_emu_pwd'] = submit['Email']['Email_emu_pwd']+''
-        chrome_driver.find_element_by_xpath("/html/body/div[1]/div[2]/div/div[1]").click()      #question2
-        chrome_driver.find_element_by_xpath("/html/body/div[1]/div[3]/div/div[1]").click()      #question3
-        chrome_driver.find_element_by_xpath("/html/body/div[1]/div[4]/span").click()            #create account
+        pwd = Submit_handle.password_get()
+        chrome_driver.find_element_by_xpath("/html/body/div/div[2]/div/div[1]").click()      #question2
+        sleep(2)
+        chrome_driver.find_element_by_xpath("/html/body/div/div[3]/div/div[1]").click()      #question3
+        sleep(3)
+        chrome_driver.find_element_by_xpath("/html/body/div/div[4]/span").click()            #create account
         chrome_driver.switch_to_frame('myForm')
         chrome_driver.find_element_by_xpath("//*[@id='userName']").send_keys(name)
-        chrome_driver.find_element_by_xpath("//*[@id='newPassword']").send_keys(submit['Email']['Email_emu_pwd'])
+        chrome_driver.find_element_by_xpath("//*[@id='newPassword']").send_keys(pwd)
         chrome_driver.find_element_by_xpath("//*[@id='email']").send_keys(submit['Email']['Email_emu'])
     except Exception as e:
         print('something error in registration',str(e))
@@ -146,7 +129,7 @@ def web_submit(submit,chrome_driver,debug=0):
         print(site)      
     except Exception as e:
         print('email check failed',str(e))
-    if site != '':
+    if 'http://www.cam4.com/signup/confirm' in site:
         newwindow='window.open("' + site + '");'
         chrome_driver.execute_script(newwindow)
         sleep(20)        
@@ -254,7 +237,7 @@ def activate(submit,chrome_driver):
 
 def email_confirm(submit,debug=0):
     print('----------')
-    for i in range(2):
+    for i in range(3):
         url_link = ''
         try:
             name = submit['Email']['Email_emu']
@@ -270,8 +253,6 @@ def email_confirm(submit,debug=0):
             pass
         sleep(30)
     return url_link
-
-
 
 def test_url():
     submit={}
@@ -310,7 +291,55 @@ def test_email_live():
         else:
             print('find a good email:',submit['Email']['Email_emu'])
             # db.write_one_info([str(submit['Mission_Id'])],submit)            
-            continue    
-if __name__=='__main__':
-    test_email_live()
+            continue   
 
+
+def test():
+# mcsesofnkkt@hotmail.com----i4GkF2o4H9IF
+# sotoyhj@hotmail.com----kqg8i7ytMJS6
+# tasleestwrf@hotmail.com----wG01G8emF32q
+# soaseighyyb@hotmail.com----P7sPF2g5YxY0
+# soroattrxwv@hotmail.com----yMy3A1M0hERw
+# boehlapgqkes@yahoo.com----vAinly5636
+# WebsterCrystalkOoUf@yahoo.com----p3gxyxmjK
+# InaJacknYsM@yahoo.com----loAO0Rs2v
+# seanoawktws@outlook.com----9m8KQ7KDaSr9
+# leasleshmrfj@outlook.com----eo4Xs2Umpxof
+# satesethoxet@outlook.com----u4BLG0yzenXH
+# shutoughfvkide@hotmail.com----vLnWz2K8zczx
+# timpesmbo@hotmail.com----TvKwJ1plwvXG
+# teythounfsd@hotmail.com----Lil2H74c3SX9
+# filipeadcglrd@yahoo.com----MulGrEW640
+# lavadivucfexha@yahoo.com----WomBolt960
+# barberbofsjuis@yahoo.com----pYXiS430
+# mcsethaymesnj@outlook.com----90r7v4l1zz1X
+# tetosyifxcm@outlook.com----RYdQs2L6moHY
+# gewekrj@outlook.com----6waNv29guUEQ
+# zaringjlzok@yahoo.com----MCMakEn72
+# ilolihgbftz@yahoo.com----ALpERt732
+# lisesonoim@hotmail.com----uw21X4EPLNrP
+# mcseyssewtma@hotmail.com----1NFG70TuPnnj
+# tataffeapyj@hotmail.com----I4Hmr7fVND4w
+# smounenxgugw@outlook.com----jSKXI17499Yt
+# seysoughlwxbgq@outlook.com----VJnJI3pnI8Kr
+# smotenrudi@outlook.com----46ra36fe8pvO
+# GilbertaKitchinMTOO@yahoo.com----Grc15111ed----855381539009----1995-5-22
+# AlaneProvoVKH@yahoo.com----saP8aovnww----855381314464----1995-12-24
+
+
+
+    submit = {}
+    submit['Email']= {
+    'Email_emu': 'chris_riggan009@outlook.com', 
+    'Email_emu_pwd': 'cradaju3!'
+    } 
+    # MicmjkwNjwihtfe@hotmail.com xRJAZZ2Ct
+    site = email_confirm(submit)
+    print(site)
+    # MellvvukyCfedcc@hotmail.com 1ZYC5Cxwwj08u
+    # import imap_test
+    # imap_test.Email_emu_getlink(submit['Email'])
+
+
+if __name__=='__main__':
+    test()

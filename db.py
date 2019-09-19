@@ -559,6 +559,17 @@ def read_one_selected_email(Mission_list,Email_list):
     # submit = dict(Info_dict,**Info_dict2)
     return Info_dicts    
 
+def get_all_emails():
+    print('     Start reading info from sql server...')
+    account = get_account()
+    conn,cursor=login_sql(account)
+    res = cursor.execute('SELECT * from Email')
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
+    login_out_sql(conn,cursor)
+    # submit = dict(Info_dict,**Info_dict2)
+    return Email_dict      
+
 def write_one_info(Mission_list,submit,Cookie = ''):
     Email_Id = ''
     BasicInfo_Id = '' 
@@ -897,7 +908,6 @@ def get_cookie(Config=None):
     # print(Mission_dict)
     return Mission_dict
 
-
 def add_key_db(sql_content):
     sql_content = "ALTER TABLE Mission ADD Alliance_basic DEFAULT '' AFTER BasicInfo_Id"
     Execute_sql([sql_content])
@@ -954,7 +964,7 @@ def update_activate_status(submit):
     Execute_sql([sql_content])
 
 def check_mission_status(submit):
-    sql_content = "SELECT * FROM Mission  WHERE Mission_id = '%s' and Email_Id = '%s'" % (submit['Mission_Id'],submit['Email_Id'])
+    sql_content = "SELECT * FROM Mission  WHERE Mission_id = '%s' and Email_Id = '%s'" % (submit['Mission_Id'],submit['Email']['Email_Id'])
     account = get_account()
     print(account)
     conn,cursor = login_sql(account)
