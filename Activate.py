@@ -17,7 +17,7 @@ import datetime
 
 
 
-pool = threadpool.ThreadPool(2)
+pool = threadpool.ThreadPool(4)
 
 
 def killpid():
@@ -47,6 +47,10 @@ def multi_activate(submit):
     if submit['Cookie'] == '':
         print('This Convertion is of no cookie.........')
         return
+    return_rand = random.randint(0,3)
+    if return_rand == 0:
+        print('unique  random,return....................')
+        return        
     flag = time_related.getactivatetime(submit['Create_time'])
     if flag == 0:
         print('Convertion made of ',submit['Create_time'],'No need to activate')
@@ -54,15 +58,23 @@ def multi_activate(submit):
     elif flag == 1:
         activate_term = 'activate1'
     elif flag == 2:
+        return_rand = random.randint(0,5)
+        if return_rand == 0:
+            print('unique  random,return....................')
+            return        
         activate_term = 'activate2'
     elif flag == 3:
+        return_rand = random.randint(0,3)
+        if return_rand == 0:
+            print('unique  random,return....................')
+            return         
         activate_term = 'activate3'
     if submit[activate_term] != '':
         print('Convertion made of ',submit['Create_time'],'Already done the activate')
         return
     time_cheat = random.randint(0,10)
     print('Sleep for random time:',time_cheat*60,'-------------')
-    # sleep(time_cheat*60)
+    sleep(time_cheat*60)
     account = db.get_account()
     submit['ip_lpm'] = account['IP']
     ports_used = luminati.ports_get(submit['ip_lpm'])
@@ -72,7 +84,7 @@ def multi_activate(submit):
         basic_port = 24000
         port_ = basic_port + port_rand
     submit['port_lpm'] = port_
-    luminati.add_proxy(submit['port_lpm'],country=submit['Country'],proxy_config_name='jia1',ip_lpm=submit['ip_lpm'])
+    luminati.add_proxy(submit['port_lpm'],country=submit['Country'],proxy_config_name='zone2',ip_lpm=submit['ip_lpm'])
     module = 'Mission_'+str(submit['Mission_Id'])
     Module = import_Module(module)
     print(module)
@@ -99,27 +111,36 @@ def import_Module(module):
     module_name = importlib.import_module(module)
     return module_name
 
-def main(id_):
+def main():
+    print('checking system time')
+    time_related.update_time_system()
+    print('Fix system time completed')
     while True:
         try:
             tools.killpid()
         except Exception as e:
             print(str(e))
             pass    
-        plans = db.read_plans(id_)
+        plans = db.read_plans(-1)
         print('Mission:')
         print(plans)
         submits = []
         for plan in plans:
+            print(plan)
             submits = db.get_cookie(plan)
             Country = plan['Country']
             if len(submits) == 0:
                 continue
             else:
-                break        
+                break     
         # time_delta = datetime.timedelta(hours=-24*3)
         for submit in submits:
             submit['Country'] = Country
+            submit['Email'] = {}
+            submit['Email']['Email_Id']= submit['Email_Id']
+            # print(submit['Create_time'])
+            flag = time_related.getactivatetime(submit['Create_time'])
+            # print(flag)
             # cookies = json.loads(submit['Cookie'])
             # # print(cookies)
             # for cookie in cookies:
@@ -147,17 +168,16 @@ def main(id_):
             sleep(restart_time*60)
 
 def test():
-    a = 1599562070.848529
-    b = int(a)
-    print(b)
+    return_rand = random.randint(0,3)
+    print(return_rand)
 
 
 if __name__ == '__main__':
-    paras=sys.argv
+    # paras=sys.argv
     # test    
     # paras = [0,1,2,3,4]
-    i = int(paras[1])    
-    main(i)
+    # i = int(paras[1])    
+    test()
 
 
 

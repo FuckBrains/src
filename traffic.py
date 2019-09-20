@@ -54,6 +54,22 @@ def main():
         sleep(30)    
 
 
+
+def test():
+    port = 24058
+    ip = '192.168.30.131'
+    url = 'http://track.meanclick.com/im/click.php?c=19&key=uy140s20ieojce6k1i1qilwg'    
+    click = 99999
+    referer = ''
+    for i in range(click):
+        print(i)
+        luminati.refresh_proxy(ip,port)
+        try:
+            luminati.get_lpm_ip(ip,port,url = url,Referer = referer,debug=1)
+        except Exception as e:
+            print(str(e))
+    luminati.delete_port([port])  
+
 if __name__ == '__main__':
     main()
 

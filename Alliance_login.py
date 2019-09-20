@@ -96,7 +96,7 @@ def Alliance_login(dir_account,url_lists,submit):
     chrome_driver.get('https://whoer.net')
     handle = chrome_driver.current_window_handle
     for url in url_lists:
-        if  j >= 5:
+        if  j >= 10:
             j = 0
             print(dir_account)
             a = input('input:')

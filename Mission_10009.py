@@ -191,14 +191,47 @@ def email_confirm(submit,debug=0):
             pass
     return url_link
 
-def activate():
-    site_url = 'https://stripchat.com'
-    # site_url = 'https://cpx24.net/dashboard/campaigns'
-    chrome_driver = Chrome_driver.get_chrome()
-    chrome_driver.get(site_url)
-    print('stripchat....................')
-    sleep(3000)
-    
+def activate(submit,chrome_driver):
+    # https://www.cam4.com/
+    chrome_driver.get('https://stripchat.com')
+    cookies = json.loads(submit['Cookie'])
+    for cookie in cookies:
+        if 'expiry' in cookie:
+            cookie['expiry'] = int(cookie['expiry']) 
+        chrome_driver.add_cookie(cookie)    
+    chrome_driver.get('http://stripchat.com')
+    # sleep(1000)
+    randtime = random.randint(3,5)
+    sleep(randtime)
+    time_num =random.randint(3,6)
+    flag = 1
+    for i in range(time_num):
+        num = random.randint(1,20)
+        try:
+            chrome_driver.get('http://stripchat.com')
+            #directoryDiv > div:nth-child(7) > div > a.clearfix > img
+            #directoryDiv > div:nth-child(16) > div > a.clearfix > img
+            #chrome_driver.find_element_by_xpath('//*[@id="directoryDiv"]/div['+str(num)+']/div/a[2]').click()
+            #chrome_driver.find_element_by_css_selector('directoryDiv > div:nth-child(16) > div > a.clearfix > img')
+            a = '//*[@id="app"]/div/div/div[2]/div/div[3]/div['+str(num)+']/div/a/div/span'
+            chrome_driver.find_element_by_xpath(a).click()
+            print('==================')
+            cookies = chrome_driver.get_cookies()
+            print(type(cookies))
+            cookie_str = json.dumps(cookies)
+            submit['Cookie'] = cookie_str
+            # submit['Cookie'] = chrome_driver.get_cookies()                 
+            db.update_cookie(submit)
+        except Exception as e:
+            print(str(e))
+            # chrome_driver.get('http://stripchat.com')
+            print('no vedio find')
+        sleep_time = random.randint(1,3)
+        print('sleep',sleep_time,'minutes')
+        sleep(sleep_time*60)
+    return 1
+
+
 def test_p():
     name = name_get.gen_one_word_digit()
     # print(name)
@@ -224,17 +257,17 @@ def test_email():
     link = link2.findall(link)
     print(link)
 
-
+def active_test():
+    plans = db.read_plans(-1)
+    submits = db.get_cookie(plans[0])
+    submit = submits[0]
+    submit['Email'] = {}
+    submit['Email']['Email_Id']= submit['Email_Id']    
+    chrome_driver = Chrome_driver.get_chrome(submit)
+    print(submits[0])
+    activate(submit,chrome_driver)
 
 if __name__=='__main__':
-    # submit = db.get_one_info()
-    # print(submit)
-    # web_submit(submit,1)
-    submit = {'Email': {'Email_Id': '6f89149b-aa34-11e9-aecd-0003b7e49bfc', 'Email_emu': 'RavenBrightv@aol.com', 'Email_emu_pwd': '8e9PTqAe', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
-    # submit = {'Email': {'Email_Id': '6f89149b-aa34-11e9-aecd-0003b7e49bfc', 'Email_emu': 'CthkgkuxZejvpfqrs@outlook.com', 'Email_emu_pwd': 'UA64lZJPidKx', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}    
-    link = email_confirm(submit,1)
-    print('=======================')
-    print('=======================')
-    print('=======================')
-    print(link)
+    active_test()
+
 
