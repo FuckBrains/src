@@ -177,7 +177,7 @@ if __name__ == '__main__':
     # test    
     # paras = [0,1,2,3,4]
     # i = int(paras[1])    
-    test()
+    main()
 
 
 
