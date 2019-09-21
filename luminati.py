@@ -197,8 +197,11 @@ def read_proxy_config():
 def delete_port(ports=''):
     account = db.get_account()
     ip_lpm = account['IP']
-    if ports == '':        
-        ports = ports_get(ip_lpm)
+    if ports == '': 
+        try:       
+            ports = ports_get(ip_lpm)
+        except:
+            return
     for port_delete in ports:
         url_ = 'http://%s:22999/api/proxies/%s'%(ip_lpm,str(port_delete))
         headers = {

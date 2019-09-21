@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.pushButton1 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton1.setGeometry(QtCore.QRect(90, 350, 75, 41))
+        self.pushButton1.setGeometry(QtCore.QRect(80, 430, 75, 41))
         self.pushButton1.setObjectName("pushButton1")
         self.gridLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.gridLayoutWidget.setGeometry(QtCore.QRect(30, 40, 161, 111))

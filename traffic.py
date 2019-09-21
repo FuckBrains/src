@@ -3,28 +3,30 @@ import threading
 import threadpool
 import db
 from time import sleep
-
+import Chrome_driver
 
 
 
 pool = threadpool.ThreadPool(5)
 
 def traffic_test(traffic):
-    port = traffic['port_lpm']
-    ip = traffic['ip_lpm']
-    url = traffic['url_link']    
+    uas = Chrome_driver.get_ua_all()
+    ua = Chrome_driver.get_ua_random(uas)
+    print(ua)
+    traffic['ua'] = ua    
     click = 99999
     referer = ''
     for i in range(click):
         print(i)
         luminati.refresh_proxy(ip,port)
-        try:
-            luminati.get_lpm_ip(ip,port,url = url,Referer = referer,debug=1)
-        except Exception as e:
-        	print(str(e))
+        if traffic['method'] == 1:
+            try:
+                luminati.get_lpm_ip(traffic['ip_lpm'],traffic['port_lpm'],url = traffic['url_link'],Referer = referer,debug=1)
+            except Exception as e:
+            	print(str(e))
+        else:
+            get_unique_traffic(traffic)
     luminati.delete_port([port])
-
-
 
 def main():
     while True:
@@ -41,6 +43,8 @@ def main():
             basic_port = max(ports_used) 
         print('Basic_port:',basic_port) 
         for traffic in traffics:
+            traffic['method'] = 2
+            traffic['key'] = 'stripchat.com'
             traffic['port_lpm'] = basic_port + 1
             basic_port += 1
             print(basic_port)
@@ -52,8 +56,6 @@ def main():
         pool.wait() 
         print('finish sending traffic,sleep for 30')
         sleep(30)    
-
-
 
 def test():
     port = 24058
@@ -69,6 +71,25 @@ def test():
         except Exception as e:
             print(str(e))
     luminati.delete_port([port])  
+
+def get_unique_traffic(traffic):
+    traffic['traffic'] = True
+    chrome_driver = Chrome_driver.get_chrome(traffic)
+    chrome_driver.get(traffic['url_link'])
+    for i in range(15):
+        print(chrome_driver.current_url)
+        if traffic['key'] in chrome_driver.current_url:
+            chrome_driver.close()
+            chrome_driver.quit()
+        else:
+            sleep(1)
+    try:
+        chrome_driver.close()
+        chrome_driver.quit()
+    except:
+        pass
+
+
 
 if __name__ == '__main__':
     main()

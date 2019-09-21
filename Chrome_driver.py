@@ -5,7 +5,7 @@ sys.path.append("..")
 from time import sleep
 import random
 import zipfile
-# from selenium.webdriver.common.desired_capabilities import DesiredCapabilities 
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities 
 
 
 
@@ -31,8 +31,10 @@ def get_ua_random(uas):
 
 
 def get_chrome(submit = None):
-    # desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none" 
-    # driver = webdriver.Chrome(chrome_options=chrome_options, desired_capabilities=desired_capabilities)    
+    if 'traffic' in submit:
+        desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none" 
+        driver = webdriver.Chrome(chrome_options=chrome_options, desired_capabilities=desired_capabilities)    
+        desired_capabilities["pageLoadStrategy"] = "none"    
     if submit == None:
         uas = get_ua_all()
         ua = get_ua_random(uas)
@@ -91,21 +93,6 @@ def get_chrome(submit = None):
     print('Chrome size:',size)
     chrome_driver.set_window_size(size[0],size[1])
     chrome_driver.maximize_window()    
-    # if type(submit) != type(None):   
-    #     print('prepareing for deleting cookies') 
-    #     print(submit['Site'])
-    #     # for i in range(3):
-    #     try:
-    #         chrome_driver.get(submit['Site']) 
-    #     except Exception as e:
-    #         print('1111111111111111')
-    #         print('1111111111111111')            
-    #         print(str(e))
-    #         # continue
-    #     cookies = chrome_driver.get_cookies()
-    #     print('Before delet:',cookies)
-    #     chrome_driver.delete_all_cookies()  
-        # print('cookies:',cookies)  
     return chrome_driver
 
 def get_size():
