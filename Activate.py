@@ -160,12 +160,12 @@ def main():
         requests = threadpool.makeRequests(multi_activate, submits)
         [pool.putRequest(req) for req in requests]
         pool.wait()
-        restart_time = 60
-        print('Mission completed.........')
-        print('Sleep',restart_time,'minutes')
-        for i in range(60):
-            print('%d minutes left'%(restart_time-i))
-            sleep(restart_time*60)
+        # restart_time = 60
+        # print('Mission completed.........')
+        # print('Sleep',restart_time,'minutes')
+        # for i in range(60):
+        #     print('%d minutes left'%(restart_time-i))
+        #     sleep(restart_time*60)
 
 def test():
     return_rand = random.randint(0,3)
