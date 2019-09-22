@@ -18,6 +18,18 @@ import emaillink
 Stripchat(Done)
 '''
 
+def get_name():
+    name = name_get.gen_one_word_digit(lowercase=False)  
+    a_name = ['a','b','c','d','e','f','g','h','i','j','k','l','a','b','c','d','e','f','g','h','i','j','k','l']
+    num_name = [0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9]
+    num_insert = random.randint(2,len(name))
+    # print(name[0:num_insert] )
+    name_3 = random.randint(0,10)
+    first_insert = a_name[name_3]+str(num_name[name_3])
+    name = name[0:num_insert]+ first_insert+ str(num_name[num_insert])+name[num_insert:-1]+a_name[num_insert]
+    print(name) 
+    return name    
+
 
 def web_submit(submit,chrome_driver,debug=0):
     if debug == 1:
@@ -27,7 +39,7 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.get(submit['Site'])
     # sleep(2000)
     chrome_driver.refresh()    
-    name = name_get.gen_one_word_digit(lowercase=False)  
+    name = get_name()
     # sleep(2000)  
     # 'https://creative.strpjmp.com/LPExperience/?action=signUpModalDirectLinkInteractive&campaignId=66a29c1c25bce64b38c92f4bcf56b4e21e619817ab1aab514ce8203143a60a47&creativeId=703743f02fd260bf1c2309c89b9ebf898145c006091f4ce79fe9822a73fddf22&domain=stripchat&exitPages=LPSierra%2CLPSierra%2CLPAkira&memberId=D-602781-1564542573-bjuOIMY723549&modelName=EvyDream&shouldRedirectMember=1&sourceId=&userId=32976296468dd516e6deecdb98dd5a54eee16e2ef856a243a1eb8e54921f0f03'
     if 'creative.strpjmp.com' in chrome_driver.current_url:
@@ -68,14 +80,7 @@ def web_submit(submit,chrome_driver,debug=0):
     try:
         chrome_driver.find_element_by_xpath('//*[@id="body"]/div/div/div[1]/span')
     except:
-        a_name = ['a','b','c','d','e','f','g','h','i','j','k','l','a','b','c','d','e','f','g','h','i','j','k','l']
-        num_name = [0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9]
-        num_insert = random.randint(2,len(name))
-        # print(name[0:num_insert] )
-        name_3 = random.randint(0,10)
-        first_insert = a_name[name_3]+str(num_name[name_3])
-        name = name[0:num_insert]+ first_insert+ str(num_name[num_insert])+name[num_insert:-1]+a_name[num_insert]
-        print(name)
+        name = get_name()
         chrome_driver.find_element_by_xpath('//*[@id="sign_up_input_login"]').send_keys(name)
         sleep(2)
         chrome_driver.find_element_by_class_name('btn-login').click()
@@ -88,7 +93,12 @@ def web_submit(submit,chrome_driver,debug=0):
     #     return 0       
     # except Exception as e:
     #     print('regester success')
+    sleep(10)
     db.write_one_info([str(submit['Mission_Id'])],submit)
+    if chrome_driver.current_url == url_current:
+        chrome_driver.close()
+        chrome_driver.quit()
+        return 0
     site = ''
     handle = chrome_driver.current_window_handle
     try:            
@@ -99,7 +109,7 @@ def web_submit(submit,chrome_driver,debug=0):
     if site != '':
         newwindow='window.open("' + site + '");'
         chrome_driver.execute_script(newwindow)
-        sleep(50)        
+        sleep(20)        
     else:
         chrome_driver.close()
         chrome_driver.quit()
@@ -112,11 +122,11 @@ def web_submit(submit,chrome_driver,debug=0):
                 if 'Email successfully confirmed' not in chrome_driver.page_source:
                     chrome_driver.refresh()
                 else:
-                    for i in range(20):
+                    for i in range(10):
                         try:
                             chrome_driver.find_element_by_xpath('//*[@id="password"]')
                         except Exception as e:
-                            sleep(5)
+                            sleep(2)
                             continue
                         try:
                             chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(submit['Email']['Email_emu_pwd'])
@@ -128,7 +138,8 @@ def web_submit(submit,chrome_driver,debug=0):
                             cookies = chrome_driver.get_cookies()
                             cookie_str = json.dumps(cookies)
                             submit['Cookie'] = cookie_str
-                            db.update_cookie(submit)                            
+                            db.update_cookie(submit) 
+                            break                          
                         except Exception as e:
                             print('',str(e))
                             chrome_driver.close()
@@ -161,7 +172,7 @@ def web_submit(submit,chrome_driver,debug=0):
         chrome_driver.close()
         chrome_driver.quit()
         return 1
-    sleep(30)        
+    sleep(10)        
     chrome_driver.close()
     chrome_driver.quit()
     return 1
@@ -170,7 +181,8 @@ def email_confirm(submit,debug=0):
     print('----------')
     'http://trk.email.supportlivecam.com/5d98b9e3f31adfe9/4jSW2YXJcfberP75P97dFQUi6qHxSNMJtfJRkyiZ5E9qw2qbjXUhJJhikE1gA83zGAGRQxCMANZDtJMi8UK1yZXcNLevh7yhEgXDk9aE1GaEMHJXiRSi3DvJatWgh43zVH1KC2PQftWjZcfSACY2rpHKu5VAzTR5cmMZBa2cCqEWkDoBNeLyHSwMv7U1Z7UQfof6VANgVCpo7gCzM8SN4VYNBX6fCrRPJTQKyZhSmZuuv5yPbbPsYpVsr6sUgCHFxy3BNsQXTCT9TiYBFpUetE6qdtcqhuHurpEzXvc3Uzj9KMGSY3Za9XnSGyMkBSB9MFm24zyvmAthkcc8vnEA1nSFf3zZXKH3QAJkUwCctxNaEN24E3UAFshAJFFy3yzwzPNyyou7537WVqyTqip8H7TNUGHc6hsLjm2JSucmzz8BKLBhzqtv4a5zwSBPXDBmtrCUpnrfedxFc8w4MWyTPqQBKCjxqEtMYNmsyD9xC7DhZSDAyG5HLFAANr6Ynxo3ouj2sRnHSH2uM1e7f4R8KNametB4eMBAKU7jsoHCi5vQDq'
     'http://trk.account.stripchat.com/902a2a3b61ec72e5/644Di25DRvShUhjU8ZnJo9VcimqL6D7SX4cotvhGhy4GW2zRcXW1fvj5tzzfuFiWHeCxvJ96o7q7fGsszkRRJyYpRZ7smGBPR6JvtTYhLmFWRS5qFfNvUW36Utv5sHHHJuSsZCprbtG3mDUZDwPYdPg9zCmWCqWxUmy2scGE5nFqkc1ixFvpq1bqJPZPDzP1toipxi1L1svsiBtSjarPVpRfiD6knagJyV6B8ZBnTVSsSD9JPra8V1gyxbM1pK6hJzo5LxBumBV4XXRWHBFPBtuP2nV6ZYLKFDEG98DDb6amjWahGdQytgxA9YovxBQhTABxgwp2ND25PbFB4962eQfeNP7PjUS6WxPXRRx1GVa47fGeRox7HCHTmEzhAm5iHhu1goQLrRuMA8kwxhwaLPUZSUSGpKJqRwUe5T2DdFAnAgco9ffxUwduEztD3Xf3EUtvhK1tBLTWuywKQjVscUVzyj2gaML9gcyf5621Jpfff7QsS2qzni72smyGoC9WtcSG4rKw845jSRjTTwTHa1Udhyf2LNzqg47'
-    for i in range(3):
+    sleep(10)
+    for i in range(1):
         url_link = ''
         try:
             name = submit['Email']['Email_emu']
@@ -178,6 +190,7 @@ def email_confirm(submit,debug=0):
             title = ('Email Verification','noreply@account.stripchat.com')
             pattern = r'.*?Confirm Your Email.*?(http://trk.account.stripchat.com/.*?)By clicking on the link you give us'
             url_link = emaillink.get_email(name,pwd,title,pattern,True,debug)
+            sleep(5)
             if 'http' in url_link :
                 break            
             title = ('Email Verification','noreply@email.stripchat.com')
@@ -189,6 +202,7 @@ def email_confirm(submit,debug=0):
             print(str(e))
             print('===')
             pass
+        # sleep(30)
     return url_link
 
 def activate(submit,chrome_driver):

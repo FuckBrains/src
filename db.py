@@ -923,7 +923,7 @@ def update_key():
 def get_luminati_submit(Config): 
     Email_list = {"hotmail.com": 1, "outlook.com": 1, "yahoo.com": 1, "aol.com": 1}
     Mission_Ids,Excels_dup = [Config['Mission_Id']],Config['Excel']
-    # print(Excels_dup)
+    print(Excels_dup)
     submit = read_one_excel(Mission_Ids,Excels_dup,Email_list)
     # print(submit)
     submit['ip_lpm'] = Config['ip_lpm']

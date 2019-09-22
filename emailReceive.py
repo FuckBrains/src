@@ -86,14 +86,22 @@ class EmailReceive(object):
                         if flag_ == 0:
                             result.append(EmailReceive.getOneMail(data,getAttach))
                             if not findAll:
-                                self.imap_mail.select('INBOX')
-                                self.imap_mail.close()
+                                try:
+                                    self.imap_mail.select('INBOX')
+                                    self.imap_mail.close()
+                                except Exception as e:
+                                    print(str(e))
+                                    print('EmailReceive get_email...................wrong')                                    
                                 return result
 
             except Exception as e:
                 print(e)
-        self.imap_mail.select('INBOX')
-        self.imap_mail.close()
+        try:
+            self.imap_mail.select('INBOX')
+            self.imap_mail.close()
+        except Exception as e:
+            print(str(e))
+            print('EmailReceive get_email...................wrong')
         return result
 
     @staticmethod

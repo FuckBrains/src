@@ -47,7 +47,7 @@ def multi_reg(Config):
         print(Config)
         if Config['Alliance'] != 'Test':
             print('Sleep for random time:',time_cheat*60,'-------------')   
-            sleep(time_cheat*60)
+            sleep(time_cheat)
         else:
             print('test...........')
         while True:
@@ -55,6 +55,7 @@ def multi_reg(Config):
             try:
                 submit = db.get_luminati_submit(Config)
                 print(submit)
+                # return
                 print('starting writing submit into db')
                 if Config['Alliance'] == 'Test':
                     submit['state_'] = ''
@@ -177,7 +178,7 @@ def main(i):
             restart_time = random.randint(3,5)
             print('Mission completed.........')
             print('Sleep',restart_time,'minutes')
-            sleep(restart_time*60)
+            # sleep(restart_time*60)
             changer.Restart()
             sleep(200)
 
@@ -189,4 +190,5 @@ def test():
 if __name__ == '__main__':
     paras=sys.argv
     i = int(paras[1])
+    # i = 1
     main(i)

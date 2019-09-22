@@ -1,3 +1,4 @@
+import sys
 import luminati
 import threading
 import threadpool
@@ -7,18 +8,18 @@ import Chrome_driver
 
 
 
-pool = threadpool.ThreadPool(5)
+pool = threadpool.ThreadPool(20)
 
 def traffic_test(traffic):
     uas = Chrome_driver.get_ua_all()
     ua = Chrome_driver.get_ua_random(uas)
     print(ua)
     traffic['ua'] = ua    
-    click = 99999
+    click = 10
     referer = ''
     for i in range(click):
         print(i)
-        luminati.refresh_proxy(ip,port)
+        luminati.refresh_proxy(traffic['ip_lpm'],traffic['port_lpm'])
         if traffic['method'] == 1:
             try:
                 luminati.get_lpm_ip(traffic['ip_lpm'],traffic['port_lpm'],url = traffic['url_link'],Referer = referer,debug=1)
@@ -28,11 +29,11 @@ def traffic_test(traffic):
             get_unique_traffic(traffic)
     luminati.delete_port([port])
 
-def main():
+def main(i):
     while True:
         account = db.get_account()
         plan_id = account['plan_id']    
-        traffics = db.read_plans(plan_id)
+        traffics = db.read_plans(i)
         print(traffics)
         print(len(traffics))
         ip_lpm = account['IP']
@@ -43,7 +44,7 @@ def main():
             basic_port = max(ports_used) 
         print('Basic_port:',basic_port) 
         for traffic in traffics:
-            traffic['method'] = 2
+            traffic['method'] = 1
             traffic['key'] = 'stripchat.com'
             traffic['port_lpm'] = basic_port + 1
             basic_port += 1
@@ -89,9 +90,9 @@ def get_unique_traffic(traffic):
     except:
         pass
 
-
-
 if __name__ == '__main__':
-    main()
+    paras=sys.argv
+    i = int(paras[1])    
+    main(i)
 
 

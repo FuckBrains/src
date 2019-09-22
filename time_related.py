@@ -84,8 +84,8 @@ def getactivatetime(b):
     a6 = b + datetime.timedelta(hours=24*6)    
     a7 = b + datetime.timedelta(hours=24*7)
     a = datetime.datetime.now()
-    print(a1,a2,a3,a4,a5,a6,a7)
-    print('system time :',a)
+    # print(a1,a2,a3,a4,a5,a6,a7)
+    # print('system time :',a)
     if a>a7:
         print(a)
         return 0

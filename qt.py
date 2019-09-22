@@ -540,6 +540,15 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         command = '''start cmd /k "python hotupdate.pyc %s "{$name$:$qcy$}" && exit"'''%(str(i))
         os.system(command)
 
+    @pyqtSlot()
+    def on_pushButton16_clicked(self):
+        i = self.comboBox11.currentText()
+        print('start open test link ')
+        command = '''start cmd /k "python traffic.py  %s "{$name$:$qcy$}" && exit"'''%(str(i))
+        os.system(command)        
+        command = '''start cmd /k "python traffic.pyc  %s "{$name$:$qcy$}" && exit"'''%(str(i))
+        os.system(command)        
+
 def main():
     up.main()
     print('111')
