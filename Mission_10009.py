@@ -48,7 +48,7 @@ def web_submit(submit,chrome_driver,debug=0):
         except:
             pass
     chrome_driver.find_element_by_xpath('//*[@id="body"]/div/div/header/div/div/nav[2]/div[3]/a[2]').click()
-    sleep(5)
+    sleep(3)
     try:
         chrome_driver.find_element_by_xpath('//*[@id="sign_up_input_login"]').send_keys(name)
     except Exception as e:
@@ -76,15 +76,6 @@ def web_submit(submit,chrome_driver,debug=0):
         chrome_driver.close()
         chrome_driver.quit()
         return 0 
-    sleep(10)
-    try:
-        chrome_driver.find_element_by_xpath('//*[@id="body"]/div/div/div[1]/span')
-    except:
-        name = get_name()
-        chrome_driver.find_element_by_xpath('//*[@id="sign_up_input_login"]').send_keys(name)
-        sleep(2)
-        chrome_driver.find_element_by_class_name('btn-login').click()
-        print('Jump2')
     # try:
     #     chrome_driver.find_element_by_css_selector('#sign_up_input_email')
     #     print('get site but fail to register',str(e))
@@ -93,12 +84,14 @@ def web_submit(submit,chrome_driver,debug=0):
     #     return 0       
     # except Exception as e:
     #     print('regester success')
-    sleep(10)
-    db.write_one_info([str(submit['Mission_Id'])],submit)
+    sleep(5)
     if chrome_driver.current_url == url_current:
         chrome_driver.close()
         chrome_driver.quit()
         return 0
+    db.write_one_info([str(submit['Mission_Id'])],submit) 
+    print('Wait 30 seconds to get email from stripchat')       
+    sleep(20)
     site = ''
     handle = chrome_driver.current_window_handle
     try:            
@@ -109,7 +102,7 @@ def web_submit(submit,chrome_driver,debug=0):
     if site != '':
         newwindow='window.open("' + site + '");'
         chrome_driver.execute_script(newwindow)
-        sleep(20)        
+        sleep(10)        
     else:
         chrome_driver.close()
         chrome_driver.quit()
@@ -121,42 +114,35 @@ def web_submit(submit,chrome_driver,debug=0):
                 chrome_driver.switch_to.window(i)
                 if 'Email successfully confirmed' not in chrome_driver.page_source:
                     chrome_driver.refresh()
-                else:
-                    for i in range(10):
-                        try:
-                            chrome_driver.find_element_by_xpath('//*[@id="password"]')
-                        except Exception as e:
-                            sleep(2)
-                            continue
-                        try:
-                            chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(submit['Email']['Email_emu_pwd'])
-                            sleep(2)
-                            chrome_driver.find_element_by_xpath('//*[@id="confirmPassword"]').send_keys(submit['Email']['Email_emu_pwd'])
-                            sleep(2)
-                            chrome_driver.find_element_by_xpath('//*[@id="app"]/div/div/form/div[4]/button').click()
-                            sleep(5)
-                            cookies = chrome_driver.get_cookies()
-                            cookie_str = json.dumps(cookies)
-                            submit['Cookie'] = cookie_str
-                            db.update_cookie(submit) 
-                            break                          
-                        except Exception as e:
-                            print('',str(e))
-                            chrome_driver.close()
-                            chrome_driver.quit()    
-                            return 1                       
+                for i in range(2):
+                    try:
+                        chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(submit['Email']['Email_emu_pwd'])
+                        sleep(1)
+                        chrome_driver.find_element_by_xpath('//*[@id="confirmPassword"]').send_keys(submit['Email']['Email_emu_pwd'])
+                        sleep(1)
+                        chrome_driver.find_element_by_xpath('//*[@id="app"]/div/div/form/div[4]/button').click()
+                        sleep(1)
+                        cookies = chrome_driver.get_cookies()
+                        cookie_str = json.dumps(cookies)
+                        submit['Cookie'] = cookie_str
+                        db.update_cookie(submit) 
+                        break                          
+                    except Exception as e:
+                        print('',str(e))
+                        chrome_driver.close()
+                        chrome_driver.quit()    
+                        return 1                       
     except Exception as e:
         print('',str(e))
         chrome_driver.close()
         chrome_driver.quit()    
         return 1
-    if 'Password was updated successfully' in chrome_driver.page_source:
-        try:
-            chrome_driver.find_element_by_xpath('//*[@id="app"]/div/div/a').click()
-        except:
-            chrome_driver.close()
-            chrome_driver.quit()    
-            return 1             
+    try:
+        chrome_driver.find_element_by_xpath('//*[@id="app"]/div/div/a').click()
+    except:
+        chrome_driver.close()
+        chrome_driver.quit()    
+        return 1             
     sleep(5)
     try:
         chrome_driver.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div/div[3]/div[7]/div/a').click()
@@ -191,12 +177,12 @@ def email_confirm(submit,debug=0):
             pattern = r'.*?Confirm Your Email.*?(http://trk.account.stripchat.com/.*?)By clicking on the link you give us'
             url_link = emaillink.get_email(name,pwd,title,pattern,True,debug)
             sleep(5)
-            if 'http' in url_link :
+            if 'http://trk.account.stripchat.com' in url_link :
                 break            
             title = ('Email Verification','noreply@email.stripchat.com')
             pattern = r'.*?Confirm Your Email.*?(http://trk.account.stripchat.com/.*?)By clicking on the'
             url_link = emaillink.get_email(name,pwd,title,pattern,True,debug)
-            if 'http' in url_link :
+            if 'http://trk.account.stripchat.com' in url_link :
                 break                            
         except Exception as e:
             print(str(e))

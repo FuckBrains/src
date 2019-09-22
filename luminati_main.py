@@ -166,7 +166,6 @@ def main(i):
             return
         print('Missions:')
         # print(plans)
-
         global Mission_num
         Mission_num = len(plans)
         print(Mission_num)
