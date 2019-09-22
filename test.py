@@ -1,3 +1,5 @@
+
+import time
 import socket
 import Alliance_login
 import os
@@ -273,6 +275,38 @@ def delete():
     luminati.delete_port()  
 
 
+def mytest():
+    import time_related
+    try:
+        time_related.mytest('starting')
+    except Exception as e:
+        print(e)
+
+def test_emails():
+    import db
+    import imap_test
+    emails = db.get_all_emails()
+    # print(emails[0])
+    emails = [email for email in emails if 'hotmail' in email['Email_emu']]
+    # print(emails[1])
+    # multi_tests(emails[1])
+    submits = []
+    # for i in range(10):
+    #     print(i,'..........')
+    #     Mission_list = ['10000']
+    #     Excel_name = ['','Email']
+    #     Email_list = ['hotmail.com']
+    #     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
+    #     submits.append(submit)
+    print(len(emails))
+    # return
+    requests = threadpool.makeRequests(imap_test.multi_tests, emails)
+    [pool.putRequest(req) for req in requests]
+    pool.wait()        
+
+
+
 if __name__ == '__main__':
-    delete()
+    test_emails()
+
 

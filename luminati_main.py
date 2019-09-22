@@ -47,7 +47,7 @@ def multi_reg(Config):
         print(Config)
         if Config['Alliance'] != 'Test':
             print('Sleep for random time:',time_cheat*60,'-------------')   
-            sleep(time_cheat)
+            # sleep(time_cheat*60)
         else:
             print('test...........')
         while True:
@@ -56,11 +56,10 @@ def multi_reg(Config):
                 submit = db.get_luminati_submit(Config)
                 print(submit)
                 # return
-                print('starting writing submit into db')
                 if Config['Alliance'] == 'Test':
                     submit['state_'] = ''
-                print('Data for this mission:')
-                print(submit)
+                # print('Data for this mission:')
+                # print(submit)
             except Exception as e:
                 print(str(e))
                 Falg_threads += 1
@@ -76,9 +75,12 @@ def multi_reg(Config):
                     print('Bad email:',submit['Email']['Email_emu'])
                     db.updata_email_status(submit['Email']['Email_Id'],0)
                     continue
-                else:
+                elif flag == 1:
                     print("Good email")
                     db.updata_email_status(submit['Email']['Email_Id'],1)
+                else:
+                    print('Loging email server failed,find another email')
+                    continue
             else:
                 pass
             print(Config['Alliance'],'email test finished')
@@ -166,6 +168,7 @@ def main(i):
             return
         print('Missions:')
         # print(plans)
+
         global Mission_num
         Mission_num = len(plans)
         print(Mission_num)

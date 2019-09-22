@@ -44,7 +44,7 @@ def web_submit(submit,chrome_driver,debug=0):
             chrome_driver.find_element_by_xpath('//*[@id="unlock"]').click()
             sleep(2)
             chrome_driver.find_element_by_xpath('//*[@id="show-profile"]/p[5]/div/a').click()
-        except Eexception as e:
+        except Exception as e:
             chrome_driver.refresh()
             continue
             # print(str(e))

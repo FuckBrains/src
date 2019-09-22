@@ -1,6 +1,6 @@
 from emaiUtil import EmailUtil
 import re
-
+from wrapt_timeout_decorator import *
 
 def test_re():
     target = '(https://opinionoutpost.com/Membership/Intake?signuptoken=50151618-0e11-4086-85ba-58d521702ae7&resp=1618848872)\n'
@@ -29,7 +29,7 @@ def main():
 
 
 
-
+@timeout(120)
 def get_email(email,pwd,title = ('title',),pattern=r'http',findAll=False,debug=0):
     print('Getting into EmailUtil..........')
     site = EmailUtil.getLink(email,pwd,title,pattern,findAll,debug) 

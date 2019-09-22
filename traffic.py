@@ -27,7 +27,7 @@ def traffic_test(traffic):
             	print(str(e))
         else:
             get_unique_traffic(traffic)
-    luminati.delete_port([port])
+    luminati.delete_port([traffic['port_lpm']])
 
 def main(i):
     while True:

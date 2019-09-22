@@ -17,3 +17,4 @@ pip install PyQt5
 pip install PySocks
 pip install pproxy==0.9.3
 pip install requests_html
+pip install wrapt_timeout_decorator

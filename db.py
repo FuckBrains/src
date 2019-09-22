@@ -459,7 +459,7 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
                 continue
             # if Email_dict[i]['Status'] == 'Good':
             #     continue                
-            print('========',Email_dict[i]['Status'])
+            # print('========',Email_dict[i]['Status'])
             a = Email_dict[i]['Email_emu'].find('@')
             end = Email_dict[i]['Email_emu'][a+1:]
             # print(Email_dict[i]['Email_emu'])
@@ -471,7 +471,7 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
             # print(Mission_list)
             # print(Email_dict[i]['Email_Id'])
             for Mission in Mission_list:
-                print('On going search:',Mission)
+                # print('On going search:',Mission)
                 for j in range(len(Mission_dict)):
                     # print(Mission_dict[j]['Mission_Id'])
                     # print(Mission)
@@ -479,7 +479,7 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
                     if str(Mission_dict[j]['Mission_Id']) == str(Mission): 
                         # print('---------')
                         if Email_dict[i]['Email_Id'] == Mission_dict[j]['Email_Id']:
-                            print('Duplicated email:',Mission_dict[j]['Email_Id'])
+                            # print('Duplicated email:',Mission_dict[j]['Email_Id'])
                             # print('22222222222222')
                             flag = 1
                             break
@@ -489,7 +489,8 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
                 if flag == 1:
                     break
             if flag == 0:
-                print('Unique email for all Missions required:',Email_dict[i])
+                # print('Unique email for all Missions required:',Email_dict[i])
+                print('find email unique')
                 Info_dict2 = Email_dict[i]
                 break
     if len(Info_dict2) != 0:
@@ -940,7 +941,7 @@ def get_luminati_submit(Config):
     submit['Offer'] = Config['Offer']
     print(submit['Site'])
     submit['Mission_dir'] = Config['Mission_dir']    
-    print(submit)
+    # print(submit)
     uas = Chrome_driver.get_ua_all()
     ua = Chrome_driver.get_ua_random(uas)
     print(ua)  

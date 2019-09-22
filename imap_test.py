@@ -1,3 +1,4 @@
+from wrapt_timeout_decorator import *
 import xlrd
 from xlutils.copy import copy
 from time import sleep
@@ -75,8 +76,10 @@ def test_Mail(i, path):
 
 
 
-def Email_emu_getlink(submit,keyword = ''):
-    # PwolxuYjthksa@outlook.com----1o61vdu545QR 
+
+
+def login_server(submit):
+    print(submit['Email_emu'])
     if 'outlook' in submit['Email_emu']:
         server = "imap-mail.outlook.com"
     elif 'aol' in submit['Email_emu']:
@@ -86,16 +89,24 @@ def Email_emu_getlink(submit,keyword = ''):
     elif 'yahoo' in  submit['Email_emu']:
         server = 'imap.mail.yahoo.com'
     else:
-        writelog('bad Email_emu')
+        print('bad Email_emu')
         return ''  
-    try:             
-        box = imaplib.IMAP4_SSL(server)
-        print('email server login success....')
-    except Exception as e:
-        print(str(e))
-        print('email server login failed....')        
-        # writelog(submit['Email_emu'] + ' login failed : ',str(msg))
-        return 0        
+    print(server)
+    print('Logging IMAP4_SSL')
+    box = imaplib.IMAP4_SSL(server)
+    return box    
+
+@timeout(30)
+def Email_emu_getlink(submit,keyword = ''):
+    # PwolxuYjthksa@outlook.com----1o61vdu545QR 
+    # try:
+    box = login_server(submit)
+    # except Exception as e:
+        # print('====================')
+        # print(str(e))
+        # print('logging email server failed')
+        # return -1
+    print('email server login success....')
     msg_content = ''    
     try:
         box.login(submit['Email_emu'], submit['Email_emu_pwd'])
@@ -133,18 +144,22 @@ def Email_emu_getlink(submit,keyword = ''):
         box.close()        
         print('Email good')
         box.logout()  
+        print('Logging out imap server success')        
         return 1
     except Exception as e:
         print('login error: %s'%e)
         try:
             box.select("INBOX")
             box.close()
-        except:
-            pass
+            box.logout()
+            print('Logging out imap server success')
+        except Exception as e:
+            print(str(e))
         return 0
 
 
 def multi_tests(submit):
+    import db
     flag = Email_emu_getlink(submit)
     print('finish loop......')
     if flag == 0:
@@ -165,23 +180,24 @@ if __name__=='__main__':
     emails = [email for email in emails if 'hotmail' in email['Email_emu']]
     # print(emails[1])
     # multi_tests(emails[1])
-    # for i in range(300):
-    #     print(i,'..........')
-    #     Mission_list = ['10000']
-    #     Excel_name = ['','Email']
-    #     Email_list = ['hotmail.com']
-    #     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
-    #     submits.append(submit)
+    submits = []
+    for i in range(30):
+        print(i,'..........')
+        Mission_list = ['10000']
+        Excel_name = ['','Email']
+        Email_list = ['hotmail.com']
+        submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
+        submits.append(submit)
     print(len(emails))
     # return
-    # requests = threadpool.makeRequests(multi_tests, emails)
-    # [pool.putRequest(req) for req in requests]
-    # pool.wait()     
-    submit = {}
-    submit= {
-    'Email_Id': '2ee711fa-d9ed-11e9-b05e-000ae8256789', 
-    'Email_emu': 'WestecbbmkOljhsfrq@hotmail.com', 
-    'Email_emu_pwd': 'v3gZUnl72i'
-    }   
-    multi_tests(submit)     
+    requests = threadpool.makeRequests(multi_tests, emails)
+    [pool.putRequest(req) for req in requests]
+    pool.wait()     
+    # submit = {}
+    # submit= {
+    # 'Email_Id': '2ee711fa-d9ed-11e9-b05e-000ae8256789', 
+    # 'Email_emu': 'WestecbbmkOljhsfrq@hotmail.com', 
+    # 'Email_emu_pwd': 'v3gZUnl72i'
+    # }   
+    # multi_tests(submit)     
         # print(submit)

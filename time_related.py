@@ -3,6 +3,18 @@ import os
 import time  
 import ntplib  
 from time import sleep
+import time
+from wrapt_timeout_decorator import *
+
+
+@timeout(5)
+def mytest(message):
+    # this example does NOT work on windows, please check the section
+    # "use with Windows" in the README.rst
+    print(message)
+    for i in range(1,3):
+        time.sleep(1)
+        print('{} seconds have passed'.format(i))
 
 
 def Time_start():
