@@ -269,6 +269,10 @@ def test_check():
     print(res)
     print(len(res))
 
+def delete():
+    luminati.delete_port()  
+
+
 if __name__ == '__main__':
-    test_9_15()
+    delete()
 

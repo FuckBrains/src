@@ -11,6 +11,9 @@ import json
 from time import sleep
 import re
 import Chrome_driver
+import threading
+import threadpool
+
 
 def test_luminati():
     customer = 'caichao'
@@ -193,6 +196,7 @@ def read_proxy_config():
     data = json.loads(proxy_details)
     return data
 
+pool = threadpool.ThreadPool(5)
 
 def delete_port(ports=''):
     account = db.get_account()
@@ -202,21 +206,29 @@ def delete_port(ports=''):
             ports = ports_get(ip_lpm)
         except:
             return
-    for port_delete in ports:
-        url_ = 'http://%s:22999/api/proxies/%s'%(ip_lpm,str(port_delete))
-        headers = {
-        'Content-Type': 'application/json'
-        }     
-        data = {
-            "port":port_delete
-        }
-        data = json.dumps(data)
-        resp = requests.delete(url_,data=data,headers=headers)
-        # print(resp)
-        # print(type(str(resp)))
-        print(str(resp))
-        if '204' in str(resp):
-            print('delete success:',port_delete)
+    requests = threadpool.makeRequests(delete_port_s, ports)
+    [pool.putRequest(req) for req in requests]
+    pool.wait()     
+
+
+
+def delete_port_s(port_delete):
+    account = db.get_account()
+    ip_lpm = account['IP']    
+    url_ = 'http://%s:22999/api/proxies/%s'%(ip_lpm,str(port_delete))
+    headers = {
+    'Content-Type': 'application/json'
+    }     
+    data = {
+        "port":port_delete
+    }
+    data = json.dumps(data)
+    resp = requests.delete(url_,data=data,headers=headers)
+    # print(resp)
+    # print(type(str(resp)))
+    print(str(resp))
+    if '204' in str(resp):
+        print('delete success:',port_delete)
 
 
 

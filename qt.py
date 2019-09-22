@@ -513,7 +513,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         # plans = db.read_plans(plan_id)
         # ports = [plan['port_lpm'] for plan in plans]
         luminati.delete_port()
-        for i in range(15):
+        for i in range(30):
             db.clean_table(i)
 
     # def on_lineEdit_selectionChanged(self):
