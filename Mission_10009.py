@@ -168,7 +168,7 @@ def email_confirm(submit,debug=0):
     'http://trk.email.supportlivecam.com/5d98b9e3f31adfe9/4jSW2YXJcfberP75P97dFQUi6qHxSNMJtfJRkyiZ5E9qw2qbjXUhJJhikE1gA83zGAGRQxCMANZDtJMi8UK1yZXcNLevh7yhEgXDk9aE1GaEMHJXiRSi3DvJatWgh43zVH1KC2PQftWjZcfSACY2rpHKu5VAzTR5cmMZBa2cCqEWkDoBNeLyHSwMv7U1Z7UQfof6VANgVCpo7gCzM8SN4VYNBX6fCrRPJTQKyZhSmZuuv5yPbbPsYpVsr6sUgCHFxy3BNsQXTCT9TiYBFpUetE6qdtcqhuHurpEzXvc3Uzj9KMGSY3Za9XnSGyMkBSB9MFm24zyvmAthkcc8vnEA1nSFf3zZXKH3QAJkUwCctxNaEN24E3UAFshAJFFy3yzwzPNyyou7537WVqyTqip8H7TNUGHc6hsLjm2JSucmzz8BKLBhzqtv4a5zwSBPXDBmtrCUpnrfedxFc8w4MWyTPqQBKCjxqEtMYNmsyD9xC7DhZSDAyG5HLFAANr6Ynxo3ouj2sRnHSH2uM1e7f4R8KNametB4eMBAKU7jsoHCi5vQDq'
     'http://trk.account.stripchat.com/902a2a3b61ec72e5/644Di25DRvShUhjU8ZnJo9VcimqL6D7SX4cotvhGhy4GW2zRcXW1fvj5tzzfuFiWHeCxvJ96o7q7fGsszkRRJyYpRZ7smGBPR6JvtTYhLmFWRS5qFfNvUW36Utv5sHHHJuSsZCprbtG3mDUZDwPYdPg9zCmWCqWxUmy2scGE5nFqkc1ixFvpq1bqJPZPDzP1toipxi1L1svsiBtSjarPVpRfiD6knagJyV6B8ZBnTVSsSD9JPra8V1gyxbM1pK6hJzo5LxBumBV4XXRWHBFPBtuP2nV6ZYLKFDEG98DDb6amjWahGdQytgxA9YovxBQhTABxgwp2ND25PbFB4962eQfeNP7PjUS6WxPXRRx1GVa47fGeRox7HCHTmEzhAm5iHhu1goQLrRuMA8kwxhwaLPUZSUSGpKJqRwUe5T2DdFAnAgco9ffxUwduEztD3Xf3EUtvhK1tBLTWuywKQjVscUVzyj2gaML9gcyf5621Jpfff7QsS2qzni72smyGoC9WtcSG4rKw845jSRjTTwTHa1Udhyf2LNzqg47'
     sleep(10)
-    for i in range(1):
+    for i in range(2):
         url_link = ''
         try:
             name = submit['Email']['Email_emu']
@@ -188,7 +188,7 @@ def email_confirm(submit,debug=0):
             print(str(e))
             print('===')
             pass
-        # sleep(30)
+        sleep(30)
     return url_link
 
 def activate(submit,chrome_driver):
