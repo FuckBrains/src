@@ -85,10 +85,11 @@ def web_submit(submit,chrome_driver,debug=0):
     # except Exception as e:
     #     print('regester success')
     sleep(5)
-    if chrome_driver.current_url == url_current:
-        chrome_driver.close()
-        chrome_driver.quit()
-        return 0
+        # chrome_driver.find_element_by_xpath('//*[@id="sign_up_input_login"]')
+    # if chrome_driver.current_url == url_current:
+    #     chrome_driver.close()
+    #     chrome_driver.quit()
+    #     return 0
     db.write_one_info([str(submit['Mission_Id'])],submit) 
     print('Wait 30 seconds to get email from stripchat')       
     sleep(20)
