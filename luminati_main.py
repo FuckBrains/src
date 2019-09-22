@@ -43,11 +43,11 @@ def multi_reg(Config):
     if return_rand == 0:
         print('unique  random,return for Mission_Id:',Config)
     else:
-        time_cheat = random.randint(0,5)
+        time_cheat = random.randint(0,3)
         print(Config)
         if Config['Alliance'] != 'Test':
             print('Sleep for random time:',time_cheat*60,'-------------')   
-            # sleep(time_cheat*60)
+            sleep(time_cheat*60)
         else:
             print('test...........')
         while True:
