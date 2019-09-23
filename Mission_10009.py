@@ -30,7 +30,6 @@ def get_name():
     print(name) 
     return name    
 
-
 def web_submit(submit,chrome_driver,debug=0):
     if debug == 1:
         # site = 'http://track.meanclick.com/im/click.php?c=9&key=4ld1iyw2l4iwy1u0k4n8hn1c'
@@ -231,7 +230,6 @@ def activate(submit,chrome_driver):
         print('sleep',sleep_time,'minutes')
         sleep(sleep_time*60)
     return 1
-
 
 def test_p():
     name = name_get.gen_one_word_digit()

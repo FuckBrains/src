@@ -74,7 +74,7 @@ def multi_activate(submit):
         return
     time_cheat = random.randint(0,10)
     print('Sleep for random time:',time_cheat*60,'-------------')
-    sleep(time_cheat*60)
+    # sleep(time_cheat*60)
     account = db.get_account()
     submit['ip_lpm'] = account['IP']
     ports_used = luminati.ports_get(submit['ip_lpm'])
@@ -113,7 +113,7 @@ def import_Module(module):
 
 def main():
     print('checking system time')
-    time_related.update_time_system()
+    # time_related.update_time_system()
     print('Fix system time completed')
     while True:
         try:
@@ -121,7 +121,7 @@ def main():
         except Exception as e:
             print(str(e))
             pass    
-        plans = db.read_plans(-1)
+        plans = db.read_plans(4)
         print('Mission:')
         print(plans)
         submits = []

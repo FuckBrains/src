@@ -58,7 +58,7 @@ def web_submit(submit,chrome_driver,debug=0):
     if site != '':
         newwindow='window.open("' + site + '");'
         chrome_driver.execute_script(newwindow)
-        sleep(50)        
+        sleep(10)        
     else:
         chrome_driver.close()
         chrome_driver.quit()
@@ -79,14 +79,14 @@ def web_submit(submit,chrome_driver,debug=0):
                     print('',str(e))
                     chrome_driver.close()
                     chrome_driver.quit()    
-                    return                          
+                    return 1                        
     except Exception as e:
         print('',str(e))
         chrome_driver.close()
         chrome_driver.quit()    
-        return  
+        return 1
     print('sleep for 30 seconds')
-    sleep(30)        
+    sleep(20)        
     chrome_driver.close()
     chrome_driver.quit()
     return 1
@@ -116,13 +116,49 @@ def email_confirm(submit):
         sleep(30)
     return url_link
 
-def activate():
-    # site_url = 'https://stripchat.com'
-    site_url = 'https://cpx24.net/dashboard/campaigns'
-    chrome_driver = Chrome_driver.get_chrome()
-    chrome_driver.get(site_url)
-    print('stripchat....................')
-    sleep(3000)
+def activate(submit,chrome_driver):
+    # https://www.cam4.com/
+    chrome_driver.get('https://www.flirt4free.com/')
+    cookies = json.loads(submit['Cookie'])
+    for cookie in cookies:
+        if 'expiry' in cookie:
+            cookie['expiry'] = int(cookie['expiry']) 
+        chrome_driver.add_cookie(cookie)    
+    chrome_driver.get('https://www.flirt4free.com/')
+    # sleep(1000)
+    page = chrome_driver.page_source()
+    pattern = re.compile(r'model_flash_container_alt1_\d+')
+    IDs = pattern.findall(page)
+    print(IDs)
+    randtime = random.randint(3,5)
+    sleep(randtime)
+    time_num =random.randint(3,6)
+    flag = 1
+    for i in range(time_num):
+        num = random.randint(1,20)
+        try:
+            chrome_driver.find_element_by_xpath(a).click()
+            sleep(10)
+            chrome_driver.find_element_by_xpath('//*[@id="chatInput"]').send_keys('hello')
+            sleep(3)
+            chrome_driver.find_element_by_xpath('//*[@id="sendMessage"]').click()
+            print('==================')
+            cookies = chrome_driver.get_cookies()
+            print(type(cookies))
+            cookie_str = json.dumps(cookies)
+            submit['Cookie'] = cookie_str
+            # submit['Cookie'] = chrome_driver.get_cookies()                 
+            db.update_cookie(submit)
+        except Exception as e:
+            print(str(e))
+            # chrome_driver.get('http://stripchat.com')
+            print('no vedio find')
+        sleep_time = random.randint(1,3)
+        print('sleep',sleep_time,'minutes')
+        # sleep(sleep_time*60)
+        slep(sleep_time)
+        chrome_driver.get('https://www.flirt4free.com/')
+    return 1
     
 
 
