@@ -37,23 +37,23 @@ def web_submit(submit,chrome_driver,debug=0):
         sleep(2)
         chrome_driver.find_element_by_xpath('//*[@id="show-profile"]/p[5]/div/a').click()
     except Exception as e:
-        sleep(3)
+        sleep(10)
         chrome_driver.close()
         chrome_driver.quit()
         return 1
+    sleep(10)
+    chrome_driver.close()
+    chrome_driver.quit()
+    return 1
+
 
 
 def test():
-    # db.email_test()
-    Mission_list = ['10009']
-    Excel_name = ['SOI','']
-    Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
-    submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
-    # db.read_all_info()
-    print(submit)
-    # chrome_driver = Chrome_driver.get_chrome()
-    web_submit(submit,debug=0)
-
+    Mission = '10021'
+    email_list = ['hotmail.com','outlook.com','gmail.com','msn.com']
+    submit1 = db.get_unique_soi_email(Mission,email_list)
+    # submit['SOI'] = submit1['SOI']
+    print(submit1['SOI']['email'])
 
 if __name__ == '__main__':
     test()

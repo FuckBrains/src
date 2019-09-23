@@ -311,6 +311,6 @@ def get_soi_email():
 
 
 if __name__ == '__main__':
-    get_soi_email()
+    delete()
 
 

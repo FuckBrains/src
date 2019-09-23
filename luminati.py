@@ -196,7 +196,7 @@ def read_proxy_config():
     data = json.loads(proxy_details)
     return data
 
-pool = threadpool.ThreadPool(5)
+pool = threadpool.ThreadPool(20)
 
 def delete_port(ports=''):
     account = db.get_account()
@@ -223,7 +223,10 @@ def delete_port_s(port_delete):
         "port":port_delete
     }
     data = json.dumps(data)
-    resp = requests.delete(url_,data=data,headers=headers)
+    try:
+        resp = requests.delete(url_,data=data,headers=headers)
+    except:
+        pass
     # print(resp)
     # print(type(str(resp)))
     print(str(resp))
