@@ -475,6 +475,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     @pyqtSlot()
     def on_pushButton9_clicked(self):
         i = self.comboBox6.currentText()
+        print('Select accounts',i)
         print('start open 10 Alliance once,push next to go on ')
         command = '''start cmd /k "python Alliance_login.py %s "{$name$:$qcy$}" && exit"'''%(str(i))
         os.system(command)

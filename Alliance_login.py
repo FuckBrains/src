@@ -36,7 +36,6 @@ def get_ua_random(uas):
     return uas[num]
 
 def get_chrome(user_data_dir,submit=None):
-
     options = webdriver.ChromeOptions()
     # (?# __browser_url = r'C:\Users\xixi\AppData\Local\Google\Chrome\Application')
     # uas = get_ua_all()
@@ -70,14 +69,17 @@ def get_chrome(user_data_dir,submit=None):
     # # 0 为屏蔽弹窗，1 为开启弹窗
     # 'profile.default_content_settings.popups': 0,
     # } 
-    # }   
-    # options.add_argument('user-agent=' + ua) 
+    # } 
+    if 'ua' in submit:
+        ua = submit['ua']
+        options.add_argument('user-agent=' + ua) 
+        print('using ua:',ua)
     # options.add_argument('--single-process')
     # options.add_argument('--process-per-tab')    
     
     # options.add_argument('--disable-gpu')        
     # options.add_argument("--disable-automation")
-    options.add_argument("--disable-automation")
+    # options.add_argument("--disable-automation")
     # options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])
     options.add_experimental_option("prefs", prefs) 
     chrome_driver = webdriver.Chrome(chrome_options=options)
@@ -93,6 +95,7 @@ def Alliance_login(dir_account,url_lists,submit):
     # chrome_driver.get(url_lists[0])
     # while True:
     j = 0
+    sleep(5)
     chrome_driver.get('https://whoer.net')
     handle = chrome_driver.current_window_handle
     for url in url_lists:
@@ -152,21 +155,21 @@ def Get_Alliance_name():
             accounts = {}
             for i in range(ncols):
                 if i == 0:
-                    print(i)
-                    print(keys[i])
+                    # print(i)
+                    # print(keys[i])
                     alliance_list = sheet.col_values(i)
                     alliance_list.remove(keys[i])
-                    print('alliance_list:',alliance_list)
+                    # print('alliance_list:',alliance_list)
                 else:
-                    print(i)
+                    # print(i)
                     account_list = sheet.col_values(i)
                     # account_list = [str(name) for name in account_list if type(name) != type('1')]
                     # account_list = [name.split(',') for name in account_list if ',' in name]
                     account_list.remove(keys[i]) 
-                    print('account_list:',account_list)
+                    # print('account_list:',account_list)
                     accounts[keys[i]] = dict(zip(alliance_list,account_list))
             Alliance_dict[name] = accounts            
-    print(Alliance_dict)
+    # print(Alliance_dict)
     return Alliance,site,Alliance_dict
 
 def Get_roboform_account():
@@ -187,6 +190,9 @@ def Get_roboform_account():
                 roboform_account['name_roboform'] = account[4]
                 roboform_account['pwd_roboform'] = account[5]
                 roboform_account['zone'] = account[6]
+                roboform_account['ua'] = account[7]
+                print('getting ua from roboform')
+                print(roboform_account['ua'])
                 accounts.append(roboform_account)
     return accounts
 
@@ -227,11 +233,11 @@ def test_luminati_config(i):
     try:
         flag = luminati.ip_test(ip_lpm,port_lpm)
         submit['ip_lpm'] = ip_lpm
-        submit['port_lpm'] = port_lpm        
+        submit['port_lpm'] = port_lpm
+        submit['ua'] = roboform_account[i-1]['ua']    
     except:
         pass
     return submit
-
 
 def multi_login(i):
     submit = test_luminati_config(i) 
@@ -240,12 +246,13 @@ def multi_login(i):
     path = os.path.abspath(os.path.join(os.getcwd(), ".."))
     dir_account = os.path.join(path,r'alliance\account'+str(i))
     # dir_account = r'..\alliance\account1'
+    print('Using dir account',dir_account)
     Alliance,url_lists,Alliance_dict = Get_Alliance_name()
     makedir_account(dir_account)
     # user_data_dir = r'C:\Users\xixi\AppData\Local\Google\Chrome\User Data'
     Alliance_login(dir_account,url_lists,submit)    
 
-def main(id_):
+def main(i):
     '''
     i:
       -1:911
@@ -259,12 +266,24 @@ def main(id_):
     #         if  city != 'Not found':
     #             break 
     # else:
-    accounts = Get_roboform_account()
-    accounts = [accounts[id_-1]]
-    nums = [i+1 for i in range(len(accounts))]
-    requests = threadpool.makeRequests(multi_login, nums)
-    [pool.putRequest(req) for req in requests]
-    pool.wait()
+    submit = test_luminati_config(i) 
+    if len(submit) == 0:
+        return 
+    path = os.path.abspath(os.path.join(os.getcwd(), ".."))
+    dir_account = os.path.join(path,r'alliance\account'+str(i))
+    # dir_account = r'..\alliance\account1'
+    print('Using dir account',dir_account)
+    Alliance,url_lists,Alliance_dict = Get_Alliance_name()
+    makedir_account(dir_account)
+    # user_data_dir = r'C:\Users\xixi\AppData\Local\Google\Chrome\User Data'
+    Alliance_login(dir_account,url_lists,submit)    
+
+    # accounts = Get_roboform_account()
+    # accounts = [accounts[id_-1]]
+    # nums = [i+1 for i in range(len(accounts))]
+    # requests = threadpool.makeRequests(multi_login, nums)
+    # [pool.putRequest(req) for req in requests]
+    # pool.wait()
 
 
     # sleep(3000)
