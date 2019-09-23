@@ -571,6 +571,40 @@ def get_all_emails():
     # submit = dict(Info_dict,**Info_dict2)
     return Email_dict      
 
+def get_unique_soi_email(Mission,Email_list):
+    print('     Start reading info from sql server...')
+    account = get_account()
+    conn,cursor=login_sql(account)
+    res = cursor.execute('SELECT * from Mission')
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来 
+    res = cursor.execute('SELECT * from BasicInfo WHERE Excel_name = "SOI" ')  
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    SOI_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来     
+    list_BasicInfo = random.sample(range(len(SOI_dict)),len(SOI_dict))
+    flag = 0
+    unique_soi = {}
+    # unique_soi['SOI'] = {}
+    print(len(list_BasicInfo))
+    for i in list_BasicInfo:
+        for j in range(len(Mission_dict)):
+            if str(Mission_dict[j]['Mission_Id']) in str(Mission): 
+                if SOI_dict[i]['BasicInfo_Id'] == Mission_dict[j]['BasicInfo_Id']:
+                    print('Find used soi info for Mission',str(Mission))
+                    flag = 1
+                    break
+        if flag == 0:
+            print(SOI_dict[i]['email'])
+            print(SOI_dict[i]['email'].split('@')[1])
+            if SOI_dict[i]['email'].split('@')[1] in Email_list:
+                unique_soi['SOI'] = SOI_dict[i]
+                break
+    print(SOI_dict[i])
+    if len(unique_soi) == 0:
+        print('No unique_soi email found...............')
+    return unique_soi      
+
+
 def write_one_info(Mission_list,submit,Cookie = ''):
     Email_Id = ''
     BasicInfo_Id = '' 

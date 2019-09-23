@@ -304,9 +304,13 @@ def test_emails():
     [pool.putRequest(req) for req in requests]
     pool.wait()        
 
+def get_soi_email():
+    Mission = '10021'
+    email_list = ['hotmail.com','outlook.com','gmail.com','msn.com']
+    db.get_unique_soi_email(Mission,email_list)
 
 
 if __name__ == '__main__':
-    test_emails()
+    get_soi_email()
 
 
