@@ -74,7 +74,7 @@ def multi_activate(submit):
         return
     time_cheat = random.randint(0,10)
     print('Sleep for random time:',time_cheat*60,'-------------')
-    # sleep(time_cheat*60)
+    sleep(time_cheat*60)
     account = db.get_account()
     submit['ip_lpm'] = account['IP']
     ports_used = luminati.ports_get(submit['ip_lpm'])
@@ -101,6 +101,7 @@ def multi_activate(submit):
     except:
         pass
     if flag_activate == 1:
+        submit[activate_term] = str(datetime.datetime.now())
         db.update_activate_status(submit) 
     luminati.delete_port([submit['port_lpm']])
     # global Falg_threads
@@ -121,7 +122,7 @@ def main():
         except Exception as e:
             print(str(e))
             pass    
-        plans = db.read_plans(4)
+        plans = db.read_plans(-1)
         print('Mission:')
         print(plans)
         submits = []

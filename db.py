@@ -979,7 +979,7 @@ def get_luminati_submit(Config):
     uas = Chrome_driver.get_ua_all()
     ua = Chrome_driver.get_ua_random(uas)
     print(ua)  
-    submit['ua'] = ua  
+    submit['ua'] = ua
     return submit
 
 def update_cookie(submit):

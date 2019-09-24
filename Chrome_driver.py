@@ -49,13 +49,13 @@ def get_chrome(submit = None):
             print(ua)            
     options = webdriver.ChromeOptions()
     path_download = get_dir()
+
     prefs = {
             "download.default_directory": path_download,
              "download.prompt_for_download": False,
              "download.directory_upgrade": True,
              "safebrowsing.enabled": True,
              'profile.default_content_settings.popups': 0,
-             "profile.managed_default_content_settings.images": 2
              }    
     # options.add_experimental_option('prefs', prefs)
     # extension_path = '../tools/extension/1.1.0_0.crx'   
@@ -66,9 +66,13 @@ def get_chrome(submit = None):
     # # 0 为屏蔽弹窗，1 为开启弹窗
     # 'profile.default_content_settings.popups': 0,
     # } 
-    # }   
+    # }      
     options.add_argument('user-agent=' + ua) 
     if type(submit) != type(None):
+        if submit['Mission_Id'] == '20000':
+            print('test chrome')
+        else:
+            prefs["profile.managed_default_content_settings.images"] = 2
         if 'Mission_dir' in submit:
             submit['Mission_dir'] = submit['Mission_dir'].replace('//','\\') 
             print('Selenium in using user-data-dir:',submit['Mission_dir'])
@@ -81,10 +85,11 @@ def get_chrome(submit = None):
             print(proxy)
     # options.add_argument('--single-process')
     # options.add_argument('--process-per-tab')    
+    options.add_experimental_option("prefs", prefs)       
     options.add_argument('--disable-gpu')        
     options.add_argument("--disable-automation")
     options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])
-    options.add_experimental_option("prefs", prefs) 
+     
     chrome_driver = webdriver.Chrome(chrome_options=options)
     # chrome_driver = webdriver.Chrome(chrome_options=options,desired_capabilities=desired_capabilities)
     chrome_driver.set_page_load_timeout(300)

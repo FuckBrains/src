@@ -5,8 +5,9 @@ hotupdate_content = {
 	4 : ["ALTER TABLE Mission ADD activate3 VARCHAR(100) DEFAULT '' AFTER Create_time" ,"ALTER TABLE Mission ADD activate2 VARCHAR(100) DEFAULT '' AFTER Create_time","ALTER TABLE Mission ADD activate1 VARCHAR(100) DEFAULT '' AFTER Create_time"],
 	5 : ["ALTER TABLE plans CHANGE prot_lpm port_lpm VARCHAR(50)"],
 	# 6 : ["ALTER TABLE plans ADD traffic_method VARCHAR(10) DEFAULT '' AFTER Create_time" ,"ALTER TABLE Mission ADD traffic_key VARCHAR(100) DEFAULT '' AFTER Create_time"],
-	6 : ["ALTER TABLE Mission modify Create_time TIMESTAMP not null default CURRENT_TIMESTAMP"]
+	6 : ["ALTER TABLE Mission modify Create_time TIMESTAMP not null default CURRENT_TIMESTAMP"],
 	# -- ,"ALTER TABLE Email modify Create_time TIMESTAMP not null default CURRENT_TIMESTAMP","ALTER TABLE BasicInfo modify Create_time TIMESTAMP not null default CURRENT_TIMESTAMP"],
+	7 : ["ALTER TABLE Mission ADD charge VARCHAR(50) DEFAULT '' AFTER Create_time"],
 
 
 

@@ -309,8 +309,20 @@ def get_soi_email():
     email_list = ['hotmail.com','outlook.com','gmail.com','msn.com']
     db.get_unique_soi_email(Mission,email_list)
 
+def test_activate_status(): 
+
+    import datetime
+    submit = {}
+    submit['activate2'] = ''
+    submit['activate1'] = str(datetime.datetime.now())
+    submit['activate3'] = ''
+    submit['Cookie'] = ''
+    submit['Mission_Id'] = '10009'
+    submit['Email_Id'] = 'a3eec680-c827-11e9-b5c0-000d7567cc3c' 
+    db.update_activate_status(submit)     
+
 
 if __name__ == '__main__':
-    delete()
+    test_activate_status()
 
 
