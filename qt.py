@@ -73,6 +73,21 @@ def Write_Ini(file,content):
 #     Offer_config[Offer_name] = Offer_config_new
 #     Write_Ini(file_Offer_config,Offer_config)
 
+def replace_links():
+    file_Offer_link = r'..\res\Offer_link.ini'    
+    file_Offer_link_all = r'..\res\Offer_all_links.ini'
+    Offer_link = Read_Ini(file_Offer_link)
+    Offer_link_all = Read_Ini(file_Offer_link_all)
+    for item in Offer_link:
+        if 'Mission_time' not in Offer_link[item]:
+            Offer_link[item]['Mission_time'] = 1
+            Offer_link[item]['Activate_status'] = 'Yes' 
+    for item in Offer_link_all:
+        if 'Mission_time' not in Offer_link_all[item]:
+            Offer_link_all[item]['Mission_time'] = 1
+            Offer_link_all[item]['Activate_status'] = 'Yes'         
+    Write_Ini(file_Offer_link,Offer_link)            
+    Write_Ini(file_Offer_link_all,Offer_link_all)            
 
 def Add_New_Link(new_offer,all_links = 0):
     if all_links == 0 :
@@ -128,6 +143,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         i = 0
         end = len(self.offer)
         # text = 'Already in config links\n'
+        replace_links()
         for item in self.offer:
             if i >= end:
                 break
@@ -142,8 +158,6 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.setWindowTitle('EMU_MultiMission')
         self.accounts = Alliance_login.Get_roboform_account()
         self.set_comboBox6()
-
-
         # self.resize(500,300)   
   
     def set_comboBox6(self):
@@ -199,8 +213,8 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         text = 'Already in config links\n'
         for item in self.offer_link:
             if 'Account' not in self.offer_link[item]:
-                self.offer_link[item]['Account'] = 'Not set'            
-            text += str(int(item)+1)+' : '+self.offer_link[item]['Alliance']+'-->> '+'Account'+self.offer_link[item]['Account']+'-->>'+self.offer_link[item]['Offer']+'-->>    '+self.offer_link[item]['Country']+'\n     '+self.offer_link[item]['url_link']+'\n'
+                self.offer_link[item]['Account'] = 'Not set'
+            text += str(int(item)+1)+' : '+self.offer_link[item]['Alliance']+'-->> '+'Account'+self.offer_link[item]['Account']+'-->>'+self.offer_link[item]['Offer']+'-->>'+self.offer_link[item]['Country']+'-->>run'+str(self.offer_link[item]['Mission_time'])+'times-->>Activate_status:'+str(self.offer_link[item]['Activate_status'])+'\n     '+str(self.offer_link[item]['url_link'])+'\n'            
         self.textBrowser2.setText(text)        
 
     def set_text_all_links(self):
@@ -209,8 +223,8 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         text = 'Already in config links\n'
         for item in self.offer_link_all:
             if 'Account' not in self.offer_link_all[item]:
-                self.offer_link_all[item]['Account'] = 'Not set'
-            text += str(int(item)+1)+' : '+self.offer_link_all[item]['Alliance']+'-->> '+'Account'+self.offer_link_all[item]['Account']+'-->>'+self.offer_link_all[item]['Offer']+'-->>    '+self.offer_link_all[item]['Country']+'\n     '+self.offer_link_all[item]['url_link']+'\n'
+                self.offer_link_all[item]['Account'] = 'Not set'  
+            text += str(int(item)+1)+' : '+self.offer_link_all[item]['Alliance']+'-->> '+'Account'+self.offer_link_all[item]['Account']+'-->>'+self.offer_link_all[item]['Offer']+'-->>'+self.offer_link_all[item]['Country']+'-->>run'+str(self.offer_link_all[item]['Mission_time'])+'times-->>Activate_status:'+str(self.offer_link_all[item]['Activate_status'])+'\n     '+self.offer_link_all[item]['url_link']+'\n'
         self.textBrowser1.setText(text) 
 
     # @pyqtSlot()
@@ -299,6 +313,11 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         new_offer['url_link'] = self.lineEdit.text()
         new_offer['Country'] = self.comboBox5.currentText()
         new_offer['Account'] = self.comboBox9.currentText()
+        new_offer['Mission_time'] = self.comboBox12.currentText()
+        if self.comboBox13.currentText() == 'Yes':
+            new_offer['Activate_status'] = 1
+        else:
+            new_offer['Activate_status'] = 0
         if 'http' not in new_offer['url_link']:
             print('++++')
             return

@@ -322,7 +322,20 @@ def test_activate_status():
     db.update_activate_status(submit)     
 
 
+def test_pid():
+    import os
+    # pid=os.fork() #fork反复拷贝
+    if  pid==0:
+        print("A",os.getpid(),os.getppid())
+    else:
+        print("B",os.getpid(),os.getppid())
+
+def print_():
+    while True:
+        print('1')
+        sleep(5)
+
 if __name__ == '__main__':
-    test_activate_status()
+    print_()
 
 

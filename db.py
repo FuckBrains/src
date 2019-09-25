@@ -169,7 +169,7 @@ def login_sql(account,create = False):
         cursor.execute('use %s;'%account['db_name'])
     except:
         pass
-    print('Login db success.')
+    # print('Login db success.')
     # res = cursor.execute('select * from TOKENTABLE;')
     return conn,cursor
 
@@ -188,7 +188,7 @@ def login_out_sql(conn,cursor):
     cursor.close()
     # 关闭连接
     conn.close()
-    print('exit sql server success')
+    # print('exit sql server success')
 
 '''
 get sql contet for 
@@ -665,7 +665,7 @@ def get_upload_sql_content(table,keys=None,values=None):
     type_str = type('1')
     type_int = type(1)    
     for i in range(len(values)):
-        print(values)
+        # print(values)
         # print(values[i])
         if type(values[i]) == type_str:
             a+='"{}",'
@@ -920,7 +920,7 @@ def upload_plans(plans):
                 list_values[i] = list_values[i][0]+','+list_values[i][1]
         # print(list_values)
         sql_content = get_upload_sql_content(table,list_keys,list_values)
-        print(sql_content)
+        # print(sql_content)
         sql_contents.append(sql_content)
     Execute_sql(sql_contents)    
     # update_data(table,keys,values)

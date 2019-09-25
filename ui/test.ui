@@ -97,7 +97,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="widget">
      <attribute name="title">
@@ -345,8 +345,8 @@
      <widget class="QPushButton" name="pushButton11">
       <property name="geometry">
        <rect>
-        <x>180</x>
-        <y>140</y>
+        <x>210</x>
+        <y>180</y>
         <width>75</width>
         <height>41</height>
        </rect>
@@ -474,7 +474,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>220</y>
+        <y>250</y>
         <width>111</width>
         <height>21</height>
        </rect>
@@ -494,7 +494,7 @@
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>210</y>
+        <y>240</y>
         <width>75</width>
         <height>41</height>
        </rect>
@@ -507,7 +507,7 @@
       <property name="geometry">
        <rect>
         <x>120</x>
-        <y>220</y>
+        <y>250</y>
         <width>51</width>
         <height>25</height>
        </rect>
@@ -655,7 +655,7 @@
       <property name="geometry">
        <rect>
         <x>270</x>
-        <y>210</y>
+        <y>240</y>
         <width>81</width>
         <height>41</height>
        </rect>
@@ -668,7 +668,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>270</y>
+        <y>300</y>
         <width>111</width>
         <height>21</height>
        </rect>
@@ -688,7 +688,7 @@
       <property name="geometry">
        <rect>
         <x>120</x>
-        <y>270</y>
+        <y>300</y>
         <width>51</width>
         <height>25</height>
        </rect>
@@ -803,7 +803,7 @@
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>270</y>
+        <y>300</y>
         <width>75</width>
         <height>41</height>
        </rect>
@@ -816,7 +816,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>340</y>
+        <y>370</y>
         <width>111</width>
         <height>21</height>
        </rect>
@@ -836,7 +836,7 @@
       <property name="geometry">
        <rect>
         <x>120</x>
-        <y>340</y>
+        <y>370</y>
         <width>51</width>
         <height>25</height>
        </rect>
@@ -951,7 +951,7 @@
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>330</y>
+        <y>360</y>
         <width>75</width>
         <height>41</height>
        </rect>
@@ -959,6 +959,56 @@
       <property name="text">
        <string>Send</string>
       </property>
+     </widget>
+     <widget class="QLabel" name="label_22">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>190</y>
+        <width>91</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Mission_type</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox14">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>190</y>
+        <width>81</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <item>
+       <property name="text">
+        <string>Mission</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Activate</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Traffic</string>
+       </property>
+      </item>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_4">
@@ -1116,10 +1166,10 @@
    <widget class="QWidget" name="formLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>20</x>
       <y>170</y>
-      <width>201</width>
-      <height>170</height>
+      <width>241</width>
+      <height>238</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -1143,103 +1193,6 @@
         <font>
          <pointsize>12</pointsize>
         </font>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Offer</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QComboBox" name="comboBox2">
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_9">
-       <property name="font">
-        <font>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Country</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QComboBox" name="comboBox5">
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <item>
-        <property name="text">
-         <string>US</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>CA</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>GB</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>AU</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>FR</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>DE</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Url_link</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="QLineEdit" name="lineEdit">
-       <property name="text">
-        <string/>
        </property>
       </widget>
      </item>
@@ -1314,6 +1267,209 @@
          <string>10</string>
         </property>
        </item>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QComboBox" name="comboBox2">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_9">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Country</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QComboBox" name="comboBox5">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <item>
+        <property name="text">
+         <string>US</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>CA</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>GB</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>AU</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>FR</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>DE</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_8">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Mission_time</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QComboBox" name="comboBox12">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <item>
+        <property name="text">
+         <string>1</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>2</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>3</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>4</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>5</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>6</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>7</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>8</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>9</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>10</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="label_21">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Activate_status</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QComboBox" name="comboBox13">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <item>
+        <property name="text">
+         <string>Yes</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>No</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Offer</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Url_link</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="QLineEdit" name="lineEdit">
+       <property name="text">
+        <string/>
+       </property>
       </widget>
      </item>
     </layout>

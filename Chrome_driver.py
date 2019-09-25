@@ -7,7 +7,8 @@ import random
 import zipfile
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities 
 
-
+def get_chromedriver_path():
+    return r'driver/chromedriver_76.exe'
 
 def get_ua_all():
     uas = []
@@ -89,8 +90,8 @@ def get_chrome(submit = None):
     options.add_argument('--disable-gpu')        
     options.add_argument("--disable-automation")
     options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])
-     
-    chrome_driver = webdriver.Chrome(chrome_options=options)
+    path_driver = get_chromedriver_path()
+    chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)
     # chrome_driver = webdriver.Chrome(chrome_options=options,desired_capabilities=desired_capabilities)
     chrome_driver.set_page_load_timeout(300)
     # chrome_driver.set_script_timeout(240)
@@ -200,6 +201,7 @@ def test():
 if __name__ == '__main__':
     # clean_download()
     url_test = 'http://im.datingwithlili.com/im/click.php?c=22&key=m27ib99qocowaqrf59jw2ori'
+    url_test = 'https://www.baidu.com'
     # 'http://tbx.gamemass.website/c/14549/7?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]
     chrome_driver = get_chrome()
     chrome_driver.get(url_test)

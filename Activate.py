@@ -17,7 +17,7 @@ import datetime
 
 
 
-pool = threadpool.ThreadPool(4)
+pool = threadpool.ThreadPool(6)
 
 
 def killpid():
@@ -40,45 +40,54 @@ def killpid():
 def getactivatestatus():
     time_related.getactivatetime()
 
-
-
-def multi_activate(submit):
-    # print(submit)
+def detect_status(submit):
     if submit['Cookie'] == '':
-        print('This Convertion is of no cookie.........')
-        return
-    return_rand = random.randint(0,3)
-    if return_rand == 0:
-        print('unique  random,return....................')
-        return        
+        # print('This Convertion is of no cookie.........')
+        return {}
     flag = time_related.getactivatetime(submit['Create_time'])
     if flag == 0:
-        print('Convertion made of ',submit['Create_time'],'No need to activate')
-        return
+        # print('Convertion made of ',submit['Create_time'],'No need to activate')
+        return {}
     elif flag == 1:
         activate_term = 'activate1'
+        # submit[activate_term] = 'activate1'
     elif flag == 2:
         return_rand = random.randint(0,5)
         if return_rand == 0:
             activate_term = 'activate1'
             submit[activate_term] = 'No activate'
-            db.update_activate_status(submit)
-            print('unique  random,return....................')
-            return        
+            # db.update_activate_status(submit)
+            # print('between activate1 and activate2....................')
+            return {}       
         activate_term = 'activate2'
+        # submit[activate_term] = 'activate2'
     elif flag == 3:
         return_rand = random.randint(0,3)
         if return_rand == 0:
             activate_term = 'activate2'
             submit[activate_term] = 'No activate'
-            db.update_activate_status(submit)            
-            print('unique  random,return....................')
-            return         
+            # db.update_activate_status(submit)            
+            # print('between activate2 and activate3....................')
+            return {}        
         activate_term = 'activate3'
+        # submit[activate_term] = 'activate3'
     if submit[activate_term] != '':
-        print('Convertion made of ',submit['Create_time'],'Already done the activate')
-        return
-    time_cheat = random.randint(0,10)
+        return {}
+    return_rand = random.randint(0,3)
+    submit[activate_term] = activate_term
+    if return_rand == 0:
+        activate_term = 'activate2'
+        submit[activate_term] = 'No activate'
+        # db.update_activate_status(submit)            
+        # print('between activate2 and activate3....................')        
+        # print('unique  random,return....................')
+        return {}
+    return submit
+
+
+def multi_activate(submit):
+    # print(submit)
+    time_cheat = random.randint(0,3)
     print('Sleep for random time:',time_cheat*60,'-------------')
     sleep(time_cheat*60)
     account = db.get_account()
@@ -130,23 +139,38 @@ def main():
             pass    
         plans = db.read_plans(-1)
         print('Mission:')
-        print(plans)
-        submits = []
+        # print(plans)
+        submits_combine = []
         for plan in plans:
             print(plan)
-            submits = db.get_cookie(plan)
-            Country = plan['Country']
-            if len(submits) == 0:
+            if plan['Activate_status'] == 0:
                 continue
-            else:
-                break     
+            submits = db.get_cookie(plan)
+            # print(submits)
+            print('Plan_Id',plan['Plan_Id'],len(submits),'with cookie')
+            submits_ = []
+            Country = plan['Country']
+            for submit in submits:
+                # print(submit)
+                submit['Country'] = Country
+                submit['Email'] = {}
+                submit['Email']['Email_Id']= submit['Email_Id']
+                submit = detect_status(submit)
+                if len(submit) != 0:
+                    submits_.append(submit)
+                    submits_combine.append(submit)
+            print(len(submits_),'to activate')
+            print('Total',len(submits_combine),'To activate')
+            # return                    
+            if len(submits_) == 0:
+                print('with nothing to activate')
+                continue
+        print(len(submits_combine))
         # time_delta = datetime.timedelta(hours=-24*3)
-        for submit in submits:
-            submit['Country'] = Country
-            submit['Email'] = {}
-            submit['Email']['Email_Id']= submit['Email_Id']
+        # for submit in submits:
+
             # print(submit['Create_time'])
-            flag = time_related.getactivatetime(submit['Create_time'])
+            # flag = time_related.getactivatetime(submit['Create_time'])
             # print(flag)
             # cookies = json.loads(submit['Cookie'])
             # # print(cookies)
@@ -177,7 +201,6 @@ def main():
 def test():
     return_rand = random.randint(0,3)
     print(return_rand)
-
 
 if __name__ == '__main__':
     # paras=sys.argv

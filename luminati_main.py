@@ -147,7 +147,6 @@ def import_Module(module):
     module_name = importlib.import_module(module)
     return module_name
 
-
 def main(i):
     while True:
         try:
@@ -159,7 +158,14 @@ def main(i):
         plan_id = account['plan_id']
         print('Plan_id:',plan_id,',connecting sql for plan info...')
         try:
-            plans = db.read_plans(plan_id)
+            plans_ = db.read_plans(plan_id)
+            print(len(plans_))
+            plans = []
+            for plan in plans_:
+                for count in range(plan['Mission_time']):
+                    plans.append(plan)
+            print(plans)
+            print(len(plans))
         except Exception as e:
             print(str(e))
             print('get db failed,restart........')
@@ -193,5 +199,5 @@ def test():
 if __name__ == '__main__':
     paras=sys.argv
     i = int(paras[1])
-    # i = 1
+    # i = 3
     main(i)

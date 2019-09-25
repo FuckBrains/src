@@ -18,5 +18,33 @@ def killpid():
                     os.system(cmd)            
                 except Exception as e:
                     print(str(e))
+
+
+def get_pid(key=''):
+    pids = psutil.pids()
+    p_all = []
+    for pid in pids:
+        # print(pids)
+        try:
+            p = psutil.Process(pid)
+        except Exception as e:
+            print(str(e))
+            continue
+        if key in p.name():
+            # print(p)
+            p_all.append(p)
+    return p_all
+
+def findpid(key):
+    p_all = get_pid(key)
+    # print('first:',p_all)
+    # command = '''start cmd /k "python test.py "{$name$:$qcy$}" && exit"'''
+    # os.system(command)
+    p_all = get_pid(key)
+    print('then:',p_all)
+
+
+
 if __name__ == '__main__':
-    killpid()
+    key = 'cmd'
+    findpid(key)

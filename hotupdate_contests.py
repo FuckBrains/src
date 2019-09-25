@@ -8,6 +8,8 @@ hotupdate_content = {
 	6 : ["ALTER TABLE Mission modify Create_time TIMESTAMP not null default CURRENT_TIMESTAMP"],
 	# -- ,"ALTER TABLE Email modify Create_time TIMESTAMP not null default CURRENT_TIMESTAMP","ALTER TABLE BasicInfo modify Create_time TIMESTAMP not null default CURRENT_TIMESTAMP"],
 	7 : ["ALTER TABLE Mission ADD charge VARCHAR(50) DEFAULT '' AFTER Create_time"],
+	8 : ["ALTER TABLE plans ADD Mission_time INT(10) DEFAULT 1 AFTER port_lpm"],
+	9 : ["ALTER TABLE plans ADD Activate_status INT(10) DEFAULT 0 AFTER Mission_time"],
 
 
 
