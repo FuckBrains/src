@@ -60,12 +60,18 @@ def multi_activate(submit):
     elif flag == 2:
         return_rand = random.randint(0,5)
         if return_rand == 0:
+            activate_term = 'activate1'
+            submit[activate_term] = 'No activate'
+            db.update_activate_status(submit)
             print('unique  random,return....................')
             return        
         activate_term = 'activate2'
     elif flag == 3:
         return_rand = random.randint(0,3)
         if return_rand == 0:
+            activate_term = 'activate2'
+            submit[activate_term] = 'No activate'
+            db.update_activate_status(submit)            
             print('unique  random,return....................')
             return         
         activate_term = 'activate3'

@@ -196,7 +196,7 @@ def read_proxy_config():
     data = json.loads(proxy_details)
     return data
 
-pool = threadpool.ThreadPool(20)
+pool = threadpool.ThreadPool(50)
 
 def delete_port(ports=''):
     account = db.get_account()
