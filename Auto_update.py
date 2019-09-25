@@ -8,13 +8,12 @@ from shutil import copyfile
 
 
 def get_code():
-    account_coding = read_account()
     chrome_driver = Chrome_driver.get_chrome()
     url_back = r'https://emu_multi.coding.net/signin?redirect=%2Fuser'
     url_code = r'https://emu_multi.coding.net/p/src/git/archive/master'
     chrome_driver.get(url_back)
-    chrome_driver.find_element_by_xpath('//*[@id="userName"]').send_keys(account_coding['name'])
-    chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(account_coding['pwd'])
+    chrome_driver.find_element_by_xpath('//*[@id="userName"]').send_keys('18122710376')
+    chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys('Ddf!@s345a1asd')
     sleep(2)
     chrome_driver.find_element_by_xpath('//*[@id="container"]/div/div[2]/div[2]/form/div[3]/button').click()
     sleep(2)
@@ -28,20 +27,24 @@ def get_code():
         for i in range(100):
             flag = 0
             modules = Chrome_driver.download_status()
-            if len(modules) > 0:
-                for module in modules:
-                    if '.zip' in module:
-                        flag = 1
-                        break
-            else:
-                sleep(2)
+            for module in modules:
+                if 'emu_multi-src-master.zip' in module:
+                    print('Find zip src')
+                    sleep(3)
+                    flag = 1
+                    break
+                else:
+                    sleep(2)
             if flag == 1:
                 break
+            # sleep(1)
         try:
-            delete_folder()
-            unfold_zip()
             chrome_driver.close()
             chrome_driver.quit()
+            sleep(5)            
+            delete_folder()
+            unfold_zip()
+
             break
         except Exception as e:
             print(str(e))
@@ -126,47 +129,22 @@ def delete_folder():
     modules_file = [os.path.join(path_src,file) for file in modules_path if '.'  in file]
     print(modules_path)
     modules_folder = [os.path.join(path_src,file) for file in modules_path if '.' not in file]
-    try:
-        [os.remove(file) for file in modules_file if '.' in file and  'Auto_update' not in file and '.git' not in file]    
-    except Exception as e:
-        print(str(e))
-    print('finish delete files without Auto_update...................')
-    print(os.listdir(path_src))
+    [os.remove(file) for file in modules_file if '.' in file and  'Auto_update' not in file and '.git' not in file and 'chromedriver' not in file]    
+    print(modules_folder)
     for folder in modules_folder:
         file_folder = os.listdir(folder)
-        file_folder_path = [os.path.join(folder,file) for file in file_folder]
-        [os.remove(file) for file in file_folder_path]
+        # file_folder_path = [os.path.join(folder,file) for file in file_folder if 'driver' not in file_folder]
+        file_folder_path = [os.path.join(folder,file) for file in file_folder ]        
+        # [os.remove(file) for file in file_folder_path if 'chromedriver' not in file]
+        [os.remove(file) for file in file_folder_path]        
+    # [os.rmdir(folder) for folder in modules_folder if 'driver' not in folder]
     [os.rmdir(folder) for folder in modules_folder]
 
 
 
 def main():
-    path_download = Chrome_driver.get_dir()
-    makedir_account(path_download)
     tools.killpid()
     get_code()
-
-def read_account():
-    path = os.path.abspath(os.path.join(os.getcwd(), ".."))
-    path_config = os.path.join(path,r'res\Coding.txt')
-    print(path_config)
-    account_coding = {}
-    with open(path_config) as f:
-        line = f.readline()
-        account = line.split(',')
-        account_coding['name'] = account[0]
-        account_coding['pwd'] = account[1]
-    print(account_coding)
-    return account_coding
-
-
-def makedir_account(path=r'c:\emu_download'):
-    isExists=os.path.exists(path)
-    if isExists:
-        return
-    else:
-        os.makedirs(path)
-
 
 
 def test():

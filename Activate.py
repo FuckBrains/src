@@ -179,7 +179,7 @@ def main():
             # print(type(cookies))
             # print(len(cookies))
             # return
-        if len(submits) == 0:
+        if len(submits_combine) == 0:
             print('No activate plan,sleep for 1hour')
             for i in range(60):
                 print('%d minutes left...'%(60-i))

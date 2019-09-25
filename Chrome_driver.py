@@ -50,7 +50,6 @@ def get_chrome(submit = None):
             print(ua)            
     options = webdriver.ChromeOptions()
     path_download = get_dir()
-
     prefs = {
             "download.default_directory": path_download,
              "download.prompt_for_download": False,
