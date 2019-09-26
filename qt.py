@@ -81,11 +81,11 @@ def replace_links():
     for item in Offer_link:
         if 'Mission_time' not in Offer_link[item]:
             Offer_link[item]['Mission_time'] = 1
-            Offer_link[item]['Activate_status'] = 'Yes' 
+            Offer_link[item]['Activate_status'] = 1 
     for item in Offer_link_all:
         if 'Mission_time' not in Offer_link_all[item]:
             Offer_link_all[item]['Mission_time'] = 1
-            Offer_link_all[item]['Activate_status'] = 'Yes'         
+            Offer_link_all[item]['Activate_status'] = 1        
     Write_Ini(file_Offer_link,Offer_link)            
     Write_Ini(file_Offer_link_all,Offer_link_all)            
 
@@ -428,11 +428,13 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             #设置每个位置的文本值
             self.model.setItem(row,0,item)          
             # print('+++++++++++++')
-            # print(self.Offer_config)
+            print(self.Offer_config)
             for offer in self.Offer_config:
                 if offer == 'Delay' or offer == 'Email_list':
                     continue
+                print(offer,self.Offer_config[offer]['Mission_Id'],str(keys[row]))                    
                 if str(self.Offer_config[offer]['Mission_Id']) == str(keys[row]):
+                    print('===========')
                     Excel_used_ = self.Offer_config[offer]['Excel']
                     Offer_name = offer
             item=QtGui.QStandardItem(Offer_name)
@@ -568,6 +570,16 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         os.system(command)        
         command = '''start cmd /k "python traffic.pyc  %s "{$name$:$qcy$}" && exit"'''%(str(i))
         os.system(command)        
+
+    @pyqtSlot()
+    def on_pushButton17_clicked(self):
+        i = self.comboBox15.currentText()
+        print('start activate plan',str(i))
+        command = '''start cmd /k "python Activate.py %s "{$name$:$qcy$}" && exit"'''%(str(i))
+        os.system(command)
+        command = '''start cmd /k "python Activate.pyc %s "{$name$:$qcy$}" && exit"'''  %(str(i))      
+        os.system(command)
+
 
 def main():
     up.main()

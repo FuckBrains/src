@@ -46,7 +46,6 @@ def update_time_system():
     		print(_date,_time)
     		os.environ['TZ'] = 'Asia/Shanghai'
     		print(os.system("tzutil /l "))    		
-    		
     		os.system('date {} && time {}'.format(_date,_time))
     		break
     	except Exception as e:

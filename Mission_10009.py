@@ -80,7 +80,7 @@ def web_submit(submit,chrome_driver,debug=0):
     #     print('get site but fail to register',str(e))
     #     chrome_driver.close()
     #     chrome_driver.quit()  
-    #     return 0       
+    #     return 0
     # except Exception as e:
     #     print('regester success')
     sleep(5)
@@ -203,7 +203,7 @@ def activate(submit,chrome_driver):
     # sleep(1000)
     randtime = random.randint(3,5)
     sleep(randtime)
-    time_num =random.randint(3,6)
+    time_num =random.randint(1,4)
     flag = 1
     for i in range(time_num):
         num = random.randint(1,20)

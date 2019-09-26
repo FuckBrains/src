@@ -19,7 +19,6 @@ def test_luminati():
     customer = 'caichao'
     zone_name = 'zone2'
     pwd = 'abitpt3isvvj'
-
     if sys.version_info[0]==2:
         print(2)
         import six

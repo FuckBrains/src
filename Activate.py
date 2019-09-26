@@ -50,7 +50,8 @@ def detect_status(submit):
         return {}
     elif flag == 1:
         activate_term = 'activate1'
-        # submit[activate_term] = 'activate1'
+        submit['activate_term'] = 'activate1'
+        # print('activate1==============')
     elif flag == 2:
         return_rand = random.randint(0,5)
         if return_rand == 0:
@@ -60,9 +61,10 @@ def detect_status(submit):
             # print('between activate1 and activate2....................')
             return {}       
         activate_term = 'activate2'
-        # submit[activate_term] = 'activate2'
+        submit['activate_term'] = 'activate2'
+        # print('activate2===========')
     elif flag == 3:
-        return_rand = random.randint(0,3)
+        return_rand = random.randint(0,5)
         if return_rand == 0:
             activate_term = 'activate2'
             submit[activate_term] = 'No activate'
@@ -70,18 +72,18 @@ def detect_status(submit):
             # print('between activate2 and activate3....................')
             return {}        
         activate_term = 'activate3'
-        # submit[activate_term] = 'activate3'
-    if submit[activate_term] != '':
-        return {}
-    return_rand = random.randint(0,3)
-    submit[activate_term] = activate_term
-    if return_rand == 0:
+        submit['activate_term'] = 'activate3'
+        # print('activate3............')
+    return_rand_ = random.randint(0,5)
+    submit['activate_term'] = activate_term
+    if return_rand_ == 0:
         activate_term = 'activate2'
         submit[activate_term] = 'No activate'
         # db.update_activate_status(submit)            
         # print('between activate2 and activate3....................')        
         # print('unique  random,return....................')
         return {}
+    # print('dddddddddddddddddd')
     return submit
 
 
@@ -116,18 +118,35 @@ def multi_activate(submit):
     except:
         pass
     if flag_activate == 1:
-        submit[activate_term] = str(datetime.datetime.now())
+        # for item in submit:
+        #     if ''
+        submit[submit['activate_term']] = str(datetime.datetime.now())
         db.update_activate_status(submit) 
     luminati.delete_port([submit['port_lpm']])
     # global Falg_threads
     # Falg_threads += 1
     # print('Falg_threads:',Falg_threads)
-
 def import_Module(module):
     module_name = importlib.import_module(module)
     return module_name
 
-def main():
+def get_unique_plans(plans):
+    plans = [plan for plan in plans if plan['Activate_status'] == 1]
+    plans_unique = []
+    for plan in plans:
+        flag = 0
+        for plan_unique in plans_unique:
+            if plan['Alliance'] == plan_unique['Alliance']:
+                if plan['Account'] == plan_unique['Account']:
+                    if plan['Mission_Id'] == plan_unique['Mission_Id']:
+                        print('Same Mission')
+                        flag = 1
+                        break
+        if flag == 0:
+            plans_unique.append(plan)
+    return plans_unique
+
+def main(j):
     print('checking system time')
     # time_related.update_time_system()
     print('Fix system time completed')
@@ -137,14 +156,13 @@ def main():
         except Exception as e:
             print(str(e))
             pass    
-        plans = db.read_plans(-1)
-        print('Mission:')
-        # print(plans)
+        plans = db.read_plans(j)
+        print('total',len(plans),'plans')
         submits_combine = []
+        plans = get_unique_plans(plans)
+        print('total',len(plans),'unique plans')
         for plan in plans:
             print(plan)
-            if plan['Activate_status'] == 0:
-                continue
             submits = db.get_cookie(plan)
             # print(submits)
             print('Plan_Id',plan['Plan_Id'],len(submits),'with cookie')
@@ -157,18 +175,20 @@ def main():
                 submit['Email']['Email_Id']= submit['Email_Id']
                 submit = detect_status(submit)
                 if len(submit) != 0:
+                    # db.update_activate_status(submit)
+                    # return
                     submits_.append(submit)
                     submits_combine.append(submit)
             print(len(submits_),'to activate')
             print('Total',len(submits_combine),'To activate')
             # return                    
-            if len(submits_) == 0:
-                print('with nothing to activate')
-                continue
+            # if len(submits_) == 0:
+            #     print('with nothing to activate')
+            #     continue
+        print('===============================')
         print(len(submits_combine))
         # time_delta = datetime.timedelta(hours=-24*3)
         # for submit in submits:
-
             # print(submit['Create_time'])
             # flag = time_related.getactivatetime(submit['Create_time'])
             # print(flag)
@@ -188,6 +208,7 @@ def main():
         # print(submit)
         # submit['activate1'] = datetime.datetime.utcnow()
         # db.update_activate_status(submit)
+        random.shuffle(submits)
         requests = threadpool.makeRequests(multi_activate, submits)
         [pool.putRequest(req) for req in requests]
         pool.wait()
@@ -203,11 +224,14 @@ def test():
     print(return_rand)
 
 if __name__ == '__main__':
-    # paras=sys.argv
+    paras=sys.argv
     # test    
     # paras = [0,1,2,3,4]
-    # i = int(paras[1])    
-    main()
+    # print(paras)
+    i = int(paras[1])
+    # i=2
+    print(i)  
+    main(i)
 
 
 

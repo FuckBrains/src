@@ -335,7 +335,24 @@ def print_():
         print('1')
         sleep(5)
 
+def test_1009():
+    submit = {}
+    submit['Mission_Id'] = 10009
+    submit['Alliance'] = 'Fireads'
+    submit['Account'] = 2
+    submit['Email_Id'] = '1111'
+    submit['BasicInfo_Id'] = ''
+    submit['ua'] = 'aaa'
+    submit['Cookie'] = '111'
+    db.write_one_info([str(submit['Mission_Id'])],submit)
+
+def shuffle_test():
+    x = [i for i in range(10)]
+    y = random.shuffle(x)
+    print(x)
+
+
 if __name__ == '__main__':
-    print_()
+    shuffle_test()
 
 

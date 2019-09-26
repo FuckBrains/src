@@ -107,7 +107,11 @@ def multi_reg(Config):
         except:
             pass
         if flag == 1:
-            mission_check = db.check_mission_status(submit)
+            mission_check = {}
+            try:
+                mission_check = db.check_mission_status(submit)
+            except:
+                pass
             if len(mission_check) == 0:
                 print('Mission: ',submit['Mission_Id'],'success,uploading db')
                 db.write_one_info([str(submit['Mission_Id'])],submit)

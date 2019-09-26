@@ -88,6 +88,8 @@ def login_server(submit):
         server = "imap-mail.outlook.com"
     elif 'yahoo' in  submit['Email_emu']:
         server = 'imap.mail.yahoo.com'
+    elif 'gmx' in  submit['Email_emu']:
+        server = 'imap.gmx.com'        
     else:
         print('bad Email_emu')
         return ''  
@@ -170,10 +172,7 @@ def multi_tests(submit):
         db.updata_email_status(submit['Email_Id'],1)        
 
 
-
-
-
-if __name__=='__main__':
+def test_1():
     import db
     emails = db.get_all_emails()
     # print(emails[0])
@@ -200,4 +199,27 @@ if __name__=='__main__':
     # 'Email_emu_pwd': 'v3gZUnl72i'
     # }   
     # multi_tests(submit)     
-        # print(submit)
+        # print(submit)    
+
+def get_account():
+    '''
+    get account for sql db,read a config file in res folder
+    eg:submit = {'password':...}
+    requies nothing
+    return the sql db account
+    '''
+    file = r'..\res\gmx.txt' 
+    submits = []
+    with open(file,'r') as f:
+        lines = f.readlines()
+        for line in lines:
+            
+
+        
+
+def main():
+    emails = get_account()
+
+
+if __name__=='__main__':
+    main()
