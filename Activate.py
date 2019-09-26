@@ -187,18 +187,6 @@ def main(j):
             #     continue
         print('===============================')
         print(len(submits_combine))
-        # time_delta = datetime.timedelta(hours=-24*3)
-        # for submit in submits:
-            # print(submit['Create_time'])
-            # flag = time_related.getactivatetime(submit['Create_time'])
-            # print(flag)
-            # cookies = json.loads(submit['Cookie'])
-            # # print(cookies)
-            # for cookie in cookies:
-            #     print(cookie)
-            # print(type(cookies))
-            # print(len(cookies))
-            # return
         if len(submits_combine) == 0:
             print('No activate plan,sleep for 1hour')
             for i in range(60):
@@ -208,8 +196,8 @@ def main(j):
         # print(submit)
         # submit['activate1'] = datetime.datetime.utcnow()
         # db.update_activate_status(submit)
-        random.shuffle(submits)
-        requests = threadpool.makeRequests(multi_activate, submits)
+        random.shuffle(submits_combine)
+        requests = threadpool.makeRequests(multi_activate, submits_combine)
         [pool.putRequest(req) for req in requests]
         pool.wait()
         # restart_time = 60
