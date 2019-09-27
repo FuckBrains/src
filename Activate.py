@@ -87,6 +87,8 @@ def detect_status(submit):
     return submit
 
 
+
+
 def multi_activate(submit):
     # print(submit)
     time_cheat = random.randint(0,3)
@@ -94,13 +96,7 @@ def multi_activate(submit):
     sleep(time_cheat*60)
     account = db.get_account()
     submit['ip_lpm'] = account['IP']
-    ports_used = luminati.ports_get(submit['ip_lpm'])
-    port_ = 24000
-    while port_ in ports_used:
-        port_rand = random.randint(0,1000)
-        basic_port = 24000
-        port_ = basic_port + port_rand
-    submit['port_lpm'] = port_
+    submit['port_lpm'] = luminati.get_port_random(submit['ip_lpm'])
     luminati.add_proxy(submit['port_lpm'],country=submit['Country'],proxy_config_name='zone2',ip_lpm=submit['ip_lpm'])
     module = 'Mission_'+str(submit['Mission_Id'])
     Module = import_Module(module)

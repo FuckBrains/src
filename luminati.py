@@ -402,17 +402,22 @@ def test_ip():
     for i in range(len(time_used_lists)):
         print('Test',i,'used',time_used_lists[i],'seconds')
 
+
+def get_port_random(ip):
+    ports_used = ports_get(ip)
+    port_ = 24000
+    while port_ in ports_used:
+        port_rand = random.randint(0,5999)
+        basic_port = 24000
+        port_ = basic_port + port_rand
+    return port_
+
 def create_plan_data(plan_id,Offer_links):
     account = db.get_account()
     # print('===================')
     # print('account',account)
     Configs = db.read_plans(plan_id)
     ip_lpm = account['IP']
-    ports_used = ports_get(ip_lpm)
-    if len(ports_used) == 0:
-        basic_port = 24000
-    else:
-        basic_port = max(ports_used) 
     # print('Basic_port:',basic_port) 
     path = os.path.abspath(os.path.join(os.getcwd(), ".."))
     dir_account_chrome = os.path.join(path,r'emu_chromes')
@@ -435,11 +440,10 @@ def create_plan_data(plan_id,Offer_links):
             Offer_links[item]['ip_lpm'] = myaddr
         else:
             Offer_links[item]['ip_lpm'] = ip_lpm            
-        Offer_links[item]['port_lpm'] = basic_port + 1  
+        Offer_links[item]['port_lpm'] = get_port_random(ip_lpm)  
         # print('Start adding proxy port:',Offer_links[item]['port_lpm'])
         add_proxy(Offer_links[item]['port_lpm'],country=Offer_links[item]['Country'],proxy_config_name='jia1',ip_lpm=ip_lpm)
         Offer_links[item]['Plan_Id'] = plan_id
-        basic_port += 1
         Configs.append(Config)
     return Offer_links    
 

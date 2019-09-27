@@ -37,18 +37,10 @@ def main(i):
         print(traffics)
         print(len(traffics))
         ip_lpm = account['IP']
-        ports_used = luminati.ports_get(ip_lpm)
-        if len(ports_used) == 0:
-            basic_port = 24000
-        else:
-            basic_port = max(ports_used) 
-        print('Basic_port:',basic_port) 
         for traffic in traffics:
             traffic['method'] = 1
             traffic['key'] = 'stripchat.com'
-            traffic['port_lpm'] = basic_port + 1
-            basic_port += 1
-            print(basic_port)
+            traffic['port_lpm'] = luminati.get_port_random(ip_lpm)
             print(traffic['Country'],traffic['port_lpm'])
             luminati.add_proxy(traffic['port_lpm'],country=traffic['Country'],proxy_config_name='zone2',ip_lpm=ip_lpm)
         # return

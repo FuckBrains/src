@@ -218,12 +218,7 @@ def cookies_test():
 def test_luminati_config(i):
     account = db.get_account()
     ip_lpm = account['IP']
-    ports_used = luminati.ports_get(ip_lpm)
-    if len(ports_used) == 0:
-        basic_port = 24000
-    else:
-        basic_port = max(ports_used) 
-    port_lpm = basic_port + 1 
+    port_lpm = luminati.get_port_random(ip_lpm)
     roboform_account = Get_roboform_account()    
     # luminati.add_proxy(port_lpm,state=roboform_account[i-1]['state'],country=roboform_account[i-1]['Country'],traffic_=True,ip_lpm=ip_lpm)
     proxy_config_name = roboform_account[i-1]['zone']
