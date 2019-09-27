@@ -253,7 +253,7 @@ def main(i):
       -1:911
       1:luminati,account1
     '''
-    tools.killpid()
+    # tools.killpid()
     # if i == -1:
     #     city = 'Not found'
     #     for j in range(10):

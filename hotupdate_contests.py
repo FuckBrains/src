@@ -10,7 +10,7 @@ hotupdate_content = {
 	7 : ["ALTER TABLE Mission ADD charge VARCHAR(50) DEFAULT '' AFTER Create_time"],
 	8 : ["ALTER TABLE plans ADD Mission_time INT(10) DEFAULT 1 AFTER port_lpm"],
 	9 : ["ALTER TABLE plans ADD Activate_status INT(10) DEFAULT 0 AFTER Mission_time"],
-
+	10 : ["ALTER TABLE Mission ADD activate4 VARCHAR(100) DEFAULT '' AFTER activate3" ,"ALTER TABLE Mission ADD activate5 VARCHAR(100) DEFAULT '' AFTER activate4","ALTER TABLE Mission ADD activate6 VARCHAR(100) DEFAULT '' AFTER activate5","ALTER TABLE Mission ADD activate7 VARCHAR(100) DEFAULT '' AFTER activate6","ALTER TABLE Mission ADD activate8 VARCHAR(100) DEFAULT '' AFTER activate7","ALTER TABLE Mission ADD activate9 VARCHAR(100) DEFAULT '' AFTER activate8","ALTER TABLE Mission ADD activate10 VARCHAR(100) DEFAULT '' AFTER activate9"],
 
 
 

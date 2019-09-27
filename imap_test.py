@@ -208,18 +208,50 @@ def get_account():
     requies nothing
     return the sql db account
     '''
-    file = r'..\res\gmx.txt' 
+    file = r'..\res\gmx_copy.txt' 
     submits = []
     with open(file,'r') as f:
-        lines = f.readlines()
-        for line in lines:
-            
+        while True:
+            try:
+                line = f.readline().strip('\n')
+                print(line)
+                account = line.split(':')
+                submit['Email_emu'] = account[0]
+                submit['Email_emu_pwd'] = account[1]
+                submits.append(submit)                
+            except:
+                print('error')
+                pass
+        # lines = f.readlines()
+        # submits = {}
+        # for line in lines:
+            # submit = {}
+            # if line != '':
+                # line = line.strip('\n')
+                # account = line.split(':')
+                # submit['Email_emu'] = account[0]
+                # submit['Email_emu_pwd'] = account[1]
+                # submits.append(submit)
+    return submits
 
-        
+def test_gmx():
+    accounts = get_account()
+    print(accounts[0:5])
+    return
+    submit = {}
+    submit= {
+    'Email_Id': '2ee711fa-d9ed-11e9-b05e-000ae8256789', 
+    'Email_emu': 'WestecbbmkOljhsfrq@hotmail.com', 
+    'Email_emu_pwd': 'v3gZUnl72i'
+    }   
+    # multi_tests(submit)     
+    print(submit)       
+    flag = Email_emu_getlink(submit)
+    print(flag)    
 
 def main():
     emails = get_account()
 
 
 if __name__=='__main__':
-    main()
+    test_gmx()
