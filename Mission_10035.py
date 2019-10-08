@@ -26,7 +26,7 @@ def web_submit(submit,chrome_driver,debug=0):
         site = 'https://cpa-hub.g2afse.com/click?pid=726&offer_id=50'
         submit['Site'] = site
     chrome_driver.get(submit['Site'])
-    chrome_driver.maximize_window()    
+    chrome_driver.maximize_window()   
     chrome_driver.refresh()
     sleep(5)
     # page1
@@ -35,10 +35,15 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(3)
     chrome_driver.find_element_by_xpath('//*[@id="q2"]/div[2]').click()
     sleep(3)
-    ['//*[@id="q3"]/div[2]','//*[@id="q3"]/div[4]','//*[@id="q3"]/div[2]','//*[@id="q3"]/div[5]']
-    chrome_driver.find_element_by_xpath('').click()
+    pick = ['//*[@id="q3"]/div[2]','//*[@id="q3"]/div[4]','//*[@id="q3"]/div[3]','//*[@id="q3"]/div[5]']
+    num_r = random.randint(0,3)
+    chrome_driver.find_element_by_xpath(pick[num_r]).click()
     sleep(3)
-    chrome_driver.
+    chrome_driver.find_element_by_xpath('//*[@id="q5"]/input').send_keys(submit['health']['email'])
+    sleep(3)
+    chrome_driver.find_element_by_xpath('//*[@id="subbtn"]').click()
+    sleep(3)
+    
 
 
 

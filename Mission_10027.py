@@ -23,7 +23,7 @@ import random
 def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
-        site = 'https://www.cpagrip.com/show.php?l=0&u=218456&id=25968'
+        site = 'http://viewallhealth.com/click.php?c=11&key=yoau3ub9118rgpqq3weq4062'
         submit['Site'] = site
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
@@ -67,18 +67,18 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.execute_script(js)
     sleep(3)
     # page3
-    if 'dateofbirth' in submit['health']:
-        date_of_birth = Submit_handle.get_auto_birthday(submit['health']['dateofbirth'])    
-    else:
-        date_of_birth = Submit_handle.get_auto_birthday('')    
+    # if 'dateofbirth' in submit['health']:
+    #     date_of_birth = Submit_handle.get_auto_birthday(submit['health']['dateofbirth'])    
+    # else:
+    date_of_birth = Submit_handle.get_auto_birthday('')    
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="dobmonth"]'))
     s1.select_by_value(date_of_birth[0])        
     sleep(1)
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="dobday"]'))
-    s1.select_by_value(date_of_birth[0])        
+    s1.select_by_value(date_of_birth[1])        
     sleep(1) 
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="DOBYEAR"]'))
-    s1.select_by_value(date_of_birth[0])        
+    s1.select_by_value(date_of_birth[2])        
     sleep(1)          
     num_sex = random.randint(0,1)
     if num_sex == 0:
@@ -96,12 +96,12 @@ def web_submit(submit,chrome_driver,debug=0):
 
 def test():
     # db.email_test()
-    Mission_list = ['10022']
+    Mission_list = ['10027']
     Excel_name = ['health','']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
     print(submit)
-    submit['Mission_Id'] = '10022'
+    submit['Mission_Id'] = '10027'
     chrome_driver = Chrome_driver.get_chrome(submit)
     web_submit(submit,chrome_driver,1)
 

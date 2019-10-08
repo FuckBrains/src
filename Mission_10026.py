@@ -61,10 +61,10 @@ def web_submit(submit,chrome_driver,debug=0):
     # dateofbirth
     chrome_driver.find_element_by_xpath('//*[@id="dob_holder"]').click()
     sleep(1)
-    if 'dateofbirth' in submit['health']:
-        date_of_birth = Submit_handle.get_auto_birthday(submit['health']['dateofbirth'])    
-    else:
-        date_of_birth = Submit_handle.get_auto_birthday('')         
+    # if 'dateofbirth' in submit['health']:
+    #     date_of_birth = Submit_handle.get_auto_birthday(submit['health']['dateofbirth'])    
+    # else:
+    date_of_birth = Submit_handle.get_auto_birthday('')         
     for key in date_of_birth[0]:
         chrome_driver.find_element_by_xpath('//*[@id="dob_month_digit"]').send_keys(key)
     for key in date_of_birth[1]:
