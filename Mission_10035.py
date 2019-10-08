@@ -28,7 +28,43 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
     chrome_driver.refresh()
-    sleep(5000)
+    sleep(5)
+    # page1
+    # Do you like shop online
+    chrome_driver.find_element_by_xpath('//*[@id="q1"]/div[2]').click()
+    sleep(3)
+    chrome_driver.find_element_by_xpath('//*[@id="q2"]/div[2]').click()
+    sleep(3)
+    ['//*[@id="q3"]/div[2]','//*[@id="q3"]/div[4]','//*[@id="q3"]/div[2]','//*[@id="q3"]/div[5]']
+    chrome_driver.find_element_by_xpath('').click()
+    sleep(3)
+    chrome_driver.
+
+
+
+
+
+
+
+    # email
+    chrome_driver.find_element_by_xpath('//*[@id="last-step"]/input').send_keys(submit['health']['email'])
+    sleep(1)
+    # continue
+    chrome_driver.find_element_by_xpath('//*[@id="subbtn"]').click()
+    sleep(15)
+    # page2
+    # firstname
+    chrome_driver.find_element_by_xpath('//*[@id="slider-container"]/div[1]/input[1]').send_keys(submit['health']['firstname'])
+    # lastname
+    chrome_driver.find_element_by_xpath('//*[@id="slider-container"]/div[1]/input[2]').send_keys(submit['health']['lastname'])
+    # zipcode
+    zipcode = submit['health']['zip'].split('.')[0]
+    chrome_driver.find_element_by_xpath('//*[@id="slider-container"]/div[1]/input[3]').send_keys(zipcode)
+    # continue
+    sleep(3)
+    js = "$('#submit-btn').click()"
+    chrome_driver.execute_script(js)
+    sleep(3)
 
 
 def test():

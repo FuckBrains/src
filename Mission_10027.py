@@ -67,7 +67,10 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.execute_script(js)
     sleep(3)
     # page3
-    date_of_birth = Submit_handle.get_auto_birthday(submit['health']['dateofbirth'])    
+    if 'dateofbirth' in submit['health']:
+        date_of_birth = Submit_handle.get_auto_birthday(submit['health']['dateofbirth'])    
+    else:
+        date_of_birth = Submit_handle.get_auto_birthday('')    
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="dobmonth"]'))
     s1.select_by_value(date_of_birth[0])        
     sleep(1)
