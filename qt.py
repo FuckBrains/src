@@ -16,10 +16,6 @@ import email_imap
 import Auto_update
 import Alliance_login
 
-
-
-
-
 def Read_Ini(file):
     submits = []
     with open(file,'r') as f:

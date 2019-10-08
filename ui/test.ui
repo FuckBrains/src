@@ -90,14 +90,14 @@
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>270</x>
+      <x>367</x>
       <y>10</y>
-      <width>648</width>
+      <width>551</width>
       <height>511</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="widget">
      <attribute name="title">
@@ -1321,7 +1321,7 @@
      <rect>
       <x>20</x>
       <y>170</y>
-      <width>241</width>
+      <width>341</width>
       <height>238</height>
      </rect>
     </property>

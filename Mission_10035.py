@@ -23,7 +23,7 @@ import random
 def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
-        site = 'http://resslead.o18.click/c?o=715556&m=1846&a=39977'
+        site = 'https://cpa-hub.g2afse.com/click?pid=726&offer_id=50'
         submit['Site'] = site
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
@@ -32,16 +32,16 @@ def web_submit(submit,chrome_driver,debug=0):
 
 
 def test():
-    Mission_list = ['10000']
-    Excel_name = ['Uspd','']
+    # db.email_test()
+    Mission_list = ['10022']
+    Excel_name = ['health','']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
-    # date_of_birth = Submit_handle.get_auto_birthday(submit['Uspd']['date_of_birth'])
-    # print(date_of_birth)
-    web_submit(submit,1)
-
+    print(submit)
+    submit['Mission_Id'] = '10022'
+    chrome_driver = Chrome_driver.get_chrome(submit)
+    web_submit(submit,chrome_driver,1)
 
 
 if __name__=='__main__':
     test()
-    print('......')

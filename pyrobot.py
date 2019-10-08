@@ -958,6 +958,9 @@ class Robot(object):
 
 if __name__ == '__main__':
   robot = Robot()
-  robot.sleep(5)
-  robot.take_screenshot().save("asdf.png", "PNG")
+  # robot.sleep(5)  
+  # robot.take_screenshot().save("asdf.png", "PNG")
+  Keys = Keys()
+  robot.key_press(Keys.tab)
+  robot.key_press(Keys.enter)  
   # for i in KeyConsts.vk_codes: print(hex(i))

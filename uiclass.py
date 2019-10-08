@@ -44,7 +44,7 @@ class Ui_MainWindow(object):
         self.lineEdit_2.setObjectName("lineEdit_2")
         self.gridLayout.addWidget(self.lineEdit_2, 0, 1, 1, 1)
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
-        self.tabWidget.setGeometry(QtCore.QRect(270, 10, 648, 511))
+        self.tabWidget.setGeometry(QtCore.QRect(367, 10, 551, 511))
         self.tabWidget.setObjectName("tabWidget")
         self.widget = QtWidgets.QWidget()
         self.widget.setObjectName("widget")
@@ -409,7 +409,7 @@ class Ui_MainWindow(object):
         self.pushButton5.setGeometry(QtCore.QRect(190, 110, 75, 41))
         self.pushButton5.setObjectName("pushButton5")
         self.formLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.formLayoutWidget.setGeometry(QtCore.QRect(20, 170, 241, 238))
+        self.formLayoutWidget.setGeometry(QtCore.QRect(20, 170, 341, 238))
         self.formLayoutWidget.setObjectName("formLayoutWidget")
         self.formLayout = QtWidgets.QFormLayout(self.formLayoutWidget)
         self.formLayout.setContentsMargins(0, 0, 0, 0)
@@ -552,7 +552,7 @@ class Ui_MainWindow(object):
         self.actionDelete.setObjectName("actionDelete")
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(3)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

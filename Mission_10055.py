@@ -191,6 +191,7 @@ def web_submit(submit,chrome_driver,debug=0):
         chrome_driver.close()
         chrome_driver.quit()
     return 1
+    
 def test():
     # db.email_test()
     Mission_list = ['10009']
@@ -199,37 +200,9 @@ def test():
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
     print(submit)
     submit['Mission_Id'] = '10055'
-    # db.read_all_info()
-    # print(submit)
-    # excel_list = []
-    # for i in range(400):
-    #     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
-    #     # print(submit)
-    #     excel_list.append(submit['Email']['Email_Id'])
-    # # print(excel_list)
-    # print(len(excel_list))
-    # print(len(set(excel_list)))
-    # date_of_birth = Submit_handle.get_auto_birthday(submit['Uspd']['date_of_birth'])
-    # print(date_of_birth)
     chrome_driver = Chrome_driver.get_chrome(submit)
     web_submit(submit,chrome_driver,1)
-    # print(submit['Uspd'])
-    # print(submit['Uspd']['state'])
-    # print(submit['Uspd']['city'])
-    # print(submit['Uspd']['zip'])
-    # print(submit['Uspd']['date_of_birth'])
-    # print(submit['Uspd']['ssn'])
 
- 
-
-def test1():
-    # num_gender = random.randint(0,1)
-    # print(num_gender)
-    Mission_list = ['10009']
-    email_list = ['aol.com','yahoo.com']
-    email = db.read_one_selected_email(Mission_list,email_list)
-    # db.write_one_info(Mission_list,email,Cookie = '')
-    print(email)
 
 if __name__=='__main__':
     test()
