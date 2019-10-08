@@ -13,6 +13,7 @@ import re
 import Chrome_driver
 import threading
 import threadpool
+from wrapt_timeout_decorator import *
 
 
 def test_luminati():
@@ -75,6 +76,7 @@ def api_test(proxy):
 
     # print(resp)   
 
+@timeout(30)
 def refresh_proxy(ip,port):
     headers = {
     'accept': 'application/json'
@@ -98,9 +100,9 @@ def refresh_proxy(ip,port):
             print(str(e))
     return flag
 
+@timeout(30)
 def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",Referer='',debug=0):
     proxy = 'socks5://%s:%s'%(ip,port)
-
     uas = Chrome_driver.get_ua_all()
     ua = Chrome_driver.get_ua_random(uas) 
     if Referer != '': 
@@ -145,6 +147,7 @@ def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",Referer='',debug=0):
             print(resp.text)
     return proxy_info
 
+@timeout(30)
 def add_proxy(port_add,country='us',proxy_config_name='zone2',ip_lpm='127.0.0.1'):  
     data = {}
     data_proxy_config = read_proxy_config()
@@ -197,6 +200,7 @@ def read_proxy_config():
 
 pool = threadpool.ThreadPool(50)
 
+# @timeout(30)
 def delete_port(ports=''):
     account = db.get_account()
     ip_lpm = account['IP']
@@ -210,7 +214,7 @@ def delete_port(ports=''):
     pool.wait()     
 
 
-
+@timeout(30)
 def delete_port_s(port_delete):
     account = db.get_account()
     ip_lpm = account['IP']    
@@ -403,6 +407,7 @@ def test_ip():
         print('Test',i,'used',time_used_lists[i],'seconds')
 
 
+@timeout(30)
 def get_port_random(ip):
     ports_used = ports_get(ip)
     port_ = 24000

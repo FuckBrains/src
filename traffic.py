@@ -27,7 +27,7 @@ def traffic_test(traffic):
             	print(str(e))
         else:
             get_unique_traffic(traffic)
-    luminati.delete_port([traffic['port_lpm']])
+    luminati.delete_port_s(traffic['port_lpm'])
 
 def main(i):
     while True:
@@ -43,7 +43,6 @@ def main(i):
             traffic['port_lpm'] = luminati.get_port_random(ip_lpm)
             print(traffic['Country'],traffic['port_lpm'])
             luminati.add_proxy(traffic['port_lpm'],country=traffic['Country'],proxy_config_name='zone2',ip_lpm=ip_lpm)
-        # return
         requests = threadpool.makeRequests(traffic_test, traffics)
         [pool.putRequest(req) for req in requests]
         pool.wait() 

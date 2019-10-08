@@ -8,7 +8,7 @@ import zipfile
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities 
 
 def get_chromedriver_path():
-    return r'driver/chromedriver_76.exe'
+    return r'driver/chromedriver_77.exe'
 
 def get_ua_all():
     uas = []
@@ -32,7 +32,6 @@ def get_ua_random(uas):
 
 
 def get_chrome(submit = None):
-
     if submit == None:
         uas = get_ua_all()
         ua = get_ua_random(uas)
@@ -42,7 +41,7 @@ def get_chrome(submit = None):
             desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none" 
             driver = webdriver.Chrome(chrome_options=chrome_options, desired_capabilities=desired_capabilities)    
             desired_capabilities["pageLoadStrategy"] = "none"            
-        if submit['ua'] != '':
+        if 'ua' in submit:
             ua = submit['ua']
         else:
             uas = get_ua_all()

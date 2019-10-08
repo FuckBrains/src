@@ -9,7 +9,8 @@ def killpid():
             p = psutil.Process(pid)
         except:
             continue
-        kill_list = ['chrome.exe','chromedriver.exe','Client.exe','Monitor.exe','MonitorGUI.exe','Socket.exe','CCleaner','wps']
+        kill_list = ['chrome.exe','chromedriver','Client.exe','Monitor.exe','MonitorGUI.exe','Socket.exe','CCleaner','wps']
+        # kill_list = ['chrome.exe','chromedriver']        
         for key in kill_list:
             # print(key)
             if key in p.name():
@@ -46,5 +47,6 @@ def findpid(key):
 
 
 if __name__ == '__main__':
-    key = 'cmd'
-    findpid(key)
+    # key = 'cmd'
+    # findpid(key)
+    killpid()

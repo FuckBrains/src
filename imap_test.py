@@ -88,6 +88,8 @@ def login_server(submit):
         server = "imap-mail.outlook.com"
     elif 'yahoo' in  submit['Email_emu']:
         server = 'imap.mail.yahoo.com'
+    elif 'gmail' in  submit['Email_emu']:
+        server = 'imap.gmail.com'        
     elif 'gmx' in  submit['Email_emu']:
         server = 'imap.gmx.com'        
     else:

@@ -4,9 +4,6 @@ import os
 from time import sleep
 
 
-
-
-
 def kill_911():
     pids = psutil.pids()
     for pid in pids:

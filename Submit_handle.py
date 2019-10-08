@@ -39,7 +39,6 @@ def password_get():
             pwd += d[random.randint(0,len(d)-1)]                                    
     return pwd
 
-
 def Submit_handle(submit):
     try:
         submit['Home_phone'] = str(int(submit['Home_phone'])).replace('-','')
@@ -79,15 +78,11 @@ def Submit_handle(submit):
         submit['handle'] = False          
     return submit
 
-
 def get_zip(zip_):
     zip_ = zip_.split('.')[0]
     if len(zip_) == 4:
         zip_ = '0' + zip_
     return zip_ 
-
-
-
 
 def get_auto_birthday(date):
     if '/' in date:
@@ -110,8 +105,6 @@ def get_auto_birthday(date):
     if int(birthday[2]) <= 1970:
         birthday[2] = str(random.randint(1970,1990))
     return birthday
-
-
 
 def get_height_info():
     num_ft = random.randint(5,7)
@@ -166,28 +159,32 @@ def transfer_zipcode_into_city():
             except:
                 print('')
 
-
 def get_phone(phone):
     phone_ = phone.replace('(','').replace(')','').replace('-','')
     if '.' in phone_:
         phone_ = (phone_).split('.')[0]
     return phone_
 
+def get_next_payday():
+    import datetime
+    year = datetime.datetime.now().year
+    month = datetime.datetime.now().month
+    day = datetime.datetime.now().day
+    if day>=15:
+        if month != 2:
+            day_pay = 30
+        else:
+            day_pay = 28
+    else:
+        day_pay = 15
+    month_word = ['January','February','March','April','May','June','July','August','September','October','November','December']
+    month_list = [i+1 for i in range(12)]
+    index = month_list.index(month)
+    month = month_word[index]
+    date = []
+    date = [month,day_pay,year]
+    return date
+
 if __name__ == '__main__':
-    # Mission_list = [10001] 
-    # Excel_names = ['Auto','Uspd']
-    # submit = db.read_one_info(Config['IP_country'],Mission_list,Email_list,Excel_names)
-    # print(submit)
-    # birthday = get_auto_birthday(submit['Uspd']['date_of_birth'])
-    # print(birthday)
-    # [print(get_auto_birthday('')) for i in range(100)]
-    # for i in range(500):
-    #     birthday = get_auto_birthday('')
-        # print(birthday[0]+'-'+birthday[1]+'-'+birthday[2])
-    # city,state = get_city_by_zip(18444)
-    # print(city,state)
-    # transfer_zipcode_into_city()
-    # day=get_auto_birthday('')
-    pwd=password_get()
-    print(pwd)
-    # print(day)
+    date = get_next_payday()
+    print(date)

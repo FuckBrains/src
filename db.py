@@ -9,6 +9,8 @@ import uuid
 import random
 import os
 import Chrome_driver
+from wrapt_timeout_decorator import *
+
 
 '''
 4 accounts for 4 members.
@@ -885,6 +887,8 @@ def get_duplicated_mission_record():
 
     Execute_sql([sql_content1,sql_content2])
 
+
+@timeout(30)
 def read_plans(plan_id):
     '''
     return:
