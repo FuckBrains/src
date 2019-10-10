@@ -959,6 +959,10 @@ def update_key():
     sql_content = "UPDATE Plans SET Plan_Id = 1 WHERE Mission_id = '%s'" % ('10000')
     Execute_sql([sql_content])
 
+def update_port(port_old,port_new):
+    sql_content = "UPDATE Plans SET port_lpm = '%s' WHERE port_lpm = '%s'" % (port_new,port_old)
+    Execute_sql([sql_content])
+
 def get_luminati_submit(Config): 
     Email_list = {"hotmail.com": 1, "outlook.com": 1, "yahoo.com": 1, "aol.com": 1}
     Mission_Ids,Excels_dup = [Config['Mission_Id']],Config['Excel']

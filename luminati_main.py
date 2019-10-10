@@ -47,8 +47,8 @@ def multi_reg(Config):
         print(Config)
         if Config['Alliance'] != 'Test':
             print('Sleep for random time:',time_cheat*60,'-------------')   
-            # if Config['Mission_Id'] != '20000':
-            # sleep(time_cheat*60)
+            if Config['Mission_Id'] != '20000':
+                sleep(time_cheat*60)
         else:
             print('test...........')
         while True:
@@ -88,6 +88,14 @@ def multi_reg(Config):
             flag = luminati.ip_test(submit['ip_lpm'],submit['port_lpm'],state=submit['state_'] ,country='')
             if flag == 1:
                 break
+            elif flag == -1:
+                print('bad port,change into new')
+                port_new = luminati.get_port_random(submit['ip_lpm']):
+                db.update_port(submit['port_lpm'],port_new)
+                delete_port_s(submit['port_lpm'])                
+                submit['port_lpm'] = port_new
+                luminati.add_proxy(port_new,country=submit['Country'],proxy_config_name='jia1',ip_lpm=submit['port_lpm'])
+                continue
             else:
                 continue
             print('Reading config from sql server success')

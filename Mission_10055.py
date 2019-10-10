@@ -182,26 +182,22 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(1)
     # submit
     chrome_driver.find_element_by_xpath('//*[@id="submitbutton"]').click()
-    sleep(20)
-    if 'This process can take up to 5 minutes' in chrome_driver.page_source:
-        sleep(300)
-        chrome_driver.close()
-        chrome_driver.quit()
-    else:
-        chrome_driver.close()
-        chrome_driver.quit()
+    sleep(600)
+    chrome_driver.close()
+    chrome_driver.quit()
     return 1
     
 def test():
     # db.email_test()
     Mission_list = ['10009']
-    Excel_name = ['Uspd','']
+    excel = 'Ukpd'
+    Excel_name = [excel,'']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
-    print(submit)
-    submit['Mission_Id'] = '10055'
-    chrome_driver = Chrome_driver.get_chrome(submit)
-    web_submit(submit,chrome_driver,1)
+    [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None]
+    # submit['Mission_Id'] = '10055'
+    # chrome_driver = Chrome_driver.get_chrome(submit)
+    # web_submit(submit,chrome_driver,1)
 
 
 if __name__=='__main__':

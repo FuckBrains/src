@@ -12,7 +12,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
-        MainWindow.resize(939, 558)
+        MainWindow.resize(1077, 558)
         MainWindow.setAnimated(True)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -44,7 +44,7 @@ class Ui_MainWindow(object):
         self.lineEdit_2.setObjectName("lineEdit_2")
         self.gridLayout.addWidget(self.lineEdit_2, 0, 1, 1, 1)
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
-        self.tabWidget.setGeometry(QtCore.QRect(367, 10, 551, 511))
+        self.tabWidget.setGeometry(QtCore.QRect(367, 10, 651, 511))
         self.tabWidget.setObjectName("tabWidget")
         self.widget = QtWidgets.QWidget()
         self.widget.setObjectName("widget")

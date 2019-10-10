@@ -23,23 +23,47 @@ import random
 def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
-        site = 'http://resslead.o18.click/c?o=715556&m=1846&a=39977'
+        site = 'https://cpa-hub.g2afse.com/click?pid=726&offer_id=45'
         submit['Site'] = site
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
     chrome_driver.refresh()
-    sleep(5000)
+    sleep(5)
+    # page1
+    # email
+    chrome_driver.find_element_by_xpath('//*[@id="header"]/div/div/div[2]/input').send_keys(submit['health']['email'])
+    sleep(1)
+    # start now
+    chrome_driver.find_element_by_xpath('//*[@id="submit-text"]').click()
+    sleep(10)
+    # page2
+    # firstname
+    chrome_driver.find_element_by_xpath('//*[@id="fn"]').send_keys(submit['health']['firstname'])
+    # lastname
+    chrome_driver.find_element_by_xpath('//*[@id="ln"]').send_keys(submit['health']['lastname'])
+    # zipcode
+    zipcode = submit['health']['zip'].split('.')[0]    
+    chrome_driver.find_element_by_xpath('//*[@id="zip-input"]').send_keys(zipcode)
+    # continue
+    chrome_driver.find_element_by_xpath('//*[@id="survey-button1"]').click()
+    sleep(3000)
+    # page3
+
+
+
+
+
 
 
 def test():
     # db.email_test()
     # date_of_birth = Submit_handle.get_auto_birthday('')         
-    Mission_list = ['10026']
+    Mission_list = ['10036']
     Excel_name = ['health','']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
     print(submit)
-    submit['Mission_Id'] = '10026'
+    submit['Mission_Id'] = '10036'
     chrome_driver = Chrome_driver.get_chrome(submit)
     web_submit(submit,chrome_driver,1)
 

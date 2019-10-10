@@ -86,7 +86,7 @@ def refresh_proxy(ip,port):
     for i in range(10):
         try:
             resp = requests.post(url,headers=headers)
-            # print(resp)
+            print(resp)
             # print(type(str(resp)))
             # print(str(resp))
             resp_code = str(re.sub("\D", "", str(resp)))
@@ -117,17 +117,21 @@ def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",Referer='',debug=0):
     session = requests.session()
     session.proxies = {'http': proxy,
                        'https': proxy}  
-    print('Approaching:',url)  
+    print('Approaching:',url)
+    print(proxy)
     resp=session.get(url,headers=headers)
     # print(headers)
     # print(resp.text)
     print(resp.headers)
     print(resp.status_code)
+
     try:
         print('--------------------')
         print(resp.text)
         proxy_info = json.loads(resp.text)
         print(proxy_info)
+        if resp.status_code == '502':
+            proxy_info = ''
     except Exception as e:
         print(str(e))
         proxy_info = ''
@@ -145,6 +149,7 @@ def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",Referer='',debug=0):
                 print(url)
                 resp=session.get(url,headers=headers)
             print(resp.text)
+    print('proxy_info...',proxy_info,'...')
     return proxy_info
 
 @timeout(30)
@@ -325,14 +330,19 @@ def ip_test(ip_lpm,port_lpm,state = '',country=''):
     # ip_lpm = '192.168.30.131'
     # port_lpm = '24003'
     flag = 0
-    for i in range(50):
+    for i in range(10):
         refresh_proxy(ip_lpm,port_lpm)
+        proxy_info = ''
         try:
             proxy_info = get_lpm_ip(ip_lpm,port_lpm)
         except Exception as e:
             print(str(e))
             print('fail to get lpm ip')
             continue
+        if proxy_info == '':
+            print('proxy_info',-1)
+            flag = -1
+            break
         if state == '':
             print(proxy_info)  
             flag = 1          
@@ -426,7 +436,7 @@ def create_plan_data(plan_id,Offer_links):
     # print('Basic_port:',basic_port) 
     path = os.path.abspath(os.path.join(os.getcwd(), ".."))
     dir_account_chrome = os.path.join(path,r'emu_chromes')
-    myname = socket.getfqdn(socket.gethostname(  ))
+    myname = socket.getfqdn(socket.gethostname())
     # print(myname)
     myaddr = socket.gethostbyname(myname)
     # print(myaddr)

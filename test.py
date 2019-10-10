@@ -351,8 +351,21 @@ def shuffle_test():
     y = random.shuffle(x)
     print(x)
 
+def test_502():
+    ip_lpm = '192.168.30.130'
+    port_lpm = '28713'
+    flag = luminati.ip_test(ip_lpm,port_lpm,state = '',country='')    
+    print(flag)
+    # if proxy_info == '':
+        # print('=========')
+
+
+def change_port():
+    ip_lpm = '192.168.30.130'    
+    port_new = luminati.get_port_random(ip_lpm)
+    db.update_port('24097',port_new)
 
 if __name__ == '__main__':
-    shuffle_test()
+    test_502()
 
 

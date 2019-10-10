@@ -32,16 +32,22 @@ def web_submit(submit,chrome_driver,debug=0):
 
 
 def test():
-    Mission_list = ['10000']
-    Excel_name = ['Uspd','']
+    # db.email_test()
+    # date_of_birth = Submit_handle.get_auto_birthday('')         
+    Mission_list = ['10023']
+    excel = 'Ukchoujiang'    
+    Excel_name = [excel,'']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
-    # date_of_birth = Submit_handle.get_auto_birthday(submit['Uspd']['date_of_birth'])
-    # print(date_of_birth)
-    web_submit(submit,1)
-
+    # [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None]
+    [print(item,':',submit[excel][item]) for item in submit[excel] if item == 'homephone']  
+    submit['Mission_Id'] = '10023'
+    phone = submit[excel]['homephone']
+    phone = Submit_handle.get_uk_phone1(phone)
+    print(phone)
+    chrome_driver = Chrome_driver.get_chrome(submit)
+    web_submit(submit,chrome_driver,1)
 
 
 if __name__=='__main__':
     test()
-    print('......')

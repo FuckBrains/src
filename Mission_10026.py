@@ -84,7 +84,7 @@ def web_submit(submit,chrome_driver,debug=0):
         chrome_driver.find_element_by_xpath('//*[@id="gender-f"]/label/span').click()
     # continue
     chrome_driver.find_element_by_xpath('//*[@id="reg-form"]/div[13]/div/button').click()
-    sleep(30)
+    sleep(120)
     return 1
 
 

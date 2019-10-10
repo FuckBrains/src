@@ -165,6 +165,19 @@ def get_phone(phone):
         phone_ = (phone_).split('.')[0]
     return phone_
 
+def get_uk_phone1(phone):
+    phone = phone.replace(' ','')
+    if phone[0] == '0':
+        if phone[0:4] == '0044':
+            phone = phone[4:]
+        else:
+            phone = phone[1:]
+    elif phone[0:2] == '44':
+        phone = phone[2:]
+    elif phone[0:3] == '+44':
+        phone = phone[3:]
+    return phone
+
 def get_next_payday():
     import datetime
     year = datetime.datetime.now().year

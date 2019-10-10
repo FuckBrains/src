@@ -88,7 +88,7 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(1)
     js = "$('#submit-btn').click()"
     chrome_driver.execute_script(js)
-    sleep(30)
+    sleep(120)
     return 1
 
 
