@@ -86,13 +86,14 @@ def multi_reg(Config):
                 pass
             print(Config['Alliance'],'email test finished')
             flag = luminati.ip_test(submit['ip_lpm'],submit['port_lpm'],state=submit['state_'] ,country='')
+            print(flag,'=========================')
             if flag == 1:
                 break
             elif flag == -1:
                 print('bad port,change into new')
-                port_new = luminati.get_port_random(submit['ip_lpm']):
+                port_new = luminati.get_port_random(submit['ip_lpm'])
                 db.update_port(submit['port_lpm'],port_new)
-                delete_port_s(submit['port_lpm'])                
+                luminati.delete_port_s(submit['port_lpm'])                
                 submit['port_lpm'] = port_new
                 luminati.add_proxy(port_new,country=submit['Country'],proxy_config_name='jia1',ip_lpm=submit['port_lpm'])
                 continue
@@ -211,5 +212,5 @@ def test():
 if __name__ == '__main__':
     paras=sys.argv
     i = int(paras[1])
-    # i = 3
+    # i = 1
     main(i)
