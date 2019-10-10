@@ -39,10 +39,11 @@ def main(i):
         ip_lpm = account['IP']
         for traffic in traffics:
             traffic['method'] = 1
-            traffic['key'] = 'stripchat.com'
+            traffic['key'] = 'consumerrewards.us.com'
             traffic['port_lpm'] = luminati.get_port_random(ip_lpm)
             print(traffic['Country'],traffic['port_lpm'])
-            luminati.add_proxy(traffic['port_lpm'],country=traffic['Country'],proxy_config_name='zone2',ip_lpm=ip_lpm)
+            # luminati.add_proxy(traffic['port_lpm'],country=traffic['Country'],proxy_config_name='zone2',ip_lpm=ip_lpm)
+            luminati.add_proxy(traffic['port_lpm'],country=traffic['Country'],proxy_config_name='jia1',ip_lpm=ip_lpm)            
         requests = threadpool.makeRequests(traffic_test, traffics)
         [pool.putRequest(req) for req in requests]
         pool.wait() 
@@ -83,7 +84,8 @@ def get_unique_traffic(traffic):
 
 if __name__ == '__main__':
     paras=sys.argv
-    i = int(paras[1])    
+    # i = int(paras[1])
+    i = 1 
     main(i)
 
 

@@ -91,7 +91,8 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(2)
     # continue
     chrome_driver.find_element_by_class_name('button-next').click()
-    sleep(5000)
+    sleep(120)
+    return 1
 
 
 def test():

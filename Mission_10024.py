@@ -86,6 +86,7 @@ def web_submit(submit,chrome_driver,debug=0):
     # continue
     chrome_driver.find_element_by_xpath('//*[@id="form-submit"]').click()
     sleep(300)
+    return 1
 
 
 
