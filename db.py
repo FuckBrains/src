@@ -976,6 +976,7 @@ def get_luminati_submit(Config):
     else:
         submit['state_'] = submit[Excels_dup[0]]['state']
     submit['Mission_Id'] = Config['Mission_Id']
+    submit['Country'] = Config['Country']
     submit['Site'] = Config['url_link']
     submit['Excels_dup'] = Excels_dup
     submit['Alliance'] = Config['Alliance']
