@@ -134,7 +134,7 @@ def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",Referer='',debug=0):
             proxy_info = ''
     except Exception as e:
         print(str(e))
-        proxy_info = ''
+        proxy_info = ' '
     if debug != 0:
         while True:
             a = resp.text.find('window.location = "')
@@ -331,7 +331,11 @@ def ip_test(ip_lpm,port_lpm,state = '',country=''):
     # port_lpm = '24003'
     flag = 0
     for i in range(10):
-        refresh_proxy(ip_lpm,port_lpm)
+        flag_ip = refresh_proxy(ip_lpm,port_lpm)
+        if flag_ip == 0:
+            print('proxy_info',-1)
+            flag = -1
+            break        
         proxy_info = ''
         try:
             proxy_info = get_lpm_ip(ip_lpm,port_lpm)

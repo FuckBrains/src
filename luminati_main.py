@@ -95,7 +95,7 @@ def multi_reg(Config):
                 db.update_port(submit['port_lpm'],port_new)
                 luminati.delete_port_s(submit['port_lpm'])                
                 submit['port_lpm'] = port_new
-                luminati.add_proxy(port_new,country=submit['Country'],proxy_config_name='jia1',ip_lpm=submit['port_lpm'])
+                luminati.add_proxy(port_new,country=submit['Country'],proxy_config_name='jia1',ip_lpm=submit['ip_lpm'])
                 continue
             else:
                 continue
