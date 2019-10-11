@@ -124,12 +124,14 @@ def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",Referer='',debug=0):
     # print(resp.text)
     print(resp.headers)
     print(resp.status_code)
-
+    print(type(resp.status_code))
+    if resp.status_code == 502:
+        print('============')
+        proxy_info = ''
+        return proxy_info   
     try:
         print('--------------------')
-        print(resp.text)
-        if resp.status_code == '502':
-            proxy_info = ''        
+        print(resp.text)            
         proxy_info = json.loads(resp.text)
         print(proxy_info)
     except Exception as e:

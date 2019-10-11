@@ -353,7 +353,7 @@ def shuffle_test():
 
 def test_502():
     ip_lpm = '192.168.30.130'
-    port_lpm = '28713'
+    port_lpm = '27277'
     flag = luminati.ip_test(ip_lpm,port_lpm,state = '',country='')    
     print(flag)
     # if proxy_info == '':
