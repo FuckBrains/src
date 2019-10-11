@@ -100,7 +100,7 @@ def refresh_proxy(ip,port):
             print(str(e))
     return flag
 
-@timeout(30)
+# @timeout(30)
 def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",Referer='',debug=0):
     proxy = 'socks5://%s:%s'%(ip,port)
     uas = Chrome_driver.get_ua_all()
@@ -168,6 +168,7 @@ def add_proxy(port_add,country='us',proxy_config_name='zone2',ip_lpm='127.0.0.1'
     }    
     # url_ = 'http://127.0.0.1:22999/api/proxies'
     url_ = 'http://%s:22999/api/proxies'%ip_lpm
+    print(url_)
     flag = 0
     for i in range(1):
         try:

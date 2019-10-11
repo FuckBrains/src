@@ -576,6 +576,13 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         command = '''start cmd /k "python Activate.pyc %s "{$name$:$qcy$}" && exit"'''  %(str(i))      
         os.system(command)
 
+    @pyqtSlot()
+    def on_pushButton18_clicked(self):
+        # plans = db.read_plans(plan_id)
+        # ports = [plan['port_lpm'] for plan in plans]
+        luminati.delete_port()
+     
+
 
 def main():
     up.main()

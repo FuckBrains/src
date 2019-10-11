@@ -94,8 +94,12 @@ def multi_reg(Config):
                 port_new = luminati.get_port_random(submit['ip_lpm'])
                 db.update_port(submit['port_lpm'],port_new)
                 luminati.delete_port_s(submit['port_lpm'])                
-                submit['port_lpm'] = port_new
-                luminati.add_proxy(port_new,country=submit['Country'],proxy_config_name='jia1',ip_lpm=submit['ip_lpm'])
+                Config['port_lpm'] = port_new
+                print(port_new)
+                try:
+                    luminati.add_proxy(port_new,country=submit['Country'],proxy_config_name='jia1',ip_lpm=submit['ip_lpm'])
+                except Exception as e:
+                    print(str(e))
                 continue
             else:
                 continue

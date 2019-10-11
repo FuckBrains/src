@@ -339,6 +339,9 @@ class Ui_MainWindow(object):
         self.pushButton17 = QtWidgets.QPushButton(self.tab_3)
         self.pushButton17.setGeometry(QtCore.QRect(180, 420, 75, 41))
         self.pushButton17.setObjectName("pushButton17")
+        self.pushButton18 = QtWidgets.QPushButton(self.tab_3)
+        self.pushButton18.setGeometry(QtCore.QRect(360, 240, 81, 41))
+        self.pushButton18.setObjectName("pushButton18")
         self.tabWidget.addTab(self.tab_3, "")
         self.tab_4 = QtWidgets.QWidget()
         self.tab_4.setObjectName("tab_4")
@@ -552,7 +555,7 @@ class Ui_MainWindow(object):
         self.actionDelete.setObjectName("actionDelete")
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(3)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -694,6 +697,7 @@ class Ui_MainWindow(object):
         self.comboBox15.setItemText(19, _translate("MainWindow", "19"))
         self.comboBox15.setItemText(20, _translate("MainWindow", "20"))
         self.pushButton17.setText(_translate("MainWindow", "Start"))
+        self.pushButton18.setText(_translate("MainWindow", "Clean ports"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Some funcs"))
         self.label_12.setText(_translate("MainWindow", "Account Lists"))
         self.pushButton9.setText(_translate("MainWindow", "Login"))

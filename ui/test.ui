@@ -1163,6 +1163,19 @@
        <string>Start</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="pushButton18">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>240</y>
+        <width>81</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Clean ports</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_4">
      <attribute name="title">
