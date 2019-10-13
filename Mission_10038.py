@@ -24,7 +24,7 @@ import random
 def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
-        site = 'http://resslead.o18.click/c?o=715556&m=1846&a=39977'
+        site = 'https://axisempire022.afftrack.com/click?aid=275&linkid=T2337&s1=&s2=&s3=&s4=&s5='
         submit['Site'] = site
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
@@ -80,12 +80,7 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.find_element_by_xpath('//*[@id="birthdateYear"]').send_keys(date_of_birth[2])
     sleep(1)
     # military
-    elements = chrome_driver.find_elements_by_css_selector('#armedForces-no')
-    for element in elements:
-        try:
-            element.click()
-        except:
-            pass
+    elements = chrome_driver.find_element_by_xpath('//*[@id="label-armedForces-no"]').click()
     # continue
     chrome_driver.find_element_by_xpath('//*[@id="nextButton"]').click()
     sleep(5)    
@@ -99,8 +94,16 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.find_element_by_xpath('//*[@id="zip"]').send_keys(submit['Uspd']['zip'])
     # city
     chrome_driver.find_element_by_xpath('//*[@id="city"]').click()
+    sleep(1)
+    # length at address
+    num_ = random.randint(3,10)
+    print('value is :',num_)
+    s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="lengthAtAddress"]'))
+    s1.select_by_value(str(num_))
+    sleep(1)    
+
     # own home
-    chrome_driver.find_element_by_xpath('//*[@id="rentOwn-own"]').click()
+    chrome_driver.find_element_by_xpath('//*[@id="label-rentOwn-rent"]').click()
     # employment
     # income source
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="incomeSource"]'))
@@ -159,8 +162,9 @@ def test():
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
     [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None]
-    # chrome_driver = Chrome_driver.get_chrome(submit)
-    # web_submit(submit,chrome_driver,1)
+    submit['Mission_Id'] = '10038'
+    chrome_driver = Chrome_driver.get_chrome(submit)
+    web_submit(submit,chrome_driver,1)
 
 
 if __name__=='__main__':
