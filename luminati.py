@@ -118,22 +118,22 @@ def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",Referer='',debug=0):
     session.proxies = {'http': proxy,
                        'https': proxy}  
     print('Approaching:',url)
-    print(proxy)
+    # print(proxy)
     resp=session.get(url,headers=headers)
     # print(headers)
     # print(resp.text)
-    print(resp.headers)
-    print(resp.status_code)
-    print(type(resp.status_code))
+    # print(resp.headers)
+    # print(resp.status_code)
+    # print(type(resp.status_code))
     if resp.status_code == 502:
         print('============')
         proxy_info = ''
         return proxy_info   
     try:
         print('--------------------')
-        print(resp.text)            
+        # print(resp.text)            
         proxy_info = json.loads(resp.text)
-        print(proxy_info)
+        # print(proxy_info)
     except Exception as e:
         print(str(e))
         proxy_info = ' '
@@ -360,6 +360,8 @@ def ip_test(ip_lpm,port_lpm,state = '',country=''):
         except:
             continue
         print(state_proxy)
+        # flag = 1
+        # break
         if state_proxy == state:
             print('Find target state:',state_proxy)
             flag = 1

@@ -40,12 +40,16 @@ def web_submit(submit,chrome_driver,debug=0):
     # accept
     chrome_driver.find_element_by_xpath('//*[@id="qubiq-container"]/main/div/form/div/div[3]/div/div/button').click()    
     sleep(1)
+    # gender
     # email
-    chrome_driver.find_element_by_name('ld_email').send_keys(submit['Ukchoujiang']['email'])
-    sleep(1)
+    try:
+        chrome_driver.find_element_by_name('ld_email').send_keys(submit['Ukchoujiang']['email'])
+        sleep(1)        
+        chrome_driver.find_element_by_xpath('//*[@id="qubiq-container"]/main/div/form/div/div[3]/button').click()
+        sleep(1)
+    except:
+        pass
     # next
-    chrome_driver.find_element_by_xpath('//*[@id="qubiq-container"]/main/div/form/div/div[3]/button').click()
-    sleep(1)
     # gender    
     num_ = random.randint(0,1)
     if num_ == 0:
@@ -53,11 +57,14 @@ def web_submit(submit,chrome_driver,debug=0):
     else:
         chrome_driver.find_element_by_xpath('//*[@id="ld_title_Ms"]').click()
     sleep(2)
-    # zipcode
-    chrome_driver.find_element_by_name('ld_zip_code').send_keys(submit['Ukchoujiang']['zip'])
-    sleep(1)
-    chrome_driver.find_element_by_xpath('//*[@id="qubiq-container"]/main/div/form/div/div[3]/button').click()
-    sleep(10)
+    try:
+        # zipcode
+        chrome_driver.find_element_by_name('ld_zip_code').send_keys(submit['Ukchoujiang']['zip'])
+        sleep(1)
+        chrome_driver.find_element_by_xpath('//*[@id="qubiq-container"]/main/div/form/div/div[3]/button').click()
+        sleep(10)
+    except:
+        pass
     # date_of_birth
     date_of_birth = Submit_handle.get_auto_birthday('')
     # dd
