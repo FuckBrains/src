@@ -1,4 +1,5 @@
 from selenium import webdriver
+import datetime
 from time import sleep
 # import xlrd
 import random
@@ -24,7 +25,7 @@ import random
 def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
-        site = 'http://resslead.o18.click/c?o=715556&m=1846&a=39977'
+        site = 'https://www.hexaem.com/2c636f873a612048c30d94fac2d5ae5d5c98739b-0-0-0/'
         submit['Site'] = site
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
@@ -45,10 +46,13 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.find_element_by_xpath('//*[@id="terms-check"]').click()      
     # get started
     chrome_driver.find_element_by_xpath('//*[@id="header"]/div/div/form/div[5]/button').click()      
-    handles=chrome_driver.window_handles
-    # sleep(10)
-    while 'step2' not in chrome_driver.current_url:
-        sleep(2)
+    sleep(10)
+    for i in range(40):
+        handles=chrome_driver.window_handles
+        if len(handles) != 1:
+            break
+        else:
+            sleep(2)
     for i in handles:
         if i != handle:
             chrome_driver.switch_to.window(i)
@@ -68,7 +72,7 @@ def web_submit(submit,chrome_driver,debug=0):
             s1.select_by_value(date_of_birth[1])               
 
             # year
-            s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="omFormContent"]/div[1]/div[6]/div/div[3]'))
+            s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="birth_date_year"]'))
             s1.select_by_value(date_of_birth[2])               
             # employer name
             chrome_driver.find_element_by_xpath('//*[@id="workCompanyName"]').send_keys(submit['Uspd']['employer'])
@@ -94,25 +98,64 @@ def web_submit(submit,chrome_driver,debug=0):
             chrome_driver.find_element_by_xpath('//*[@id="workPhone"]').send_keys(submit['Uspd']['work_phone'].split('.')[0])
             # Banking Information
             # Pay Frequency
-            num_ = random.randint(0,3)
+            num_ = random.randint(1,3)
             s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="incomePaymentFrequency"]'))
-            s1.select_by_index(num_)                  
+            s1.select_by_index(num_)                 
             # Next payday
-            payday = get_next_payday
-            for key in payday:
-                chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate1"]').send_keys(key)
+            month = datetime.datetime.now().month
+            payday = Submit_handle.get_next_payday()
+            print(payday)
+            if len(str(month)) == 2:
+                chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate1"]').send_keys(month)
+            else:
+                chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate1"]').send_keys('0'+str(month))        
+            if len(str(payday[1])) == 1:
+                chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate1"]').send_keys('0'+str(payday[1]))
+            else:
+                chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate1"]').send_keys(str(payday[1]))                            
+            chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate1"]').send_keys(str(payday[2]))
+            if payday[1] == 15:
+                day = 30
+            else:
+                if month == 12:
+                    month = 1
+                else:
+                    month += 1
+                day = 15
+            if len(str(month)) == 2:
+                chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate2"]').send_keys(month)
+            else:
+                chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate2"]').send_keys('0'+str(month))        
+            if len(str(payday[1])) == 1:
+                chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate2"]').send_keys('0'+str(day))
+            else:
+                chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate2"]').send_keys(str(day))                            
+            chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate2"]').send_keys(str(payday[2]))                
             # Direct Deposit
             chrome_driver.find_element_by_xpath('//*[@id="dd_yes"]').click()
             # Bank name
-            s1 = Select(chrome_driver.find_element_by_xpath())
+            s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="bankName"]'))
             try:
                 s1.select_by_value(submit['Uspd']['bank_name'])                      
             except:
-                s1.select_by_value('other')                         
+                s1.select_by_value('other')  
+            # bank state 
+            try:
+                s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="bankState"]'))
+                s1.select_by_value('other')
+            except:
+                pass
             # ABA
-            chrome_driver.find_element_by_xpath('//*[@id="bankAba"]').send_keys(submit['Uspd']['routing_number'])
+            aba_num = submit['Uspd']['routing_number'].split('.')[0]
+            if len(aba_num) == 8:
+                aba_num = '0'+aba_num
+            print(aba_num)
+            chrome_driver.find_element_by_xpath('//*[@id="bankAba"]').click()
+            sleep(1)
+            for key in aba_num:
+                chrome_driver.find_element_by_xpath('//*[@id="bankAba"]').send_keys(key)
             # account number
-            chrome_driver.find_element_by_xpath('//*[@id="bankAccountNumber"]').send_keys(submit['Uspd']['account_number'])
+            chrome_driver.find_element_by_xpath('//*[@id="bankAccountNumber"]').send_keys(submit['Uspd']['account_number'].split('.')[0])
             # Type of account
             chrome_driver.find_element_by_xpath('//*[@id="bat_yes"]').click()
             # checkbox1
@@ -121,113 +164,7 @@ def web_submit(submit,chrome_driver,debug=0):
             chrome_driver.find_element_by_xpath('//*[@id="consentEmailSms"]').click()
             # submit
             chrome_driver.find_element_by_xpath('//*[@id="button_status"]').click()
-            sleep(200)
-
-
-            
-
-    # brightnessLine=chrome_driver.find_element_by_id('//*[@id="form"]/fieldset/div[2]/div')
-    # 定位到进度条
-    # brightnessLine.get_attribute("title")#通过title属性获取当前的值
-    brightnessSlider=chrome_driver.find_element_by_xpath('//*[@id="form"]/fieldset/div[2]/div/div/div')
-    #定位到滑动块
-    move_num = random.randint(10,150)
-    print('Move',move_num)
-    ActionChains(chrome_driver).click_and_hold(brightnessSlider).move_by_offset(move_num,7).release().perform()#通过move_by_offset()移动滑块，-6表示在水平方向上往左移动6个像素，7表示在垂直方向上往上移动7个像素    
-    # email address
-    chrome_driver.find_element_by_xpath('//*[@id="email"]').send_keys(submit['Uspd']['email'])
-    # click
-    chrome_driver.find_element_by_xpath('//*[@id="form-submit"]').click()
-    sleep(10)
-    # page2
-    # credit type
-    num_ = random.randint(0,1)
-    s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="creditType"]'))
-    if num_ == 0:
-        s1.select_by_value('good')
-    else:
-        s1.select_by_value('fair')    
-    sleep(1)    
-    # loan reason
-    num_reason = random.randint(1,12)
-    s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="loanReason"]'))
-    s1.select_by_index(num_reason)
-    sleep(1)    
-    # firstname
-    chrome_driver.find_element_by_xpath('//*[@id="fName"]').send_keys(submit['Uspd']['first_name'])
-    # lastname
-    chrome_driver.find_element_by_xpath('//*[@id="lName"]').send_keys(submit['Uspd']['last_name'])
-    # birthday
-    date_of_birth = Submit_handle.get_auto_birthday(submit['Uspd']['date_of_birth'])   
-    # mm
-    chrome_driver.find_element_by_xpath('//*[@id="birthdateMonth"]').send_keys(date_of_birth[0])
-
-    # dd
-    chrome_driver.find_element_by_xpath('//*[@id="birthdateDay"]').send_keys(date_of_birth[1])
-
-    # year
-    chrome_driver.find_element_by_xpath('//*[@id="birthdateYear"]').send_keys(date_of_birth[2])
-    sleep(1)
-    # military
-    chrome_driver.find_elements_by_xpath('//*[@id="armedForces-no"]')[0].click()
-    # continue
-    chrome_driver.find_element_by_xpath('//*[@id="nextButton"]').click()
-    sleep(5)    
-    # page3
-    # phone
-    # phone = submit['Uspd']['home_phone'].split('.')[0]
-    chrome_driver.find_element_by_xpath('//*[@id="phone"]').send_keys(submit['Uspd']['home_phone'].split('.')[0])
-    # address
-    chrome_driver.find_element_by_xpath('//*[@id="address"]').send_keys(submit['Uspd']['address'])
-    # zipcode    
-    chrome_driver.find_element_by_xpath('//*[@id="zip"]').send_keys(submit['Uspd']['zip'])
-    # city
-    chrome_driver.find_element_by_xpath('//*[@id="city"]').click()
-    # own home
-    chrome_driver.find_element_by_xpath('//*[@id="rentOwn-own"]').click()
-    # employment
-    # income source
-    s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="incomeSource"]'))
-    s1.select_by_value('EMPLOYMENT')
-    sleep(1)    
-    # time employed 
-    num_time = random.randint(2,4)
-    s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="timeEmployed"]'))
-    s1.select_by_index(num_time)
-    sleep(1)    
-    # get paid  
-    num_paid = random.randint(1,4) 
-    s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="paidEvery"]'))
-    s1.select_by_index(num_paid)
-    sleep(1)
-    # employer name    
-    chrome_driver.find_element_by_xpath('//*[@id="employerName"]').send_keys(submit['Uspd']['employer'])
-    # employer's phone
-    chrome_driver.find_element_by_xpath('//*[@id="employerPhone"]').send_keys(submit['Uspd']['work_phone'].split('.')[0])    
-    # monthly gross income    
-    num_income = random.randint(1,12)
-    s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="monthlyNetIncome"]'))
-    s1.select_by_index(num_income)
-    sleep(1)
-    # Identity and Bank Information
-    # Driver's License or state ID
-    chrome_driver.find_element_by_xpath('//*[@id="license"]').send_keys(submit['Uspd']['drivers_license'].split('.')[0])    
-    # ssn
-    chrome_driver.find_element_by_xpath('//*[@id="ssn"]').send_keys(submit['Uspd']['ssn'].split('.')[0])    
-    # bank account type
-    s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="accountType"]'))
-    s1.select_by_value('checking')
-    sleep(1)
-    # checkbox            
-    chrome_driver.find_element_by_xpath('//*[@id="privacyPolicy"]').click()
-    sleep(3)
-    # mobile phone
-    phone = submit['Uspd']['home_phone'].split('.')[0]    
-    chrome_driver.find_element_by_xpath('//*[@id="smsCellphone"]').send_keys(phone)
-    sleep(3)
-    # submit
-    chrome_driver.find_element_by_xpath('//*[@id="submitButton"]').click()
-    sleep(50)
+            sleep(300)
     return 1
 
 
@@ -243,8 +180,9 @@ def test():
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
     [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None]
-    # chrome_driver = Chrome_driver.get_chrome(submit)
-    # web_submit(submit,chrome_driver,1)
+    submit['Mission_Id'] = 10039
+    chrome_driver = Chrome_driver.get_chrome(submit)
+    web_submit(submit,chrome_driver,1)
 
 
 if __name__=='__main__':

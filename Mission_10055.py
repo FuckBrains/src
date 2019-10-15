@@ -180,9 +180,13 @@ def web_submit(submit,chrome_driver,debug=0):
     # confirm
     chrome_driver.find_element_by_xpath('//*[@id="tcpa-checkbox"]').click()
     sleep(1)
+    url = chrome_driver.current_url
     # submit
     chrome_driver.find_element_by_xpath('//*[@id="submitbutton"]').click()
-    sleep(600)
+    sleep(10)
+    url_ = chrome_driver.current_url
+    if url != url_:
+        sleep(600)
     chrome_driver.close()
     chrome_driver.quit()
     return 1

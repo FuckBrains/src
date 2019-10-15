@@ -195,7 +195,7 @@ def get_next_payday():
     index = month_list.index(month)
     month = month_word[index]
     date = []
-    date = [month,day_pay,year]
+    date = [month,day_pay,year,]
     return date
 
 if __name__ == '__main__':

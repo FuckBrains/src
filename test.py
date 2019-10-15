@@ -365,7 +365,57 @@ def change_port():
     port_new = luminati.get_port_random(ip_lpm)
     db.update_port('24097',port_new)
 
+def push_up(weight,num):
+    weight = 101
+    g = 9.8
+    h = 0.25
+    energy_push = weight*g*h*2/1000  #kj
+    print('pushing_up using %0.1f kj with num %d'%(energy_push*num,num))    
+    return energy_push*num
+
+def squat(weight,num):
+    energy_squat = weight*9.8*0.3*2/1000
+    print('squat using %0.1f kj with num %d'%(energy_squat*num,num))
+    return energy_squat*num
+
+def energy_cal():
+    weight = 101
+    num_push_up = 100
+    num_squat = 200
+    running = 271*4.18
+    print('Running using',running,'kj')
+    energy_push = push_up(weight,num_push_up)
+    energy_squat = squat(weight,num_squat)
+    energy_used = energy_push+energy_squat+running
+    return energy_used
+
+def test():
+    info = {
+    'weight':101, #kg
+    'push_up':70, #num
+    'squat':100,  #num
+    'running':270 #kj
+    }    
+    class energy():
+        def __init__(self,info=None):
+            print('=========')
+            self.weight = info['weight']
+            # self.g = 9.8
+            self.push_up = info['push_up']
+            self.squat = info['squat']
+            self.running = info['running']
+            self.energy_used = self.running
+            print(self.push_up)
+            print(self.energy_used)
+    
+        def push_up_(self):
+            # print(self.push_up)
+            print('==========++++')
+
+    energy_ = energy(info)
+    print(energy_)
+    energy_.push_up_()
+
+
 if __name__ == '__main__':
-    test_502()
-
-
+    test()

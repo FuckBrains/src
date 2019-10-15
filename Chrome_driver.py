@@ -30,6 +30,19 @@ def get_ua_random(uas):
     # print(uas[num])
     return uas[num]
 
+def get_lan_config(country):
+    country_list_code ={
+    'US':'en_us',
+    'GB':'en_gb',
+    'AU':'en_au',
+    'FR':'fr',
+    'DE':'de',
+    'ES':'es',
+    'IT':'it',
+    'PL':'pl',
+    }
+    return country_list_code[country]
+
 
 def get_chrome(submit = None):
     if submit == None:
@@ -68,6 +81,9 @@ def get_chrome(submit = None):
     # } 
     # }      
     options.add_argument('user-agent=' + ua) 
+    if 'Country' in submit:
+        language = get_lan_config(submit['Country'])
+        options.add_argument('-lang=' +language )
     if type(submit) != type(None):
         if submit['Mission_Id'] == '20000':
             print('test chrome')

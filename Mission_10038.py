@@ -83,7 +83,7 @@ def web_submit(submit,chrome_driver,debug=0):
     elements = chrome_driver.find_element_by_xpath('//*[@id="label-armedForces-no"]').click()
     # continue
     chrome_driver.find_element_by_xpath('//*[@id="nextButton"]').click()
-    sleep(5)    
+    sleep(5)
     # page3
     # phone
     # phone = submit['Uspd']['home_phone'].split('.')[0]

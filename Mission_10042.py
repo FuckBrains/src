@@ -2,7 +2,7 @@
 cpagrip
 Get the Best Nutella Package!
 http://zh.moneymethods.net/click.php?c=7&key=bbcprqa35ns2a5f44z14k2k3
-Uspd
+health
 '''
 
 from selenium import webdriver
@@ -42,7 +42,7 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.refresh()    
     # sleep(2000)
     # chrome_driver.find_element_by_xpath('').click()
-    # chrome_driver.find_element_by_xpath('').send_keys(submit['Uspd']['state'])
+    # chrome_driver.find_element_by_xpath('').send_keys(submit['health']['state'])
     if 'https://vouchersavenue.com/' not in chrome_driver.current_url:
     	print('Url wrong!!!!!!!!!!!!!!!!!')
     	chrome_driver.close()
@@ -56,29 +56,29 @@ def web_submit(submit,chrome_driver,debug=0):
     	chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[1]/div/div[2]/label').click()
     # chrome_driver.find_element_by_xpath().click()
     # firstname
-    chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[2]/input').send_keys(submit['Uspd']['first_name'])
+    chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[2]/input').send_keys(submit['health']['firstname'])
     # lastname
-    chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[3]/input').send_keys(submit['Uspd']['last_name'])
+    chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[3]/input').send_keys(submit['health']['lastname'])
     # address
-    chrome_driver.find_element_by_xpath('//*[@id="address"]').send_keys(submit['Uspd']['address'])
+    chrome_driver.find_element_by_xpath('//*[@id="address"]').send_keys(submit['health']['address'])
     # zipcode
-    zipcode = Submit_handle.get_zip(submit['Uspd']['zip'])
+    zipcode = Submit_handle.get_zip(submit['health']['zip'])
     print('zipcode:',zipcode)
     for key in zipcode:
         chrome_driver.find_element_by_xpath('//*[@id="postal_code"]').send_keys(int(key))
     # city
-    chrome_driver.find_element_by_xpath('//*[@id="locality"]').send_keys(submit['Uspd']['city'])
+    chrome_driver.find_element_by_xpath('//*[@id="locality"]').send_keys(submit['health']['city'])
     # state
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[7]/select'))
-    s1.select_by_value(submit['Uspd']['state'])    
+    s1.select_by_value(submit['health']['state'])    
     # email
-    chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[8]/input').send_keys(submit['Uspd']['email'])
+    chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[8]/input').send_keys(submit['health']['email'])
     # cellphone
-    cellphone = Submit_handle.chansfer_float_into_int(submit['Uspd']['home_phone'])
+    cellphone = Submit_handle.chansfer_float_into_int(submit['health']['homephone'].split('.')[0])
     print('cellphone:',cellphone)
     for key in cellphone:
         chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[9]/input').send_keys(int(key))
-    date_of_birth = Submit_handle.get_auto_birthday(submit['Uspd']['date_of_birth'])
+    date_of_birth = Submit_handle.get_auto_birthday('')
     # MM
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="month"]'))
     s1.select_by_value(date_of_birth[0])    
@@ -115,19 +115,20 @@ def web_submit(submit,chrome_driver,debug=0):
 
 def test():
     Mission_list = ['10000']
-    Excel_name = ['Uspd','']
+    Excel_name = ['health','']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
     # print(submit)
-    # date_of_birth = Submit_handle.get_auto_birthday(submit['Uspd']['date_of_birth'])
+    [print(item,submit['health'][item]) for item in submit['health'] if submit['health'][item]!=None]
+    # date_of_birth = Submit_handle.get_auto_birthday(submit['health']['date_of_birth'])
     # print(date_of_birth)
-    web_submit(submit,1)
-    # print(submit['Uspd'])
-    # print(submit['Uspd']['state'])
-    # print(submit['Uspd']['city'])
-    # print(submit['Uspd']['zip'])
-    # print(submit['Uspd']['date_of_birth'])
-    # print(submit['Uspd']['ssn'])
+    # web_submit(submit,1)
+    # print(submit['health'])
+    # print(submit['health']['state'])
+    # print(submit['health']['city'])
+    # print(submit['health']['zip'])
+    # print(submit['health']['date_of_birth'])
+    # print(submit['health']['ssn'])
 
  
 
