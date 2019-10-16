@@ -25,7 +25,7 @@ import random
 def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
-        site = 'https://www.hexaem.com/2c636f873a612048c30d94fac2d5ae5d5c98739b-0-0-0/'
+        site = 'https://www.dovehill7.com/ee96ee6f97b54564c6659d01ec8b27946ed6c928-0-0-0/'
         submit['Site'] = site
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
@@ -93,9 +93,13 @@ def web_submit(submit,chrome_driver,debug=0):
             # ssn
             chrome_driver.find_element_by_xpath('//*[@id="ssn"]').send_keys(submit['Uspd']['ssn'])
             # primary phone
-            chrome_driver.find_element_by_xpath('//*[@id="homePhone"]').send_keys(submit['Uspd']['home_phone'].split('.')[0])
+            phone_primary = submit['Uspd']['home_phone'].split('.')[0]
+            for key in phone_primary:
+                chrome_driver.find_element_by_xpath('//*[@id="homePhone"]').send_keys(key)
             # employer phone                        
-            chrome_driver.find_element_by_xpath('//*[@id="workPhone"]').send_keys(submit['Uspd']['work_phone'].split('.')[0])
+            phone_employer = submit['Uspd']['work_phone'].split('.')[0]
+            for key in phone_employer:
+                chrome_driver.find_element_by_xpath('//*[@id="workPhone"]').send_keys(key)
             # Banking Information
             # Pay Frequency
             num_ = random.randint(1,3)
@@ -106,14 +110,17 @@ def web_submit(submit,chrome_driver,debug=0):
             payday = Submit_handle.get_next_payday()
             print(payday)
             if len(str(month)) == 2:
-                chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate1"]').send_keys(month)
+                for key in str(month):
+                    chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate1"]').send_keys(key)
             else:
                 chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate1"]').send_keys('0'+str(month))        
             if len(str(payday[1])) == 1:
                 chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate1"]').send_keys('0'+str(payday[1]))
             else:
-                chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate1"]').send_keys(str(payday[1]))                            
-            chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate1"]').send_keys(str(payday[2]))
+                for key in str(payday[1]):
+                    chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate1"]').send_keys(key)                            
+            for key in str(payday[2]):
+                chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate1"]').send_keys(key)
             if payday[1] == 15:
                 day = 30
             else:
@@ -123,14 +130,17 @@ def web_submit(submit,chrome_driver,debug=0):
                     month += 1
                 day = 15
             if len(str(month)) == 2:
-                chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate2"]').send_keys(month)
+                for key in str(month):
+                    chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate2"]').send_keys(key)
             else:
                 chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate2"]').send_keys('0'+str(month))        
             if len(str(payday[1])) == 1:
                 chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate2"]').send_keys('0'+str(day))
             else:
-                chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate2"]').send_keys(str(day))                            
-            chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate2"]').send_keys(str(payday[2]))                
+                for key in str(day):
+                    chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate2"]').send_keys(key)                            
+            for key in str(payday[2]):
+                chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate2"]').send_keys(key)                
             # Direct Deposit
             chrome_driver.find_element_by_xpath('//*[@id="dd_yes"]').click()
             # Bank name

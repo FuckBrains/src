@@ -80,10 +80,11 @@ def get_chrome(submit = None):
     # 'profile.default_content_settings.popups': 0,
     # } 
     # }      
-    options.add_argument('user-agent=' + ua) 
-    if 'Country' in submit:
-        language = get_lan_config(submit['Country'])
-        options.add_argument('-lang=' +language )
+    options.add_argument('user-agent=' + ua)
+    if type(submit) != type(None):
+        if 'Country' in submit:
+            language = get_lan_config(submit['Country'])
+            options.add_argument('-lang=' +language )
     if type(submit) != type(None):
         if submit['Mission_Id'] == '20000':
             print('test chrome')
