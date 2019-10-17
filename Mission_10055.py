@@ -145,6 +145,7 @@ def web_submit(submit,chrome_driver,debug=0):
     # zip
     zipcode = Submit_handle.get_zip(submit['Uspd']['zip'])
     chrome_driver.find_element_by_xpath('//*[@id="zip_code"]').send_keys(zipcode)
+    sleep(3)
     # city
     chrome_driver.find_element_by_xpath('//*[@id="city"]').clear()
     chrome_driver.find_element_by_xpath('//*[@id="city"]').send_keys(submit['Uspd']['city'])
