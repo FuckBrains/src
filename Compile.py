@@ -12,8 +12,6 @@ def rename_file(file):
     new_file = os.path.join(path,new_file)
     os.rename(file,new_file)
 
-
-
 def get_modules():
     modules = os.listdir('__pycache__/')
     # print(modules)

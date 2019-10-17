@@ -94,10 +94,12 @@ def web_submit(submit,chrome_driver,debug=0):
             chrome_driver.find_element_by_xpath('//*[@id="ssn"]').send_keys(submit['Uspd']['ssn'])
             # primary phone
             phone_primary = submit['Uspd']['home_phone'].split('.')[0]
+            chrome_driver.find_element_by_xpath('//*[@id="homePhone"]').click()
             for key in phone_primary:
                 chrome_driver.find_element_by_xpath('//*[@id="homePhone"]').send_keys(key)
             # employer phone                        
             phone_employer = submit['Uspd']['work_phone'].split('.')[0]
+            chrome_driver.find_element_by_xpath('//*[@id="workPhone"]').click()
             for key in phone_employer:
                 chrome_driver.find_element_by_xpath('//*[@id="workPhone"]').send_keys(key)
             # Banking Information
@@ -109,6 +111,7 @@ def web_submit(submit,chrome_driver,debug=0):
             month = datetime.datetime.now().month
             payday = Submit_handle.get_next_payday()
             print(payday)
+            chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate1"]').click()
             if len(str(month)) == 2:
                 for key in str(month):
                     chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate1"]').send_keys(key)
@@ -129,6 +132,7 @@ def web_submit(submit,chrome_driver,debug=0):
                 else:
                     month += 1
                 day = 15
+            chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate2"]').click()
             if len(str(month)) == 2:
                 for key in str(month):
                     chrome_driver.find_element_by_xpath('//*[@id="incomeNextDate2"]').send_keys(key)

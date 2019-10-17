@@ -144,7 +144,10 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.find_element_by_xpath('//*[@id="address"]').send_keys(submit['Uspd']['address']) 
     # zip
     zipcode = Submit_handle.get_zip(submit['Uspd']['zip'])
-    chrome_driver.find_element_by_xpath('//*[@id="zip_code"]').send_keys(zipcode)  
+    chrome_driver.find_element_by_xpath('//*[@id="zip_code"]').send_keys(zipcode)
+    # city
+    chrome_driver.find_element_by_xpath('//*[@id="city"]').clear()
+    chrome_driver.find_element_by_xpath('//*[@id="city"]').send_keys(submit['Uspd']['city'])
     # timeofwork
     index_timeofwork = random.randint(1,7)
     js="$('#res_year > option:nth-child(10)').removeAttr('selected')"
@@ -194,14 +197,14 @@ def web_submit(submit,chrome_driver,debug=0):
 def test():
     # db.email_test()
     Mission_list = ['10009']
-    excel = 'Ukpd'
+    excel = 'Uspd'
     Excel_name = [excel,'']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
     [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None]
-    # submit['Mission_Id'] = '10055'
-    # chrome_driver = Chrome_driver.get_chrome(submit)
-    # web_submit(submit,chrome_driver,1)
+    submit['Mission_Id'] = '10055'
+    chrome_driver = Chrome_driver.get_chrome(submit)
+    web_submit(submit,chrome_driver,1)
 
 
 if __name__=='__main__':
