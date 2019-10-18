@@ -101,7 +101,8 @@ def get_chrome(submit = None):
             options.add_argument('--proxy-server=%s'%proxy)
             print(proxy)
     # options.add_argument('--single-process')
-    # options.add_argument('--process-per-tab')    
+    # options.add_argument('--process-per-tab') 
+    options.add_argument('–Referer=https://www.facebook.com') 
     options.add_experimental_option("prefs", prefs)       
     options.add_argument('--disable-gpu')        
     options.add_argument("--disable-automation")
@@ -216,10 +217,12 @@ def test():
 
 if __name__ == '__main__':
     # clean_download()
-    url_test = 'http://im.datingwithlili.com/im/click.php?c=22&key=m27ib99qocowaqrf59jw2ori'
+    # url_test = 'http://im.datingwithlili.com/im/click.php?c=22&key=m27ib99qocowaqrf59jw2ori'
     url_test = 'https://www.baidu.com'
     # 'http://tbx.gamemass.website/c/14549/7?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]
     chrome_driver = get_chrome()
+    # document.write('<script>window.location.href = "<my website>";</script>')" 
+    sleep(5)
     chrome_driver.get(url_test)
     sleep(1000)
     # for i in range(100):

@@ -416,6 +416,13 @@ def test():
     print(energy_)
     energy_.push_up_()
 
+def test_html():
+    import traffic
+    url = 'http://im.datingwithlili.com/im/click.php?c=8&key=0jp93r1877b94stq2u8rd6hd'
+    
+
+
+
 
 if __name__ == '__main__':
-    test()
+    test_html()

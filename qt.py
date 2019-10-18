@@ -512,7 +512,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     def on_pushButton12_clicked(self):
         plan_id = int(self.comboBox8.currentText())
         plans = db.read_plans(plan_id)
+        print('read plan finished')
         ports = [plan['port_lpm'] for plan in plans]
+        print('start delete ports')
         luminati.delete_port(ports)
         db.clean_table(plan_id)
 

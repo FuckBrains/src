@@ -100,7 +100,7 @@ def refresh_proxy(ip,port):
             print(str(e))
     return flag
 
-# @timeout(30)
+@timeout(30)
 def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",Referer='',debug=0):
     proxy = 'socks5://%s:%s'%(ip,port)
     uas = Chrome_driver.get_ua_all()
@@ -139,6 +139,7 @@ def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",Referer='',debug=0):
         proxy_info = ' '
     if debug != 0:
         while True:
+            print(resp.text)
             a = resp.text.find('window.location = "')
             print('window.location = .......found')
             if a == -1:
@@ -211,9 +212,12 @@ pool = threadpool.ThreadPool(50)
 # @timeout(30)
 def delete_port(ports=''):
     account = db.get_account()
+    print('read account finished ')
     ip_lpm = account['IP']
+    print(ports)
     if ports == '': 
         try:       
+            print('start getting ports')
             ports = ports_get(ip_lpm)
         except:
             return
@@ -222,7 +226,7 @@ def delete_port(ports=''):
     pool.wait()     
 
 
-@timeout(30)
+# @timeout(30)
 def delete_port_s(port_delete):
     account = db.get_account()
     ip_lpm = account['IP']    
@@ -234,7 +238,9 @@ def delete_port_s(port_delete):
         "port":port_delete
     }
     data = json.dumps(data)
+    print(data)
     try:
+        print('start delete post sending')
         resp = requests.delete(url_,data=data,headers=headers)
     except:
         pass

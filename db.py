@@ -888,7 +888,7 @@ def get_duplicated_mission_record():
     Execute_sql([sql_content1,sql_content2])
 
 
-@timeout(30)
+# @timeout(30)
 def read_plans(plan_id):
     '''
     return:

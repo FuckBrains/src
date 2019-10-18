@@ -204,8 +204,8 @@ def test():
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
     [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None]
     submit['Mission_Id'] = '10055'
-    chrome_driver = Chrome_driver.get_chrome(submit)
-    web_submit(submit,chrome_driver,1)
+    # chrome_driver = Chrome_driver.get_chrome(submit)
+    # web_submit(submit,chrome_driver,1)
 
 
 if __name__=='__main__':

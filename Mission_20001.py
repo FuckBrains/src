@@ -23,8 +23,9 @@ import random
 def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
-        site = 'http://resslead.o18.click/c?o=715556&m=1846&a=39977'
+        site = 'http://www.baidu.com'
         submit['Site'] = site
+    # js = 'window.location.href="%s"'(submit['Site'])
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
     chrome_driver.refresh()

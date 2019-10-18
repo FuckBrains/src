@@ -17,9 +17,25 @@ def traffic_test(traffic):
     traffic['ua'] = ua    
     click = 10
     referer = ''
+    while True:    
+        flag = luminati.ip_test(traffic['ip_lpm'],traffic['port_lpm'])
+        print(flag,'=========================')
+        if flag == 1:
+            break
+        elif flag == -1:
+            print('bad port,change into new')
+            port_new = luminati.get_port_random(traffic['ip_lpm'])
+            db.update_port(traffic['port_lpm'],port_new)
+            luminati.delete_port_s(traffic['port_lpm'])                
+            traffic['port_lpm'] = port_new
+            print(port_new)
+            try:
+                luminati.add_proxy(port_new,country=traffic['Country'],proxy_config_name='zone2',ip_lpm=traffic['ip_lpm'])
+            except Exception as e:
+                print(str(e))
     for i in range(click):
         print(i)
-        luminati.refresh_proxy(traffic['ip_lpm'],traffic['port_lpm'])
+        # luminati.refresh_proxy(traffic['ip_lpm'],traffic['port_lpm'])
         if traffic['method'] == 1:
             try:
                 luminati.get_lpm_ip(traffic['ip_lpm'],traffic['port_lpm'],url = traffic['url_link'],Referer = referer,debug=1)
@@ -48,7 +64,7 @@ def main(i):
         [pool.putRequest(req) for req in requests]
         pool.wait() 
         print('finish sending traffic,sleep for 30')
-        sleep(30)    
+        sleep(30)
 
 def test():
     port = 24058
@@ -83,9 +99,9 @@ def get_unique_traffic(traffic):
         pass
 
 if __name__ == '__main__':
-    paras=sys.argv
+    # paras=sys.argv
     # i = int(paras[1])
-    i = 1 
+    i = 8
     main(i)
 
 
