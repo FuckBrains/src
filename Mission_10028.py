@@ -19,11 +19,12 @@ import db
 import selenium_funcs
 import Submit_handle
 import random
+import pyrobot as pr
 
 def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
-        site = 'https://track.amcmpn.com/click?pid=668&offer_id=20836'
+        site = 'https://track.amcmpn.com/click?pid=662&offer_id=20836'
         submit['Site'] = site
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
@@ -74,9 +75,28 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(3)
     # postcode
     chrome_driver.find_element_by_xpath('//*[@id="postcode"]').send_keys(submit['Ukchoujiang']['zip'])
+    sleep(3)
+    # address
+    element = chrome_driver.find_element_by_xpath('//*[@id="address"]')
+    element.click()
+    sleep(6)
+    index = random.randint(1,5)
+    s1 = Select(element)
+    s1.select_by_index(index)    
+    element.click()    
+    sleep(2)
+    # phone
+    phone = submit['Ukchoujiang']['homephone']
+    phone = Submit_handle.get_uk_phone1(phone)     
+    js = "$('#phone').val('%s')"%phone
+    chrome_driver.execute_script(js)        
     sleep(1)
-
-    sleep(300)
+    # click
+    # element = '//*[@id="longform"]/div/div[3]/button'
+    element = '#longform > div > div.form__actions > button'
+    chrome_driver.find_element_by_css_selector(element).click()
+    sleep(100)
+    return 1
 
 
 
