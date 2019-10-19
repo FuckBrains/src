@@ -421,8 +421,13 @@ def test_html():
     url = 'http://im.datingwithlili.com/im/click.php?c=8&key=0jp93r1877b94stq2u8rd6hd'
     
 
-
+def test_cam4_fr():
+    Mission_list = ['10005','10043']
+    Excel_name = ['','Email']
+    Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
+    submit1 = db.read_one_excel(Mission_list,Excel_name,Email_list) 
+    print(submit1)  
 
 
 if __name__ == '__main__':
-    test_html()
+    test_cam4_fr()

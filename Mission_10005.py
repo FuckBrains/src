@@ -62,11 +62,11 @@ def web_submit(submit,chrome_driver,debug=0):
         if flag_check == 1:
             print('used email:',submit['Email']['Email_emu'])
             db.write_one_info([str(submit['Mission_Id'])],submit)                        
-            continue
+            # continue
         else:
             print('find a good email:',submit['Email']['Email_emu'])
             break
-        Mission_list = ['10005']
+        Mission_list = ['10005','10043']
         Excel_name = ['','Email']
         Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
         submit1 = db.read_one_excel(Mission_list,Excel_name,Email_list)

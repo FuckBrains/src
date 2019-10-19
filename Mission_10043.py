@@ -306,5 +306,24 @@ def test():
     submit['Email']['Email_emu_pwd'] = 'tb3yy7c1k'
     email_confirm(submit,debug=1)
 
+
+def test_email_fr():
+    while True:
+        Mission_list = ['10005','10043']
+        Excel_name = ['','Email']
+        Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
+        submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
+        # submit['Email'] = submit1['Email']    	
+        print('checking email')
+        flag_check = check_email(submit['Email'])
+        if flag_check == 1:
+            print('used email:',submit['Email']['Email_emu'])
+            # db.write_one_info([str(submit['Mission_Id'])],submit)                        
+            continue
+        else:
+            print('find a good email:',submit['Email']['Email_emu'])
+            	
+
+
 if __name__=='__main__':
-    test()
+    test_email_fr()
