@@ -82,13 +82,17 @@ def get_chrome(user_data_dir,submit=None):
     # options.add_argument("--disable-automation")
     # options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])
     options.add_experimental_option("prefs", prefs) 
-    chrome_driver = webdriver.Chrome(chrome_options=options)
+    path_driver = get_chromedriver_path()
+    chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)
     chrome_driver.set_page_load_timeout(300)
     chrome_driver.implicitly_wait(20)  # 最长等待8秒    
     # cookies = chrome_driver.get_cookies()  
     # print(cookies)
     # chrome_driver.delete_all_cookies()    
     return chrome_driver
+
+def get_chromedriver_path():
+    return r'driver/chromedriver_77.exe'
 
 def Alliance_login(dir_account,url_lists,submit):
     chrome_driver = get_chrome(dir_account,submit)
@@ -216,9 +220,9 @@ def cookies_test():
     sleep(3000)  
 
 def test_luminati_config(i):
-    account = db.get_account()
-    ip_lpm = account['IP']
-    port_lpm = luminati.get_port_random(ip_lpm)
+    account = luminati.get_account()
+    ip_lpm = account['IP_lpm']
+    port_lpm = luminati.get_port_random()
     roboform_account = Get_roboform_account()    
     # luminati.add_proxy(port_lpm,state=roboform_account[i-1]['state'],country=roboform_account[i-1]['Country'],traffic_=True,ip_lpm=ip_lpm)
     proxy_config_name = roboform_account[i-1]['zone']
@@ -226,7 +230,7 @@ def test_luminati_config(i):
     luminati.add_proxy(port_lpm,country=roboform_account[i-1]['Country'],proxy_config_name=proxy_config_name,ip_lpm=ip_lpm)
     submit= {}
     try:
-        flag = luminati.ip_test(ip_lpm,port_lpm)
+        flag = luminati.ip_test(port_lpm)
         submit['ip_lpm'] = ip_lpm
         submit['port_lpm'] = port_lpm
         submit['ua'] = roboform_account[i-1]['ua']    

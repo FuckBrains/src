@@ -119,7 +119,9 @@ def refresh_proxy(ip,port):
     return flag
 
 @timeout(30)
-def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",Referer='',debug=0):
+def get_lpm_ip(port,url="http://lumtest.com/myip.json",Referer='',debug=0):
+    account = get_account()
+    ip = account['IP_lpm']
     proxy = 'socks5://%s:%s'%(ip,port)
     uas = Chrome_driver.get_ua_all()
     ua = Chrome_driver.get_ua_random(uas) 
@@ -371,7 +373,7 @@ def ip_test(port_lpm,state = '',country=''):
             break        
         proxy_info = ''
         try:
-            proxy_info = get_lpm_ip(ip_lpm,port_lpm)
+            proxy_info = get_lpm_ip(port_lpm)
         except Exception as e:
             print(str(e))
             print('fail to get lpm ip')

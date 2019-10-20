@@ -38,7 +38,7 @@ def traffic_test(traffic):
         # luminati.refresh_proxy(traffic['ip_lpm'],traffic['port_lpm'])
         if traffic['method'] == 1:
             try:
-                luminati.get_lpm_ip(traffic['ip_lpm'],traffic['port_lpm'],url = traffic['url_link'],Referer = referer,debug=1)
+                luminati.get_lpm_ip(traffic['port_lpm'],url = traffic['url_link'],Referer = referer,debug=1)
             except Exception as e:
             	print(str(e))
         else:
@@ -56,10 +56,10 @@ def main(i):
         for traffic in traffics:
             traffic['method'] = 1
             traffic['key'] = 'consumerrewards.us.com'
-            traffic['port_lpm'] = luminati.get_port_random(ip_lpm)
+            traffic['port_lpm'] = luminati.get_port_random()
             print(traffic['Country'],traffic['port_lpm'])
             # luminati.add_proxy(traffic['port_lpm'],country=traffic['Country'],proxy_config_name='zone2',ip_lpm=ip_lpm)
-            luminati.add_proxy(traffic['port_lpm'],country=traffic['Country'],proxy_config_name='jia1',ip_lpm=ip_lpm)            
+            luminati.add_proxy(traffic['port_lpm'],country=traffic['Country'],proxy_config_name='zone2',ip_lpm=ip_lpm)            
         requests = threadpool.makeRequests(traffic_test, traffics)
         [pool.putRequest(req) for req in requests]
         pool.wait() 
