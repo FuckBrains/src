@@ -47,8 +47,8 @@ def multi_reg(Config):
         print(Config)
         if Config['Alliance'] != 'Test':
             print('Sleep for random time:',time_cheat*60,'-------------')   
-            if Config['Mission_Id'] != '20000':
-                sleep(time_cheat*60)
+            # if Config['Mission_Id'] != '20000':
+            #     sleep(time_cheat*60)
         else:
             print('test...........')
         while True:
@@ -83,15 +83,15 @@ def multi_reg(Config):
                     print('Loging email server failed,find another email')
                     continue
             else:
-                pass
-            print(Config['Alliance'],'email test finished')
-            flag = luminati.ip_test(submit['ip_lpm'],submit['port_lpm'],state=submit['state_'] ,country='')
+                pass 
+            print('refreshing ip.............')          
+            flag = luminati.ip_test(submit['port_lpm'],state=submit['state_'] ,country='')
             print(flag,'=========================')
             if flag == 1:
                 break
             elif flag == -1:
                 print('bad port,change into new')
-                port_new = luminati.get_port_random(submit['ip_lpm'])
+                port_new = luminati.get_port_random()
                 db.update_port(submit['port_lpm'],port_new)
                 luminati.delete_port_s(submit['port_lpm'])                
                 Config['port_lpm'] = port_new
@@ -192,7 +192,6 @@ def main(i):
             return
         print('Missions:')
         # print(plans)
-
         global Mission_num
         Mission_num = len(plans)
         print(Mission_num)

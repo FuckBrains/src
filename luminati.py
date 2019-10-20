@@ -15,6 +15,24 @@ import threading
 import threadpool
 from wrapt_timeout_decorator import *
 
+def get_account():
+    '''
+    get account for sql db,read a config file in res folder
+    eg:submit = {'password':...}
+    requies nothing
+    return the sql db account
+    '''
+    file = r'..\res\lpm_config.txt' 
+    submits = []
+    with open(file,'r') as f:
+        jss = f.readlines()
+        # print(jss)
+        for js in jss:
+            submit = json.loads(js)
+            submits.append(submit)
+            # print(submit)
+    return submits[-1]
+
 
 def test_luminati():
     customer = 'caichao'
@@ -156,7 +174,9 @@ def get_lpm_ip(ip,port,url="http://lumtest.com/myip.json",Referer='',debug=0):
     return proxy_info
 
 @timeout(30)
-def add_proxy(port_add,country='us',proxy_config_name='zone2',ip_lpm='127.0.0.1'):  
+def add_proxy(port_add,country='us',proxy_config_name='zone2',ip_lpm='127.0.0.1'):
+    account = get_account()
+    ip_lpm = account['IP_lpm']    
     data = {}
     data_proxy_config = read_proxy_config()
     data_proxy_config[proxy_config_name]['country'] = country
@@ -211,9 +231,9 @@ pool = threadpool.ThreadPool(50)
 
 # @timeout(30)
 def delete_port(ports=''):
-    account = db.get_account()
+    account = get_account()
     print('read account finished ')
-    ip_lpm = account['IP']
+    ip_lpm = account['IP_lpm']
     print(ports)
     if ports == '': 
         try:       
@@ -228,8 +248,8 @@ def delete_port(ports=''):
 
 # @timeout(30)
 def delete_port_s(port_delete):
-    account = db.get_account()
-    ip_lpm = account['IP']    
+    account = get_account()
+    ip_lpm = account['IP_lpm']    
     url_ = 'http://%s:22999/api/proxies/%s'%(ip_lpm,str(port_delete))
     headers = {
     'Content-Type': 'application/json'
@@ -325,7 +345,7 @@ def get_proxy_test():
     data = json.loads(proxy_details)
     print(data)
 
-def ip_test(ip_lpm,port_lpm,state = '',country=''):
+def ip_test(port_lpm,state = '',country=''):
     '''
     choose ip with state
     args:
@@ -338,8 +358,12 @@ def ip_test(ip_lpm,port_lpm,state = '',country=''):
     '''
     # ip_lpm = '192.168.30.131'
     # port_lpm = '24003'
+    account = get_account()
+    print(account)
+    ip_lpm = account['IP_lpm']
     flag = 0
     for i in range(10):
+        print('starting refresh ip...........')
         flag_ip = refresh_proxy(ip_lpm,port_lpm)
         if flag_ip == 0:
             print('proxy_info',-1)
@@ -433,7 +457,9 @@ def test_ip():
 
 
 @timeout(30)
-def get_port_random(ip):
+def get_port_random():
+    account = get_account()
+    ip = account['IP_lpm']        
     ports_used = ports_get(ip)
     port_ = 24000
     while port_ in ports_used:
@@ -443,11 +469,11 @@ def get_port_random(ip):
     return port_
 
 def create_plan_data(plan_id,Offer_links):
-    account = db.get_account()
+    account = get_account()
     # print('===================')
     # print('account',account)
     Configs = db.read_plans(plan_id)
-    ip_lpm = account['IP']
+    ip_lpm = account['IP_lpm']
     # print('Basic_port:',basic_port) 
     path = os.path.abspath(os.path.join(os.getcwd(), ".."))
     dir_account_chrome = os.path.join(path,r'emu_chromes')
@@ -466,7 +492,7 @@ def create_plan_data(plan_id,Offer_links):
         dir_account = dir_account.replace('\\','//')                
         Offer_links[item]['Mission_dir'] = dir_account
         # print('dir_account:',dir_account)
-        if account['IP'] == '127.0.0.1':
+        if account['IP_lpm'] == '127.0.0.1':
             Offer_links[item]['ip_lpm'] = myaddr
         else:
             Offer_links[item]['ip_lpm'] = ip_lpm            

@@ -1,4 +1,3 @@
-
 import time
 import socket
 import Alliance_login
@@ -429,5 +428,30 @@ def test_cam4_fr():
     print(submit1)  
 
 
+def db_test_remote():
+    '''
+    Login sql and create EMU db if not exist
+    choose emu db
+    return the cursor and conn
+    '''
+    import pymysql
+    conn = pymysql.connect(host= 'rm-bp100p7672g0g8z9kjo.mysql.rds.aliyuncs.com',port=3306,user='emu3man_win',passwd='sAz6x4SD8dF1')
+    cursor = conn.cursor()
+    print(cursor)
+    try:
+        cursor.execute('show databases;')
+        res = cursor.fetchall()
+        print(res)
+        # cursor.execute('use %s;'%account['db_name'])
+    except Exception as e:
+        print(e)
+    # print('Login db success.')
+    # res = cursor.execute('select * from TOKENTABLE;')
+    return conn,cursor
+
+def test_lpm_local():
+    luminati.delete_port_s()    
+
+
 if __name__ == '__main__':
-    test_cam4_fr()
+    db_test_remote()

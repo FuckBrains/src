@@ -6,6 +6,7 @@ from time import sleep
 import random
 import zipfile
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities 
+import luminati
 
 def get_chromedriver_path():
     return r'driver/chromedriver_77.exe'
@@ -95,7 +96,8 @@ def get_chrome(submit = None):
             print('Selenium in using user-data-dir:',submit['Mission_dir'])
             # options.add_argument('--user-data-dir='+submit['Mission_dir'])
         if 'ip_lpm' in submit:
-            ip = submit['ip_lpm']
+            account_lpm = luminati.get_account()
+            ip = account_lpm['IP_lpm']
             port = submit['port_lpm']
             proxy = 'socks5://%s:%s'%(ip,port)
             options.add_argument('--proxy-server=%s'%proxy)

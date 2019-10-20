@@ -18,13 +18,13 @@ def traffic_test(traffic):
     click = 10
     referer = ''
     while True:    
-        flag = luminati.ip_test(traffic['ip_lpm'],traffic['port_lpm'])
+        flag = luminati.ip_test(traffic['port_lpm'])
         print(flag,'=========================')
         if flag == 1:
             break
         elif flag == -1:
             print('bad port,change into new')
-            port_new = luminati.get_port_random(traffic['ip_lpm'])
+            port_new = luminati.get_port_random()
             db.update_port(traffic['port_lpm'],port_new)
             luminati.delete_port_s(traffic['port_lpm'])                
             traffic['port_lpm'] = port_new
