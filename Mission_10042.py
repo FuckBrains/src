@@ -35,7 +35,7 @@ import random
 def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
-        site = 'http://lub.lubetadating.com/c/13526/1?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]&device=[device]&browser=[browser]&carrier=[carrier]'
+        site = 'http://flusnlb.com/99GV?sub1=sub1&sub2=sub2&sub3=sub3&sub4=sub4&sub5=sub5'
         submit['Site'] = site
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
@@ -77,6 +77,10 @@ def web_submit(submit,chrome_driver,debug=0):
     cellphone = Submit_handle.chansfer_float_into_int(submit['health']['homephone'].split('.')[0])
     print('cellphone:',cellphone)
     for key in cellphone:
+        try:
+            a = int(key)
+        except:
+            continue
         chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[9]/input').send_keys(int(key))
     date_of_birth = Submit_handle.get_auto_birthday('')
     # MM
@@ -120,6 +124,14 @@ def test():
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
     # print(submit)
     [print(item,submit['health'][item]) for item in submit['health'] if submit['health'][item]!=None]
+    zipcode = Submit_handle.get_zip(submit['health']['zip'])
+    print('zipcode:',zipcode)    
+    cellphone = Submit_handle.chansfer_float_into_int(submit['health']['homephone'].split('.')[0])
+    print('cellphone:',cellphone)    
+    print(len(cellphone))
+    submit['Mission_Id'] = '10042'
+    chrome_driver = Chrome_driver.get_chrome(submit)
+    web_submit(submit,chrome_driver,1)    
     # date_of_birth = Submit_handle.get_auto_birthday(submit['health']['date_of_birth'])
     # print(date_of_birth)
     # web_submit(submit,1)

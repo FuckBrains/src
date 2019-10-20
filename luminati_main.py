@@ -47,8 +47,8 @@ def multi_reg(Config):
         print(Config)
         if Config['Alliance'] != 'Test':
             print('Sleep for random time:',time_cheat*60,'-------------')   
-            if Config['Mission_Id'] != '20000':
-                sleep(time_cheat*60)
+            # if Config['Mission_Id'] != '20000':
+            #     sleep(time_cheat*60)
         else:
             print('test...........')
         while True:
@@ -214,6 +214,6 @@ def test():
 
 if __name__ == '__main__':
     paras=sys.argv
-    i = int(paras[1])
-    # i = 1
+    # i = int(paras[1])
+    i = 13
     main(i)
