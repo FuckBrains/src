@@ -54,22 +54,28 @@ def check_email(submit):
 
 def web_submit(submit,chrome_driver,debug=0):
     if debug == 1:
-        site = 'http://gbb.maxcodema.xyz/c/11497/d?'
+        site = 'https://tracking.plscmp.com/click?pid=1123&offer_id=23587'
         submit['Site'] = site        
     chrome_driver.get(submit['Site'])
     name = name_get.gen_one_word_digit(lowercase=False)
     chrome_driver.maximize_window()
     chrome_driver.refresh()
     # sleep(2000)
-    if 'cindyrnatches.com/landing?' not in chrome_driver.current_url:
-        print('url wrong:',chrome_driver.current_url)
-        chrome_driver.close()
-        chrome_driver.quit()
-        return
+    # if 'cindyrnatches.com/landing?' not in chrome_driver.current_url:
+    #     print('url wrong:',chrome_driver.current_url)
+    #     chrome_driver.close()
+    #     chrome_driver.quit()
+    #     return
     sleep(5)
     chrome_driver.find_element_by_id('email').send_keys(submit['Email']['Email_emu'])
-    chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(submit['Email']['Email_emu_pwd'])
     sleep(2)
+    chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div/div[3]/div[1]/button').click()
+    # chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(submit['Email']['Email_emu_pwd'])
+    sleep(2)
+    # ok
+    chrome_driver.find_element_by_xpath('/html/body/div[2]/div/div/ul/li[1]/div[2]/div/div/a').click()
+    # next
+    chrome_driver.find_element_by_xpath('/html/body/div[2]/div/div/ul/li[2]/div[2]/div/a').click()
     # chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[3]/div/div').click()
     chrome_driver.find_element_by_class_name('form-submit').click()
     # chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[3]/div/div/a').click()
@@ -78,7 +84,7 @@ def web_submit(submit,chrome_driver,debug=0):
     if 'registered' not in chrome_driver.current_url:
         chrome_driver.close()
         chrome_driver.quit()
-        return
+        return 0
     site = ''
     handle = chrome_driver.current_window_handle
     try:            
@@ -137,12 +143,29 @@ def email_confirm(submit):
             pass
     return url_link
 
-
+def test():
+    # db.email_test()
+    # date_of_birth = Submit_handle.get_auto_birthday('')         
+    Mission_Id = '10012'
+    Mission_list = [Mission_Id]
+    excel = 'Email'    
+    Excel_name = ['',excel]
+    Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
+    submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
+    # submit['Mission_Id'] = Mission_Id
+    print(submit)
+    # [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None]
+    # [print(item,':',submit[excel][item]) for item in submit[excel] if item == 'homephone']  
+    # submit['Country'] = 'FR'
+    submit['Alliance'] = 'offeriz'
+    submit['Account'] = 1
+    submit['Mission_Id'] = Mission_Id
+    submit['ua']='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/18.17763'
+    chrome_driver = Chrome_driver.get_chrome(submit)
+    web_submit(submit,chrome_driver,1)
+    # submit['Email']['Email_emu'] = 'ThynnFoordbP@yahoo.com'
+    # submit['Email']['Email_emu_pwd'] = 'tb3yy7c1k'
+    # email_confirm(submit,debug=1)
 
 if __name__=='__main__':
-    # submit = db.get_one_info()
-    # print(submit)
-    # web_submit(submit,1)
-    # submit = {'Email': {'Email_Id': '6f975cdc-aa34-11e9-9cf5-0003b7e49bfc', 'Email_emu': 'MerryParksO@aol.com', 'Email_emu_pwd': 'A4SdmF6y', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
-    submit = {'Email': {'Email_Id': '6feaad07-aa34-11e9-ba1c-0003b7e49bfc', 'Email_emu': 'LoisDanielHp@aol.com', 'Email_emu_pwd': 'Jl6ZNeJM', 'Email_assist': '', 'Email_assist_pwd': '', 'Status': None}}
-    email_confirm(submit)
+    test()

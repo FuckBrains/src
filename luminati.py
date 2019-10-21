@@ -464,6 +464,7 @@ def get_port_random():
     ip = account['IP_lpm']        
     ports_used = ports_get(ip)
     port_ = 24000
+    ports_used.append(port_)
     while port_ in ports_used:
         port_rand = random.randint(0,5999)
         basic_port = 24000
