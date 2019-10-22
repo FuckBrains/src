@@ -450,8 +450,9 @@ def db_test_remote():
     return conn,cursor
 
 def test_lpm_local():
-    luminati.delete_port_s()    
-
+    # db.get_ports_set()
+    port = luminati.get_port_random()
+    print(port)
 
 if __name__ == '__main__':
-    db_test_remote()
+    test_lpm_local()

@@ -29,5 +29,6 @@ def web_submit(submit,chrome_driver,debug=0):
             cookie['expiry'] = int(cookie['expiry']) 
         chrome_driver.add_cookie(cookie)    
     chrome_driver.get('http://stripchat.com')
-    sleep(3000)
+    print(abc)
+    sleep(3)
     

@@ -963,6 +963,18 @@ def update_port(port_old,port_new):
     sql_content = "UPDATE Plans SET port_lpm = '%s' WHERE port_lpm = '%s'" % (port_new,port_old)
     Execute_sql([sql_content])
 
+def get_ports_set():
+    print('     Start reading info from sql server...')
+    account = get_account()
+    conn,cursor=login_sql(account)
+    res = cursor.execute('SELECT * from plans')
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    ports_set = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
+    # print(len(Mission_dict))
+    # print(Mission_dict)
+    ports_set = [plan['port_lpm'] for plan in ports_set]
+    return ports_set    
+
 def get_luminati_submit(Config): 
     Email_list = {"hotmail.com": 1, "outlook.com": 1, "yahoo.com": 1, "aol.com": 1}
     Mission_Ids,Excels_dup = [Config['Mission_Id']],Config['Excel']

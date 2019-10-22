@@ -91,9 +91,9 @@ def multi_reg(Config):
                 break
             elif flag == -1:
                 print('bad port,change into new')
+                luminati.delete_port_s(submit['port_lpm'])            
                 port_new = luminati.get_port_random()
                 db.update_port(submit['port_lpm'],port_new)
-                luminati.delete_port_s(submit['port_lpm'])                
                 Config['port_lpm'] = port_new
                 print(port_new)
                 try:
@@ -215,5 +215,5 @@ def test():
 if __name__ == '__main__':
     paras=sys.argv
     i = int(paras[1])
-    # i = 13
+    # i = 1
     main(i)

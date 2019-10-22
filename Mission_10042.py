@@ -124,14 +124,14 @@ def test():
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
     # print(submit)
     [print(item,submit['health'][item]) for item in submit['health'] if submit['health'][item]!=None]
-    zipcode = Submit_handle.get_zip(submit['health']['zip'])
-    print('zipcode:',zipcode)    
-    cellphone = Submit_handle.chansfer_float_into_int(submit['health']['homephone'].split('.')[0])
-    print('cellphone:',cellphone)    
-    print(len(cellphone))
-    submit['Mission_Id'] = '10042'
-    chrome_driver = Chrome_driver.get_chrome(submit)
-    web_submit(submit,chrome_driver,1)    
+    # zipcode = Submit_handle.get_zip(submit['health']['zip'])
+    # print('zipcode:',zipcode)    
+    # cellphone = Submit_handle.chansfer_float_into_int(submit['health']['homephone'].split('.')[0])
+    # print('cellphone:',cellphone)    
+    # print(len(cellphone))
+    # submit['Mission_Id'] = '10042'
+    # chrome_driver = Chrome_driver.get_chrome(submit)
+    # web_submit(submit,chrome_driver,1)    
     # date_of_birth = Submit_handle.get_auto_birthday(submit['health']['date_of_birth'])
     # print(date_of_birth)
     # web_submit(submit,1)

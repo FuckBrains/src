@@ -460,11 +460,17 @@ def test_ip():
 
 @timeout(30)
 def get_port_random():
+    ports_set = db.get_ports_set()
+    print(ports_set)
     account = get_account()
     ip = account['IP_lpm']        
     ports_used = ports_get(ip)
+    print(']]]]]]]]]]')
+    print(set(ports_set))
+    ports_used.extend(set(ports_set))
     port_ = 24000
     ports_used.append(port_)
+    print('ports_used:',ports_used)
     while port_ in ports_used:
         port_rand = random.randint(0,5999)
         basic_port = 24000
@@ -499,7 +505,7 @@ def create_plan_data(plan_id,Offer_links):
             Offer_links[item]['ip_lpm'] = myaddr
         else:
             Offer_links[item]['ip_lpm'] = ip_lpm            
-        Offer_links[item]['port_lpm'] = get_port_random(ip_lpm)  
+        Offer_links[item]['port_lpm'] = get_port_random()  
         # print('Start adding proxy port:',Offer_links[item]['port_lpm'])
         add_proxy(Offer_links[item]['port_lpm'],country=Offer_links[item]['Country'],proxy_config_name='jia1',ip_lpm=ip_lpm)
         Offer_links[item]['Plan_Id'] = plan_id
