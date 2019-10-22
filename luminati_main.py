@@ -43,7 +43,7 @@ def main(i):
             tools.killpid()
         except Exception as e:
             print(str(e))
-            pass    
+            pass
         account = db.get_account()
         plan_id = account['plan_id']
         print('Plan_id:',plan_id,',connecting sql for plan info...')
@@ -89,7 +89,7 @@ def test():
     print(Config)
 
 if __name__ == '__main__':
-    # paras=sys.argv
-    # i = int(paras[1])
-    i = 1
+    paras=sys.argv
+    i = int(paras[1])
+    # i = 1
     main(i)

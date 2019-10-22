@@ -28,7 +28,6 @@ def get_Mission_files():
     print(Mission_path)
     return Mission_path    
 
-      
 def main():
     modules_path = get_modules()
     print(modules_path)
