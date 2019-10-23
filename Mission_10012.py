@@ -53,8 +53,18 @@ def check_email(submit):
 
 
 def web_submit(submit,chrome_driver,debug=0):
+    Mission = '10021'
+    # email_list = ['hotmail.com','outlook.com','gmail.com','msn.com']
+    while True:
+        submit1 = db.get_unique_soi_email(Mission)
+        submit['SOI'] = submit1['SOI']
+        if '@aol.com' in submit['SOI']['email']:
+            continue
+        else:
+            break
+    print(submit['SOI']['email'])    
     if debug == 1:
-        site = 'https://tracking.plscmp.com/click?pid=1123&offer_id=23587'
+        site = 'http://flusnlb.com/0AqV'
         submit['Site'] = site        
     chrome_driver.get(submit['Site'])
     name = name_get.gen_one_word_digit(lowercase=False)
@@ -67,59 +77,83 @@ def web_submit(submit,chrome_driver,debug=0):
     #     chrome_driver.quit()
     #     return
     sleep(5)
-    chrome_driver.find_element_by_id('email').send_keys(submit['Email']['Email_emu'])
+    try:
+        chrome_driver.find_element_css_selector('body > div.container-fluid.splash > section > div:nth-child(2) > div > a').click()
+    except:
+        pass
+    chrome_driver.find_element_by_xpath('//*[@id="email"]').send_keys(submit['SOI']['email'])
     sleep(2)
     chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div/div[3]/div[1]/button').click()
-    # chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(submit['Email']['Email_emu_pwd'])
+    # try:
+    #     chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(submit['Email']['Email_emu_pwd'])
+    # except:
+    #     pass
     sleep(2)
     # ok
     chrome_driver.find_element_by_xpath('/html/body/div[2]/div/div/ul/li[1]/div[2]/div/div/a').click()
     # next
     chrome_driver.find_element_by_xpath('/html/body/div[2]/div/div/ul/li[2]/div[2]/div/a').click()
-    # chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[3]/div/div').click()
-    chrome_driver.find_element_by_class_name('form-submit').click()
-    # chrome_driver.find_element_by_xpath('//*[@id="signupForm"]/div[3]/div/div/a').click()
-    sleep(10)
-    # sleep(5000)
-    if 'registered' not in chrome_driver.current_url:
-        chrome_driver.close()
-        chrome_driver.quit()
-        return 0
-    site = ''
-    handle = chrome_driver.current_window_handle
-    try:            
-        site = email_confirm(submit)  
-        print(site)      
-    except Exception as e:
-        print('email check failed',str(e))
-    if site != '':
-        newwindow='window.open("' + site + '");'
-        chrome_driver.execute_script(newwindow)
-        sleep(20)        
-    else:
-        flag = 1
-        chrome_driver.close()
-        chrome_driver.quit()
-        return flag        
-    handles=chrome_driver.window_handles   
-    try:
-        for i in handles:
-            if i != handle:
-                chrome_driver.switch_to.window(i)
-                chrome_driver.refresh()                  
-    except Exception as e:
-        chrome_driver.close()
-        chrome_driver.quit()    
-        return flag    
-    chrome_driver.close()
-    chrome_driver.quit()
-    return flag
-        # submit['name'] = ng.gen_one_word_digit(lowercase=False)
-        # status,submit['name'] = web_Submit(submit)
+    # yes1
+    chrome_driver.find_element_by_xpath('/html/body/div[2]/div/div/ul/li[3]/div[2]/div/a[1]').click()
+    # yes2
+    chrome_driver.find_element_by_xpath('/html/body/div[2]/div/div/ul/li[4]/div[2]/div/a[1]').click()
+    # yes3
+    chrome_driver.find_element_by_xpath('/html/body/div[2]/div/div/ul/li[5]/div[2]/div/a[1]').click()
+    # yes4
+    chrome_driver.find_element_by_xpath('/html/body/div[2]/div/div/ul/li[6]/div[2]/div/a[1]').click()
+    # 3 answers
+    keyword = ['Skinny','Regular','BBW','Big tits are a must','Sexy ass is a must']    
+    keywords = get_keyword(keyword)
+    for keyword in keywords:
+        chrome_driver.find_element_by_partial_link_text(keyword).click()
+        sleep(1)
+    # 'next'
+    chrome_driver.find_element_by_xpath('/html/body/div[2]/div/div/ul/li[7]/div[2]/div[2]/a[1]').click()
+    # 3 answers
+    keyword = ['18 - 25','26 - 35','36 - 45','46 - 55','55+']
+    keywords = get_keyword(keyword)
+    for keyword in keywords:
+        chrome_driver.find_element_by_partial_link_text(keyword).click()
+        sleep(1)
+    # next    
+    chrome_driver.find_element_by_xpath('/html/body/div[2]/div/div/ul/li[8]/div[2]/div[2]/a[1]').click()
+    # 3 answers    
+    keyword = ['One night stand','Sex on multiple occasions','Regular sex','Serious Dating','Marriage']
+    keywords = get_keyword(keyword)
+    for keyword in keywords:
+        chrome_driver.find_element_by_partial_link_text(keyword).click()
+        sleep(1)
+    # next
+    chrome_driver.find_element_by_xpath('/html/body/div[2]/div/div/ul/li[9]/div[2]/div[2]/a[1]').click()
+    # 3 answers
+    keyword = ['Within walking','Same city','Nearby cities are OK','Same country',"Doesn't matter"]
+    keywords = get_keyword(keyword)
+    for keyword in keywords:
+        chrome_driver.find_element_by_partial_link_text(keyword).click()
+        sleep(1)   
+    # next
+    chrome_driver.find_element_by_xpath('/html/body/div[2]/div/div/ul/li[10]/div[2]/div[2]/a').click()
+    # start now
+    chrome_driver.find_element_by_xpath('//*[@id="submit"]').click()
+    sleep(5)
+    # enter here    
+    chrome_driver.find_element_by_xpath('//*[@id="q1"]/center/a/div').click()
+    sleep(5)
+    # next
+    chrome_driver.find_element_by_xpath('//*[@id="btn_step1"]').click()
+    # pwd
+    pwd = Submit_handle.password_get() 
+    chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(pwd)
+    # next
+    chrome_driver.find_element_by_xpath('//*[@id="btn_step2"]').click()
+    # enter
+    chrome_driver.find_element_by_xpath('//*[@id="btn_step3"]').click()
+    sleep(90)
+    chrome_driver.find_element_by_xpath('//*[@id="modalWindow_uni"]/p/a').click()
+    sleep(90)
+    return 1
 
  
-
-
 def email_confirm(submit):
     print('----------')
     for i in range(10):
@@ -142,6 +176,19 @@ def email_confirm(submit):
             sleep(15)
             pass
     return url_link
+
+def get_keyword(keyword):
+    keywords = []
+    for i in range(3):
+        num_ = random.randint(0,len(keyword)-1)  
+        print(num_)  
+        print(keyword[num_])
+        keywords.append(keyword[num_])
+        keyword.pop(num_)
+    print(keywords)
+    return keywords
+
+
 
 def test():
     # db.email_test()
@@ -168,4 +215,4 @@ def test():
     # email_confirm(submit,debug=1)
 
 if __name__=='__main__':
-    test()
+    get_keyword()

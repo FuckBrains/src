@@ -573,7 +573,7 @@ def get_all_emails():
     # submit = dict(Info_dict,**Info_dict2)
     return Email_dict      
 
-def get_unique_soi_email(Mission,Email_list):
+def get_unique_soi_email(Mission,Email_list=[]):
     print('     Start reading info from sql server...')
     account = get_account()
     conn,cursor=login_sql(account)
@@ -596,6 +596,8 @@ def get_unique_soi_email(Mission,Email_list):
                     flag = 1
                     break
         if flag == 0:
+            if len(Email_list) == 0:
+                break
             print(SOI_dict[i]['email'])
             print(SOI_dict[i]['email'].split('@')[1])
             if SOI_dict[i]['email'].split('@')[1] in Email_list:
@@ -605,7 +607,6 @@ def get_unique_soi_email(Mission,Email_list):
     if len(unique_soi) == 0:
         print('No unique_soi email found...............')
     return unique_soi      
-
 
 def write_one_info(Mission_list,submit,Cookie = ''):
     Email_Id = ''

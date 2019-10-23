@@ -290,6 +290,6 @@ if __name__ == '__main__':
     paras=sys.argv
     # # # test    
     # # paras = [0,1,2,3,4]
-    # id_ = int(paras[1])
-    id_ = 1
+    id_ = int(paras[1])
+    # id_ = 1
     main(id_)

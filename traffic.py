@@ -99,9 +99,9 @@ def get_unique_traffic(traffic):
         pass
 
 if __name__ == '__main__':
-    paras=sys.argv
-    i = int(paras[1])
-    # i = 8
+    # paras=sys.argv
+    # i = int(paras[1])
+    i = 9
     main(i)
 
 
