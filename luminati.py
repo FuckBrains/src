@@ -438,7 +438,7 @@ def main(proxy):
     get_lpm_ip(proxy)
 
 def ports_get(ip_lpm):
-    print('ports_get',ip_lpm)
+    # print('ports_get',ip_lpm)
     url_ports = 'http://%s:22999/api/proxies_running'%ip_lpm
     res = requests.get(url_ports)
     # print(res.text)
@@ -446,7 +446,7 @@ def ports_get(ip_lpm):
     ports_used = [] 
     for config in config_info:
         ports_used.append(config['port'])
-    print(ports_used)
+    # print(ports_used)
     return ports_used
 
 def test_ip():
@@ -465,12 +465,12 @@ def get_port_random():
     account = get_account()
     ip = account['IP_lpm']        
     ports_used = ports_get(ip)
-    print(']]]]]]]]]]')
-    print(set(ports_set))
+    # print(']]]]]]]]]]')
+    # print(set(ports_set))
     ports_used.extend(set(ports_set))
     port_ = 24000
     ports_used.append(port_)
-    print('ports_used:',ports_used)
+    # print('ports_used:',ports_used)
     while port_ in ports_used:
         port_rand = random.randint(0,5999)
         basic_port = 24000
