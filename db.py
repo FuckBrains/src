@@ -596,14 +596,17 @@ def get_unique_soi_email(Mission,Email_list=[]):
                     flag = 1
                     break
         if flag == 0:
+            print('---------------')
             if len(Email_list) == 0:
+                unique_soi['SOI'] = SOI_dict[i]
+                print('....................')
                 break
             print(SOI_dict[i]['email'])
             print(SOI_dict[i]['email'].split('@')[1])
             if SOI_dict[i]['email'].split('@')[1] in Email_list:
                 unique_soi['SOI'] = SOI_dict[i]
                 break
-    print(SOI_dict[i])
+    print('===============',unique_soi)
     if len(unique_soi) == 0:
         print('No unique_soi email found...............')
     return unique_soi      

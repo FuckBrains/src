@@ -57,6 +57,7 @@ def web_submit(submit,chrome_driver,debug=0):
     # email_list = ['hotmail.com','outlook.com','gmail.com','msn.com']
     while True:
         submit1 = db.get_unique_soi_email(Mission)
+        print(submit1)
         submit['SOI'] = submit1['SOI']
         if '@aol.com' in submit['SOI']['email']:
             continue
@@ -215,4 +216,4 @@ def test():
     # email_confirm(submit,debug=1)
 
 if __name__=='__main__':
-    get_keyword()
+    test()
