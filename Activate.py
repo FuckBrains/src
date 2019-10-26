@@ -91,12 +91,12 @@ def detect_status(submit):
 
 def multi_activate(submit):
     # print(submit)
-    time_cheat = random.randint(0,3)
+    time_cheat = random.randint(0,10)
     print('Sleep for random time:',time_cheat*60,'-------------')
     sleep(time_cheat*60)
     account = db.get_account()
     submit['ip_lpm'] = account['IP']
-    submit['port_lpm'] = luminati.get_port_random(submit['ip_lpm'])
+    submit['port_lpm'] = luminati.get_port_random()
     luminati.add_proxy(submit['port_lpm'],country=submit['Country'],proxy_config_name='zone2',ip_lpm=submit['ip_lpm'])
     module = 'Mission_'+str(submit['Mission_Id'])
     Module = import_Module(module)
@@ -212,10 +212,10 @@ if __name__ == '__main__':
     # test    
     # paras = [0,1,2,3,4]
     # print(paras)
-    i = int(paras[1])
+    # i = int(paras[1])
     # i=2
-    print(i)  
-    main(i)
+    # print(i)  
+    main(9)
 
 
 

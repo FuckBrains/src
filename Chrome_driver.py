@@ -216,18 +216,25 @@ def test():
     chrome_driver.get(submit['Site']) 
     sleep(30)
 
+def test_meituan():
+    url = 'https://hz.meituan.com'
+    path_driver = get_chromedriver_path()
+    chrome_driver = webdriver.Chrome(executable_path=path_driver)
+    chrome_driver.get(url)
+    handle = chrome_driver.current_window_handle    
+    chrome_driver.find_element_by_xpath('//*[@id="react"]/div/div/div[1]/div[1]/div/div[2]/ul/li[7]/span/span[1]/a').click()
+    sleep(3)
+    handles=chrome_driver.window_handles   
+    try:
+        for i in handles:
+            if i != handle:
+                chrome_driver.switch_to.window(i)
+                print(i)
+    except Exception as e:
+        print(str(e))    
+    sleep(3000)
+
+
 
 if __name__ == '__main__':
-    # clean_download()
-    # url_test = 'http://im.datingwithlili.com/im/click.php?c=22&key=m27ib99qocowaqrf59jw2ori'
-    url_test = 'https://www.baidu.com'
-    # 'http://tbx.gamemass.website/c/14549/7?clickid=[clickid]&bid=[bid]&siteid=[siteid]&countrycode=[cc]&operatingsystem=[operatingsystem]&campaignid=[campaignid]&category=[category]&connection=[connection]
-    chrome_driver = get_chrome()
-    # document.write('<script>window.location.href = "<my website>";</script>')" 
-    sleep(5)
-    chrome_driver.get(url_test)
-    sleep(1000)
-    # for i in range(100):
-    #     size = get_size()
-    #     print(size)
-    # test()
+    test_meituan()

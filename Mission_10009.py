@@ -213,7 +213,9 @@ def activate(submit,chrome_driver):
             #directoryDiv > div:nth-child(16) > div > a.clearfix > img
             #chrome_driver.find_element_by_xpath('//*[@id="directoryDiv"]/div['+str(num)+']/div/a[2]').click()
             #chrome_driver.find_element_by_css_selector('directoryDiv > div:nth-child(16) > div > a.clearfix > img')
-            a = '//*[@id="app"]/div/div/div[2]/div/div[3]/div['+str(num)+']/div/a/div/span'
+            a = '//*[@id="app"]/div/div/div[2]/div/div/div[3]/div['+str(num)+']/div/a'
+            # a = '//*[@id="app"]/div/div/div[2]/div/div/div[3]/div[2]/div/a/div/span'
+            # a = '//*[@id="app"]/div/div/div[2]/div/div[3]/div['+str(num)+']/div/a/div/span'
             chrome_driver.find_element_by_xpath(a).click()
             print('==================')
             cookies = chrome_driver.get_cookies()
