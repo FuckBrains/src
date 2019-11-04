@@ -504,7 +504,13 @@ class Mywindow(QMainWindow,Ui_MainWindow):
 
     @pyqtSlot()
     def on_pushButton11_clicked(self):
-        plan_id = int(self.comboBox7.currentText())
+        if self.lineEdit11.text() != '':
+            plan_id = int(self.lineEdit11.text())
+            if plan_id < self.vc_range[0] or plan_id > self.vc_range[1]:
+                print("plan_id not in vc_range")
+                return
+        else:
+            return
         self.file_Offer_link = r'..\res\Offer_link.ini'
         self.offer_link = Read_Ini(self.file_Offer_link)
         # print(Offer_links)
@@ -616,9 +622,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         # plans = db.read_plans(plan_id)
         # ports = [plan['port_lpm'] for plan in plans]
         luminati.delete_port()
-     
-
-
+    
 def main():
     up.main()
     print('111')
