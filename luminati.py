@@ -461,11 +461,11 @@ def test_ip():
 @timeout(30)
 def get_port_random():
     ports_set = db.get_ports_set()
-    print(ports_set)
+    # print(ports_set)
     account = get_account()
     ip = account['IP_lpm']        
     ports_used = ports_get(ip)
-    # print(']]]]]]]]]]')
+    print(']]]]]]]]]]')
     # print(set(ports_set))
     ports_used.extend(set(ports_set))
     port_ = 24000

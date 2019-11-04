@@ -32,15 +32,15 @@ import random
 
 
 def name_get_random(submit):
-    names = []
-    username = submit['firstname']+submit['lastname']
-    names.append(username)
-    username = name_get.gen_two_words(split=' ', lowercase=False)
-    names.append(username)
-    username = name_get.gen_one_word_digit(lowercase=False)
-    names.append(username)
-    num_name = random.randint(0,2)
-    return names[num_name] 
+    # names = []
+    # username = submit['firstname']+submit['lastname']
+    # names.append(username)
+    # username = name_get.gen_two_words(split=' ', lowercase=False)
+    # names.append(username)
+    username = name_get.gen_one_word_digit(lowercase=False,digitmax=100000)
+    # names.append(username)
+    # num_name = random.randint(0,2)
+    return username
 
 
 def web_submit(submit,chrome_driver,debug=0):
@@ -121,5 +121,6 @@ def test1():
 
 
 if __name__=='__main__':
-    test()
-    print('......')
+    submit={}
+    name = name_get_random(submit)
+    print(name)

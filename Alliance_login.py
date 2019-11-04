@@ -35,14 +35,15 @@ def get_ua_random(uas):
     # print(uas[num])
     return uas[num]
 
-def get_chrome(user_data_dir,submit=None):
+def get_chrome(user_data_dir,submit=None,charge=0):
     options = webdriver.ChromeOptions() 
     ip = submit['ip_lpm']
     port = submit['port_lpm']
     proxy = 'socks5://%s:%s'%(ip,port)
     options.add_argument('--proxy-server=%s'%proxy)
     # print(proxy)    
-    options.add_argument('--user-data-dir='+user_data_dir)
+    if charge==0:
+        options.add_argument('--user-data-dir='+user_data_dir)
     prefs = {"download.default_directory": 'c:\\',
              "download.prompt_for_download": False,
              "download.directory_upgrade": True,

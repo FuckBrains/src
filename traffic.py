@@ -57,6 +57,7 @@ def main(i):
             traffic['method'] = 1
             traffic['key'] = 'consumerrewards.us.com'
             traffic['port_lpm'] = luminati.get_port_random()
+            # print('===========================')
             print(traffic['Country'],traffic['port_lpm'])
             # luminati.add_proxy(traffic['port_lpm'],country=traffic['Country'],proxy_config_name='zone2',ip_lpm=ip_lpm)
             luminati.add_proxy(traffic['port_lpm'],country=traffic['Country'],proxy_config_name='zone2',ip_lpm=ip_lpm)            

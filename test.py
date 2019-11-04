@@ -454,5 +454,106 @@ def test_lpm_local():
     port = luminati.get_port_random()
     print(port)
 
+def test_info_height():
+    pass
+
+
+def get_ua_all():
+    uas = []
+    with open(r'../res/ua.txt') as f:
+        lines = f.readlines()
+        for line in lines:
+            if line.strip('\n') != '':
+                if 'Windows' not in line:
+                    continue 
+                # if 'Chrome' in line:
+                uas.append(line.strip('"').strip("'").strip('\n'))
+
+    # for ua in uas.split('/n'):
+        # print(ua)
+    return uas
+
+def get_ua_random(uas):
+    num = random.randint(0,len(uas)-1)
+    # print(uas[num])
+    return uas[num]
+
+def get_chromedriver_path():
+    return r'driver/chromedriver_77.exe'    
+
+def chrome_get_ext(user_data_dir=None,submit=None,charge=0):
+    from selenium import webdriver
+    options = webdriver.ChromeOptions() 
+    # ip = submit['ip_lpm']
+    # port = submit['port_lpm']
+    # proxy = 'socks5://%s:%s'%(ip,port)
+    # options.add_argument('--proxy-server=%s'%proxy)
+    # print(proxy)    
+    # if charge==0:
+    #     options.add_argument('--user-data-dir='+user_data_dir)
+    prefs = {"download.default_directory": 'c:\\',
+             "download.prompt_for_download": False,
+             "download.directory_upgrade": True,
+             "safebrowsing.enabled": True,
+             "credentials_enable_service":False,
+             "password_manager_enabled":True
+             }    
+    # prefs = {'profile.default_content_settings.popups': 0, 'download.default_directory': 'c:\\emu_download'}
+    # options.add_experimental_option('prefs', prefs)
+    uas = get_ua_all()
+    ua = get_ua_random(uas)
+    print(ua)      
+    options.add_argument('user-agent=' + ua)     
+    extension_path = '../tools/extension/1.1.0_0.crx'  
+    options.add_extension(extension_path) 
+    extension_path = '../tools/extension/1.0.14_0.crx'       
+    options.add_extension(extension_path) 
+    extension_path = '../tools/extension/8.6.0.0_0.crx'       
+    options.add_extension(extension_path) 
+    # prefs = {
+    # 'profile.default_content_setting_values': {
+    # # "User-Agent": ua, # 更换UA
+    # # 0 为屏蔽弹窗，1 为开启弹窗
+    # 'profile.default_content_settings.popups': 0,
+    # } 
+    # } 
+    # options.add_argument('--single-process')
+    # options.add_argument('--process-per-tab')    
+    
+    # options.add_argument('--disable-gpu')        
+    # options.add_argument("--disable-automation")
+    # options.add_argument("--disable-automation")
+    # options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])
+    options.add_experimental_option("prefs", prefs) 
+    path_driver = get_chromedriver_path()
+    chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)
+    chrome_driver.set_page_load_timeout(300)
+    chrome_driver.implicitly_wait(20)  # 最长等待8秒    
+    # cookies = chrome_driver.get_cookies()  
+    # print(cookies)
+    # chrome_driver.delete_all_cookies()    
+    return chrome_driver
+
+def test_cehuo():
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support.wait import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
+    submit = {}
+    chrome_driver = chrome_get_ext()
+    wait = WebDriverWait(browser, 120) #等待的最大时间
+    sleep(5)
+    input = wait.until(
+        #判断该元素是否加载完成
+        EC.presence_of_element_located((By.CLASS, 'btn-primary'))
+    )    
+    # chrome_driver.find_element_by_xpath()
+    url_battle = 'https://account.blizzard.com'
+    chrome_driver.get(url_battle)
+    chrome_driver.find_element_by_xpath('//*[@id="562016032"]/div[1]/div/div[2]/a').click()
+    sleep(3000)
+
+
+
 if __name__ == '__main__':
-    test_lpm_local()
+    test_cehuo()

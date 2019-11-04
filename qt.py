@@ -154,6 +154,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.setWindowTitle('EMU_MultiMission')
         self.accounts = Alliance_login.Get_roboform_account()
         self.set_comboBox6()
+        account = db.get_account()
+        self.vc_range = account['vc_range']
+        print(self.vc_range)
         # self.resize(500,300)   
   
     def set_comboBox6(self):
@@ -510,7 +513,13 @@ class Mywindow(QMainWindow,Ui_MainWindow):
 
     @pyqtSlot()
     def on_pushButton12_clicked(self):
-        plan_id = int(self.comboBox8.currentText())
+        if self.lineEdit8.text() != '':
+            plan_id = int(self.lineEdit8.text())
+            if plan_id < self.vc_range[0] or plan_id > self.vc_range[1]:
+                print("plan_id not in vc_range")
+                return
+        else:
+            return
         plans = db.read_plans(plan_id)
         print('read plan finished')
         ports = [plan['port_lpm'] for plan in plans]
@@ -529,7 +538,13 @@ class Mywindow(QMainWindow,Ui_MainWindow):
 
     @pyqtSlot()
     def on_pushButton14_clicked(self):
-        plan_id = int(self.comboBox8.currentText())
+        if self.lineEdit8.text() !='':
+            plan_id = int(self.lineEdit8.text())
+            if plan_id < self.vc_range[0] or plan_id > self.vc_range[1]:
+                print("plan_id not in vc_range")
+                return
+        else:
+            return
         # plans = db.read_plans(plan_id)
         # ports = [plan['port_lpm'] for plan in plans]
         luminati.delete_port()
@@ -553,29 +568,47 @@ class Mywindow(QMainWindow,Ui_MainWindow):
 
     @pyqtSlot()
     def on_pushButton15_clicked(self):
-        i = self.comboBox10.currentText()
+        plan_id = self.comboBox10.currentText()
+        if plan_id != '':
+            if plan_id < self.vc_range[0] or plan_id > self.vc_range[1]:
+                print("plan_id not in vc_range")
+                return
+        else:
+            return
         print('start open test link ')
-        command = '''start cmd /k "python hotupdate.py  %s "{$name$:$qcy$}" && exit"'''%(str(i))
-        os.system(command)        
-        command = '''start cmd /k "python hotupdate.pyc %s "{$name$:$qcy$}" && exit"'''%(str(i))
+        command = '''start cmd /k "python hotupdate.py  %s "{$name$:$qcy$}" && exit"'''%(str(plan_id))
+        os.system(command)
+        command = '''start cmd /k "python hotupdate.pyc %s "{$name$:$qcy$}" && exit"'''%(str(plan_id))
         os.system(command)
 
     @pyqtSlot()
     def on_pushButton16_clicked(self):
-        i = self.comboBox11.currentText()
+        plan_id = self.lineEdit9.text()
+        if plan_id != '':
+            if plan_id < self.vc_range[0] or plan_id > self.vc_range[1]:
+                print("plan_id not in vc_range")
+                return
+        else:
+            return
         print('start open test link ')
-        command = '''start cmd /k "python traffic.py  %s "{$name$:$qcy$}" && exit"'''%(str(i))
-        os.system(command)        
-        command = '''start cmd /k "python traffic.pyc  %s "{$name$:$qcy$}" && exit"'''%(str(i))
+        command = '''start cmd /k "python traffic.py  %s "{$name$:$qcy$}" && exit"'''%(str(plan_id))
+        os.system(command)
+        command = '''start cmd /k "python traffic.pyc  %s "{$name$:$qcy$}" && exit"'''%(str(plan_id))
         os.system(command)        
 
     @pyqtSlot()
     def on_pushButton17_clicked(self):
-        i = self.comboBox15.currentText()
-        print('start activate plan',str(i))
-        command = '''start cmd /k "python Activate.py %s "{$name$:$qcy$}" && exit"'''%(str(i))
+        plan_id = self.lineEdit10.text()
+        if plan_id != '':
+            if plan_id < self.vc_range[0] or plan_id > self.vc_range[1]:
+                print("plan_id not in vc_range")
+                return
+        else:
+            return  
+        print('start activate plan',str(plan_id))
+        command = '''start cmd /k "python Activate.py %s "{$name$:$qcy$}" && exit"'''%(str(plan_id))
         os.system(command)
-        command = '''start cmd /k "python Activate.pyc %s "{$name$:$qcy$}" && exit"'''  %(str(i))      
+        command = '''start cmd /k "python Activate.pyc %s "{$name$:$qcy$}" && exit"'''  %(str(plan_id))      
         os.system(command)
 
     @pyqtSlot()
