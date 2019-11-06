@@ -554,6 +554,9 @@ def test_cehuo():
     sleep(3000)
 
 
+def port_test_k():
+    ports = db.get_ports_set()
+    print(ports)
 
 if __name__ == '__main__':
-    test_cehuo()
+    port_test_k()

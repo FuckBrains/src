@@ -165,7 +165,8 @@ def login_sql(account,create = False):
     choose emu db
     return the cursor and conn
     '''
-    conn = pymysql.connect(host= account['IP'],port=3306,user=account['username'],passwd=str(account['pwd']))
+    ip = 'rm-bp100p7672g0g8z9kjo.mysql.rds.aliyuncs.com'
+    conn = pymysql.connect(host= ip,port=3306,user=account['username'],passwd=str(account['pwd']))
     cursor = conn.cursor()
     try:
         cursor.execute('use %s;'%account['db_name'])
@@ -970,13 +971,18 @@ def update_port(port_old,port_new):
 def get_ports_set():
     print('     Start reading info from sql server...')
     account = get_account()
+    vc_range = account['vc_range']
     conn,cursor=login_sql(account)
     res = cursor.execute('SELECT * from plans')
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
-    ports_set = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
+    plans = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
     # print(len(Mission_dict))
     # print(Mission_dict)
-    ports_set = [plan['port_lpm'] for plan in ports_set]
+    print(plans[0])
+    print(len(plans))
+    plans = [plan for plan in plans if int(plan['Plan_Id'])>=vc_range[0] and int(plan['Plan_Id'])<=vc_range[1]]
+    print(len(plans))    
+    ports_set = [plan['port_lpm'] for plan in plans]
     return ports_set    
 
 def get_luminati_submit(Config): 
