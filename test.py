@@ -558,5 +558,23 @@ def port_test_k():
     ports = db.get_ports_set()
     print(ports)
 
+def Write_Ini(file,content):
+    '''
+    write dict into txt file
+    eg: write a dict into a.txt
+    requires the target file with path and the dict to write in
+    return nothing,just write content into file
+    '''
+    content = json.dumps(content) 
+    with open(file,'w+') as f:
+        # content += '\n'
+        f.write(content)
+
+def read_plans_tolog():
+    plans = db.read_plans(-1)
+    
+
+
+
 if __name__ == '__main__':
-    port_test_k()
+    test_e()
