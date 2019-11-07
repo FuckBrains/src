@@ -90,13 +90,15 @@ def multi_reg(Config):
     return_rand = random.randint(0,5)
     if return_rand == 0:
         print('unique  random,return for Mission_Id:',Config)
+        time_return = random.randint(0,600)
+        sleep(time_return)
     else:
-        time_cheat = random.randint(0,10)
+        time_cheat = random.randint(0,600)
         print(Config)
         if Config['Alliance'] != 'Test':
-            print('Sleep for random time:',time_cheat*60,'-------------')   
+            print('Sleep for random time:',time_cheat,'-------------')   
             if Config['Mission_Id'] != '20000':
-                sleep(time_cheat*60)
+                sleep(time_cheat)
         else:
             print('test...........')
         reg_part(Config)
