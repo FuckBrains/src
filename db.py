@@ -978,7 +978,7 @@ def get_ports_set():
     plans = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
     # print(len(Mission_dict))
     # print(Mission_dict)
-    print(plans[0])
+    # print(plans[0])
     print(len(plans))
     plans = [plan for plan in plans if int(plan['Plan_Id'])>=vc_range[0] and int(plan['Plan_Id'])<=vc_range[1]]
     print(len(plans))    
