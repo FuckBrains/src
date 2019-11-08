@@ -506,7 +506,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     def on_pushButton11_clicked(self):
         if self.lineEdit11.text() != '':
             plan_id = int(self.lineEdit11.text())
-            if plan_id < self.vc_range[0] or plan_id > self.vc_range[1]:
+            if plan_id < int(self.vc_range[0]) or plan_id > int(self.vc_range[1]):
                 print("plan_id not in vc_range")
                 return
         else:
@@ -521,7 +521,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     def on_pushButton12_clicked(self):
         if self.lineEdit8.text() != '':
             plan_id = int(self.lineEdit8.text())
-            if plan_id < self.vc_range[0] or plan_id > self.vc_range[1]:
+            if plan_id < int(self.vc_range[0]) or plan_id > int(self.vc_range[1]):
                 print("plan_id not in vc_range")
                 return
         else:
@@ -546,7 +546,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     def on_pushButton14_clicked(self):
         if self.lineEdit8.text() !='':
             plan_id = int(self.lineEdit8.text())
-            if plan_id < self.vc_range[0] or plan_id > self.vc_range[1]:
+            if plan_id < int(self.vc_range[0]) or plan_id > int(self.vc_range[1]):
                 print("plan_id not in vc_range")
                 return
         else:
@@ -574,9 +574,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
 
     @pyqtSlot()
     def on_pushButton15_clicked(self):
-        plan_id = self.comboBox10.currentText()
+        plan_id = int(self.comboBox10.currentText())
         if plan_id != '':
-            if plan_id < self.vc_range[0] or plan_id > self.vc_range[1]:
+            if plan_id < int(self.vc_range[0]) or plan_id > int(self.vc_range[1]):
                 print("plan_id not in vc_range")
                 return
         else:
@@ -589,9 +589,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
 
     @pyqtSlot()
     def on_pushButton16_clicked(self):
-        plan_id = self.lineEdit9.text()
+        plan_id = int(self.lineEdit9.text())
         if plan_id != '':
-            if plan_id < self.vc_range[0] or plan_id > self.vc_range[1]:
+            if plan_id < int(self.vc_range[0]) or plan_id > int(self.vc_range[1]):
                 print("plan_id not in vc_range")
                 return
         else:
@@ -604,9 +604,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
 
     @pyqtSlot()
     def on_pushButton17_clicked(self):
-        plan_id = self.lineEdit10.text()
+        plan_id = int(self.lineEdit10.text())
         if plan_id != '':
-            if plan_id < self.vc_range[0] or plan_id > self.vc_range[1]:
+            if plan_id < int(self.vc_range[0]) or plan_id > int(self.vc_range[1]):
                 print("plan_id not in vc_range")
                 return
         else:
