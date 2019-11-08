@@ -104,7 +104,7 @@ def get_chrome(submit = None):
             print(proxy)
     # options.add_argument('--single-process')
     # options.add_argument('--process-per-tab') 
-    options.add_argument('–Referer=https://www.facebook.com') 
+    # options.add_argument('–Referer=https://www.facebook.com') 
     options.add_experimental_option("prefs", prefs)       
     options.add_argument('--disable-gpu')        
     options.add_argument("--disable-automation")
