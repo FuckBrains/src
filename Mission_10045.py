@@ -67,9 +67,12 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[2]/div[3]/a').click()
     sleep(2)
     # None of these happen
-    chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[3]/div[2]/div/div[6]/label/span').click()
-    # continue
-    chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[3]/div[2]/a').click()
+    try:
+        chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[3]/div[2]/div/div[6]/label/span').click()
+        # continue
+        chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[3]/div[2]/a').click()
+    except:
+        pass
     sleep(3)
     # household size
     index = random.randint(1,4)
@@ -110,8 +113,10 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.find_element_by_xpath('//*[@id="step3-email"]').send_keys(submit['health']['email'])    
     # phone
     cellphone = Submit_handle.chansfer_float_into_int(submit['health']['homephone'].split('.')[0])
+    element = chrome_driver.find_element_by_xpath('//*[@id="step3-phone"]')
+    element.click()
     print('cellphone:',cellphone)
-    chrome_driver.find_element_by_xpath('//*[@id="step3-phone"]').send_keys(cellphone)    
+    element.send_keys(cellphone)    
     # address
     chrome_driver.find_element_by_xpath('//*[@id="step3-address1"]').send_keys(submit['health']['address'])
     sleep(3)
