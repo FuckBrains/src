@@ -30,7 +30,10 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.get(submit['Site'])
     # chrome_driver.maximize_window()    
     # chrome_driver.refresh()
-    chrome_driver.find_element_by_xpath('//*[@id="trigger-overlay"]').click()
+    element = '//*[@id="trigger-overlay"]'
+    target = selenium_funcs.scroll_and_find(chrome_driver,element)
+    sleep(2)
+    target.click()
     sleep(3)
     num_ = random.randint(0,100000)
     num_1 = random.randint(0,1)
