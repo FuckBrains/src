@@ -82,6 +82,8 @@ def main(i):
             # sleep(restart_time*60)
             changer.Restart()
             sleep(200)
+        else:
+            return
 
 def test():
     print(Delay)

@@ -45,7 +45,7 @@ def get_lan_config(country):
     return country_list_code[country]
 
 
-def get_chrome(submit = None):
+def get_chrome(submit = None,pic=0):
     if submit == None:
         uas = get_ua_all()
         ua = get_ua_random(uas)
@@ -90,7 +90,8 @@ def get_chrome(submit = None):
         if submit['Mission_Id'] == '20000':
             print('test chrome')
         else:
-            prefs["profile.managed_default_content_settings.images"] = 2
+            if pic == 0:
+                prefs["profile.managed_default_content_settings.images"] = 2
         if 'Mission_dir' in submit:
             submit['Mission_dir'] = submit['Mission_dir'].replace('//','\\') 
             print('Selenium in using user-data-dir:',submit['Mission_dir'])
