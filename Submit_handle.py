@@ -39,6 +39,32 @@ def password_get():
             pwd += d[random.randint(0,len(d)-1)]                                    
     return pwd
 
+def password_get_Nostale():
+    a = '0123456789'
+    c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    d = 'abcdefghijklmnopqrstuvwxyz'
+    num = random.randint(9,15)
+    pwd = ''
+    for i in range(num):
+        num_pwd = random.randint(0,3)
+        if i == 5:
+            num_pwd = 0
+        if i == 7:
+            num_pwd = 1            
+        if i == 3:
+            num_pwd = 2  
+        if i == 8:
+            num_pwd = 3                         
+        if num_pwd == 0:
+            pwd += a[random.randint(0,len(a)-1)]
+        elif num_pwd == 1:
+            pwd += a[random.randint(0,len(a)-1)]
+        elif num_pwd == 2:
+            pwd += c[random.randint(0,len(c)-1)]
+        else :
+            pwd += d[random.randint(0,len(d)-1)]                                    
+    return pwd
+
 def Submit_handle(submit):
     try:
         submit['Home_phone'] = str(int(submit['Home_phone'])).replace('-','')
@@ -199,5 +225,5 @@ def get_next_payday():
     return date
 
 if __name__ == '__main__':
-    date = get_next_payday()
-    print(date)
+    pwd = password_get_Nostale()
+    print(pwd)

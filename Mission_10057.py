@@ -48,6 +48,8 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(2)
     chrome_driver.find_element_by_xpath('//*[@id="regForm1"]/div[4]/div/button').click()
     sleep(30)
+    chrome_driver.refresh()
+    sleep(10)
     chrome_driver.close()
     chrome_driver.quit()
     return 1

@@ -50,7 +50,7 @@ def web_submit(submit,chrome_driver,debug=0):
     # print(submit['Email'])
     # return
     if debug == 1:
-        site = 'https://adpgtrack.com/click/5d15c5d8a035945cc309af93/157000/224520/subaccount'
+        site = 'https://adpgtrack.com/click/5d11f2eca0359448971a2e22/157000/199595/subaccount'
         submit['Site'] = site
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
@@ -67,14 +67,16 @@ def web_submit(submit,chrome_driver,debug=0):
     # email
     chrome_driver.find_element_by_xpath('//*[@id="vld-mail"]').send_keys(submit['fr_soi']['email'])
     # password
-    pwd = Submit_handle.password_get()
+    pwd = Submit_handle.password_get_Nostale()
     chrome_driver.find_element_by_xpath('//*[@id="validate"]').send_keys(pwd)
     sleep(3)
     #play button
     chrome_driver.find_element_by_xpath('//*[@id="regForm1"]/button').click()
+    sleep(60)
     chrome_driver.close()
     chrome_driver.quit()
     return  1   
+
 def test():
     Mission_list = ['10000']
     excel = 'fr_soi'
@@ -86,7 +88,10 @@ def test():
 
     # date_of_birth = Submit_handle.get_auto_birthday(submit['Uspd']['date_of_birth'])
     # print(date_of_birth)
-    # web_submit(submit,1)
+    submit['Mission_Id'] = '10048'
+    submit['Country'] = 'FR'    
+    chrome_driver = Chrome_driver.get_chrome(submit)    
+    web_submit(submit,chrome_driver,1)
     # print(submit['Email'])
     # print(submit['Email']['Email_emu'])
     # print(submit['Email']['Email_emu_pwd'])
