@@ -573,11 +573,12 @@ def Write_Ini(file,content):
 def read_plans_tolog():
     plans = db.read_plans(-1)
     
-
+def test_print():
+    db.test_11()  
 
 def main_():
     test_db_time()
 
 
 if __name__ == '__main__':
-    main_()
+    test_print()

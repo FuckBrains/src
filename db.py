@@ -503,6 +503,26 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
     # submit = dict(Info_dict,**Info_dict2)
     return Info_dicts
 
+
+def test_11():
+    import traceback
+    try:
+        a+1
+    except Exception as e:
+        # print(str(e))
+        # print(e.__traceback__.tb_frame.f_globals["__file__"])   # 发生异常所在的文件
+        # print(e.__traceback__.tb_lineno)                        # 发生异常所在的行数  
+        print(sys._getframe().f_lineno, 'str(e):\t\t', str(e))
+        print(sys._getframe().f_lineno, 'repr(e):\t', repr(e))
+        # print(sys._getframe().f_lineno, 'e.message:\t', e.message)
+        print(sys._getframe().f_lineno, 'traceback.print_exc():',traceback.print_exc())
+        print(sys._getframe().f_lineno, 'traceback.format_exc():\n%s' % traceback.format_exc())
+ 
+
+
+
+
+
 def read_one_excel_(Mission_list,Excel_name,Email_list):
     if Excel_name[0] != '' : 
         res = cursor.execute('SELECT * from BasicInfo WHERE Excel_name = "%s"'%Excel_name[0])

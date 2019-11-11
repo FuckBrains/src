@@ -241,7 +241,8 @@ def delete_port(ports=''):
         try:       
             print('start getting ports')
             ports = ports_get(ip_lpm)
-        except:
+        except Exception as e:
+            print(str(e))
             return
     requests = threadpool.makeRequests(delete_port_s, ports)
     [pool.putRequest(req) for req in requests]
@@ -520,7 +521,5 @@ def create_plans():
 
 
 if __name__ == '__main__':
-    port = 24010
-    ip = '192.168.30.131'
-    add_proxy(port,country='us',proxy_config_name='jia1',ip_lpm=ip)
+    delete_port('')
 

@@ -69,6 +69,8 @@ def reg_part(Config):
         print(submit)
     except Exception as e:
         print(str(e))
+        # print(e.__traceback__.tb_frame.f_globals["__file__"])   # 发生异常所在的文件
+        # print(e.__traceback__.tb_lineno)                        # 发生异常所在的行数
     try:
         chrome_driver.close()
         chrome_driver.quit()
