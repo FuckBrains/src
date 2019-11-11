@@ -8,7 +8,20 @@ import importlib
 from wrapt_timeout_decorator import *
 import traceback
 import sys
+import datetime
 
+
+def Write_Ini(file,content):
+    '''
+    write dict into txt file
+    eg: write a dict into a.txt
+    requires the target file with path and the dict to write in
+    return nothing,just write content into file
+    '''
+    # content = json.dumps(content) 
+    with open(file,'w') as f:
+        # content += '\n'
+        f.write(content)
 
 @timeout(600)
 def reg_part(Config):
@@ -73,7 +86,12 @@ def reg_part(Config):
         flag = Module.web_submit(submit,chrome_driver=chrome_driver)
         print(submit)
     except Exception as e:
-        print(str(e))
+        file_ = '..\log.txt'
+        content = str(datetime.datetime.utcnow())
+        with open(file_,'a+') as f:
+            content += '\n'
+            f.write(content)          
+        traceback.print_exc(file=open(file_,'a+'))          
         print(sys._getframe().f_lineno, 'traceback.print_exc():',traceback.print_exc())        
         # print(e.__traceback__.tb_frame.f_globals["__file__"])   # 发生异常所在的文件
         # print(e.__traceback__.tb_lineno)                        # 发生异常所在的行数

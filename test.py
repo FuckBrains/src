@@ -574,7 +574,18 @@ def read_plans_tolog():
     plans = db.read_plans(-1)
     
 def test_print():
-    db.test_11()  
+    import sys
+    import traceback
+    import datetime
+    try:
+        db.test111()  
+    except:
+        file_ = '..\log.txt'
+        content = str(datetime.datetime.utcnow())
+        with open(file_,'a+') as f:
+            content += '\n'
+            f.write(content)          
+        traceback.print_exc(file=open(file_,'a+'))
 
 def main_():
     test_db_time()
@@ -583,4 +594,4 @@ def test_flag_use():
     db.update_flag_use_all()
 
 if __name__ == '__main__':
-    test_flag_use()
+    test_print()
