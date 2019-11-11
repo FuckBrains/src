@@ -9,19 +9,15 @@ from wrapt_timeout_decorator import *
 import traceback
 import sys
 import datetime
+import os
 
 
-def Write_Ini(file,content):
-    '''
-    write dict into txt file
-    eg: write a dict into a.txt
-    requires the target file with path and the dict to write in
-    return nothing,just write content into file
-    '''
-    # content = json.dumps(content) 
-    with open(file,'w') as f:
-        # content += '\n'
-        f.write(content)
+def makedir_account(path):
+    isExists=os.path.exists(path)
+    if isExists:
+        return
+    else:
+        os.makedirs(path)
 
 @timeout(600)
 def reg_part(Config):
@@ -86,13 +82,22 @@ def reg_part(Config):
         flag = Module.web_submit(submit,chrome_driver=chrome_driver)
         print(submit)
     except Exception as e:
-        file_ = '..\log.txt'
+        path = r'..\log'        
+        makedir_account(path)        
+        file_ = r'..\log\log.txt'
         content = str(datetime.datetime.utcnow())
         with open(file_,'a+') as f:
             content += '\n'
             f.write(content)          
         traceback.print_exc(file=open(file_,'a+'))          
         print(sys._getframe().f_lineno, 'traceback.print_exc():',traceback.print_exc())        
+        path_ = r'..\log\pics'        
+        makedir_account(path_)   
+        try:
+            chrome_driver.save_screenshot(path_)
+            print('pic saved success')
+        except:
+            pass
         # print(e.__traceback__.tb_frame.f_globals["__file__"])   # 发生异常所在的文件
         # print(e.__traceback__.tb_lineno)                        # 发生异常所在的行数
     try:
