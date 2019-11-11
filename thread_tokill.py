@@ -6,11 +6,16 @@ import luminati
 import imap_test
 import importlib
 from wrapt_timeout_decorator import *
+import traceback
+import sys
 
 
 @timeout(600)
 def reg_part(Config):
+    submit = {}
     while True:
+        if 'BasicInfo_Id' in submit:
+            db.update_flag_use(submit['BasicInfo_Id'])           
         print('getting data')
         try:
             submit = db.get_luminati_submit(Config)
@@ -69,6 +74,7 @@ def reg_part(Config):
         print(submit)
     except Exception as e:
         print(str(e))
+        print(sys._getframe().f_lineno, 'traceback.print_exc():',traceback.print_exc())        
         # print(e.__traceback__.tb_frame.f_globals["__file__"])   # 发生异常所在的文件
         # print(e.__traceback__.tb_lineno)                        # 发生异常所在的行数
     try:
@@ -85,6 +91,8 @@ def reg_part(Config):
         if len(mission_check) == 0:
             print('Mission: ',submit['Mission_Id'],'success,uploading db')
             db.write_one_info([str(submit['Mission_Id'])],submit)
+    if 'BasicInfo_Id' in submit:
+        db.update_flag_use(submit['BasicInfo_Id'])
     print('Mission_Id:',submit['Mission_Id'],'finished')
 
 def multi_reg(Config):  
@@ -96,11 +104,12 @@ def multi_reg(Config):
         sleep(time_return)
     else:
         time_cheat = random.randint(0,600)
-        print(Config)
+        # print(Config)
         if Config['Alliance'] != 'Test':
-            print('Sleep for random time:',time_cheat,'-------------')   
             if Config['Mission_Id'] != '20000':
-                sleep(time_cheat)
+                if Config['sleep_flag'] == 1:
+                    print('Sleep for random time:',time_cheat,'-------------')                       
+                    sleep(time_cheat)
         else:
             print('test...........')
         reg_part(Config)

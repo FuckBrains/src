@@ -1082,6 +1082,11 @@
          <string>DE</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>IT</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item row="6" column="0">

@@ -81,7 +81,6 @@ def time_threeday_after():
     # print(invalid_time) 
     return invalid_time
 
-
 def utc_time_compare(time_compare):
     # import datetime   
     # time_delta = datetime.timedelta(hours=-24*3) 
@@ -97,7 +96,6 @@ def utc_time_compare(time_compare):
     # invalid_time = str(time_now - time_after)   
     # print(invalid_time) 
     return a 
-
 
 def getactivatetime(b):
 
@@ -135,22 +133,25 @@ def getactivatetime(b):
     else:
         return 0
 
-
 @fn_timer
 def test_db_time():
     config = db.read_plans(-1)
     Config = config[0]
+    Config['Email_Id'] = '1234'
+    Config['BasicInfo_Id'] = '123123123'
     Email_list = {"hotmail.com": 1, "outlook.com": 1, "yahoo.com": 1, "aol.com": 1}    
     Mission_Ids,Excels_dup = [Config['Mission_Id']],Config['Excel']
-    print(Excels_dup)
-    submit = db.read_one_excel(Mission_Ids,Excels_dup,Email_list)    
+    # print(Excels_dup)
+    # print(Config)
+    Info_dicts = db.read_one_excel_(Mission_Ids,Excels_dup,Email_list)    
+    print(Info_dicts)
+
     # submit = db.get_luminati_submit(config[0])
     # print(len(submit))
 
 def main_():
-    test_db_time()
-
-
+    id = '0014e4e4-d602-11e9-99e5-000c29bd50ed'
+    db.update_flag_use(id)
 
 if __name__ == '__main__':
     # time_3=time_threeday_after()

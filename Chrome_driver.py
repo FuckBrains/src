@@ -210,12 +210,13 @@ def test():
     submit = {}
     submit['Mission_dir'] = r'C:\EMU\emu_chromes\10000,1'
     submit['ip_lpm'] = '192.168.30.131'
-    submit['port_lpm'] = 24001
-    submit['Site'] = 'http://teamanita.com/click.php?c=2&key=l13335ju3dk7yyfdkh780kpw'
-    luminati.refresh_proxy(submit['ip_lpm'],submit['port_lpm'])    
+    submit['port_lpm'] = 24507
+    submit['Site'] = 'https://whoer.net'
+    submit['Mission_Id'] = '10005'
+    # luminati.refresh_proxy(submit['ip_lpm'],submit['port_lpm'])    
     chrome_driver = get_chrome(submit)
     chrome_driver.get(submit['Site']) 
-    sleep(30)
+    sleep(3000)
 
 def test_meituan():
     url = 'https://hz.meituan.com'
@@ -238,4 +239,4 @@ def test_meituan():
 
 
 if __name__ == '__main__':
-    test_meituan()
+    test()

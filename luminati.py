@@ -368,6 +368,7 @@ def ip_test(port_lpm,state = '',country=''):
     for i in range(10):
         print('starting refresh ip...........')
         flag_ip = refresh_proxy(ip_lpm,port_lpm)
+        sleep(3)
         if flag_ip == 0:
             print('proxy_info',-1)
             flag = -1
@@ -378,7 +379,9 @@ def ip_test(port_lpm,state = '',country=''):
         except Exception as e:
             print(str(e))
             print('fail to get lpm ip')
-            continue
+            flag = -1
+            # flag_ip = refresh_proxy(ip_lpm,port_lpm)
+            break
         if proxy_info == '':
             print('proxy_info',-1)
             flag = -1

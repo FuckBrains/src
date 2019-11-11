@@ -52,6 +52,7 @@ def main(i):
             print(len(plans_))
             plans = []
             for plan in plans_:
+                plan['sleep_flag'] = i 
                 for count in range(plan['Mission_time']):
                     plans.append(plan)
             print(plans)
