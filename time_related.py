@@ -5,6 +5,22 @@ import ntplib
 from time import sleep
 import time
 from wrapt_timeout_decorator import *
+import time
+from functools import wraps
+import db
+
+def fn_timer(function):
+    @wraps(function)
+    def function_timer(*args, **kwargs):
+        t0 = time.time()
+        result = function(*args, **kwargs)
+        t1 = time.time()
+        print ("Total time running : %s seconds" %
+            (str(t1-t0))
+            )
+        return result
+    return function_timer
+
 
 
 @timeout(5)
@@ -120,11 +136,23 @@ def getactivatetime(b):
         return 0
 
 
+@fn_timer
+def test_db_time():
+    config = db.read_plans(-1)
+    Config = config[0]
+    Email_list = {"hotmail.com": 1, "outlook.com": 1, "yahoo.com": 1, "aol.com": 1}    
+    Mission_Ids,Excels_dup = [Config['Mission_Id']],Config['Excel']
+    print(Excels_dup)
+    submit = db.read_one_excel(Mission_Ids,Excels_dup,Email_list)    
+    # submit = db.get_luminati_submit(config[0])
+    # print(len(submit))
 
+def main_():
+    test_db_time()
 
 
 
 if __name__ == '__main__':
     # time_3=time_threeday_after()
-    test()
+    main_()
     

@@ -503,11 +503,18 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
     # submit = dict(Info_dict,**Info_dict2)
     return Info_dicts
 
+def read_one_excel_(Mission_list,Excel_name,Email_list):
+    if Excel_name[0] != '' : 
+        res = cursor.execute('SELECT * from BasicInfo WHERE Excel_name = "%s"'%Excel_name[0])
+        desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+        BasicInfo_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来    
+    else:
+        BasicInfo_dict = {}
+
 def read_one_selected_email(Mission_list,Email_list):
     print('     Start reading info from sql server...')
     account = get_account()
     conn,cursor=login_sql(account)
-
     res = cursor.execute('SELECT * from Mission')
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来      

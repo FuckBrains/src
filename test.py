@@ -575,6 +575,9 @@ def read_plans_tolog():
     
 
 
+def main_():
+    test_db_time()
+
 
 if __name__ == '__main__':
-    test_e()
+    main_()

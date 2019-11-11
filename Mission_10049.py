@@ -43,7 +43,8 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(1)
     phone = submit['Ukchoujiang']['homephone'].split('.')[0]
     phone = Submit_handle.get_uk_phone1(phone)
-    chrome_driver.find_element_by_xpath('//*[@id="phone"]').send_keys(phone)
+    for key in phone:
+        chrome_driver.find_element_by_xpath('//*[@id="phone"]').send_keys(int(key))
     sleep(1)
     chrome_driver.find_element_by_css_selector('#user_add_form > div > div > div:nth-child(41) > div > label > p').click()
     sleep(1)
