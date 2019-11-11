@@ -92,9 +92,11 @@ def reg_part(Config):
         traceback.print_exc(file=open(file_,'a+'))          
         print(sys._getframe().f_lineno, 'traceback.print_exc():',traceback.print_exc())        
         path_ = r'..\log\pics'        
-        makedir_account(path_)   
+        makedir_account(path_)
+        pic_name = str(submit['Mission_Id'])+'_'+str(random.randint(0,100000))+'.png'
+        pic = os.path.join(path_,pic_name)
         try:
-            chrome_driver.save_screenshot(path_)
+            chrome_driver.save_screenshot(pic)
             print('pic saved success')
         except:
             pass
