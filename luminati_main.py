@@ -92,7 +92,7 @@ def test():
     print(Config)
 
 if __name__ == '__main__':
-    # paras=sys.argv
-    # i = int(paras[1])
-    i = 0
+    paras=sys.argv
+    i = int(paras[1])
+    # i = 0
     main(i)
