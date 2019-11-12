@@ -64,19 +64,26 @@ def web_submit(submit,chrome_driver,debug=0):
     # submit['Mission_Id'] = '10023'    
     # chrome_driver = Chrome_driver.get_chrome(submit)
     # url = 'http://dategd.com/index.html'
+    submit['Site'] = 'http://dategd.com/index.html'
     chrome_driver.get(submit['Site'])
     sleep(3)
     handles=chrome_driver.window_handles
     print(handles)
     page_source = chrome_driver.page_source
     a = page_source.find('Block</span>')
-    b = page_source.find('class="',a)
-    c = page_source.find('"',b+10)
-    element = page_source[b+7:c]
+    b = page_source.find('id="',a)
+    c = page_source.find('"',b+4)
+    element = page_source[b+4:c]
     print(element)
+    # print(page_source)
     handle = chrome_driver.current_window_handle
     # '//*[@id="_nk54g1x38z2o"]/div[3]/span[2]'
-    chrome_driver.find_element_by_class_name(element).click()
+    for i in range(10):
+    	try:
+    		chrome_driver.find_element_by_id(element).click()
+    		break
+    	except:
+    		sleep(1)
     # chrome_driver.find_element_by_partial_link_text('Allow').click()
     sleep(3)
     handles=chrome_driver.window_handles
@@ -86,7 +93,12 @@ def web_submit(submit,chrome_driver,debug=0):
             chrome_driver.switch_to.window(i)
             # url = 'https://newsadsppush.com/v1/iframe-vac/63581.html?webmaster_id=63581&host=dategd.com&&isIframe=true&deviceId=t_dz2icinqupdm&locker_source=direct&n=1'
             # chrome_driver.get(url)
-            chrome_driver.find_element_by_xpath('/html/body/div/div').click()
+            for i in range(30):
+            	try:
+            		chrome_driver.find_element_by_xpath('/html/body/div/div').click()
+            		break
+            	except:
+            		sleep(1)
             print('==========')
             robot = pyrobot.Robot()
             Keys_ = pyrobot.Keys()
@@ -102,7 +114,7 @@ def web_submit(submit,chrome_driver,debug=0):
             # ActionChains(chrome_driver).key_down(Keys.TAB).key_up(Keys.TAB).send_keys(Keys.ENTER).perform()                       
             # ActionChains(chrome_driver).send_keys(Keys.ENTER).perform()
             print('++++')  
-            sleep(15)                    
+            sleep(10)                    
             # isSucess=chrome_driver.switch_to.alert.text
             # print(isSucess)
             # #确定
@@ -110,7 +122,10 @@ def web_submit(submit,chrome_driver,debug=0):
             # chrome_driver.find_element_by_partial_link_text('Allow').click()
     return 0
 
-
+def cpl():
+	submit = {}
+	chrome_driver = Chrome_driver.get_chrome()
+	web_submit(submit,chrome_driver)
 
 if __name__=='__main__':
     cpl()

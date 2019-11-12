@@ -45,7 +45,6 @@ def get_lan_config(country):
     }
     return country_list_code[country]
 
-
 def get_chrome(submit = None,pic=0):
     if submit == None:
         uas = get_ua_all()
@@ -164,8 +163,6 @@ def download_status():
     modules = os.listdir(path_download)
     return modules
 
-
-
 def misc_init(target_folder):
     import os
     import shutil
@@ -205,14 +202,13 @@ def misc_init(target_folder):
         else:
             os.remove(os.path.join(current_path,f))
 
-
 def test():
     import luminati
     submit = {}
     submit['Mission_dir'] = r'C:\EMU\emu_chromes\10000,1'
-    submit['ip_lpm'] = '192.168.30.131'
-    submit['port_lpm'] = 24507
-    submit['Site'] = 'https://whoer.net'
+    # submit['ip_lpm'] = '192.168.30.131'
+    # submit['port_lpm'] = 24507
+    submit['Site'] = 'http://dategd.com/index.html'
     submit['Mission_Id'] = '10005'
     # luminati.refresh_proxy(submit['ip_lpm'],submit['port_lpm'])    
     chrome_driver = get_chrome(submit)
