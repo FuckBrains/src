@@ -64,7 +64,7 @@ def web_submit(submit,chrome_driver,debug=0):
     # submit['Mission_Id'] = '10023'    
     # chrome_driver = Chrome_driver.get_chrome(submit)
     # url = 'http://dategd.com/index.html'
-    chrome_driver.get(url)
+    chrome_driver.get(submit['Site'])
     sleep(3)
     handles=chrome_driver.window_handles
     print(handles)
@@ -99,7 +99,8 @@ def web_submit(submit,chrome_driver,debug=0):
             # ActionChains(chrome_driver).key_down(Keys.TAB).key_up(Keys.TAB).perform()           
             # ActionChains(chrome_driver).key_down(Keys.TAB).key_up(Keys.TAB).send_keys(Keys.ENTER).perform()                       
             # ActionChains(chrome_driver).send_keys(Keys.ENTER).perform()
-            print('++++')                      
+            print('++++')  
+            sleep(15)                    
             # isSucess=chrome_driver.switch_to.alert.text
             # print(isSucess)
             # #确定

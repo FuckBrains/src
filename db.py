@@ -548,6 +548,8 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
                 break
             else:
                 num+=step
+        sql_content = "UPDATE BasicInfo SET flag_use = 1 WHERE BasicInfo_Id = '%s'" % Info_dicts[Excel_name[0]]['BasicInfo_Id']
+        res = cursor.execute(sql_content)                 
     else:
         BasicInfo_dict = {}
     if Excel_name[1] != '':
@@ -574,8 +576,6 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
                 print('find email unique')
                 Info_dict2 = Email_dict[i]
                 break
-    sql_content = "UPDATE BasicInfo SET flag_use = 1 WHERE BasicInfo_Id = '%s'" % Info_dicts[Excel_name[0]]['BasicInfo_Id']
-    res = cursor.execute(sql_content) 
     if len(Info_dict2) != 0:
         Info_dicts['Email'] = Info_dict2
     login_out_sql(conn,cursor)

@@ -41,6 +41,7 @@ def get_lan_config(country):
     'ES':'es',
     'IT':'it',
     'PL':'pl',
+    'DK':'dk'
     }
     return country_list_code[country]
 
