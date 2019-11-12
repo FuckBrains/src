@@ -84,6 +84,8 @@ def web_submit(submit,chrome_driver,debug=0):
     for i in handles:
         if i != handle:
             chrome_driver.switch_to.window(i)
+            # url = 'https://newsadsppush.com/v1/iframe-vac/63581.html?webmaster_id=63581&host=dategd.com&&isIframe=true&deviceId=t_dz2icinqupdm&locker_source=direct&n=1'
+            # chrome_driver.get(url)
             chrome_driver.find_element_by_xpath('/html/body/div/div').click()
             print('==========')
             robot = pyrobot.Robot()
