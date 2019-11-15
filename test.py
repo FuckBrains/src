@@ -594,4 +594,4 @@ def test_flag_use():
     db.update_flag_use_all()
 
 if __name__ == '__main__':
-    test_print()
+    test_flag_use()

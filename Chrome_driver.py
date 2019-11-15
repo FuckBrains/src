@@ -67,9 +67,9 @@ def get_chrome(submit = None,pic=0):
     prefs = {
             "download.default_directory": path_download,
              "download.prompt_for_download": False,
-             "download.directory_upgrade": True,
-             "safebrowsing.enabled": True,
-             'profile.default_content_settings.popups': 0,
+             # "download.directory_upgrade": True,
+             # "safebrowsing.enabled": True,
+             # 'profile.default_content_settings.popups': 0,
              }    
     # options.add_experimental_option('prefs', prefs)
     # extension_path = '../tools/extension/1.1.0_0.crx'   
@@ -121,6 +121,17 @@ def get_chrome(submit = None,pic=0):
     chrome_driver.set_window_size(size[0],size[1])
     chrome_driver.maximize_window()    
     return chrome_driver
+
+def get_chrome_normal():
+    uas = get_ua_all()
+    ua = get_ua_random(uas)
+    options = webdriver.ChromeOptions()
+    options.add_argument('user-agent=' + ua)
+    path_driver = get_chromedriver_path()
+    chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)    
+    return chrome_driver
+
+
 
 def get_size():
     sizes = [
@@ -211,7 +222,7 @@ def test():
     submit['Site'] = 'http://dategd.com/index.html'
     submit['Mission_Id'] = '10005'
     # luminati.refresh_proxy(submit['ip_lpm'],submit['port_lpm'])    
-    chrome_driver = get_chrome(submit)
+    chrome_driver = get_chrome_normal()
     chrome_driver.get(submit['Site']) 
     sleep(3000)
 
