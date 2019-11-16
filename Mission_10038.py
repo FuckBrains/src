@@ -83,7 +83,7 @@ def web_submit(submit,chrome_driver,debug=0):
     elements = chrome_driver.find_element_by_xpath('//*[@id="label-armedForces-no"]').click()
     # continue
     element = '//*[@id="nextButton"]'
-    target = selenium_funcs.scroll_and_find(chrome_driver,element)
+    target = selenium_funcs.scroll_and_find_up(chrome_driver,element)
     sleep(2)
     target.click()
     sleep(5)
