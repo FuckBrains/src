@@ -313,6 +313,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         new_offer['Country'] = self.comboBox5.currentText()
         new_offer['Account'] = self.comboBox9.currentText()
         new_offer['Mission_time'] = self.comboBox12.currentText()
+        new_offer['zone'] = self.comboBox15.currentText()        
         if self.comboBox13.currentText() == 'Yes':
             new_offer['Activate_status'] = 1
         else:

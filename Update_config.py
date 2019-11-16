@@ -66,8 +66,11 @@ def Read_Alliance_num():
                 if '+' in configs[1]:
                     Missions = configs[1].split('+')                
                     for Mission in Missions:
-                        offer_name = Mission_offer[Mission]
-                        alliance.append(offer_name)
+                        try:
+                            offer_name = Mission_offer[Mission]
+                            alliance.append(offer_name)
+                        except:
+                            pass
                 else:
                     offer_name = Mission_offer[configs[1]]
                     alliance.append(offer_name)                    

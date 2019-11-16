@@ -122,11 +122,16 @@ def get_chrome(submit = None,pic=0):
     chrome_driver.maximize_window()    
     return chrome_driver
 
-def get_chrome_normal():
+def get_chrome_normal(submit):
     uas = get_ua_all()
     ua = get_ua_random(uas)
     options = webdriver.ChromeOptions()
     options.add_argument('user-agent=' + ua)
+    account_lpm = luminati.get_account()
+    ip = account_lpm['IP_lpm']
+    port = submit['port_lpm']
+    proxy = 'socks5://%s:%s'%(ip,port)
+    options.add_argument('--proxy-server=%s'%proxy)    
     path_driver = get_chromedriver_path()
     chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)    
     return chrome_driver
@@ -217,12 +222,12 @@ def test():
     import luminati
     submit = {}
     submit['Mission_dir'] = r'C:\EMU\emu_chromes\10000,1'
-    # submit['ip_lpm'] = '192.168.30.131'
-    # submit['port_lpm'] = 24507
+    submit['ip_lpm'] = '192.168.30.131'
+    submit['port_lpm'] = 24000
     submit['Site'] = 'http://dategd.com/index.html'
     submit['Mission_Id'] = '10005'
     # luminati.refresh_proxy(submit['ip_lpm'],submit['port_lpm'])    
-    chrome_driver = get_chrome_normal()
+    chrome_driver = get_chrome_normal(submit)
     chrome_driver.get(submit['Site']) 
     sleep(3000)
 

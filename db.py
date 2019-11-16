@@ -1001,7 +1001,7 @@ def read_plans(plan_id):
 
 def upload_plans(plans):
     table = 'Plans'
-    sql_contents = []    
+    sql_contents = []
     for item in plans:
         list_keys , list_values =list(plans[item].keys()), list(plans[item].values()) 
         for i in range(len(list_values)):
@@ -1141,7 +1141,7 @@ if __name__ == '__main__':
     # except:
     #     pass
     # delete_old_data()
-    # upload_data()
+    upload_data()
     # get_duplicated_mission_record()
     # plans = {'0': {'Alliance': 'Finaff', 'Offer': 'Royal Cams(Done)', 'url_link': 'http', 'Country': 'US', 'Mission_Id': '10000', 'Excel': ['', 'Email']}}
     # upload_plans(plans)

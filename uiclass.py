@@ -2,11 +2,13 @@
 
 # Form implementation generated from reading ui file 'ui\test.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -454,14 +456,14 @@ class Ui_MainWindow(object):
         self.lineEdit.setText("")
         self.lineEdit.setObjectName("lineEdit")
         self.formLayout.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.lineEdit)
-        self.comboBox13_2 = QtWidgets.QComboBox(self.formLayoutWidget)
+        self.comboBox15 = QtWidgets.QComboBox(self.formLayoutWidget)
         font = QtGui.QFont()
         font.setPointSize(12)
-        self.comboBox13_2.setFont(font)
-        self.comboBox13_2.setObjectName("comboBox13_2")
-        self.comboBox13_2.addItem("")
-        self.comboBox13_2.addItem("")
-        self.formLayout.setWidget(9, QtWidgets.QFormLayout.FieldRole, self.comboBox13_2)
+        self.comboBox15.setFont(font)
+        self.comboBox15.setObjectName("comboBox15")
+        self.comboBox15.addItem("")
+        self.comboBox15.addItem("")
+        self.formLayout.setWidget(9, QtWidgets.QFormLayout.FieldRole, self.comboBox15)
         self.label_24 = QtWidgets.QLabel(self.formLayoutWidget)
         font = QtGui.QFont()
         font.setPointSize(11)
@@ -591,11 +593,10 @@ class Ui_MainWindow(object):
         self.comboBox13.setItemText(1, _translate("MainWindow", "No"))
         self.label_2.setText(_translate("MainWindow", "Offer"))
         self.label_3.setText(_translate("MainWindow", "Url_link"))
-        self.comboBox13_2.setItemText(0, _translate("MainWindow", "jia1"))
-        self.comboBox13_2.setItemText(1, _translate("MainWindow", "zone2"))
+        self.comboBox15.setItemText(0, _translate("MainWindow", "jia1"))
+        self.comboBox15.setItemText(1, _translate("MainWindow", "zone2"))
         self.label_24.setText(_translate("MainWindow", "zone"))
         self.actionAppend_offer.setText(_translate("MainWindow", "delete email"))
         self.actionDB.setText(_translate("MainWindow", "DB"))
         self.actionAdd.setText(_translate("MainWindow", "Add"))
         self.actionDelete.setText(_translate("MainWindow", "Delete"))
-

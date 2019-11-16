@@ -511,7 +511,12 @@ def create_plan_data(plan_id,Offer_links):
             Offer_links[item]['ip_lpm'] = ip_lpm            
         Offer_links[item]['port_lpm'] = get_port_random()  
         # print('Start adding proxy port:',Offer_links[item]['port_lpm'])
-        add_proxy(Offer_links[item]['port_lpm'],country=Offer_links[item]['Country'],proxy_config_name='jia1',ip_lpm=ip_lpm)
+        if 'zone' in Offer_links[item]:
+            proxy_zone = Offer_links[item]['zone']
+        else:
+            proxy_zone = 'jia1'      
+        Config['zone'] = proxy_zone  
+        add_proxy(Offer_links[item]['port_lpm'],country=Offer_links[item]['Country'],proxy_config_name= proxy_zone,ip_lpm=ip_lpm)
         Offer_links[item]['Plan_Id'] = plan_id
         Configs.append(Config)
     return Offer_links    
