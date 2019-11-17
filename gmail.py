@@ -1063,7 +1063,7 @@ def main():
     # return
     requests = threadpool.makeRequests(multi_test,submits)
     [pool.putRequest(req) for req in requests]
-    pool.wait()       
+    pool.wait()
 
 if __name__ == '__main__':
 	main()

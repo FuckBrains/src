@@ -86,6 +86,10 @@ def login_server(submit):
         server = 'imap.aol.com'
     elif 'hotmail' in submit['Email_emu']:
         server = "imap-mail.outlook.com"
+    elif 'msn' in submit['Email_emu']:
+        server = "imap-mail.outlook.com" 
+    elif 'live' in submit['Email_emu']:
+        server = "imap-mail.outlook.com"                
     elif 'yahoo' in  submit['Email_emu']:
         server = 'imap.mail.yahoo.com'
     elif 'gmail' in  submit['Email_emu']:

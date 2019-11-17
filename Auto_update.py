@@ -44,7 +44,6 @@ def get_code():
             sleep(5)            
             delete_folder()
             unfold_zip()
-
             break
         except Exception as e:
             print(str(e))
@@ -61,7 +60,12 @@ def unfold_zip():
         zFile.extract(fileM, path_download)
     zFile.close()
     print('zipfile ok,not bad zip......................')
-    path_folder = os.path.join(path_download,'src-master')
+    files_unzip = os.listdir(path_download)
+    for file in files_unzip:
+        if 'src' in file and '.zip' not in file:
+            file_unzip = file 
+    print('folder name:',file_unzip)
+    path_folder = os.path.join(path_download,file_unzip)
     modules = os.listdir(path_folder) 
     folder_ = [file for file in modules if '.' not in file]
     path_folder_file = [os.path.join(path_folder,file) for file in modules]
