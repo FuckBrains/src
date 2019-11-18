@@ -4,7 +4,7 @@ Nostale_FR
 https://adpgtrack.com/click/5d15c5d8a035945cc309af93/157000/224520/subaccount
 Uspd
 '''
-
+from selenium.webdriver import ActionChains
 from selenium import webdriver
 from time import sleep
 # import xlrd
@@ -56,10 +56,14 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.maximize_window()    
     # chrome_driver.refresh()
     # yes next
-    chrome_driver.find_element_by_xpath('//*[@id="questions"]/div[1]/div[2]/a[1]').click()
+    element = '//*[@id="questions"]/div[1]/div[2]/a[1]'
+    element = selenium_funcs.scroll_and_find_up(chrome_driver,element)
+    element.click()
     sleep(1)
     # 2
-    chrome_driver.find_element_by_xpath('//*[@id="questions"]/div[2]/div[2]/a[1]').click()
+    element = '//*[@id="questions"]/div[2]/div[2]/a[1]'
+    element = selenium_funcs.scroll_and_find_up(chrome_driver,element)
+    element.click()
     sleep(1)
 
     # 3
@@ -73,10 +77,12 @@ def web_submit(submit,chrome_driver,debug=0):
     num = random.randint(0,5)
     chrome_driver.find_element_by_xpath(element[num]).click()
     sleep(1)
+    try:
+        chrome_driver.find_element_by_xpath('//*[@id="questions"]/div[5]/div[2]/a[1]').click()
+    except:
+        pass
 
-    chrome_driver.find_element_by_xpath('//*[@id="questions"]/div[5]/div[2]/a[1]').click()
-
-    sleep(1)
+    sleep(10)
     # email
     email = submit['fr_soi']['email']
     try:
@@ -84,11 +90,10 @@ def web_submit(submit,chrome_driver,debug=0):
     except:
         return 1
     sleep(1)
-    try:
-        chrome_driver.find_element_by_xpath('//*[@id="pg_submit"]').click()
-    except:
-        pass
-    num = random.randint(60,180)
+    element = chrome_driver.find_element_by_xpath('//*[@id="pg_submit"]')
+    actions = ActionChains(chrome_driver)
+    actions.move_to_element_with_offset(element,30,15).click().perform()
+    num = random.randint(180,300)
     sleep(num)
     return 1
    
