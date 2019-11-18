@@ -70,7 +70,7 @@ def web_submit(submit,chrome_driver,debug=0):
 
     # 4
     element = ['//*[@id="questions"]/div[4]/div[2]/a[1]','//*[@id="questions"]/div[4]/div[2]/a[2]','//*[@id="questions"]/div[4]/div[2]/a[3]','//*[@id="questions"]/div[4]/div[2]/a[4]','//*[@id="questions"]/div[4]/div[2]/a[5]','//*[@id="questions"]/div[4]/div[2]/a[6]']
-    num = random.randint(0,6)
+    num = random.randint(0,5)
     chrome_driver.find_element_by_xpath(element[num]).click()
     sleep(1)
 
