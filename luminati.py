@@ -361,6 +361,8 @@ def ip_test(port_lpm,state = '',country=''):
     '''
     # ip_lpm = '192.168.30.131'
     # port_lpm = '24003'
+    if country != 'US':
+        state = ''
     account = get_account()
     print(account)
     ip_lpm = account['IP_lpm']

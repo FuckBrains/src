@@ -54,7 +54,7 @@ def reg_part(Config):
         else:
             pass 
         print('refreshing ip.............')          
-        flag = luminati.ip_test(submit['port_lpm'],state=submit['state_'] ,country='')
+        flag = luminati.ip_test(submit['port_lpm'],state=submit['state_'] ,country=submit['Country'])
         print(flag,'=========================')
         if flag == 1:
             break

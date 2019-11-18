@@ -25,6 +25,19 @@ def get_pwd_real():
     pwd = pwds[num]
     return pwd
 
+def get_name_real():
+    with open(r'ini\names.ini','r') as f:
+        lines  = f.readlines()
+        names = []
+        for line in lines:
+            if line.strip(' ') == '':
+                continue
+            name = line.strip('\n')
+            names.append(name)
+    num = random.randint(0,len(names)-1)
+    name = names[num]
+    return name
+
 def password_get():
     a = '0123456789'
     b = '!@#$%^&'
@@ -238,5 +251,5 @@ def get_next_payday():
     return date
 
 if __name__ == '__main__':
-    pwd = get_pwd_real()
+    pwd = get_name_real()
     print(pwd)

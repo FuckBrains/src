@@ -72,12 +72,11 @@ def web_submit(submit,chrome_driver,debug=0):
     s1.select_by_value(str(year))  
 
     # username
-    username = name_get_random(submit[Excel_tag])
-    username = submit[Excel_tag]['firstname']+submit[Excel_tag]['lastname']
+    username = Submit_handle.get_name_real()
     chrome_driver.find_element_by_xpath('//*[@id="signup-username"]').send_keys(username)
 
     # pwd
-    pwd = Submit_handle.password_get()
+    pwd = Submit_handle.get_pwd_real()
     chrome_driver.find_element_by_xpath('//*[@id="signup-password"]').send_keys(pwd)
 
     # gender    
