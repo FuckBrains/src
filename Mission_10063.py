@@ -84,7 +84,10 @@ def web_submit(submit,chrome_driver,debug=0):
     except:
         return 1
     sleep(1)
-    chrome_driver.find_element_by_xpath('//*[@id="pg_submit"]').click()
+    try:
+        chrome_driver.find_element_by_xpath('//*[@id="pg_submit"]').click()
+    except:
+        pass
     num = random.randint(60,180)
     sleep(num)
     return 1
