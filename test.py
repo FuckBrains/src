@@ -593,5 +593,18 @@ def main_():
 def test_flag_use():
     db.update_flag_use_all()
 
+def soi_test():
+    Mission_status_dict = db.get_soi_email()
+    print(len(Mission_status_dict))
+    names = [info['email'] for info in Mission_status_dict]
+    txt_info = ''
+    for name in names:
+        txt_info += name.split('@')[0] + '\n'
+
+    with open('names.txt','a+') as f:
+        f.write(txt_info)
+
+
+
 if __name__ == '__main__':
-    test_flag_use()
+    soi_test()
