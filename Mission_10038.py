@@ -24,12 +24,16 @@ import random
 def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
-        site = 'https://axisempire022.afftrack.com/click?aid=275&linkid=T2337&s1=&s2=&s3=&s4=&s5='
+        site = 'http://economic-life.com/'
         submit['Site'] = site
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
     chrome_driver.refresh()
     sleep(3)
+    try:
+        chrome_driver.find_element_by_class_name('bsac-container bsac-type-custom_code').click()
+    except:
+        pass
     # page1
     # brightnessLine=chrome_driver.find_element_by_id('//*[@id="form"]/fieldset/div[2]/div')
     # 定位到进度条
@@ -166,7 +170,7 @@ def test():
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
     [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None]
     submit['Mission_Id'] = '10038'
-    chrome_driver = Chrome_driver.get_chrome(submit)
+    chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
     web_submit(submit,chrome_driver,1)
 
 

@@ -1092,6 +1092,21 @@
          <string>DK</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>PL</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ES</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>NZ</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item row="6" column="0">

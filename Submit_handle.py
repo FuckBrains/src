@@ -12,6 +12,19 @@ Already handled:
 '''
 
 
+def get_pwd_real():
+    with open(r'ini\pwd.ini','r') as f:
+        lines  = f.readlines()
+        pwds = []
+        for line in lines:
+            if line.strip(' ') == '':
+                continue
+            pwd = line.strip('\n')
+            pwds.append(pwd)
+    num = random.randint(0,len(pwds)-1)
+    pwd = pwds[num]
+    return pwd
+
 def password_get():
     a = '0123456789'
     b = '!@#$%^&'
@@ -225,5 +238,5 @@ def get_next_payday():
     return date
 
 if __name__ == '__main__':
-    pwd = password_get_Nostale()
+    pwd = get_pwd_real()
     print(pwd)

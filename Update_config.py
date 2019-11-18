@@ -69,8 +69,8 @@ def Read_Alliance_num():
                         try:
                             offer_name = Mission_offer[Mission]
                             alliance.append(offer_name)
-                        except:
-                            pass
+                        except Exception as e:
+                            print(str(e))
                 else:
                     offer_name = Mission_offer[configs[1]]
                     alliance.append(offer_name)                    
