@@ -55,18 +55,40 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.refresh()
     # click
     # sleep(2000)
-
+    sleep(2)
     # mm
+    # index_ = random.randint(2,10)
+    js="$('#MonthDropdown > option:nth-child(1)').removeAttr('selected')"
+    chrome_driver.execute_script(js)
+    # js = '$("#MonthDropdown > option:nth-child('+str(index_)+')").attr("selected","selected")'
+    # chrome_driver.execute_script(js)    
+    # sleep(2)
+    # chrome_driver.find_element_by_xpath('//*[@id="MonthDropdown"]').click()
     num = random.randint(0,10)
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="MonthDropdown"]'))
     s1.select_by_index(num)
 
+
     # dd
+    # index_ = random.randint(2,22)
+    js="$('#DayDropdown > option:nth-child(1)').removeAttr('selected')"
+    chrome_driver.execute_script(js)
+    # js = '$("#DayDropdown > option:nth-child('+str(index_)+')").attr("selected","selected")'
+    # chrome_driver.execute_script(js)      
+    # sleep(2)
+    # chrome_driver.find_element_by_xpath('//*[@id="DayDropdown"]').click()
     num = random.randint(0,22)    
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="DayDropdown"]'))
-    s1.select_by_index(num)
+    s1.select_by_index(num)    
 
     # year
+    # index_ = random.randint(20,40)
+    js="$('#YearDropdown > option:nth-child(1)').removeAttr('selected')"
+    chrome_driver.execute_script(js)
+    # js = '$("#YearDropdown > option:nth-child('+str(index_)+')").attr("selected","selected")'
+    # chrome_driver.execute_script(js)      
+    # sleep(2)
+    # chrome_driver.find_element_by_xpath('//*[@id="YearDropdown"]').click()
     year = random.randint(1985,2005)
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="YearDropdown"]'))
     s1.select_by_value(str(year))  
@@ -86,7 +108,7 @@ def web_submit(submit,chrome_driver,debug=0):
         chrome_driver.find_element_by_xpath('//*[@id="MaleButton"]/div').click()
     # signup
     chrome_driver.find_element_by_xpath('//*[@id="signup-button"]').click()
-    sleep(20)
+    sleep(30)
     chrome_driver.close()
     chrome_driver.quit()
     return 1
@@ -100,18 +122,14 @@ def web_submit(submit,chrome_driver,debug=0):
 def test():
     Mission_list = ['10000']
     Excel_name = ['Auto','']
+    Mission_list = ['10066']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
-    print(submit)
-    # date_of_birth = Submit_handle.get_auto_birthday(submit['Uspd']['date_of_birth'])
-    # print(date_of_birth)
-    web_submit(submit,1)
-    # print(submit['Uspd'])
-    # print(submit['Uspd']['state'])
-    # print(submit['Uspd']['city'])
-    # print(submit['Uspd']['zip'])
-    # print(submit['Uspd']['date_of_birth'])
-    # print(submit['Uspd']['ssn'])
+    # [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None]
+    # [print(item,':',submit[excel][item]) for item in submit[excel] if item == 'homephone']  
+    submit['Mission_Id'] = '10066'
+    chrome_driver = Chrome_driver.get_chrome(submit)
+    web_submit(submit,chrome_driver,1)
 
  
 
@@ -121,6 +139,4 @@ def test1():
 
 
 if __name__=='__main__':
-    submit={}
-    name = name_get_random(submit)
-    print(name)
+    test()

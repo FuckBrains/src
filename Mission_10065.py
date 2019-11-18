@@ -54,23 +54,30 @@ def web_submit(submit,chrome_driver,debug=0):
     # chrome_driver.maximize_window()    
     chrome_driver.refresh()
     sleep(2)
-    # click
-    # sleep(2000)
-
     # mm
+    # index_ = random.randint(2,10)
+    js="$('#MonthDropdown > option:nth-child(1)').removeAttr('selected')"
+    chrome_driver.execute_script(js)
     num = random.randint(0,10)
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="MonthDropdown"]'))
     s1.select_by_index(num)
 
+
     # dd
+    # index_ = random.randint(2,22)
+    js="$('#DayDropdown > option:nth-child(1)').removeAttr('selected')"
+    chrome_driver.execute_script(js)
     num = random.randint(0,22)    
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="DayDropdown"]'))
-    s1.select_by_index(num)
+    s1.select_by_index(num)    
 
     # year
+    # index_ = random.randint(20,40)
+    js="$('#YearDropdown > option:nth-child(1)').removeAttr('selected')"
+    chrome_driver.execute_script(js)
     year = random.randint(1985,2005)
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="YearDropdown"]'))
-    s1.select_by_value(str(year))  
+    s1.select_by_value(str(year))   
 
     # username
     username = Submit_handle.get_name_real()

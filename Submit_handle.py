@@ -21,8 +21,18 @@ def get_pwd_real():
                 continue
             pwd = line.strip('\n')
             pwds.append(pwd)
-    num = random.randint(0,len(pwds)-1)
-    pwd = pwds[num]
+    while True:
+        num = random.randint(0,len(pwds)-1)
+        pwd = pwds[num]
+        if len(pwd)>=8:
+            break
+    b = '!@#$%^&'
+    b_insert = random.randint(0,len(b)-1)
+    rate = random.randint(0,2)
+    if rate == 1:
+        print(rate)
+        insert_num = random.randint(1,6)
+        pwd = pwd[0:insert_num]+b[b_insert]+pwd[insert_num:]
     return pwd
 
 def get_name_real():
@@ -251,5 +261,5 @@ def get_next_payday():
     return date
 
 if __name__ == '__main__':
-    pwd = get_name_real()
+    pwd = get_pwd_real()
     print(pwd)
