@@ -175,6 +175,16 @@ def get_lpm_ip(port,url="http://lumtest.com/myip.json",Referer='',debug=0):
     print('proxy_info...',proxy_info,'...')
     return proxy_info
 
+def tz_test():
+    url="http://lumtest.com/myip.json"
+    resp=requests.get(url)
+    # resp=session.get(url,headers=headers)    
+    proxy_info = json.loads(resp.text)
+    print(proxy_info)
+    tz = proxy_info['geo']['tz']
+    print(tz)
+
+
 @timeout(30)
 def add_proxy(port_add,country='us',proxy_config_name='zone2',ip_lpm='127.0.0.1'):
     account = get_account()
@@ -367,6 +377,7 @@ def ip_test(port_lpm,state = '',country=''):
     print(account)
     ip_lpm = account['IP_lpm']
     flag = 0
+    proxy_info = ''    
     for i in range(10):
         print('starting refresh ip...........')
         flag_ip = refresh_proxy(ip_lpm,port_lpm)
@@ -408,7 +419,7 @@ def ip_test(port_lpm,state = '',country=''):
             print('State of proxy:',state_proxy)
             print('Target state:',state)
             continue
-    return flag
+    return flag,proxy_info
 
 def ip_test_life(j):
     ip_lpm = '192.168.30.131'

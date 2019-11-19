@@ -608,5 +608,46 @@ def bat_test():
     command = '..\StartGit.bat'
     os.system(command)      
 
+def test_p():
+    import thread_tokill as tt
+    import os
+    os.environ['TZ'] = 'Asia/Shanghai'
+
+    try:
+        chrome_driver = Chrome_driver.get_chrome()
+        chrome_driver.get('https://www.baidu.com')
+        submit = {}
+        submit['Mission_Id'] = 10099
+        a+1
+    except:
+        tt.writelog(chrome_driver,submit)
+
+def test_c():
+    pic = '10064_16806.png'
+    # fin = open(pic)
+    # png = fin.read()    
+    # with open(pic,'rb') as f:
+    #     png = f.read()    
+    # print(len(png))
+    # db.write_log_db(100,'',png)    
+    db.read_pic(100)
+
+    # with open('test.png','wb') as f:
+    #     f.write(png)
+
+
+def testf():
+    import traceback
+    try:
+        a=b
+    except:
+        a = traceback.format_exc()
+        print(type(a))
+        print(len(a))
+        print('=========')
+        Mission_Id = 20001
+        traceback_ = a
+        db.write_log_db(Mission_Id,traceback_)
+
 if __name__ == '__main__':
-    bat_test()
+    test_c()

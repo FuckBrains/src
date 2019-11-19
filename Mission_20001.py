@@ -46,8 +46,8 @@ def test():
     phone = submit[excel]['homephone']
     phone = Submit_handle.get_uk_phone1(phone)
     print(phone)
-    chrome_driver = Chrome_driver.get_chrome(submit)
-    web_submit(submit,chrome_driver,1)
+    # chrome_driver = Chrome_driver.get_chrome(submit)
+    # web_submit(submit,chrome_driver,1)
 
 
 if __name__=='__main__':

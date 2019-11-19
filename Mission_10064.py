@@ -64,10 +64,11 @@ def web_submit(submit,chrome_driver,debug=0):
     # submit['Mission_Id'] = '10023'    
     # chrome_driver = Chrome_driver.get_chrome(submit)
     # url = 'http://dategd.com/index.html'
-    chrome_driver.close()
-    chrome_driver = Chrome_driver.get_chrome_normal(submit)    
+    # chrome_driver.close()
+    # chrome_driver = Chrome_driver.get_chrome_normal(submit)    
     submit['Site'] = 'http://dategd.com/index.html'
     chrome_driver.get(submit['Site'])
+    aaaa=bbb
     sleep(3)
     handles=chrome_driver.window_handles
     print(handles)
@@ -122,7 +123,7 @@ def web_submit(submit,chrome_driver,debug=0):
             # #确定
             # chrome_driver.switch_to.alert.accept()
             # chrome_driver.find_element_by_partial_link_text('Allow').click()
-    sleep(3000)
+    sleep(30)
     return 0
 
 def cpl():

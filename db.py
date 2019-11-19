@@ -166,7 +166,7 @@ def login_sql(account,create = False):
     return the cursor and conn
     '''
     ip = 'rm-bp100p7672g0g8z9kjo.mysql.rds.aliyuncs.com'
-    conn = pymysql.connect(host= ip,port=3306,user=account['username'],passwd=str(account['pwd']))
+    conn = pymysql.connect(host= ip,port=3306,user=account['username'],passwd=str(account['pwd']),charset='utf8mb4',use_unicode=True)
     cursor = conn.cursor()
     try:
         cursor.execute('use %s;'%account['db_name'])
@@ -524,7 +524,8 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
     if Excel_name[0] != '' :
         while True:
             # res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" limit 0,1'%(Excel_name[0]))
-            res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" and flag_use = 0 limit %d,%d'%(Excel_name[0],num,step))
+            res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" and flag_use = 0 ORDER BY rand() limit %d,%d'%(Excel_name[0],num,step))
+            # res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" and flag_use = 0 limit %d,%d'%(Excel_name[0],num,step))            
             print(res)
             if res == 0 :
                 if step == 0:
@@ -715,6 +716,55 @@ def write_one_info(Mission_list,submit,Cookie = ''):
         print(sql_content)
         res = cursor.execute(sql_content)    
     login_out_sql(conn,cursor)
+
+def write_log_db(Mission_Id,traceback_,png):
+    # sql_content = 'INSERT INTO Log(Mission_Id,traceback,png)VALUES("%s","%s","%s");'%(str(Mission_Id),pymysql.escape_string(traceback_),pymysql.Binary(png))
+    # sql_content = 'INSERT INTO Log(Mission_Id,traceback,png)VALUES(str(Mission_Id),pymysql.escape_string(traceback_),pymysql.Binary(png));' 
+    # print(type(pymysql.Binary(png)))
+    # print(sql_content)
+    account = get_account()
+    conn,cursor=login_sql(account)    
+    # res = cursor.execute(sql_content)  
+    # args = (str(Mission_Id),pymysql.escape_string(traceback_),pymysql.Binary(png))  
+    args = (int(Mission_Id),pymysql.escape_string(traceback_),png)      
+    res = cursor.execute('INSERT INTO Log(Mission_Id,traceback,png)VALUES("%s","%s",_binary"%s")',args)        
+    # -- res = cursor.execute('INSERT INTO Log(Mission_Id,traceback,png)VALUES("%s","%s","%s")',args)            
+    login_out_sql(conn,cursor)    
+
+def makedir_pic(path=r'c:\EMU\log\pic'):
+    isExists=os.path.exists(path)
+    if isExists:
+        return
+    else:
+        os.makedirs(path)
+
+def read_pic(Mission_Id):
+    path_pic=r'c:\EMU\log\pics'
+    folder = os.path.join(path_pic,str(Mission_Id))
+    makedir_pic(folder)
+    modules = os.listdir(folder)
+    # print(modules)
+    path_ = os.path.join(os.getcwd(),folder)
+    modules_path = [os.path.join(path,file) for file in modules]
+    [os.remove(file) for file in modules_path]
+
+    account = get_account()
+    conn,cursor=login_sql(account)    
+    sql_content = 'SELECT png FROM Log WHERE Mission_Id="%s"'%str(Mission_Id)
+    # res = cursor.execute(sql_content)  
+    res = cursor.execute(sql_content)  
+    print(res)
+    # fout = open('quchu1.png','wb')
+    s = cursor.fetchall()
+    for pic in s:
+        num = random.randint(0,99999)
+        name = str(Mission_Id)+'_'+str(num)
+        pic_ = os.path.join(folder,str(name))
+        with open(pic_,'wb') as f:
+            f.write(pic)
+    login_out_sql(conn,cursor) 
+    print('Total %d pics for Mission %d'%(len(s),int(Mission_Id)))        
+
 
 def updata_email_status(Email_Id,flag = 1):
     if flag == 1:
@@ -1143,6 +1193,16 @@ def hotupdate(i):
     content = hu.get_contents(i)
     print(content)
     Execute_sql(content)
+
+def get_cst_zone(tzid):
+    sql_content = "SELECT windows,tzid FROM Basicinfo WHERE Excel_name = 'tz' and find_in_set('%s',tzid)"%(tzid)
+    account = get_account()
+    conn,cursor = login_sql(account)
+    res = cursor.execute(sql_content)
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Mission_status_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来    
+    login_out_sql(conn,cursor) 
+    return Mission_status_dict    
 
 if __name__ == '__main__':
     print('test')

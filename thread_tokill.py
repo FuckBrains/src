@@ -11,6 +11,8 @@ import sys
 import datetime
 import os
 
+timezone = ''
+using_num = 0
 
 def makedir_account(path):
     isExists=os.path.exists(path)
@@ -18,6 +20,51 @@ def makedir_account(path):
         return
     else:
         os.makedirs(path)
+
+def writelog(chrome_driver,submit):
+        '''
+        writelog and
+        '''
+        path = r'..\log'        
+        makedir_account(path)        
+        path_ = r'..\log\pics'        
+        makedir_account(path_)
+        pic_name = str(submit['Mission_Id'])+'_'+str(random.randint(0,100000))+'.png'
+        pic = os.path.join(path_,pic_name)
+        print(pic)
+        try:
+            chrome_driver.save_screenshot(pic)
+            print('pic saved success')
+        except Exception as e:
+            print(str(e))
+        with open(pic,'rb') as f:
+            png = f.read()
+        Mission_Id = submit['Mission_Id']
+        traceback_ = traceback.format_exc()
+        db.write_log_db(Mission_Id,traceback_,png)
+
+        # file_ = r'..\log\log.txt'
+        # content = str(datetime.datetime.now())
+        # with open(file_,'a+') as f:
+        #     content += '\n'
+        #     f.write(content)          
+        # traceback.print_exc(file=open(file_,'a+'))          
+        # print(sys._getframe().f_lineno, 'traceback.print_exc():',traceback.print_exc())        
+        # print(e.__traceback__.tb_frame.f_globals["__file__"])   # 发生异常所在的文件
+        # print(e.__traceback__.tb_lineno)                        # 发生异常所在的行数    
+
+
+def change_tz(windows_):
+    global using_num
+    while True:
+        if using_num == 0:
+            command = 'tzutil /s \"%s\"'%windows_
+            os.system(command)
+            using_num += 1
+            return
+        else:
+            sleep(10)
+
 
 @timeout(600)
 def reg_part(Config):
@@ -53,8 +100,8 @@ def reg_part(Config):
                 continue
         else:
             pass 
-        print('refreshing ip.............')          
-        flag = luminati.ip_test(submit['port_lpm'],state=submit['state_'] ,country=submit['Country'])
+        print('refreshing ip.............')      
+        flag,proxy_info = luminati.ip_test(submit['port_lpm'],state=submit['state_'] ,country=submit['Country'])
         print(flag,'=========================')
         if flag == 1:
             break
@@ -73,6 +120,20 @@ def reg_part(Config):
         else:
             continue
         print('Reading config from sql server success')
+    submit['tz'] = db.get_cst_zone(proxy_info['geo']['tz'])
+    print("proxy_info['geo']['tz']:",proxy_info['geo']['tz'])
+    print(str(submit['Mission_Id']),'get timezone for ',submit['Country'],'is',submit['tz'])
+    global timezone 
+    global using_num
+    print("timezone:",timezone)
+    print("using_num:",using_num)    
+    if submit['tz'][0]['windows'] != timezone:
+        change_tz(submit['tz'][0]['windows'])
+        timezone = submit['tz'][0]['windows']
+        print("timezone:",timezone)
+        print("using_num:",using_num)
+    else:
+        using_num += 1
     module = 'Mission_'+str(submit['Mission_Id'])
     Module = importlib.import_module(module)
     flag = 0
@@ -82,31 +143,15 @@ def reg_part(Config):
         flag = Module.web_submit(submit,chrome_driver=chrome_driver)
         print(submit)
     except Exception as e:
-        path = r'..\log'        
-        makedir_account(path)        
-        file_ = r'..\log\log.txt'
-        content = str(datetime.datetime.utcnow())
-        with open(file_,'a+') as f:
-            content += '\n'
-            f.write(content)          
-        traceback.print_exc(file=open(file_,'a+'))          
-        print(sys._getframe().f_lineno, 'traceback.print_exc():',traceback.print_exc())        
-        path_ = r'..\log\pics'        
-        makedir_account(path_)
-        pic_name = str(submit['Mission_Id'])+'_'+str(random.randint(0,100000))+'.png'
-        pic = os.path.join(path_,pic_name)
-        try:
-            chrome_driver.save_screenshot(pic)
-            print('pic saved success')
-        except:
-            pass
-        # print(e.__traceback__.tb_frame.f_globals["__file__"])   # 发生异常所在的文件
-        # print(e.__traceback__.tb_lineno)                        # 发生异常所在的行数
+        writelog(chrome_driver,submit)     
     try:
         chrome_driver.close()
         chrome_driver.quit()
     except:
         pass
+    using_num = using_num - 1  
+    print("using_num:",using_num)    
+    print("timezone:",timezone)    
     if flag == 1:
         mission_check = {}
         try:
@@ -119,6 +164,7 @@ def reg_part(Config):
     if 'BasicInfo_Id' in submit:
         db.update_flag_use(submit['BasicInfo_Id'])
     print('Mission_Id:',submit['Mission_Id'],'finished')
+
 
 def multi_reg(Config):  
     # print(Config)

@@ -13,6 +13,11 @@ hotupdate_content = {
 	10 : ["ALTER TABLE Mission ADD activate4 VARCHAR(100) DEFAULT '' AFTER activate3" ,"ALTER TABLE Mission ADD activate5 VARCHAR(100) DEFAULT '' AFTER activate4","ALTER TABLE Mission ADD activate6 VARCHAR(100) DEFAULT '' AFTER activate5","ALTER TABLE Mission ADD activate7 VARCHAR(100) DEFAULT '' AFTER activate6","ALTER TABLE Mission ADD activate8 VARCHAR(100) DEFAULT '' AFTER activate7","ALTER TABLE Mission ADD activate9 VARCHAR(100) DEFAULT '' AFTER activate8","ALTER TABLE Mission ADD activate10 VARCHAR(100) DEFAULT '' AFTER activate9"],
 	11 : ["ALTER TABLE plans modify port_lpm varchar(50) NOT NULL unique"],
 	12 : ["ALTER TABLE BasicInfo modify BasicInfo_Id varchar(50) NOT NULL unique"],
+	13 : ["ALTER TABLE BasicInfo ADD windows VARCHAR(100)    AFTER flag_use"],
+	14 : ["ALTER TABLE BasicInfo ADD tzid VARCHAR(200)   unique AFTER flag_use"],
+	15 : ["ALTER TABLE Log ADD Create_time TIMESTAMP not null default CURRENT_TIMESTAMP"],
+	
+
 
 
 

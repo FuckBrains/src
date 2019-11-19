@@ -7,6 +7,7 @@ import random
 import zipfile
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities 
 import luminati
+from time import sleep
 
 def get_chromedriver_path():
     return r'driver/chromedriver_77.exe'
@@ -44,6 +45,30 @@ def get_lan_config(country):
     'DK':'dk'
     }
     return country_list_code[country]
+
+
+def tz_test():
+    c = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none"     
+    desired_capabilities = {
+        'os' : 'Windows',
+        'os_version' : '7',
+        'browser' : 'Chrome',
+        'browser_version' : '77.0',
+        'resolution' : '400x800',
+        # 'project' : 'emu_project',
+        'build' : 'emu_build',
+        # 'name' : 'emu_test',
+        # 'browserstack.local' : 'false',
+        # 'browserstack.video' : 'false',
+        'browserstack.timezone' : 'New_York',
+        # 'browserstack.selenium_version' : '3.2.0',
+        # 'browserstack.seleniumLogs' : 'false'
+    }
+    desired_capabilities["pageLoadStrategy"] = "none"            
+    path_driver = get_chromedriver_path()    
+    chrome_driver = webdriver.Chrome( desired_capabilities=desired_capabilities,executable_path=path_driver)      
+    chrome_driver.get('https://www.w3school.com.cn/tiy/t.asp?f=js_date_current')
+    sleep(3000)
 
 def get_chrome(submit = None,pic=0):
     if submit == None:
@@ -252,4 +277,4 @@ def test_meituan():
 
 
 if __name__ == '__main__':
-    test()
+    tz_test()
