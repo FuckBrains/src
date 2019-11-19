@@ -126,7 +126,7 @@ def main():
     # [copyfile(file,src) for file in modules_path]
     print('Compile finished.........')
     # modules = [module.strip('.py') for module in modules] 
-
+    os.system()
 
 
 if __name__ == '__main__':

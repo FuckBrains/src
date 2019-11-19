@@ -604,7 +604,9 @@ def soi_test():
     with open('names.txt','a+') as f:
         f.write(txt_info)
 
-
+def bat_test():
+    command = '..\StartGit.bat'
+    os.system(command)      
 
 if __name__ == '__main__':
-    soi_test()
+    bat_test()
