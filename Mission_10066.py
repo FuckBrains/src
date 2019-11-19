@@ -29,6 +29,8 @@ import Submit_handle
 import random
 
 
+# --test--
+
 
 
 def name_get_random(submit):
