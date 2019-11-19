@@ -546,9 +546,16 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
                     break
                 if info['BasicInfo_Id'] not in Basicinfo_ids:
                     Basicinfo_ids.append(info['BasicInfo_Id'])
+
+            sql_content = 'SELECT COUNT(*) FROM Basicinfo WHERE Excel_name="%s" and flag_use = 1'%Excel_name[0]
+            res = cursor.execute(sql_content)
+            ff = cursor.fetchall()
+            print(ff)
+            num_flag = ff[0][0]     
+            print(num_flag,'infos flag_use = 1')           
             if len(Info_dicts) > 0:
-                break
-            if len(Basicinfo_ids) == num_excel:
+                break            
+            if len(Basicinfo_ids) == num_excel-num_flag:
                 print('No available data for Mission_Id:',str(Mission_list[0]))
                 return
         sql_content = "UPDATE BasicInfo SET flag_use = 1 WHERE BasicInfo_Id = '%s'" % Info_dicts[Excel_name[0]]['BasicInfo_Id']
