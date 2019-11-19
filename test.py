@@ -638,6 +638,9 @@ def test_c():
 def file_open():
     os.system('explorer.exe /n, C:\EMU\log\pics')
 
+def testfa():
+    Excel_name = 'pl_soi'
+    db.test_count(Excel_name)    
 
 def testf():
     import traceback
@@ -653,4 +656,4 @@ def testf():
         db.write_log_db(Mission_Id,traceback_)
 
 if __name__ == '__main__':
-    file_open()
+    test_flag_use()

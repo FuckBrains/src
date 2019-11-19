@@ -68,7 +68,6 @@ def web_submit(submit,chrome_driver,debug=0):
     # chrome_driver = Chrome_driver.get_chrome_normal(submit)    
     submit['Site'] = 'http://dategd.com/index.html'
     chrome_driver.get(submit['Site'])
-    aaaa=bbb
     sleep(3)
     handles=chrome_driver.window_handles
     print(handles)
