@@ -66,8 +66,7 @@ def change_tz(windows_):
             sleep(10)
 
 
-@timeout(600)
-def reg_part(Config):
+def data_handler(Config):
     submit = {}
     while True:
         if 'BasicInfo_Id' in submit:
@@ -133,7 +132,14 @@ def reg_part(Config):
         print("timezone:",timezone)
         print("using_num:",using_num)
     else:
-        using_num += 1
+        using_num += 1 
+    reg_part(submit)
+
+
+@timeout(600)
+def reg_part(submit):
+    global timezone 
+    global using_num    
     module = 'Mission_'+str(submit['Mission_Id'])
     Module = importlib.import_module(module)
     flag = 0
@@ -183,5 +189,5 @@ def multi_reg(Config):
                     sleep(time_cheat)
         else:
             print('test...........')
-        reg_part(Config)
+        data_handler(Config)
     return  

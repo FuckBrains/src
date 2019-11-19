@@ -628,11 +628,8 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     def on_pushButton19_clicked(self):
         Mission_Id = int(self.lineEdit12.text())
         db.read_pic(Mission_Id)
+        os.system('explorer.exe /n, C:\EMU\log\pics\\'+str(Mission_Id))
 
-
-
-
-    
 def main():
     up.main()
     print('111')

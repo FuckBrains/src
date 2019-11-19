@@ -635,6 +635,9 @@ def test_c():
     # with open('test.png','wb') as f:
     #     f.write(png)
 
+def file_open():
+    os.system('explorer.exe /n, C:\EMU\log\pics')
+
 
 def testf():
     import traceback
@@ -650,4 +653,4 @@ def testf():
         db.write_log_db(Mission_Id,traceback_)
 
 if __name__ == '__main__':
-    test_c()
+    file_open()
