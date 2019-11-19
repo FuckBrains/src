@@ -626,11 +626,11 @@ def test_c():
     pic = '10064_16806.png'
     # fin = open(pic)
     # png = fin.read()    
-    # with open(pic,'rb') as f:
-    #     png = f.read()    
-    # print(len(png))
-    # db.write_log_db(100,'',png)    
-    db.read_pic(100)
+    with open(pic,'rb') as f:
+        png = f.read()    
+    print(len(png))
+    db.write_log_db(10001,'asssssssss',png)    
+    # db.read_pic(100)
 
     # with open('test.png','wb') as f:
     #     f.write(png)

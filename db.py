@@ -745,7 +745,7 @@ def read_pic(Mission_Id):
     modules = os.listdir(folder)
     # print(modules)
     path_ = os.path.join(os.getcwd(),folder)
-    modules_path = [os.path.join(path,file) for file in modules]
+    modules_path = [os.path.join(path_,file) for file in modules]
     [os.remove(file) for file in modules_path]
 
     account = get_account()
@@ -757,11 +757,13 @@ def read_pic(Mission_Id):
     # fout = open('quchu1.png','wb')
     s = cursor.fetchall()
     for pic in s:
+        print(type(pic))
+        print(len(pic))
         num = random.randint(0,99999)
-        name = str(Mission_Id)+'_'+str(num)
+        name = str(Mission_Id)+'_'+str(num)+'.png'
         pic_ = os.path.join(folder,str(name))
         with open(pic_,'wb') as f:
-            f.write(pic)
+            f.write(pic[0][1:-1])
     login_out_sql(conn,cursor) 
     print('Total %d pics for Mission %d'%(len(s),int(Mission_Id)))        
 

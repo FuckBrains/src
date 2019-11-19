@@ -623,6 +623,15 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         # plans = db.read_plans(plan_id)
         # ports = [plan['port_lpm'] for plan in plans]
         luminati.delete_port()
+
+    @pyqtSlot()
+    def on_pushButton19_clicked(self):
+        Mission_Id = int(self.lineEdit12.text())
+        db.read_pic(Mission_Id)
+
+
+
+
     
 def main():
     up.main()
