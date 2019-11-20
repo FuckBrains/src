@@ -8,6 +8,8 @@ import zipfile
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities 
 import luminati
 from time import sleep
+import globalvar as gl
+
 
 def get_chromedriver_path():
     return r'driver/chromedriver_77.exe'
@@ -32,9 +34,12 @@ def get_ua_random(uas):
     # print(uas[num])
     return uas[num]
 
-def get_flag(name,value):
-    gl.set_value(name,value)
+def set_flag(name,value):
+    gl.set_value(str(name),value)
 
+def get_flag(name):
+    flag = gl.get_value(str(name))
+    return flag
 
 def get_lan_config(country):
     country_list_code ={
@@ -49,7 +54,6 @@ def get_lan_config(country):
     'DK':'dk'
     }
     return country_list_code[country]
-
 
 def tz_test():
     c = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none"     
@@ -164,8 +168,6 @@ def get_chrome_normal(submit):
     path_driver = get_chromedriver_path()
     chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)    
     return chrome_driver
-
-
 
 def get_size():
     sizes = [

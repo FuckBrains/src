@@ -73,10 +73,10 @@ def data_handler(Config):
     while True:
         if 'BasicInfo_Id' in submit:
             db.update_flag_use(submit['BasicInfo_Id'])           
-        print('getting data')
+        # print('getting data')
         try:
             submit = db.get_luminati_submit(Config)
-            print(submit)
+            # print(submit)
             # return
             if Config['Alliance'] == 'Test':
                 submit['state_'] = ''
@@ -90,14 +90,14 @@ def data_handler(Config):
             print('testing email.........')
             flag = imap_test.Email_emu_getlink(submit['Email'])
             if flag == 0:
-                print('Bad email:',submit['Email']['Email_emu'])
+                # print('Bad email:',submit['Email']['Email_emu'])
                 db.updata_email_status(submit['Email']['Email_Id'],0)
                 continue
             elif flag == 1:
-                print("Good email")
+                # print("Good email")
                 db.updata_email_status(submit['Email']['Email_Id'],1)
             else:
-                print('Loging email server failed,find another email')
+                # print('Loging email server failed,find another email')
                 continue
         else:
             pass 
@@ -107,12 +107,12 @@ def data_handler(Config):
         if flag == 1:
             break
         elif flag == -1:
-            print('bad port,change into new')
+            # print('bad port,change into new')
             luminati.delete_port_s(submit['port_lpm'])            
             port_new = luminati.get_port_random()
             db.update_port(submit['port_lpm'],port_new)
             Config['port_lpm'] = port_new
-            print(port_new)
+            # print(port_new)
             try:
                 luminati.add_proxy(port_new,country=submit['Country'],proxy_config_name='jia1',ip_lpm=submit['ip_lpm'])
             except Exception as e:
@@ -120,14 +120,14 @@ def data_handler(Config):
             continue
         else:
             continue
-        print('Reading config from sql server success')
+        # print('Reading config from sql server success')
     submit['tz'] = db.get_cst_zone(proxy_info['geo']['tz'])
-    print("proxy_info['geo']['tz']:",proxy_info['geo']['tz'])
-    print(str(submit['Mission_Id']),'get timezone for ',submit['Country'],'is',submit['tz'])
+    # print("proxy_info['geo']['tz']:",proxy_info['geo']['tz'])
+    # print(str(submit['Mission_Id']),'get timezone for ',submit['Country'],'is',submit['tz'])
     global timezone 
     global using_num
-    print("timezone:",timezone)
-    print("using_num:",using_num)    
+    # print("timezone:",timezone)
+    # print("using_num:",using_num)    
     if submit['tz'][0]['windows'] != timezone:
         change_tz(submit['tz'][0]['windows'])
         timezone = submit['tz'][0]['windows']
@@ -142,24 +142,25 @@ def data_handler(Config):
         print('timeout')
     using_num = using_num - 1  
     print("Mission finished,using_num:",using_num)    
-    print("timezone:",timezone)    
-    flag = gl.get_value(submit['ID'])
+    print("timezone:",timezone) 
+    Status_all = gl.get_gl()
+    print('In thread_tokill ,Status_all:',Status_all)   
+    flag = gl.get_value(str(submit['ID']))
     print('Status in thread_tokill:',flag)
     print("submit['ID']",submit['ID'])
-    if flag != 2:
+    if flag != 0:
         mission_check = {}
         try:
             mission_check = db.check_mission_status(submit)
         except:
             pass
         if len(mission_check) == 0:
+            submit['Status'] = flag
             print('Mission: ',submit['Mission_Id'],'success,uploading db')
             db.write_one_info([str(submit['Mission_Id'])],submit)
     if 'BasicInfo_Id' in submit:
         db.update_flag_use(submit['BasicInfo_Id'])
     print('Mission_Id:',submit['Mission_Id'],'finished')        
-
-
 
 @timeout(600)
 def reg_part(submit):
@@ -196,7 +197,7 @@ def multi_reg(Config):
         if Config['Alliance'] != 'Test':
             if Config['Mission_Id'] != '20000':
                 if Config['sleep_flag'] == 1:
-                    print('Sleep for random time:',time_cheat,'-------------')                       
+                    print('Sleep for random time:',time_cheat,'-------------')
                     sleep(time_cheat)
         else:
             print('test...........')

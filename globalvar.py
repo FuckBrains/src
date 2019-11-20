@@ -9,22 +9,24 @@ def _init():
     _global_dict = {}
 
 def set_value(name, value):
+    name = str(name)
     Lock.acquire()
     _global_dict[name] = value
     Lock.release()
 
 def get_value(name, defValue=None):
-    try:
+    name = str(name)
+    if name not in _global_dict:
+        return None
+    else:
         Lock.acquire()    
         a = _global_dict[name]
         Lock.release()
         return a
-    except KeyError:
-        return defValue
 
 
 def get_gl():
     Lock.acquire()    
-    a = _global_dict[name]
+    a = _global_dict
     Lock.release()    
     return a

@@ -517,6 +517,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         # print(Offer_links)
         plans = luminati.create_plan_data(plan_id,self.offer_link)
         db.upload_plans(plans)
+        print('Uploading finished')
 
     @pyqtSlot()
     def on_pushButton12_clicked(self):

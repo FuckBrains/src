@@ -89,7 +89,8 @@ def web_submit(submit,chrome_driver,debug=0):
     #     chrome_driver.close()
     #     chrome_driver.quit()
     #     return 0
-    db.write_one_info([str(submit['Mission_Id'])],submit) 
+    Chrome_driver.set_flag(submit['ID'],1)
+    
     print('Wait 30 seconds to get email from stripchat')       
     sleep(20)
     site = ''
@@ -114,6 +115,8 @@ def web_submit(submit,chrome_driver,debug=0):
                 chrome_driver.switch_to.window(i)
                 if 'Email successfully confirmed' not in chrome_driver.page_source:
                     chrome_driver.refresh()
+                else:
+                    Chrome_driver.set_flag(submit['ID'],2)
                 for i in range(2):
                     try:
                         chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(submit['Email']['Email_emu_pwd'])
@@ -125,6 +128,8 @@ def web_submit(submit,chrome_driver,debug=0):
                         cookies = chrome_driver.get_cookies()
                         cookie_str = json.dumps(cookies)
                         submit['Cookie'] = cookie_str
+                        submit['Status'] = 2
+                        db.write_one_info([str(submit['Mission_Id'])],submit) 
                         db.update_cookie(submit) 
                         break                          
                     except Exception as e:
@@ -151,7 +156,8 @@ def web_submit(submit,chrome_driver,debug=0):
         print(type(cookies))
         cookie_str = json.dumps(cookies)
         submit['Cookie'] = cookie_str
-        # submit['Cookie'] = chrome_driver.get_cookies()                 
+        # submit['Cookie'] = chrome_driver.get_cookies() 
+        db.write_one_info([str(submit['Mission_Id'])],submit)                 
         db.update_cookie(submit)
         sleep(10)        
     except:
@@ -161,6 +167,7 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(10)        
     chrome_driver.close()
     chrome_driver.quit()
+    
     return 1
 
 def email_confirm(submit,debug=0):

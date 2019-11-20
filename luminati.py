@@ -194,21 +194,21 @@ def add_proxy(port_add,country='us',proxy_config_name='zone2',ip_lpm='127.0.0.1'
     data_proxy_config[proxy_config_name]['country'] = country
     data_proxy_config[proxy_config_name]['port'] = port_add
     data['proxy'] = data_proxy_config[proxy_config_name]
-    print('preparing to add proxy config:',data)
+    # print('preparing to add proxy config:',data)
     data_ = json.dumps(data)
     headers = {
     'Content-Type': 'application/json'
     }    
     # url_ = 'http://127.0.0.1:22999/api/proxies'
     url_ = 'http://%s:22999/api/proxies'%ip_lpm
-    print(url_)
+    # print(url_)
     flag = 0
     for i in range(1):
         try:
             resp = requests.post(url_,data=data_,headers=headers)
-            print(resp)
-            print(type(str(resp)))
-            print(str(resp))
+            # print(resp)
+            # print(type(str(resp)))
+            # print(str(resp))
         except Exception as e:
             print(str(e))  
 
@@ -271,15 +271,15 @@ def delete_port_s(port_delete):
         "port":port_delete
     }
     data = json.dumps(data)
-    print(data)
+    # print(data)
     try:
-        print('start delete post sending')
+        # print('start delete post sending')
         resp = requests.delete(url_,data=data,headers=headers)
     except:
         pass
     # print(resp)
     # print(type(str(resp)))
-    print(str(resp))
+    # print(str(resp))
     if '204' in str(resp):
         print('delete success:',port_delete)
 
@@ -374,16 +374,16 @@ def ip_test(port_lpm,state = '',country=''):
     if country != 'US':
         state = ''
     account = get_account()
-    print(account)
+    # print(account)
     ip_lpm = account['IP_lpm']
     flag = 0
     proxy_info = ''    
     for i in range(10):
-        print('starting refresh ip...........')
+        # print('starting refresh ip...........')
         flag_ip = refresh_proxy(ip_lpm,port_lpm)
         sleep(3)
         if flag_ip == 0:
-            print('proxy_info',-1)
+            # print('proxy_info',-1)
             flag = -1
             break        
         proxy_info = ''
@@ -391,33 +391,33 @@ def ip_test(port_lpm,state = '',country=''):
             proxy_info = get_lpm_ip(port_lpm)
         except Exception as e:
             print(str(e))
-            print('fail to get lpm ip')
+            # print('fail to get lpm ip')
             flag = -1
             # flag_ip = refresh_proxy(ip_lpm,port_lpm)
             break
         if proxy_info == '':
-            print('proxy_info',-1)
+            # print('proxy_info',-1)
             flag = -1
             break
         if state == '':
-            print(proxy_info)  
+            # print(proxy_info)  
             flag = 1          
             break
-        print(proxy_info)
+        # print(proxy_info)
         try:
             state_proxy = proxy_info['geo']['region'] 
         except:
             continue
-        print(state_proxy)
+        # print(state_proxy)
         # flag = 1
         # break
         if state_proxy == state:
-            print('Find target state:',state_proxy)
+            # print('Find target state:',state_proxy)
             flag = 1
             break
         else:
-            print('State of proxy:',state_proxy)
-            print('Target state:',state)
+            # print('State of proxy:',state_proxy)
+            # print('Target state:',state)
             continue
     return flag,proxy_info
 
@@ -482,7 +482,7 @@ def get_port_random():
     account = get_account()
     ip = account['IP_lpm']        
     ports_used = ports_get(ip)
-    print(']]]]]]]]]]')
+    # print(']]]]]]]]]]')
     # print(set(ports_set))
     ports_used.extend(set(ports_set))
     port_ = 24000
@@ -507,7 +507,11 @@ def create_plan_data(plan_id,Offer_links):
     # print(myname)
     myaddr = socket.gethostbyname(myname)
     # print(myaddr)
+    print('Star uploading')
+    num_plan = 1
     for item in Offer_links:
+        print(' uploading plan %d'%num_plan)
+        num_plan+=1
         Config = Offer_links[item]
         num_mission = 1
         for i in range(len(Configs)):
@@ -532,6 +536,7 @@ def create_plan_data(plan_id,Offer_links):
         add_proxy(Offer_links[item]['port_lpm'],country=Offer_links[item]['Country'],proxy_config_name= proxy_zone,ip_lpm=ip_lpm)
         Offer_links[item]['Plan_Id'] = plan_id
         Configs.append(Config)
+    # print('Uploading finished')
     return Offer_links    
 
 def create_plans():

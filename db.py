@@ -509,10 +509,10 @@ def read_one_excel_(Mission_list,Excel_name,Email_list):
     return Info_dicts
 
 def read_one_excel(Mission_list,Excel_name,Email_list):
-    print('     Start reading info from sql server...')
+    # print('     Start reading info from sql server...')
     account = get_account()
     conn,cursor=login_sql(account)
-    print('     Login success')    
+    # print('     Login success')    
     res = cursor.execute('SELECT * from Mission WHERE Mission_Id="%d"'%int(Mission_list[0]))
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
@@ -524,24 +524,24 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
     sql_content = 'SELECT COUNT(*) FROM Basicinfo WHERE Excel_name="%s"'%Excel_name[0]
     res = cursor.execute(sql_content)
     tt = cursor.fetchall()
-    print(tt)
+    # print(tt)
     num_excel = tt[0][0]
-    print(num_excel)
+    # print(num_excel)
     Basicinfo_ids = []     
     if Excel_name[0] != '' :
         while True:
             # res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" limit 0,1'%(Excel_name[0]))
             res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" and flag_use = 0 ORDER BY rand() limit 100'%Excel_name[0])
             # res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" and flag_use = 0 limit %d,%d'%(Excel_name[0],num,step))            
-            print(res)
+            # print(res)
             desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
             BasicInfo_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
             for info in BasicInfo_dict:
-                print('leninfo',len(info))
+                # print('leninfo',len(info))
                 if info['BasicInfo_Id'] not in Mission_basicinfo_list:
                     # print(Info_dicts[Excel_name[0]])
                     # print(BasicInfo_dict)
-                    print(1)
+                    # print(1)
                     Info_dicts[Excel_name[0]] = info
                     break
                 if info['BasicInfo_Id'] not in Basicinfo_ids:
@@ -550,9 +550,9 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
             sql_content = 'SELECT COUNT(*) FROM Basicinfo WHERE Excel_name="%s" and flag_use = 1'%Excel_name[0]
             res = cursor.execute(sql_content)
             ff = cursor.fetchall()
-            print(ff)
+            # print(ff)
             num_flag = ff[0][0]     
-            print(num_flag,'infos flag_use = 1')           
+            # print(num_flag,'infos flag_use = 1')           
             if len(Info_dicts) > 0:
                 break            
             if len(Basicinfo_ids) >= num_excel-num_flag:
@@ -572,7 +572,7 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
     Info_dict2 = {}
     if len(Email_dict) != 0:
         list_Email = random.sample(range(len(Email_dict)),len(Email_dict))
-        print(len(Email_dict))
+        # print(len(Email_dict))
         for i in list_Email:
             # print(i)
             if Email_dict[i]['Status'] == 'Bad':
@@ -583,7 +583,7 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
                 continue 
             flag = 0
             if Email_dict[i]['Email_Id'] not in Mission_email_list:
-                print('find email unique')
+                # print('find email unique')
                 Info_dict2 = Email_dict[i]
                 break
     if len(Info_dict2) != 0:
@@ -731,9 +731,10 @@ def write_one_info(Mission_list,submit,Cookie = ''):
     Alliance = str(submit['Alliance'])
     Account = str(submit['Account'])
     ua = submit['ua']
+    Status = submit['Status']
     print('+++++++++++++++++++++++++')
     for Mission_Id in Mission_list:
-        sql_content = 'INSERT INTO Mission(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie)VALUES("%s","%s","%s","%s","%s","%s","%s")'%(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie)
+        sql_content = 'INSERT INTO Mission(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie,Status)VALUES("%s","%s","%s","%s","%s","%s","%s","%s")'%(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie,Status)
         print('==============')
         print(sql_content)
         res = cursor.execute(sql_content)    
@@ -838,14 +839,14 @@ def get_upload_sql_content(table,keys=None,values=None):
 
 def Execute_sql(sql_contents):
     account = get_account()
-    print(account)
+    # print(account)
     conn,cursor = login_sql(account)
     for sql_content in sql_contents:
-        print('\n\n\n')
-        print(sql_content)
+        # print('\n\n\n')
+        # print(sql_content)
         res = cursor.execute(sql_content)
         response = cursor.fetchall()
-        print(response)
+        # print(response)
     login_out_sql(conn,cursor)
 
 def email_test():
@@ -1056,7 +1057,7 @@ def read_plans(plan_id):
                 Offer_links = [{'Mission_Id':10009,lpm_port:24002...},{'Mission_Id':10009,lpm_port:24003...},{'Mission_Id':10003,lpm_port:24004...}...]
                 palns = {'1':Offer_links1,'2':Offer_links2,...}                
     '''
-    print('     Start reading info from sql server...')
+    # print('     Start reading info from sql server...')
     account = get_account()
     conn,cursor=login_sql(account)
     plan_id = int(plan_id)
@@ -1131,7 +1132,7 @@ def update_flag_use_all():
     Execute_sql([sql_content])
 
 def get_ports_set():
-    print('     Start reading info from sql server...')
+    # print('     Start reading info from sql server...')
     account = get_account()
     vc_range = account['vc_range']
     conn,cursor=login_sql(account)
@@ -1141,16 +1142,16 @@ def get_ports_set():
     # print(len(Mission_dict))
     # print(Mission_dict)
     # print(plans[0])
-    print(len(plans))
+    # print(len(plans))
     plans = [plan for plan in plans if int(plan['Plan_Id'])>=vc_range[0] and int(plan['Plan_Id'])<=vc_range[1]]
-    print(len(plans))    
+    # print(len(plans))    
     ports_set = [plan['port_lpm'] for plan in plans]
     return ports_set    
 
 def get_luminati_submit(Config): 
     Email_list = {"hotmail.com": 1, "outlook.com": 1, "yahoo.com": 1, "aol.com": 1}
     Mission_Ids,Excels_dup = [Config['Mission_Id']],Config['Excel']
-    print(Excels_dup)
+    # print(Excels_dup)
     submit = read_one_excel(Mission_Ids,Excels_dup,Email_list)
     # print(submit)
     submit['ip_lpm'] = Config['ip_lpm']
@@ -1167,12 +1168,12 @@ def get_luminati_submit(Config):
     submit['Account'] = Config['Account']
     submit['Offer'] = Config['Offer']
     submit['ID'] = Config['ID']
-    print(submit['Site'])
+    # print(submit['Site'])
     submit['Mission_dir'] = Config['Mission_dir']    
     # print(submit)
     uas = Chrome_driver.get_ua_all()
     ua = Chrome_driver.get_ua_random(uas)
-    print(ua)  
+    # print(ua)  
     submit['ua'] = ua
     return submit
 

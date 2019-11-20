@@ -79,7 +79,7 @@ def test_Mail(i, path):
 
 
 def login_server(submit):
-    print(submit['Email_emu'])
+    # print(submit['Email_emu'])
     if 'outlook' in submit['Email_emu']:
         server = "imap-mail.outlook.com"
     elif 'aol' in submit['Email_emu']:
@@ -99,8 +99,8 @@ def login_server(submit):
     else:
         print('bad Email_emu')
         return ''  
-    print(server)
-    print('Logging IMAP4_SSL')
+    # print(server)
+    # print('Logging IMAP4_SSL')
     box = imaplib.IMAP4_SSL(server)
     return box    
 
@@ -114,12 +114,12 @@ def Email_emu_getlink(submit,keyword = ''):
         # print(str(e))
         # print('logging email server failed')
         # return -1
-    print('email server login success....')
+    # print('email server login success....')
     msg_content = ''    
     try:
         box.login(submit['Email_emu'], submit['Email_emu_pwd'])
-        print(submit['Email_emu'],'login success.....')
-        print(box.list())
+        # print(submit['Email_emu'],'login success.....')
+        # print(box.list())
         # for item in box.list()[1]:
         #     print(item)
         #     box_selector = item.decode().split(' \"/\" ')[-1]
@@ -150,9 +150,9 @@ def Email_emu_getlink(submit,keyword = ''):
         #             break
         box.select("INBOX")
         box.close()        
-        print('Email good')
+        # print('Email good')
         box.logout()  
-        print('Logging out imap server success')        
+        # print('Logging out imap server success')        
         return 1
     except Exception as e:
         print('login error: %s'%e)

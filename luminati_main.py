@@ -23,9 +23,8 @@ gl._init()
 '''
 flag:
     0 : Init status
-    1 : Mission finished success,data upload to db
-    2 : Mission failed,data no need to upload 
-    3 : Mission failed,but data should be uploaded
+    1 : Mission failed,but data should be uploaded
+    2 : Mission finished success,data upload to db    
     --use plan['ID'] as key
 '''
 
@@ -61,10 +60,10 @@ def main(i):
             pass
         account = db.get_account()
         plan_id = account['plan_id']
-        print('Plan_id:',plan_id,',connecting sql for plan info...')
+        # print('Plan_id:',plan_id,',connecting sql for plan info...')
         try:
             plans_ = db.read_plans(plan_id)
-            print(len(plans_))
+            # print(len(plans_))
             plans = []
             for plan in plans_:
                 # init sleep_flag and Status
@@ -72,12 +71,14 @@ def main(i):
                 gl.set_value(str(plan['ID']),0)
                 for count in range(plan['Mission_time']):
                     plans.append(plan)
-            print(plans)
-            print(len(plans))
+            # print(plans)
+            # print(len(plans))
         except Exception as e:
             print(str(e))
             print('get db failed,restart........')
             changer.Restart()
+        Status_all = gl.get_gl()
+        print('In main fuc,Status_all:',Status_all)                          
         if len(plans) == 0:
             print('No plan for this computer!!!!!!')
             return
