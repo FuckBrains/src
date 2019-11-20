@@ -108,10 +108,11 @@ def web_submit(submit,chrome_driver,debug=0):
         chrome_driver.find_element_by_xpath('//*[@id="MaleButton"]/div').click()
     # signup
     chrome_driver.find_element_by_xpath('//*[@id="signup-button"]').click()
+    db.update_plan_status(2,submit['ID'])    
+
     sleep(30)
     chrome_driver.close()
     chrome_driver.quit()
-    return 1
 
 
 

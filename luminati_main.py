@@ -1,24 +1,19 @@
-import threading
 import random
 import os
 import sys
 sys.path.append("..")
-import importlib
-import threadpool
 from time import sleep
 import Changer_windows_info as changer
 import db
 import tools
 import thread_tokill as tk
-import globalvar as gl
 
 
 '''
 'testeeeee'
 '''
 
-pool = threadpool.ThreadPool(5)
-gl._init()
+
 
 '''
 flag:
@@ -31,25 +26,25 @@ flag:
 
 
 
-def get_modules():
-    modules = os.listdir('..\src\\')
-    modules = [module.strip('.py') for module in modules] 
-    modules_new = []
-    for module in modules:
-        if 'Mission' in module:
-            # print(module)
-            modules_new.append(module)  
-    modules = ['src.'+ module for module in modules_new]             
-    # print(modules)
-    Module_list = []
-    # print(modules)
-    for module in modules:
-        Module_list.append(importlib.import_module(module)) 
-    return Module_list,modules
+# def get_modules():
+#     modules = os.listdir('..\src\\')
+#     modules = [module.strip('.py') for module in modules] 
+#     modules_new = []
+#     for module in modules:
+#         if 'Mission' in module:
+#             # print(module)
+#             modules_new.append(module)  
+#     modules = ['src.'+ module for module in modules_new]             
+#     # print(modules)
+#     Module_list = []
+#     # print(modules)
+#     for module in modules:
+#         Module_list.append(importlib.import_module(module)) 
+#     return Module_list,modules
 
-def import_Module(module):
-    module_name = importlib.import_module(module)
-    return module_name
+# def import_Module(module):
+#     module_name = importlib.import_module(module)
+#     return module_name
 
 def main(i):
     while True:
@@ -68,7 +63,7 @@ def main(i):
             for plan in plans_:
                 # init sleep_flag and Status
                 plan['sleep_flag'] = i
-                gl.set_value(str(plan['ID']),0)
+                db.update_plan_status(0,plan['ID'])                
                 for count in range(plan['Mission_time']):
                     plans.append(plan)
             # print(plans)
@@ -76,16 +71,12 @@ def main(i):
         except Exception as e:
             print(str(e))
             print('get db failed,restart........')
-            changer.Restart()
-        Status_all = gl.get_gl()
-        print('In main fuc,Status_all:',Status_all)                          
+            changer.Restart()                     
         if len(plans) == 0:
             print('No plan for this computer!!!!!!')
             return
         # print(plans)
-        requests = threadpool.makeRequests(tk.multi_reg, plans)
-        [pool.putRequest(req) for req in requests]
-        pool.wait() 
+        tk.start(plans)
         print('All Missions finished..............')
         try:
             print('try killing pids')

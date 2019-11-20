@@ -732,11 +732,11 @@ def write_one_info(Mission_list,submit,Cookie = ''):
     Account = str(submit['Account'])
     ua = submit['ua']
     Status = submit['Status']
-    print('+++++++++++++++++++++++++')
+    # print('+++++++++++++++++++++++++')
     for Mission_Id in Mission_list:
         sql_content = 'INSERT INTO Mission(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie,Status)VALUES("%s","%s","%s","%s","%s","%s","%s","%s")'%(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie,Status)
-        print('==============')
-        print(sql_content)
+        # print('==============')
+        # print(sql_content)
         res = cursor.execute(sql_content)    
     login_out_sql(conn,cursor)
 
@@ -1123,6 +1123,26 @@ def update_port(port_old,port_new):
     sql_content = "UPDATE Plans SET port_lpm = '%s' WHERE port_lpm = '%s'" % (port_new,port_old)
     Execute_sql([sql_content])
 
+def update_plan_status(Status,ID):
+    sql_content = "UPDATE Plans SET Status = '%d' WHERE ID = '%d'" % (int(Status),int(ID))
+    Execute_sql([sql_content])
+
+def get_plan_status(ID):
+    sql_content = "SELECT * from plans WHERE ID = '%d'" % (int(ID))
+    account = get_account()
+    # print(account)
+    conn,cursor = login_sql(account)
+    # for sql_content in sql_contents:
+        # print('\n\n\n')
+        # print(sql_content)
+    res = cursor.execute(sql_content)
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    plans = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
+    print(plans)
+    Status = plans[0]['Status']
+    print('Status:',Status)
+    login_out_sql(conn,cursor)
+
 def update_flag_use(id_):
     sql_content = "UPDATE BasicInfo SET flag_use = 0 WHERE BasicInfo_Id = '%s'" % id_
     Execute_sql([sql_content])
@@ -1221,7 +1241,7 @@ def hotupdate(i):
     Execute_sql(content)
 
 def get_cst_zone(tzid):
-    sql_content = "SELECT windows,tzid FROM Basicinfo WHERE Excel_name = 'tz' and find_in_set('%s',tzid)"%(tzid)
+    sql_content = "SELECT windows,tzid FROM Basicinfo WHERE Excel_name = 'tz' and tzid like '%s';"%('%'+tzid+'%')
     account = get_account()
     conn,cursor = login_sql(account)
     res = cursor.execute(sql_content)

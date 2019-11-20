@@ -47,6 +47,7 @@ def web_submit(submit,chrome_driver,debug=0):
     # get started
     chrome_driver.find_element_by_xpath('//*[@id="header"]/div/div/form/div[5]/button').click()      
     sleep(10)
+    db.update_plan_status(1,submit['ID'])    
     for i in range(40):
         handles=chrome_driver.window_handles
         if len(handles) != 1:
@@ -56,6 +57,8 @@ def web_submit(submit,chrome_driver,debug=0):
     for i in handles:
         if i != handle:
             chrome_driver.switch_to.window(i)
+            db.update_plan_status(2,submit['ID'])    
+
             # first_name
             chrome_driver.find_element_by_xpath('//*[@id="firstName"]').send_keys(submit['Uspd']['first_name'])
             # last_name

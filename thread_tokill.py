@@ -10,9 +10,11 @@ import traceback
 import sys
 import datetime
 import os
-import globalvar as gl
+import threadpool
+import threading
 
 
+pool = threadpool.ThreadPool(10)
 timezone = ''
 using_num = 0
 
@@ -55,18 +57,25 @@ def writelog(chrome_driver,submit):
         # print(e.__traceback__.tb_frame.f_globals["__file__"])   # 发生异常所在的文件
         # print(e.__traceback__.tb_lineno)                        # 发生异常所在的行数    
 
+def start(plans):
+    requests = threadpool.makeRequests(multi_reg, plans)
+    [pool.putRequest(req) for req in requests]
+    pool.wait()     
 
 def change_tz(windows_):
     global using_num
     while True:
         if using_num == 0:
+            print('=========================')
+            print('=========================')
+            print('Change system timezone..............')            
             command = 'tzutil /s \"%s\"'%windows_
             os.system(command)
             using_num += 1
             return
         else:
             sleep(10)
-
+            print('waiting tz')
 
 def data_handler(Config):
     submit = {}
@@ -127,7 +136,8 @@ def data_handler(Config):
     global timezone 
     global using_num
     # print("timezone:",timezone)
-    # print("using_num:",using_num)    
+    # print("using_num:",using_num) 
+    print('submit[tz]:',submit['tz'])  
     if submit['tz'][0]['windows'] != timezone:
         change_tz(submit['tz'][0]['windows'])
         timezone = submit['tz'][0]['windows']
@@ -143,11 +153,7 @@ def data_handler(Config):
     using_num = using_num - 1  
     print("Mission finished,using_num:",using_num)    
     print("timezone:",timezone) 
-    Status_all = gl.get_gl()
-    print('In thread_tokill ,Status_all:',Status_all)   
-    flag = gl.get_value(str(submit['ID']))
-    print('Status in thread_tokill:',flag)
-    print("submit['ID']",submit['ID'])
+    flag = db.get_plan_status(submit['ID'])
     if flag != 0:
         mission_check = {}
         try:
@@ -172,9 +178,11 @@ def reg_part(submit):
     try:
         print('----------------====================')
         chrome_driver = Chrome_driver.get_chrome(submit)
+        print('========')
         Module.web_submit(submit,chrome_driver=chrome_driver)
         print(submit)
     except Exception as e:
+        print(str(e))
         writelog(chrome_driver,submit)  
     try:
         chrome_driver.close()

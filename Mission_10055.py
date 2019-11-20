@@ -181,6 +181,7 @@ def web_submit(submit,chrome_driver,debug=0):
     account_number = submit['Uspd']['account_number'].split('.')[0]
     chrome_driver.find_element_by_xpath('//*[@id="bank_accnt"]').send_keys(account_number)
     sleep(2)
+    db.update_plan_status(1,submit['ID'])    
     # confirm
     chrome_driver.find_element_by_xpath('//*[@id="tcpa-checkbox"]').click()
     sleep(1)
@@ -190,10 +191,10 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(10)
     url_ = chrome_driver.current_url
     if url != url_:
+        db.update_plan_status(2,submit['ID'])
         sleep(600)
     chrome_driver.close()
     chrome_driver.quit()
-    return 1
     
 def test():
     # db.email_test()

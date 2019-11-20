@@ -89,9 +89,9 @@ def web_submit(submit,chrome_driver,debug=0):
     #     chrome_driver.close()
     #     chrome_driver.quit()
     #     return 0
-    Chrome_driver.set_flag(submit['ID'],1)
+    db.update_plan_status(1,submit['ID'])
     
-    print('Wait 30 seconds to get email from stripchat')       
+    print('Wait 20 seconds to get email from stripchat')       
     sleep(20)
     site = ''
     handle = chrome_driver.current_window_handle
@@ -116,7 +116,7 @@ def web_submit(submit,chrome_driver,debug=0):
                 if 'Email successfully confirmed' not in chrome_driver.page_source:
                     chrome_driver.refresh()
                 else:
-                    Chrome_driver.set_flag(submit['ID'],2)
+                    db.update_plan_status(2,submit['ID'])
                 for i in range(2):
                     try:
                         chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(submit['Email']['Email_emu_pwd'])
@@ -157,6 +157,7 @@ def web_submit(submit,chrome_driver,debug=0):
         cookie_str = json.dumps(cookies)
         submit['Cookie'] = cookie_str
         # submit['Cookie'] = chrome_driver.get_cookies() 
+        submit['Status'] = 2
         db.write_one_info([str(submit['Mission_Id'])],submit)                 
         db.update_cookie(submit)
         sleep(10)        

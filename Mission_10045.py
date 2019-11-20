@@ -115,6 +115,7 @@ def web_submit(submit,chrome_driver,debug=0):
     cellphone = Submit_handle.chansfer_float_into_int(submit['health']['homephone'].split('.')[0])
     element = chrome_driver.find_element_by_xpath('//*[@id="step3-phone"]')
     element.click()
+    db.update_plan_status(1,submit['ID'])        
     print('cellphone:',cellphone)
     element.send_keys(cellphone)    
     # address
@@ -122,8 +123,8 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(3)
     # get my quote
     chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[6]/div[2]/a').click()
+    db.update_plan_status(2,submit['ID'])        
     sleep(300)
-    return 1
 
 def test():
     Mission_list = ['10000']

@@ -61,6 +61,7 @@ def web_submit(submit,chrome_driver,debug=0):
         flag_check = check_email(submit['Email'])
         if flag_check == 1:
             print('used email:',submit['Email']['Email_emu'])
+            submit['Status'] = 1
             db.write_one_info([str(submit['Mission_Id'])],submit)                        
             # continue
         else:
@@ -89,6 +90,7 @@ def web_submit(submit,chrome_driver,debug=0):
         chrome_driver.find_element_by_xpath("//*[@id='userName']").send_keys(name)
         chrome_driver.find_element_by_xpath("//*[@id='newPassword']").send_keys(pwd)
         chrome_driver.find_element_by_xpath("//*[@id='email']").send_keys(submit['Email']['Email_emu'])
+        db.update_plan_status(1,submit['ID'])    
     except Exception as e:
         print('something error in registration',str(e))
         chrome_driver.close()
@@ -120,7 +122,7 @@ def web_submit(submit,chrome_driver,debug=0):
         chrome_driver.close()
         chrome_driver.quit()
         return flag
-    db.write_one_info([str(submit['Mission_Id'])],submit)
+    # db.update_plan_status(1,submit['ID'])            
     site = ''
     flag = 1
     handle = chrome_driver.current_window_handle
@@ -143,6 +145,8 @@ def web_submit(submit,chrome_driver,debug=0):
         for i in handles:
             if i != handle:
                 chrome_driver.switch_to.window(i)
+                db.update_plan_status(2,submit['ID'])    
+
                 try:
                     chrome_driver.refresh() 
                 except:

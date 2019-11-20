@@ -73,9 +73,9 @@ def web_submit(submit,chrome_driver,debug=0):
     # button
     chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/button').click()
     sleep(15)
+    db.update_plan_status(2,submit['ID'])        
     chrome_driver.close()
     chrome_driver.quit()    
-    return 1
 
 
 

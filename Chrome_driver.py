@@ -40,6 +40,9 @@ def set_flag(name,value):
 def get_flag(name):
     flag = gl.get_value(str(name))
     return flag
+def get_gl_():
+    flag = gl.get_gl()
+    return flag
 
 def get_lan_config(country):
     country_list_code ={
@@ -51,7 +54,9 @@ def get_lan_config(country):
     'ES':'es',
     'IT':'it',
     'PL':'pl',
-    'DK':'dk'
+    'DK':'dk',
+    'NZ':'nz',
+    'CA':'ca'
     }
     return country_list_code[country]
 

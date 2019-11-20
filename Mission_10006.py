@@ -36,7 +36,7 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()
     chrome_driver.refresh() 
-    sleep(3000)   
+    sleep(30)   
     # email
     element = selenium_funcs.scroll_and_find(chrome_driver,'//*[@id="email2"]')
     element.send_keys(submit['Email']['Email_emu'])
@@ -46,6 +46,8 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(2)
     # button
     chrome_driver.find_element_by_xpath('//*[@id="regForm2"]/button').click()
+    db.update_plan_status(1,submit['ID'])    
+
     if site != '':
         newwindow='window.open("' + site + '");'
         chrome_driver.execute_script(newwindow)  
@@ -58,6 +60,8 @@ def web_submit(submit,chrome_driver,debug=0):
     for i in handles:
         if i != handle:
             chrome_driver.switch_to.window(i)
+            db.update_plan_status(2,submit['ID'])    
+
             chrome_driver.refresh() 
             sleep(30)
             chrome_driver.close()

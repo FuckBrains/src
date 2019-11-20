@@ -84,6 +84,8 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.find_element_by_xpath('//*[@id="email_newsletter"]').click()
 
     chrome_driver.find_element_by_xpath('//*[@id="btn_submit"]').click()
+    db.update_plan_status(1,submit['ID'])    
+
     site = ''
     handle = chrome_driver.current_window_handle
     flag = 0
@@ -104,6 +106,7 @@ def web_submit(submit,chrome_driver,debug=0):
     # sleep(2000)
     for i in handles:
         if i != handle:
+            db.update_plan_status(2,submit['ID'])
             chrome_driver.switch_to.window(i)
             chrome_driver.refresh() 
             sleep(30)     

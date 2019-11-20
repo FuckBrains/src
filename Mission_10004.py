@@ -59,6 +59,8 @@ def web_submit(submit,chrome_driver,debug=0):
     element = selenium_funcs.scroll_and_find(chrome_driver,'//*[@id="registerBtn"]')
     sleep(2)
     element.click()
+    db.update_plan_status(1,submit['ID'])    
+
     sleep(5)
     site = ''
     flag = 0

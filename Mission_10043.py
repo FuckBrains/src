@@ -65,6 +65,7 @@ def web_submit(submit,chrome_driver,debug=0):
         flag_check = check_email(submit['Email'])
         if flag_check == 1:
             print('used email:',submit['Email']['Email_emu'])
+            submit['Status'] = 1            
             db.write_one_info([str(submit['Mission_Id'])],submit)                        
             continue
         else:
@@ -95,6 +96,7 @@ def web_submit(submit,chrome_driver,debug=0):
         return 0
     status = 'fail'
     sleep(3)
+    db.update_plan_status(1,submit['ID'])        
     for i in range(3):
         if 'success' in chrome_driver.current_url :
             # status = 'success'
@@ -110,7 +112,6 @@ def web_submit(submit,chrome_driver,debug=0):
         chrome_driver.close()
         chrome_driver.quit()
         return flag
-    db.write_one_info([str(submit['Mission_Id'])],submit)
     site = ''
     flag = 1
     handle = chrome_driver.current_window_handle
@@ -132,6 +133,7 @@ def web_submit(submit,chrome_driver,debug=0):
     try:
         for i in handles:
             if i != handle:
+                db.update_plan_status(2,submit['ID'])    
                 chrome_driver.switch_to.window(i)
                 try:
                     chrome_driver.refresh() 

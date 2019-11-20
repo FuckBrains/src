@@ -104,11 +104,11 @@ def refresh_proxy(ip,port):
     for i in range(10):
         try:
             resp = requests.post(url,headers=headers)
-            print(resp)
+            # print(resp)
             # print(type(str(resp)))
             # print(str(resp))
             resp_code = str(re.sub("\D", "", str(resp)))
-            print(resp_code)
+            # print(resp_code)
             if resp_code == '204':
                 flag = 1
             if flag == 1:

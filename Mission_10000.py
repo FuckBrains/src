@@ -92,6 +92,7 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.find_element_by_xpath('//*[@id="user_email"]').send_keys(submit['Email']['Email_emu'])
     sleep(2)
     chrome_driver.find_element_by_xpath('//*[@id="add_confirm_email"]/div/div[2]/button').click()
+    db.update_plan_status(1,submit['ID'])    
 
     # sleep(2000)
     # 'register success and begin confirm email'
@@ -117,6 +118,7 @@ def web_submit(submit,chrome_driver,debug=0):
         if i != handle:
             chrome_driver.switch_to.window(i)
             chrome_driver.refresh() 
+            db.update_plan_status(2,submit['ID'])    
             sleep(30)  
             chrome_driver.close()
             chrome_driver.quit()

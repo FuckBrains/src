@@ -65,6 +65,7 @@ def web_submit(submit,chrome_driver,debug=0):
     s1.select_by_index(index)      
     # button
     chrome_driver.find_element_by_xpath('//*[@id="submit-form-part-one"]').click()
+    db.update_plan_status(1,submit['ID'])        
     sleep(3)
     # page3
     # selector1
@@ -109,10 +110,10 @@ def web_submit(submit,chrome_driver,debug=0):
 
     # button
     chrome_driver.find_element_by_xpath('//*[@id="submit-form-part-three"]').click()
+    db.update_plan_status(2,submit['ID'])        
     sleep(30)
     chrome_driver.close()
     chrome_driver.quit()
-    return
 
 
 

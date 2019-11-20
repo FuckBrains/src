@@ -68,11 +68,9 @@ def web_submit(submit,chrome_driver,debug=0):
     # chrome_driver.close()
     # chrome_driver = Chrome_driver.get_chrome_normal(submit)    
     submit['Site'] = 'http://dategd.com/index.html'
-    flag = Chrome_driver.get_flag(submit['ID'])        
-    print('Status in Mission_Id 10064:',flag)
+    sleep(30)
+    flag = db.update_plan_status(1,submit['ID'])
     print("submit['ID']",submit['ID'])  
-    Chrome_driver.set_flag(submit['ID'],2)
-    flag = Chrome_driver.get_flag(submit['ID'])    
     print('Status in Mission_Id 10064 after set:',flag)
     a=b+1 
     chrome_driver.get(submit['Site'])

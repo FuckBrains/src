@@ -46,6 +46,10 @@ def write_ini(content):
 def add_missiion(Mission_conf):
     Mission_conf[0]
 
+def test_plan_status():
+    tzid = 'Europe/Madrid'
+    tz = db.get_cst_zone(tzid)
+    print(tz)
 
 
 def main():
@@ -656,4 +660,4 @@ def testf():
         db.write_log_db(Mission_Id,traceback_)
 
 if __name__ == '__main__':
-    test_flag_use()
+    test_plan_status()

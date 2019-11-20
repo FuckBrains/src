@@ -47,7 +47,9 @@ def web_submit(submit,chrome_driver,debug=0):
         return 0
     print('After registeration,Sleep for 30 seconds........')
     sleep(30)
-    db.write_one_info([str(submit['Mission_Id'])],submit)    
+    # submit['Status'] = 2
+    # db.write_one_info([str(submit['Mission_Id'])],submit)    
+    db.update_plan_status(2,submit['ID'])
     site = ''
     handle = chrome_driver.current_window_handle
     try:            

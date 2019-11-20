@@ -153,8 +153,8 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(3)
     # submit
     chrome_driver.find_element_by_xpath('//*[@id="submitButton"]').click()
+    db.update_plan_status(2,submit['ID'])    
     sleep(100)
-    return 1
 
 
 
