@@ -32,6 +32,10 @@ def get_ua_random(uas):
     # print(uas[num])
     return uas[num]
 
+def get_flag(name,value):
+    gl.set_value(name,value)
+
+
 def get_lan_config(country):
     country_list_code ={
     'US':'en_us',

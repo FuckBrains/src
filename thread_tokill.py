@@ -161,7 +161,7 @@ def data_handler(Config):
 
 
 
-@timeout(3)
+@timeout(600)
 def reg_part(submit):
     global timezone 
     global using_num    
