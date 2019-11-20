@@ -183,7 +183,10 @@ def reg_part(submit):
         print(submit)
     except Exception as e:
         print(str(e))
-        writelog(chrome_driver,submit)  
+        try:
+            writelog(chrome_driver,submit)  
+        except:
+            pass
     try:
         chrome_driver.close()
         chrome_driver.quit()
