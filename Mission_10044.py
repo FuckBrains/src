@@ -60,7 +60,7 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.find_element_by_xpath('//*[@id="registration"]/div[4]/button').click()
     sleep_rand = random.randint(60,180)
     sleep(sleep_rand)
-    return 1
+    db.update_plan_status(2,submit['ID'])    
 
 
 def test():

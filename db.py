@@ -731,7 +731,10 @@ def write_one_info(Mission_list,submit,Cookie = ''):
     Alliance = str(submit['Alliance'])
     Account = str(submit['Account'])
     ua = submit['ua']
-    Status = submit['Status']
+    if 'Status' not in submit:
+        Status = 0
+    else:
+        Status = submit['Status']
     # print('+++++++++++++++++++++++++')
     for Mission_Id in Mission_list:
         sql_content = 'INSERT INTO Mission(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie,Status)VALUES("%s","%s","%s","%s","%s","%s","%s","%s")'%(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie,Status)
