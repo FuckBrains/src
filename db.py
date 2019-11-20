@@ -531,7 +531,7 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
     if Excel_name[0] != '' :
         while True:
             # res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" limit 0,1'%(Excel_name[0]))
-            res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" and flag_use = 0 ORDER BY rand() limit 10'%Excel_name[0])
+            res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" and flag_use = 0 ORDER BY rand() limit 100'%Excel_name[0])
             # res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" and flag_use = 0 limit %d,%d'%(Excel_name[0],num,step))            
             print(res)
             desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
@@ -1166,6 +1166,7 @@ def get_luminati_submit(Config):
     submit['Alliance'] = Config['Alliance']
     submit['Account'] = Config['Account']
     submit['Offer'] = Config['Offer']
+    submit['ID'] = Config['ID']
     print(submit['Site'])
     submit['Mission_dir'] = Config['Mission_dir']    
     # print(submit)

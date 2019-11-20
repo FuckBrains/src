@@ -16,7 +16,7 @@ hotupdate_content = {
 	13 : ["ALTER TABLE BasicInfo ADD windows VARCHAR(100)    AFTER flag_use"],
 	14 : ["ALTER TABLE BasicInfo ADD tzid VARCHAR(200)   unique AFTER flag_use"],
 	15 : ["ALTER TABLE Log ADD Create_time TIMESTAMP not null default CURRENT_TIMESTAMP"],
-	
+	16 : ["ALTER TABLE plans ADD ID int NOT NULL AUTO_INCREMENT"],
 
 
 

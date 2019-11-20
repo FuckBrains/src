@@ -22,6 +22,8 @@ import random
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 import pyrobot
+import globalvar as gl
+
 
 
 def web_submit_(submit,chrome_driver,debug=0):
@@ -67,6 +69,11 @@ def web_submit(submit,chrome_driver,debug=0):
     # chrome_driver.close()
     # chrome_driver = Chrome_driver.get_chrome_normal(submit)    
     submit['Site'] = 'http://dategd.com/index.html'
+    flag = gl.get_value(submit['ID'])    
+    print('Status in Mission_Id 10064:',flag)
+    print("submit['ID']",submit['ID'])  
+    gl.set_value(submit['ID'],2)
+    a=b+1 
     chrome_driver.get(submit['Site'])
     sleep(3)
     handles=chrome_driver.window_handles

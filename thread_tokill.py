@@ -10,6 +10,8 @@ import traceback
 import sys
 import datetime
 import os
+import globalvar as gl
+
 
 timezone = ''
 using_num = 0
@@ -133,32 +135,18 @@ def data_handler(Config):
         print("using_num:",using_num)
     else:
         using_num += 1 
-    reg_part(submit)
-
-
-@timeout(600)
-def reg_part(submit):
-    global timezone 
-    global using_num    
-    module = 'Mission_'+str(submit['Mission_Id'])
-    Module = importlib.import_module(module)
-    flag = 0
+    print("Mission started,using_num:",using_num)            
     try:
-        print('----------------====================')
-        chrome_driver = Chrome_driver.get_chrome(submit)
-        flag = Module.web_submit(submit,chrome_driver=chrome_driver)
-        print(submit)
-    except Exception as e:
-        writelog(chrome_driver,submit)     
-    try:
-        chrome_driver.close()
-        chrome_driver.quit()
-    except:
-        pass
+        reg_part(submit)
+    except TimeoutError:
+        print('timeout')
     using_num = using_num - 1  
-    print("using_num:",using_num)    
+    print("Mission finished,using_num:",using_num)    
     print("timezone:",timezone)    
-    if flag == 1:
+    flag = gl.get_value(submit['ID'])
+    print('Status in thread_tokill:',flag)
+    print("submit['ID']",submit['ID'])
+    if flag != 2:
         mission_check = {}
         try:
             mission_check = db.check_mission_status(submit)
@@ -169,7 +157,30 @@ def reg_part(submit):
             db.write_one_info([str(submit['Mission_Id'])],submit)
     if 'BasicInfo_Id' in submit:
         db.update_flag_use(submit['BasicInfo_Id'])
-    print('Mission_Id:',submit['Mission_Id'],'finished')
+    print('Mission_Id:',submit['Mission_Id'],'finished')        
+
+
+
+@timeout(3)
+def reg_part(submit):
+    global timezone 
+    global using_num    
+
+    module = 'Mission_'+str(submit['Mission_Id'])
+    Module = importlib.import_module(module)
+    try:
+        print('----------------====================')
+        chrome_driver = Chrome_driver.get_chrome(submit)
+        Module.web_submit(submit,chrome_driver=chrome_driver)
+        print(submit)
+    except Exception as e:
+        writelog(chrome_driver,submit)  
+    try:
+        chrome_driver.close()
+        chrome_driver.quit()
+    except:
+        pass
+
 
 
 def multi_reg(Config):  

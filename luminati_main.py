@@ -10,12 +10,27 @@ import Changer_windows_info as changer
 import db
 import tools
 import thread_tokill as tk
+import globalvar as gl
+
 
 '''
 'testeeeee'
 '''
 
 pool = threadpool.ThreadPool(5)
+gl._init()
+
+'''
+flag:
+    0 : Init status
+    1 : Mission finished success,data upload to db
+    2 : Mission failed,data no need to upload 
+    3 : Mission failed,but data should be uploaded
+    --use plan['ID'] as key
+'''
+
+
+
 
 def get_modules():
     modules = os.listdir('..\src\\')
@@ -52,7 +67,9 @@ def main(i):
             print(len(plans_))
             plans = []
             for plan in plans_:
-                plan['sleep_flag'] = i 
+                # init sleep_flag and Status
+                plan['sleep_flag'] = i
+                gl.set_value(str(plan['ID']),0)
                 for count in range(plan['Mission_time']):
                     plans.append(plan)
             print(plans)
