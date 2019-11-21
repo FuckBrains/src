@@ -1145,6 +1145,7 @@ def get_plan_status(ID):
     Status = plans[0]['Status']
     print('Status:',Status)
     login_out_sql(conn,cursor)
+    return Status
 
 def update_flag_use(id_):
     sql_content = "UPDATE BasicInfo SET flag_use = 0 WHERE BasicInfo_Id = '%s'" % id_

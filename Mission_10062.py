@@ -57,7 +57,7 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.find_element_by_xpath('//*[@id="form"]/div[4]/div/button[2]').click()
     num = random.randint(60,180)
     sleep(num)
-    return 1
+    db.update_plan_status(2,submit['ID'])
 
 def test():
     # db.email_test()
