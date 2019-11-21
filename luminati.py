@@ -120,6 +120,8 @@ def refresh_proxy(ip,port):
 
 @timeout(30)
 def get_lpm_ip(port,url="http://lumtest.com/myip.json",Referer='',debug=0):
+    if debug==1:
+        print('debug==================',debug)
     account = get_account()
     ip = account['IP_lpm']
     proxy = 'socks5://%s:%s'%(ip,port)
@@ -137,7 +139,7 @@ def get_lpm_ip(port,url="http://lumtest.com/myip.json",Referer='',debug=0):
     session = requests.session()
     session.proxies = {'http': proxy,
                        'https': proxy}  
-    print('Approaching:',url)
+    # print('Approaching:',url)
     # print(proxy)
     resp=session.get(url,headers=headers)
     # print(headers)
@@ -146,11 +148,11 @@ def get_lpm_ip(port,url="http://lumtest.com/myip.json",Referer='',debug=0):
     # print(resp.status_code)
     # print(type(resp.status_code))
     if resp.status_code == 502:
-        print('============')
+        print('============,502')
         proxy_info = ''
         return proxy_info   
     try:
-        print('--------------------')
+        # print('--------------------')
         # print(resp.text)            
         proxy_info = json.loads(resp.text)
         # print(proxy_info)
@@ -158,6 +160,7 @@ def get_lpm_ip(port,url="http://lumtest.com/myip.json",Referer='',debug=0):
         print(str(e))
         proxy_info = ' '
     if debug != 0:
+        print('++++++++++++')
         while True:
             print(resp.text)
             a = resp.text.find('window.location = "')
@@ -172,7 +175,7 @@ def get_lpm_ip(port,url="http://lumtest.com/myip.json",Referer='',debug=0):
                 print(url)
                 resp=session.get(url,headers=headers)
             print(resp.text)
-    print('proxy_info...',proxy_info,'...')
+    # print('proxy_info...',proxy_info,'...')
     return proxy_info
 
 def tz_test():
