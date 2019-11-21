@@ -557,7 +557,7 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
                 break            
             if len(Basicinfo_ids) >= num_excel-num_flag:
                 print('No available data for Mission_Id:',str(Mission_list[0]))
-                return
+                return None
         sql_content = "UPDATE BasicInfo SET flag_use = 1 WHERE BasicInfo_Id = '%s'" % Info_dicts[Excel_name[0]]['BasicInfo_Id']
         res = cursor.execute(sql_content)                 
     else:
@@ -776,22 +776,47 @@ def read_pic(Mission_Id):
 
     account = get_account()
     conn,cursor=login_sql(account)    
-    sql_content = 'SELECT png FROM Log WHERE Mission_Id="%s"'%str(Mission_Id)
+    sql_content = 'SELECT Create_time,png FROM Log WHERE Mission_Id="%s"'%str(Mission_Id)
     # res = cursor.execute(sql_content)  
     res = cursor.execute(sql_content)  
     print(res)
     # fout = open('quchu1.png','wb')
     s = cursor.fetchall()
     for pic in s:
-        print(type(pic))
-        print(len(pic))
-        num = random.randint(0,99999)
-        name = str(Mission_Id)+'_'+str(num)+'.png'
+        name = str(pic[0]).replace(':','')+'.png'
         pic_ = os.path.join(folder,str(name))
         with open(pic_,'wb') as f:
-            f.write(pic[0][1:-1])
+            f.write(pic[1][1:-1])
     login_out_sql(conn,cursor) 
     print('Total %d pics for Mission %d'%(len(s),int(Mission_Id)))        
+
+def read_txt_traceback(Mission_Id):
+    path_pic=r'c:\EMU\log\pics'
+    folder = os.path.join(path_pic,str(Mission_Id))
+    makedir_pic(folder)
+    modules = os.listdir(folder)
+    # print(modules)
+    path_ = os.path.join(os.getcwd(),folder)
+    modules_path = [os.path.join(path_,file) for file in modules]
+    # [os.remove(file) for file in modules_path]
+
+    account = get_account()
+    conn,cursor=login_sql(account)    
+    sql_content = 'SELECT traceback,Create_time FROM Log WHERE Mission_Id="%s"'%str(Mission_Id)
+    # res = cursor.execute(sql_content)  
+    res = cursor.execute(sql_content)  
+    # print(res)
+    # fout = open('quchu1.png','wb')
+    s = cursor.fetchall()
+    content = ''
+    for trace in s:
+        content += str(trace[1]).replace('\\n','\n')+'\n\n'+trace[0].replace('\\n','\n')+'\n\n'
+    name = str(Mission_Id)+'.txt'
+    txt_ = os.path.join(folder,str(name))    
+    # content = content.replace('\\n','\n')
+    with open(txt_,'w') as f:
+        f.write(content)
+    login_out_sql(conn,cursor) 
 
 
 def updata_email_status(Email_Id,flag = 1):
@@ -851,6 +876,7 @@ def Execute_sql(sql_contents):
         response = cursor.fetchall()
         # print(response)
     login_out_sql(conn,cursor)
+    print('Login out db')
 
 def email_test():
     sql_content1 = 'SELECT * from Email'
@@ -1152,7 +1178,8 @@ def update_flag_use(id_):
     Execute_sql([sql_content])
 
 def update_flag_use_all():
-    sql_content = "UPDATE BasicInfo SET flag_use = 0 "
+    print('Start cleaning.....')
+    sql_content = "UPDATE BasicInfo SET flag_use = 0 WHERE flag_use = 1"
     Execute_sql([sql_content])
 
 def get_ports_set():
@@ -1177,6 +1204,8 @@ def get_luminati_submit(Config):
     Mission_Ids,Excels_dup = [Config['Mission_Id']],Config['Excel']
     # print(Excels_dup)
     submit = read_one_excel(Mission_Ids,Excels_dup,Email_list)
+    if submit == None:
+        return None
     # print(submit)
     submit['ip_lpm'] = Config['ip_lpm']
     submit['port_lpm'] = Config['port_lpm']

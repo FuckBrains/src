@@ -630,6 +630,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     def on_pushButton19_clicked(self):
         Mission_Id = int(self.lineEdit12.text())
         db.read_pic(Mission_Id)
+        db.read_txt_traceback(Mission_Id)
         os.system('explorer.exe /n, C:\EMU\log\pics\\'+str(Mission_Id))
 
     @pyqtSlot()
@@ -638,6 +639,10 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         chrome_driver = Alliance_login.get_chrome('',None,1)
         QApplication.processEvents()               
         sleep(5000)  
+
+    @pyqtSlot()
+    def on_pushButton21_clicked(self):
+        db.update_flag_use_all()
 
 
 

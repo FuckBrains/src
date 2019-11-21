@@ -97,7 +97,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="widget">
      <attribute name="title">
@@ -794,6 +794,19 @@
       </property>
       <property name="text">
        <string>Debug</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton21">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>330</y>
+        <width>101</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>CleanFlag_use</string>
       </property>
      </widget>
     </widget>

@@ -47,9 +47,20 @@ def add_missiion(Mission_conf):
     Mission_conf[0]
 
 def test_plan_status():
-    import Alliance_login as al
-    chrome_driver = al.get_chrome('',None,1)
-    sleep(3000)
+    a = '''
+  File \"C:\\EMU\\src\\thread_tokill.py\", line 149, in reg_part
+  File \"C:\\EMU\\src\\Mission_10029.py\", line 91, in web_submit
+    chrome_driver.find_element_by_xpath(\'//*[@id=\"postcode\"]\').send_keys(postcode)
+  File \"C:\\Users\\chao\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\selenium\\webdriver\\remote\\webelement.py\", line 479, in send_keys
+    \'value\': keys_to_typing(value)})
+  File \"C:\\Users\\chao\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\selenium\\webdriver\\remote\\webelement.py\", line 633, in _execute
+    return self._parent.execute(command, params)
+  File \"C:\\Users\\chao\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\selenium\\webdriver\\remote\\webdriver.py\", line 321, in execute
+    self.error_handler.check_response(response)
+  File \"C:\\Users\\chao\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\selenium\\webdriver\\remote\\errorhan    
+    '''
+    print(len(a))
+
 
 
 

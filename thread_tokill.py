@@ -77,7 +77,7 @@ def change_tz(windows_):
             sleep(10)
             print('waiting tz')
 
-def data_handler(Config):
+def get_submit(Config):
     submit = {}
     while True:
         if 'BasicInfo_Id' in submit:
@@ -85,6 +85,8 @@ def data_handler(Config):
         # print('getting data')
         try:
             submit = db.get_luminati_submit(Config)
+            if submit == None:
+                return None
             # print(submit)
             # return
             if Config['Alliance'] == 'Test':
@@ -94,7 +96,7 @@ def data_handler(Config):
         except Exception as e:
             print(str(e))
             print('Get data wrong..................................')
-            return
+            return None
         if submit['Excels_dup'][1] != '':
             print('testing email.........')
             flag = imap_test.Email_emu_getlink(submit['Email'])
@@ -129,6 +131,12 @@ def data_handler(Config):
             continue
         else:
             continue
+    return submit    
+
+def data_handler(Config):
+    submit = get_submit(Config)
+    if submit == None:
+        return None
         # print('Reading config from sql server success')
     submit['tz'] = db.get_cst_zone(proxy_info['geo']['tz'])
     # print("proxy_info['geo']['tz']:",proxy_info['geo']['tz'])
@@ -166,7 +174,8 @@ def data_handler(Config):
             db.write_one_info([str(submit['Mission_Id'])],submit)
     if 'BasicInfo_Id' in submit:
         db.update_flag_use(submit['BasicInfo_Id'])
-    print('Mission_Id:',submit['Mission_Id'],'finished')        
+    print('Mission_Id:',submit['Mission_Id'],'finished') 
+    return 1       
 
 @timeout(600)
 def reg_part(submit):
@@ -212,5 +221,11 @@ def multi_reg(Config):
                     sleep(time_cheat)
         else:
             print('test...........')
-        data_handler(Config)
+        flag = data_handler(Config)
+        if flag == None:
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')            
+            print('Mission',Config['Mission_Id'],'is out of data............')
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')            
     return  

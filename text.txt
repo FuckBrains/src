@@ -1,0 +1,11 @@
+'Traceback (most recent call last):
+  File \"C:\\EMU\\src\\thread_tokill.py\", line 143, in reg_part
+  File \"C:\\EMU\\src\\Mission_10029.py\", line 91, in web_submit
+    chrome_driver.find_element_by_xpath(\'//*[@id=\"postcode\"]\').send_keys(postcode)
+  File \"C:\\Users\\chao\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\selenium\\webdriver\\remote\\webelement.py\", line 479, in send_keys
+    \'value\': keys_to_typing(value)})
+  File \"C:\\Users\\chao\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\selenium\\webdriver\\remote\\webelement.py\", line 633, in _execute
+    return self._parent.execute(command, params)
+  File \"C:\\Users\\chao\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\selenium\\webdriver\\remote\\webdriver.py\", line 321, in execute
+    self.error_handler.check_response(response)
+  File \"C:\\Users\\chao\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\selenium\\webdriver\\remote\\errorhan

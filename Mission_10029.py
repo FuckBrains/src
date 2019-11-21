@@ -24,7 +24,7 @@ import random
 def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
-        site = 'https://track.amcmpn.com/click?pid=668&offer_id=21490'
+        site = 'https://track.amcmpn.com/click?pid=665&offer_id=21490'
         submit['Site'] = site
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
@@ -49,6 +49,7 @@ def web_submit(submit,chrome_driver,debug=0):
     birthday = Submit_handle.get_auto_birthday('')      
     element = chrome_driver.find_element_by_xpath('//*[@id="input1"]/div/div/div[3]/div[2]/div[3]/div[5]/div/input')
     element.click()
+    db.update_plan_status(1,submit['ID'])    
     sleep(1)
     # dd
     day = birthday[1]
@@ -85,21 +86,29 @@ def web_submit(submit,chrome_driver,debug=0):
     # element = chrome_driver.find_element_by_xpath('//*[@id="form-submit"]/div')
     # actions = ActionChains(chrome_driver)
     # actions.move_to_element_with_offset(element,30,15).click().perform()      
-    sleep(10)
+    # sleep(10)
     # postcode
-    postcode = submit[excel]['zip']
-    chrome_driver.find_element_by_xpath('//*[@id="postcode"]').send_keys(postcode)
+
+    postcode = submit[excel]['zip']    
+    for i in range(6):
+        try:
+            element = chrome_driver.find_element_by_xpath('//*[@id="postcode"]')
+            element.send_keys(postcode)
+        except:
+            sleep(10)
     # address
+    sleep(5)
     element = '//*[@id="address"]'
-    chrome_driver.find_element_by_xpath(element).click()
-    sleep(20)    
-    chrome_driver.find_element_by_xpath(element).click()    
-    num = random.randint(0,1)  
-    js="$('#address > option:nth-child(1)').removeAttr('selected')"
-    chrome_driver.execute_script(js)      
-    s1 = Select(chrome_driver.find_element_by_xpath(element))
-    s1.select_by_index(num)     
-    sleep(1)
+    for i in range(10):
+        try:
+            chrome_driver.find_element_by_xpath(element).click()   
+            num = random.randint(0,1)  
+            js="$('#address > option:nth-child(1)').removeAttr('selected')"
+            chrome_driver.execute_script(js)      
+            s1 = Select(chrome_driver.find_element_by_xpath(element))
+            s1.select_by_index(num)
+        except:
+            sleep(10)   
     # mobile
     mobile = submit[excel]['homephone']
     mobile = mobile.replace(' ','')
@@ -118,9 +127,8 @@ def web_submit(submit,chrome_driver,debug=0):
     # element = chrome_driver.find_element_by_xpath('//*[@id="form-submit"]/div')
     # actions = ActionChains(chrome_driver)
     # actions.move_to_element_with_offset(element,30,15).click().perform()  
-
-    sleep(100)
-    return 1
+    db.update_plan_status(2,submit['ID'])
+    sleep(180)
 
 
 def test():

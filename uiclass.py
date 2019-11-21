@@ -267,6 +267,9 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.label_25.setFont(font)
         self.label_25.setObjectName("label_25")
+        self.pushButton21 = QtWidgets.QPushButton(self.tab_3)
+        self.pushButton21.setGeometry(QtCore.QRect(420, 330, 101, 41))
+        self.pushButton21.setObjectName("pushButton21")
         self.Dadao.addTab(self.tab_3, "")
         self.tab_4 = QtWidgets.QWidget()
         self.tab_4.setObjectName("tab_4")
@@ -507,7 +510,7 @@ class Ui_MainWindow(object):
         self.actionDelete.setObjectName("actionDelete")
 
         self.retranslateUi(MainWindow)
-        self.Dadao.setCurrentIndex(5)
+        self.Dadao.setCurrentIndex(3)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -570,6 +573,7 @@ class Ui_MainWindow(object):
         self.pushButton18.setText(_translate("MainWindow", "Clean ports"))
         self.pushButton19.setText(_translate("MainWindow", "Debug"))
         self.label_25.setText(_translate("MainWindow", "Debug"))
+        self.pushButton21.setText(_translate("MainWindow", "CleanFlag_use"))
         self.Dadao.setTabText(self.Dadao.indexOf(self.tab_3), _translate("MainWindow", "Some funcs"))
         self.label_12.setText(_translate("MainWindow", "Account Lists"))
         self.pushButton9.setText(_translate("MainWindow", "Login"))
