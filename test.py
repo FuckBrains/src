@@ -47,9 +47,10 @@ def add_missiion(Mission_conf):
     Mission_conf[0]
 
 def test_plan_status():
-    tzid = 'Europe/Madrid'
-    tz = db.get_cst_zone(tzid)
-    print(tz)
+    import Alliance_login as al
+    chrome_driver = al.get_chrome('',None,1)
+    sleep(3000)
+
 
 
 def main():

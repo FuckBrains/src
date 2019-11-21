@@ -15,6 +15,7 @@ import db
 import email_imap
 import Auto_update
 import Alliance_login
+from time import sleep
 
 def Read_Ini(file):
     submits = []
@@ -630,6 +631,15 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         Mission_Id = int(self.lineEdit12.text())
         db.read_pic(Mission_Id)
         os.system('explorer.exe /n, C:\EMU\log\pics\\'+str(Mission_Id))
+
+    @pyqtSlot()
+    def on_pushButton20_clicked(self):
+        print('start Dadao')
+        chrome_driver = Alliance_login.get_chrome('',None,1)
+        QApplication.processEvents()               
+        sleep(5000)  
+
+
 
 def main():
     up.main()

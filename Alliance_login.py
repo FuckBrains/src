@@ -37,10 +37,20 @@ def get_ua_random(uas):
 
 def get_chrome(user_data_dir,submit=None,charge=0):
     options = webdriver.ChromeOptions() 
-    ip = submit['ip_lpm']
-    port = submit['port_lpm']
-    proxy = 'socks5://%s:%s'%(ip,port)
-    options.add_argument('--proxy-server=%s'%proxy)
+    if submit != None:
+        ip = submit['ip_lpm']
+        port = submit['port_lpm']
+        proxy = 'socks5://%s:%s'%(ip,port)
+        options.add_argument('--proxy-server=%s'%proxy)
+        if 'ua' in submit:
+            ua = submit['ua']
+            options.add_argument('user-agent=' + ua) 
+            print('using ua:',ua)   
+    else:
+        uas = get_ua_all()
+        ua = get_ua_random(uas)
+        options.add_argument('user-agent=' + ua) 
+        print('using ua:',ua)               
     # print(proxy)    
     if charge==0:
         options.add_argument('--user-data-dir='+user_data_dir)
@@ -66,10 +76,7 @@ def get_chrome(user_data_dir,submit=None,charge=0):
     # 'profile.default_content_settings.popups': 0,
     # } 
     # } 
-    if 'ua' in submit:
-        ua = submit['ua']
-        options.add_argument('user-agent=' + ua) 
-        print('using ua:',ua)
+
     # options.add_argument('--single-process')
     # options.add_argument('--process-per-tab')    
     
