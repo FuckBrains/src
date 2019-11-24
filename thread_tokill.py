@@ -131,10 +131,10 @@ def get_submit(Config):
             continue
         else:
             continue
-    return submit    
+    return submit,proxy_info  
 
 def data_handler(Config):
-    submit = get_submit(Config)
+    submit,proxy_info = get_submit(Config)
     if submit == None:
         return None
         # print('Reading config from sql server success')
