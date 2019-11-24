@@ -393,6 +393,7 @@ def ip_test(port_lpm,state = '',country=''):
         proxy_info = ''
         try:
             proxy_info = get_lpm_ip(port_lpm)
+            print(proxy_info)
         except Exception as e:
             print(str(e))
             # print('fail to get lpm ip')
