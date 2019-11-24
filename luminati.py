@@ -175,6 +175,7 @@ def get_lpm_ip(port,url="http://lumtest.com/myip.json",Referer='',debug=0):
                 print(url)
                 resp=session.get(url,headers=headers)
             print(resp.text)
+        print(r.headers)
     # print('proxy_info...',proxy_info,'...')
     return proxy_info
 

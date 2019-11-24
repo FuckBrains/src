@@ -85,7 +85,7 @@ def main(i):
         except Exception as e:
             print(str(e))
             pass          
-        if i == 1:
+        if i == 1 or i == 0:
             restart_time = random.randint(3,5)
             print('Mission completed.........')
             print('Sleep',restart_time,'minutes')
