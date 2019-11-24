@@ -460,10 +460,13 @@ def main(proxy):
 def ports_get(ip_lpm):
     # print('ports_get',ip_lpm)
     url_ports = 'http://%s:22999/api/proxies_running'%ip_lpm
-    res = requests.get(url_ports)
-    # print(res.text)
+    try:
+        res = requests.get(url_ports)
+        print(res.text)
+    except Exception as e:
+        print(str(e))
     config_info = json.loads(res.text)
-    ports_used = [] 
+    ports_used = []
     for config in config_info:
         ports_used.append(config['port'])
     # print(ports_used)

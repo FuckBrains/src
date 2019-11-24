@@ -671,5 +671,20 @@ def testf():
         traceback_ = a
         db.write_log_db(Mission_Id,traceback_)
 
+def qt_test():
+    import sys
+    from PyQt5.QtWidgets import QWidget
+
+    out = sys.stdout
+    sys.stdout = open(r'C:\EMU\QWidget.txt','w')
+    help(QWidget)
+    sys.stdout.close()
+    sys.stdout = out
+
+
 if __name__ == '__main__':
-    test_plan_status()
+    i = 1
+    if i == 0:
+        test_plan_status()
+    else:
+        qt_test()

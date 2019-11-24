@@ -3,7 +3,7 @@ import random
 from xlrd import xldate_as_tuple
 import requests
 import json
-
+import os
 # Delay, Config, Mission_conf, Email_list  = Cam4_allin.Config_read()
 
 '''
@@ -146,6 +146,17 @@ def get_zip(zip_):
         zip_ = '0' + zip_
     return zip_ 
 
+def apt_get(address):
+    if ' ' in address:
+        apt = address.split(' ')[0]
+        if not apt.isdecimal():
+            apt = random.randint(30,300)
+    else:
+        apt = random.randint(30,300)
+    return int(apt)
+
+
+
 def get_auto_birthday(date):
     if '/' in date:
         birthday = date.split('/')
@@ -260,6 +271,20 @@ def get_next_payday():
     date = [month,day_pay,year,]
     return date
 
+
+
+def makedir_pic(path):
+    isExists=os.path.exists(path)
+    if isExists:
+        return
+    else:
+        os.makedirs(path)
+
+
+def test_d():
+    address = '11235 OAK LEAF DR APT 1919'
+    apt = apt_get(address)
+    print(apt)
+
 if __name__ == '__main__':
-    pwd = get_pwd_real()
-    print(pwd)
+    test_d()

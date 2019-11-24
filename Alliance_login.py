@@ -69,6 +69,8 @@ def get_chrome(user_data_dir,submit=None,charge=0):
     options.add_extension(extension_path) 
     extension_path = '../tools/extension/8.6.0.0_0.crx'       
     options.add_extension(extension_path) 
+    options.add_argument("--disable-bundled-ppapi-flash")   # Disable internal Flash player
+    options.add_argument("--disable-plugins-discovery")     # Disable external Flash player (by not allowing it to load)    
     # prefs = {
     # 'profile.default_content_setting_values': {
     # # "User-Agent": ua, # 更换UA
