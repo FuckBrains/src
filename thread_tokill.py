@@ -60,6 +60,7 @@ def writelog(chrome_driver,submit):
         # print(e.__traceback__.tb_lineno)                        # 发生异常所在的行数    
 
 def start(plans):
+    print('Start func')
     if plans[0]['sleep_flag'] == 2:
         multi_reg(plans[0]) 
     else:
@@ -89,7 +90,7 @@ def get_submit(Config):
             db.update_flag_use(submit['BasicInfo_Id'])           
         # print('getting data')
         try:
-            submit = db.get_luminati_submit(Config)
+            submit = db.get_luminati_submit(Config)           
             if submit == None:
                 return None
             # print(submit)
@@ -155,6 +156,7 @@ def get_submit(Config):
     return submit,proxy_info  
 
 def data_handler(Config):
+    print('data_handler')
     global timezone 
     global using_num    
     submit,proxy_info = get_submit(Config)
@@ -202,11 +204,13 @@ def data_handler(Config):
 
 @timeout(600)
 def reg_part(submit):
+    print('reg_part')
     global timezone 
     global using_num    
 
     module = 'Mission_'+str(submit['Mission_Id'])
     Module = importlib.import_module(module)
+
     try:
         print('----------------====================')
         if submit['sleep_flag'] == 2:
@@ -231,6 +235,7 @@ def reg_part(submit):
 
 def multi_reg(Config):  
     # print(Config)
+    print('multi_reg')
     return_rand = random.randint(0,5)
     if return_rand == 0:
         print('unique  random,return for Mission_Id:',Config)

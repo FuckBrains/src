@@ -2,6 +2,7 @@ import win32gui, win32api, win32con
 import psutil
 import os
 from time import sleep
+import tools
 
 
 def kill_911():
@@ -94,6 +95,7 @@ def login_911():
         try:
             left1, top1, right1, bottom2 = win32gui.GetWindowRect(handle)
             print('Page2',left1, top1, right1, bottom1)
+            tools.killpid(['Annoucement'])
             kill_OK()
             sleep(3)
             click_position(subHandle,20,20,3)  

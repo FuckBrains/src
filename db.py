@@ -1154,6 +1154,7 @@ def update_port(port_old,port_new):
 
 def update_plan_status(Status,ID):
     sql_content = "UPDATE Plans SET Status = '%d' WHERE ID = '%d'" % (int(Status),int(ID))
+    print('updating:',sql_content)
     Execute_sql([sql_content])
 
 def get_plan_status(ID):

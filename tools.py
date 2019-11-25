@@ -1,7 +1,7 @@
 import psutil
 import os
 
-def killpid():
+def killpid(kill_list=[]):
     pids = psutil.pids()
     for pid in pids:
         # print(pids)
@@ -9,7 +9,8 @@ def killpid():
             p = psutil.Process(pid)
         except:
             continue
-        kill_list = ['chrome.exe','chromedriver','Client.exe','Monitor.exe','MonitorGUI.exe','Socket.exe','CCleaner','wps','Annoucement']
+        if kill_list == []:
+            kill_list = ['chrome.exe','chromedriver','Client.exe','Monitor.exe','MonitorGUI.exe','Socket.exe','CCleaner','wps','Annoucement']
         # kill_list = ['chrome.exe','chromedriver']        
         for key in kill_list:
             # print(key)
