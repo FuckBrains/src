@@ -732,7 +732,7 @@ def write_one_info(Mission_list,submit,Cookie = ''):
     Account = str(submit['Account'])
     ua = submit['ua']
     if 'Status' not in submit:
-        Status = 0
+        Status = str(0)
     else:
         Status = submit['Status']
     # print('+++++++++++++++++++++++++')
