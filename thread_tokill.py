@@ -62,9 +62,10 @@ def writelog(chrome_driver,submit):
 def start(plans):
     if plans[0]['sleep_flag'] == 2:
         multi_reg(plans[0]) 
-    requests = threadpool.makeRequests(multi_reg, plans)
-    [pool.putRequest(req) for req in requests]
-    pool.wait()     
+    else:
+        requests = threadpool.makeRequests(multi_reg, plans)
+        [pool.putRequest(req) for req in requests]
+        pool.wait()     
 
 def change_tz(windows_):
     global using_num

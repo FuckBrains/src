@@ -65,14 +65,7 @@ def web_submit(submit,chrome_driver,debug=0):
 
 
     sleep(3000)
-    # How many Drivers do you want to insure?
-    elem = '//*[@id="plate-content"]/div[2]/div[1]/button'
-    WebDriverWait(chrome_driver,60).until(EC.visibility_of_element_located((By.XPATH,elem)))        
-    save_html(chrome_driver,Mission_Id,num_html)    
-    num_html += 1      
-    sleep(2)        
-    chrome_driver.find_element_by_xpath(elem).click()
-    # sleep(10)
+
 
     # Vehicle Year
     year = submit[Excel_tag]['year']
@@ -405,6 +398,16 @@ def page2(chrome_driver,submit):
     print(insurer)
     chrome_driver.find_element_by_xpath(insurer).click()    
     print('\n')
+
+
+def page3(chrome_driver,submit):
+    # How many Drivers do you want to insure?
+    elem = '//*[@id="plate-content"]/div[2]/div[1]/button'
+    chrome_driver.find_element_by_xpath(elem).click()
+    # sleep(10)
+
+
+
 
 
 
