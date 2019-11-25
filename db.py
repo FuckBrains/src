@@ -739,6 +739,7 @@ def write_one_info(Mission_list,submit,Cookie = ''):
     for Mission_Id in Mission_list:
         sql_content = 'INSERT INTO Mission(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie,Status)VALUES("%s","%s","%s","%s","%s","%s","%s","%s")'%(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie,Status)
         print('==============')
+        print(submit)
         print(sql_content)
         res = cursor.execute(sql_content)    
     login_out_sql(conn,cursor)
