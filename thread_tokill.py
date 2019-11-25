@@ -1,4 +1,6 @@
 import random
+import ip_test
+import Changer_windows_info as changer
 from time import sleep
 import db
 import Chrome_driver
@@ -58,6 +60,8 @@ def writelog(chrome_driver,submit):
         # print(e.__traceback__.tb_lineno)                        # 发生异常所在的行数    
 
 def start(plans):
+    if plans[0]['sleep_flag'] == 2:
+        multi_reg(plans[0]) 
     requests = threadpool.makeRequests(multi_reg, plans)
     [pool.putRequest(req) for req in requests]
     pool.wait()     
@@ -112,8 +116,24 @@ def get_submit(Config):
                 continue
         else:
             pass 
-        print('refreshing ip.............')      
-        flag,proxy_info = luminati.ip_test(submit['port_lpm'],state=submit['state_'] ,country=submit['Country'])
+        print('refreshing ip.............') 
+        if submit['sleep_flag'] != 2:
+            flag,proxy_info = luminati.ip_test(submit['port_lpm'],state=submit['state_'] ,country=submit['Country'])
+        else:
+            for num_ip in range(6):
+                try:
+                    city = ip_test.ip_Test('','',country=submit['Country'])
+                    if  city != 'Not found':
+                        flag = 1
+                        proxy_info = ''
+                        break
+                    if num_ip == 5:
+                        print('Net wrong...!!!!!!')
+                        changer.Restart()
+                except:
+                    changer.Restart()            
+
+        # changing IP
         print(flag,'=========================')
         if flag == 1:
             break
@@ -134,32 +154,34 @@ def get_submit(Config):
     return submit,proxy_info  
 
 def data_handler(Config):
+    global timezone 
+    global using_num    
     submit,proxy_info = get_submit(Config)
     if submit == None:
         return None
         # print('Reading config from sql server success')
-    submit['tz'] = db.get_cst_zone(proxy_info['geo']['tz'])
+    if submit['sleep_flag'] != 2: 
+        submit['tz'] = db.get_cst_zone(proxy_info['geo']['tz'])
     # print("proxy_info['geo']['tz']:",proxy_info['geo']['tz'])
     # print(str(submit['Mission_Id']),'get timezone for ',submit['Country'],'is',submit['tz'])
-    global timezone 
-    global using_num
     # print("timezone:",timezone)
     # print("using_num:",using_num) 
-    print('submit[tz]:',submit['tz'])  
-    if submit['tz'][0]['windows'] != timezone:
-        change_tz(submit['tz'][0]['windows'])
-        timezone = submit['tz'][0]['windows']
-        print("timezone:",timezone)
-        print("using_num:",using_num)
-    else:
-        using_num += 1 
-    print("Mission started,using_num:",using_num)            
+        print('submit[tz]:',submit['tz'])  
+        if submit['tz'][0]['windows'] != timezone:
+            change_tz(submit['tz'][0]['windows'])
+            timezone = submit['tz'][0]['windows']
+            print("timezone:",timezone)
+            print("using_num:",using_num)
+        else:
+            using_num += 1 
+
+    print("Mission started,using_num:",using_num)
     try:
         reg_part(submit)
     except TimeoutError:
         print('timeout')
     using_num = using_num - 1  
-    print("Mission finished,using_num:",using_num)    
+    print("Mission finished,using_num:",using_num)
     print("timezone:",timezone) 
     flag = db.get_plan_status(submit['ID'])
     if flag != 0:
@@ -186,6 +208,8 @@ def reg_part(submit):
     Module = importlib.import_module(module)
     try:
         print('----------------====================')
+        if submit['sleep_flag'] == 2:
+            submit.pop('ip_lpm')
         chrome_driver = Chrome_driver.get_chrome(submit)
         print('========')
         Module.web_submit(submit,chrome_driver=chrome_driver)
@@ -209,8 +233,9 @@ def multi_reg(Config):
     return_rand = random.randint(0,5)
     if return_rand == 0:
         print('unique  random,return for Mission_Id:',Config)
-        time_return = random.randint(0,600)
-        sleep(time_return)
+        if Config['sleep_flag'] != 2:
+            time_return = random.randint(0,600)
+            sleep(time_return)
     else:
         time_cheat = random.randint(0,600)
         # print(Config)

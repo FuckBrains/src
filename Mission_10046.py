@@ -44,6 +44,9 @@ def web_submit(submit,chrome_driver,debug=0):
         submit['Site'] = site
     chrome_driver.get(submit['Site'])
     print('Load finish')
+    old_page = chrome_driver.find_element_by_tag_name('html')
+    print(old_page.id)
+
     # chrome_driver.maximize_window()    
     # chrome_driver.refresh()
     while True:
@@ -52,10 +55,10 @@ def web_submit(submit,chrome_driver,debug=0):
             db.update_plan_status(1,submit['ID'])
         if 'finish' in page:
             db.update_plan_status(2,submit['ID'])
-        print('Find target_page:',page)
+        print('Find target_page:',page['name'])
         if debug == 1:
             save_html(chrome_driver,Mission_Id,page)    
-        eval(page)(chrome_driver,submit)
+        eval(page['name'])(chrome_driver,submit)
         page_change(chrome_driver,page)
 
 
@@ -335,14 +338,34 @@ def get_page_config():
     },
     'page2':{
         'name'  :   'page2',
-        'almost':   True
-
+        'xpath' :   '//*[@id="plate-content"]/h3',
+        'text'  :   'How many Drivers do you want to insure?'        
     },
     'page3':{
         'name'  :   'page3',    
-        'finish':   True
-    }
-
+        'xpath' :   '//*[@id="plate-content"]/div[1]/div/h3',
+        'text'  :   'Vehicle Year'    
+    },
+    'page4':{
+        'name'  :   'page4',    
+        'xpath' :   '//*[@id="plate-content"]/div[1]/div/h3',
+        'text'  :   'Vehicle Make'    
+    },
+    'page5':{
+        'name'  :   'page5',    
+        'xpath' :   '//*[@id="plate-content"]/div[1]/div/h3',
+        'text'  :   'Vehicle Model'    
+    },  
+    'page6':{
+        'name'  :   'page6',    
+        'xpath' :   '//*[@id="plate-content"]/div[1]/div/h3',
+        'text'  :   'Vehicle Trim'    
+    },    
+    'page7':{
+        'name'  :   'page7',    
+        'xpath' :   '//*[@id="plate-content"]/div[1]/div/h3',
+        'text'  :   'Your Vehicles'    
+    },          
     }    
     return Page_config 
 
@@ -381,6 +404,8 @@ def page2(chrome_driver,submit):
     insurer = insurer_select(insurer)
     print(insurer)
     chrome_driver.find_element_by_xpath(insurer).click()    
+    print('\n')
+
 
 
 def save_html(chrome_driver,Mission_Id,page):

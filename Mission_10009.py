@@ -240,6 +240,7 @@ def activate(submit,chrome_driver):
         print('sleep',sleep_time,'minutes')
         sleep(sleep_time*60)
     return 1
+
 def charge():
     chrome_driver.get('https://stripchat.com')
     ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
@@ -288,7 +289,24 @@ def active_test():
     print(submits[0])
     activate(submit,chrome_driver)
 
+
+def test():
+    # db.email_test()
+    # date_of_birth = Submit_handle.get_auto_birthday('')         
+    Mission_list = ['10009']
+    excel = 'Auto'    
+    Excel_name = ['','Email']
+    Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
+    submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
+    # [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None and submit[excel][item] !='']
+    # [print(item,':',submit[excel][item]) for item in submit[excel] if item == 'homephone']  
+    submit['Mission_Id'] = '10009'
+    submit['Country'] = 'US'
+    chrome_driver = Chrome_driver.get_chrome(submit)
+    web_submit(submit,chrome_driver,1)
+
+
 if __name__=='__main__':
-    charge()
+    test()
 
 

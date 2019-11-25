@@ -84,6 +84,7 @@ def tz_test():
     sleep(3000)
 
 def get_chrome(submit = None,pic=0):
+
     if submit == None:
         uas = get_ua_all()
         ua = get_ua_random(uas)
@@ -135,6 +136,9 @@ def get_chrome(submit = None,pic=0):
             print('Selenium in using user-data-dir:',submit['Mission_dir'])
             # options.add_argument('--user-data-dir='+submit['Mission_dir'])
         if 'ip_lpm' in submit:
+            print('=======================')
+            print('=======================')    
+            print(submit)            
             account_lpm = luminati.get_account()
             ip = account_lpm['IP_lpm']
             port = submit['port_lpm']
