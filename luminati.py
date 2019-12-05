@@ -515,7 +515,7 @@ def create_plan_data(plan_id,Offer_links):
     # print(myname)
     myaddr = socket.gethostbyname(myname)
     # print(myaddr)
-    print('Star uploading')
+    print('Start uploading')
     num_plan = 1
     for item in Offer_links:
         print(' uploading plan %d'%num_plan)
@@ -533,15 +533,21 @@ def create_plan_data(plan_id,Offer_links):
         if account['IP_lpm'] == '127.0.0.1':
             Offer_links[item]['ip_lpm'] = myaddr
         else:
-            Offer_links[item]['ip_lpm'] = ip_lpm            
-        Offer_links[item]['port_lpm'] = get_port_random()  
+            Offer_links[item]['ip_lpm'] = ip_lpm  
+        try:          
+            Offer_links[item]['port_lpm'] = get_port_random()  
+        except:
+            Offer_links[item]['port_lpm'] = 24100
         # print('Start adding proxy port:',Offer_links[item]['port_lpm'])
         if 'zone' in Offer_links[item]:
             proxy_zone = Offer_links[item]['zone']
         else:
             proxy_zone = 'jia1'      
         Config['zone'] = proxy_zone  
-        add_proxy(Offer_links[item]['port_lpm'],country=Offer_links[item]['Country'],proxy_config_name= proxy_zone,ip_lpm=ip_lpm)
+        try:
+            add_proxy(Offer_links[item]['port_lpm'],country=Offer_links[item]['Country'],proxy_config_name= proxy_zone,ip_lpm=ip_lpm)
+        except:
+            pass
         Offer_links[item]['Plan_Id'] = plan_id
         Configs.append(Config)
     # print('Uploading finished')

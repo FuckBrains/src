@@ -39,7 +39,6 @@ def get_excel_path():
     excels_path = [os.path.join(path,file) for file in files if 'xlsx' in file and 'Email' not in file]
     return excels_path    
 
-
 def get_excel_names():
     '''
     get excel names from file folder:res,except Email.xlsx
@@ -176,11 +175,9 @@ def login_sql(account,create = False):
     # res = cursor.execute('select * from TOKENTABLE;')
     return conn,cursor
 
-
 def create_db():
     Create_db='CREATE DATABASE IF NOT EXISTS EMU;'
     Execute_sql([Create_db])
-
 
 def login_out_sql(conn,cursor):
     '''
@@ -200,9 +197,75 @@ get sql contet for
 3.create basicinfo table
 '''
 
-def create_tokentable(account):
+def create_tokentable():
     sql_content = 'CREATE TABLE  IF NOT EXISTS Tokens (id BIGINT(20),token VARCHAR(100));'
     Execute_sql(sql_content)
+
+def create_PageFlag_table():
+    sql_content = 'CREATE TABLE  IF NOT EXISTS Page_Flag (Mission_Id INT(10) NOT NULL,Page VARCHAR(50) NOT NULL,Flag_xpath VARCHAR(1000) NOT NULL,Flag_text VARCHAR(1000) NOT NULL));'
+    Execute_sql(sql_content)
+
+def upload_pageflag(Mission_Id,flag):
+    Page = flag['name']
+    Flag_xpath = flag['xpath'] 
+    Flag_text = flag['text']
+    # sql_content = (int(Mission_Id),Page,pymysql.escape_string(Flag_xpath),pymysql.escape_string(Flag_text))      
+    sql_content = 'INSERT INTO Page_Flag(Mission_Id,Page,Flag_xpath,Flag_text)VALUES("%d","%s","%s","%s")'%(int(Mission_Id),Page,pymysql.escape_string(Flag_xpath),pymysql.escape_string(Flag_text))     
+    # sql_content = 'INSERT IGNORE INTO Page_Flag(Mission_Id,Page,Flag_xpath,Flag_text)VALUES("%d","%s","%s","%s")'%(Mission_Id, Page,Flag_xpath,Flag_text)
+    Execute_sql([sql_content])
+
+def check_step(Mission_Id,flag):
+    account = get_account()
+    conn,cursor=login_sql(account)
+    res = cursor.execute('SELECT * from Page_Config WHERE Mission_Id = "%d" and Page = "%s" and Step = "%d"'%(int(Mission_Id),str(flag['name']),int(flag['step'])))
+    print(res)
+    # desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    # Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
+    login_out_sql(conn,cursor)
+    # submit = dict(Info_dict,**Info_dict2)
+    if res == 0:
+        flag = True
+    else:
+        flag = False
+    print(flag)
+    return flag
+
+def upload_pageconfig(flag):
+    Page = flag['name']
+    Step = flag['step']
+    Mission_Id = flag['Mission_Id']
+    flag_check = check_step(Mission_Id,flag)
+    if flag_check == False:
+        return -1
+    Action = flag['action'] 
+    General = json.dumps(flag['general'])
+    Step_config = json.dumps(flag['step_config'])  
+    print('General',General)
+    print('Step_config',Step_config)
+    print(flag)  
+    # sql_content = (int(Mission_Id),Page,pymysql.escape_string(Flag_xpath),pymysql.escape_string(Flag_text))      
+    sql_content = 'INSERT INTO Page_config(Mission_Id,Page,Step,Action,General,Step_config)VALUES("%d","%s","%d","%s","%s","%s")'%(int(Mission_Id),str(Page),int(Step),str(Action),pymysql.escape_string(General),pymysql.escape_string(Step_config))     
+    # sql_content = 'INSERT IGNORE INTO Page_Flag(Mission_Id,Page,Flag_xpath,Flag_text)VALUES("%d","%s","%s","%s")'%(Mission_Id, Page,Flag_xpath,Flag_text)
+    Execute_sql([sql_content])
+    return 1
+
+
+
+
+
+
+def update_pageflag(Mission_Id,flag):
+    Page = flag['name']
+    Flag_xpath = flag['xpath'] 
+    Flag_text = flag['text']
+    # sql_content = (int(Mission_Id),Page,pymysql.escape_string(Flag_xpath),pymysql.escape_string(Flag_text))      
+    sql_content = 'INSERT INTO Page_Flag(Mission_Id,Page,Flag_xpath,Flag_text)VALUES("%d","%s","%s","%s")'%(int(Mission_Id),Page,pymysql.escape_string(Flag_xpath),pymysql.escape_string(Flag_text))     
+    # sql_content = 'INSERT IGNORE INTO Page_Flag(Mission_Id,Page,Flag_xpath,Flag_text)VALUES("%d","%s","%s","%s")'%(Mission_Id, Page,Flag_xpath,Flag_text)
+    if Flag_xpath != '':
+        sql_content = 'UPDATE Page_Flag SET Flag_xpath = "%s" WHERE Mission_Id = "%d" and Page = "%s"' % (Flag_xpath,int(Mission_Id),Page)
+    if Flag_text != '':
+        sql_content = 'UPDATE Page_Flag SET Flag_text = "%s" WHERE Mission_Id = "%d" and Page = "%s"' % (Flag_text,int(Mission_Id),Page)
+    Execute_sql([sql_content])
 
 def create_BasicInfo(keys):
     account = get_account()
@@ -875,7 +938,7 @@ def Execute_sql(sql_contents):
         # print(sql_content)
         res = cursor.execute(sql_content)
         response = cursor.fetchall()
-        # print(response)
+        print(response)
     login_out_sql(conn,cursor)
     print('Login out db')
 
@@ -1071,6 +1134,23 @@ def delete_old_data():
     Execute_sql(sql_contents)
     return
 
+def delete_page_flag(Mission_Id,Page):
+    sql_content = 'DELETE from Page_Flag WHERE Mission_Id = "%d" and Page = "%s"'%(int(Mission_Id),str(Page))
+    sql_content = [sql_content]
+    Execute_sql(sql_content)
+
+def delete_page(Mission_Id,Page):
+    sql_content1 = 'DELETE from Page_Flag WHERE Mission_Id = "%d" and Page = "%s"'%(int(Mission_Id),str(Page))
+    sql_content2 = 'DELETE from Page_Config WHERE Mission_Id = "%d" and Page = "%s"'%(int(Mission_Id),str(Page))    
+    sql_content = [sql_content1,sql_content2]
+    Execute_sql(sql_content)
+
+def delete_step(Mission_Id,Page,Step):
+    sql_content = 'DELETE from Page_Config WHERE Mission_Id = "%d" and Page = "%s" and Step = "%d"'%(int(Mission_Id),str(Page),int(Step))    
+    sql_content = [sql_content]
+    Execute_sql(sql_content)
+
+
 def get_duplicated_mission_record():
     sql_content1 = 'SELECT Mission_Id,Basicinfo_Id,count(*) as count from mission group by Mission_Id,Basicinfo_Id having count>1;'
     sql_content2 = 'SELECT Mission_Id,Email_Id,count(*) as count from mission group by Mission_Id,Email_Id having count>1;'
@@ -1136,6 +1216,17 @@ def get_cookie(Config=None):
     # print(len(Mission_dict))
     # print(Mission_dict)
     return Mission_dict
+
+def get_pageflag(Mission_Id):
+    print('     Start reading info from sql server...')
+    account = get_account()
+    conn,cursor=login_sql(account)
+    res = cursor.execute('SELECT * from Page_Flag WHERE Mission_Id="%d"'%int(Mission_Id))
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Pages = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
+    # print(len(Mission_dict))
+    # print(Mission_dict)
+    return Pages
 
 def add_key_db(sql_content):
     sql_content = "ALTER TABLE Mission ADD Alliance_basic DEFAULT '' AFTER BasicInfo_Id"

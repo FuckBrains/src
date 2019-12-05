@@ -7,8 +7,8 @@ from time import sleep
 import re
 import os
 import Restart_911 as R9
-
-
+import Chrome_driver
+import json
 
 
 
@@ -34,12 +34,13 @@ def ip_new(city,state = 'All',country = 'US'):
 
 def whoer_get(city =None):
     options = webdriver.ChromeOptions()
-    options.add_argument('--incognito')
-    chrome_driver = webdriver.Chrome(chrome_options=options)
+    # options.add_argument('--incognito')
+    path_driver = Chrome_driver.get_chromedriver_path()        
+    chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)
     print('https://whoer.net')
     chrome_driver.get('https://whoer.net')
     i = 0
-    while i <=2:
+    while i <=1:
         try:
             str_1=chrome_driver.find_element_by_xpath('//*[@id="hidden_rating_link"]/span').text
             break
@@ -56,18 +57,37 @@ def whoer_get(city =None):
         totalCount = int(re.sub("\D", "", str_1))
         city = str_2
         sleep(3)
+        zipcode = chrome_driver.find_element_by_xpath('//*[@id="main"]/section[5]/div/div/div/div[1]/div[1]/div[1]/div[1]/div/div/div[2]/div[4]/div[2]/span').text
         chrome_driver.close()
         chrome_driver.quit()
         # print(str_1)
         # print(str_2)
         print('当前ip匿名度是：'+str(totalCount))
+        # sleep(3000)        
     except:
         print("can't connet to whoer,change ip...")        
         chrome_driver.close()
         chrome_driver.quit()
-        return city,-1
-    chrome_driver.find_element_by_xpath().text
-    return city,totalCount
+        return city,-1,''
+    return city,totalCount,zipcode
+
+
+def zip_get():
+    options = webdriver.ChromeOptions()
+    # options.add_argument('--incognito')
+    path_driver = Chrome_driver.get_chromedriver_path()        
+    chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)
+    url = 'http://lumtest.com/myip.json'
+    chrome_driver.get(url) 
+    myip = chrome_driver.find_element_by_xpath('/html/body/pre').text 
+    print(myip)
+    myip_dict = json.loads(myip)
+    zipcode = myip_dict['geo']['postal_code']
+    print(zipcode)
+    chrome_driver.close()
+    chrome_driver.quit()
+    return zipcode
+
 
 
 
@@ -83,11 +103,12 @@ def ip_Test(city = None,state = 'All',country='US'):
     # return
     ip_new(city,state,country)
     sleep(10)
-    # city,totalCount = whoer_get(city)
-    # print(city,totalCount)
+    # city,totalCount,zipcode = whoer_get(city)
+    # print(city,totalCount,zipcode)
+    zipcode = zip_get()
     # if totalCount == -1:
-    #     city = 'Not found'
-    return city
+        # city = 'Not found'
+    return zipcode
        
     # path='C:/cam4/driver'
     # executable_path=path
@@ -104,7 +125,8 @@ def ip_Test(city = None,state = 'All',country='US'):
 if __name__=='__main__':
     city = ''
     # ip_Test(city)
-    whoer_get('')
+    city,totalCount,zipcode = whoer_get('')
+    print(city,totalCount,zipcode)
 
 
 

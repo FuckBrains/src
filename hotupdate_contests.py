@@ -17,9 +17,26 @@ hotupdate_content = {
 	14 : ["ALTER TABLE BasicInfo ADD tzid VARCHAR(200)   unique AFTER flag_use"],
 	15 : ["ALTER TABLE Log ADD Create_time TIMESTAMP not null default CURRENT_TIMESTAMP"],
 	16 : ["ALTER TABLE plans ADD ID int NOT NULL AUTO_INCREMENT"],
-
-
-
+	17 : ["ALTER TABLE Page_Flag ADD CONSTRAINT Mission_Id UNIQUE (Mission_Id,Page);"],
+	18 : [
+	'''
+DELETE basicinfo
+FROM
+ basicinfo, 
+ (
+  SELECT
+   address
+  FROM
+   basicinfo
+  GROUP BY
+   address
+  HAVING
+   count(*) > 1
+ ) t2
+WHERE
+ basicinfo.address = t2.address 	
+	'''
+	],
 
 
 

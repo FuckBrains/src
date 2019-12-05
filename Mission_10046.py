@@ -30,6 +30,7 @@ import random
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+import json
 
 
 
@@ -322,45 +323,84 @@ def vehicle_select(elem,vehicle):
     print('vehicle is :',vehicle)
     return vehicle
 
-def get_page_config():
-    Page_config = {
-    'page1':{
-        'name'  :   'page1',
-        'xpath' :   '//*[@id="plate-content"]/h3',
-        'text'  :   'Do you have car insurance?'
-    },
-    'page2':{
-        'name'  :   'page2',
-        'xpath' :   '//*[@id="plate-content"]/h3',
-        'text'  :   'How many Drivers do you want to insure?'        
-    },
-    'page3':{
-        'name'  :   'page3',    
-        'xpath' :   '//*[@id="plate-content"]/div[1]/div/h3',
-        'text'  :   'Vehicle Year'    
-    },
-    'page4':{
-        'name'  :   'page4',    
-        'xpath' :   '//*[@id="plate-content"]/div[1]/div/h3',
-        'text'  :   'Vehicle Make'    
-    },
-    'page5':{
-        'name'  :   'page5',    
-        'xpath' :   '//*[@id="plate-content"]/div[1]/div/h3',
-        'text'  :   'Vehicle Model'    
-    },  
-    'page6':{
-        'name'  :   'page6',    
-        'xpath' :   '//*[@id="plate-content"]/div[1]/div/h3',
-        'text'  :   'Vehicle Trim'    
-    },    
-    'page7':{
-        'name'  :   'page7',    
-        'xpath' :   '//*[@id="plate-content"]/div[1]/div/h3',
-        'text'  :   'Your Vehicles'    
-    },          
-    }    
-    return Page_config 
+# def get_page_config():
+#     Page_config = {
+#     'page1':{
+#         'flag'  :   {
+#             'name'  :   'page1',
+#             'xpath' :   '//*[@id="plate-content"]/h3',
+#             'text'  :   'Do you have car insurance?'
+#         },
+#         'Step'  :   {
+#             '1' :   {
+#                 'Action' : 'Click'            
+#                 'Config'   : {
+#                     # general setting
+#                     'general' :{
+#                         'scroll' : True,                
+#                         'try' : True,                    
+#                         'xpath' : '//*[@id="plate-content"]/div[2]/div[2]/button',
+#                     }
+
+#                     'input_setting' : {
+#                         'content' : '',
+#                         'dynamic' : False,
+#                     },
+#                     'select_setting' : {
+#                         #select general
+#                         'selected_css' : '',                    
+#                         'select_type' : 1,
+#                         #1.select_by_index
+#                         # 2.select_by_values
+#                         # index_2
+#                         'select_index' : 0,
+#                         'select_index_rand' : True,
+#                         # value_3
+#                         'select_value' : 'email',                                        
+#                         'select_value_range' : ['10','100'],
+#                     },
+#                     'slide' : {
+#                         'x_move_min' : 10,
+#                         'x_move_max' : 200,
+#                         'y_move_min' : 0,
+#                         'y_move_max' : 0
+#                     }
+#                 }
+#             }
+#         }
+#     },
+#     'page2':{
+#         'name'  :   'page2',
+#         'xpath' :   '//*[@id="plate-content"]/h3',
+#         'text'  :   'How many Drivers do you want to insure?'        
+#     },
+#     'page3':{
+#         'name'  :   'page3',    
+#         'xpath' :   '//*[@id="plate-content"]/div[1]/div/h3',
+#         'text'  :   'Vehicle Year'    
+#     },
+#     'page4':{
+#         'name'  :   'page4',    
+#         'xpath' :   '//*[@id="plate-content"]/div[1]/div/h3',
+#         'text'  :   'Vehicle Make'    
+#     },
+#     'page5':{
+#         'name'  :   'page5',    
+#         'xpath' :   '//*[@id="plate-content"]/div[1]/div/h3',
+#         'text'  :   'Vehicle Model'    
+#     },  
+#     'page6':{
+#         'name'  :   'page6',    
+#         'xpath' :   '//*[@id="plate-content"]/div[1]/div/h3',
+#         'text'  :   'Vehicle Trim'    
+#     },    
+#     'page7':{
+#         'name'  :   'page7',    
+#         'xpath' :   '//*[@id="plate-content"]/div[1]/div/h3',
+#         'text'  :   'Your Vehicles'    
+#     },          
+#     }    
+#     return Page_config 
 
 def get_page_by_flag(chrome_driver):
     print('Title:',chrome_driver.title)
@@ -384,12 +424,9 @@ def get_page_by_flag(chrome_driver):
 def page_change(chrome_driver,page):
     WebDriverWait(chrome_driver,60).until_not(EC.text_to_be_present_in_element((By.XPATH,page['xpath']),page['text']))
 
-
-
 def page1(chrome_driver,submit):   
     chrome_driver.find_element_by_xpath('//*[@id="plate-content"]/div[2]/div[2]/button').click()
     print('\n')
-
 
 def page2(chrome_driver,submit):
     # insurer
@@ -399,17 +436,11 @@ def page2(chrome_driver,submit):
     chrome_driver.find_element_by_xpath(insurer).click()    
     print('\n')
 
-
 def page3(chrome_driver,submit):
     # How many Drivers do you want to insure?
     elem = '//*[@id="plate-content"]/div[2]/div[1]/button'
     chrome_driver.find_element_by_xpath(elem).click()
     # sleep(10)
-
-
-
-
-
 
 def save_html(chrome_driver,Mission_Id,page):
     print('Title',chrome_driver.title)
@@ -423,22 +454,33 @@ def save_html(chrome_driver,Mission_Id,page):
     with open(path_file,mode="w",encoding="utf-8") as f:
         f.write(html)  
 
-
 def test_c():
-    a = [1,2,3,4,5]
-    b = 3
-    print(a.index(b))
+    page_config = get_page_config()
+    content = json.dumps(page_config) 
+    print(len(content))
+    # print(type(content))
+    submit = json.loads(content)
+    print(submit)
+
+
+
+
+
+
+
+
 
 def test():
     # db.email_test()
     # date_of_birth = Submit_handle.get_auto_birthday('')         
-    Mission_list = ['10046']
+    Mission_list = ['10002']
     excel = 'Auto'    
     Excel_name = [excel,'']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
     [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None and submit[excel][item] !='']
     # [print(item,':',submit[excel][item]) for item in submit[excel] if item == 'homephone']  
+    return
     submit['Mission_Id'] = '10046'
     submit['Country'] = 'US'
     chrome_driver = Chrome_driver.get_chrome(submit)

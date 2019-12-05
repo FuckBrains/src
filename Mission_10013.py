@@ -52,20 +52,40 @@ def web_submit(submit,chrome_driver,debug=0):
         submit['Site'] = site
     chrome_driver.get(submit['Site'])
     # chrome_driver.maximize_window()    
-    chrome_driver.refresh()
+    # chrome_driver.refresh()
     # click
     # sleep(2000)
     sleep(2)
+    print('Loading finished')
     # mm
     # index_ = random.randint(2,10)
-    js="$('#MonthDropdown > option:nth-child(1)').removeAttr('selected')"
-    chrome_driver.execute_script(js)
+
     # js = '$("#MonthDropdown > option:nth-child('+str(index_)+')").attr("selected","selected")'
     # chrome_driver.execute_script(js)    
     # sleep(2)
     # chrome_driver.find_element_by_xpath('//*[@id="MonthDropdown"]').click()
     num = random.randint(0,10)
-    s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="MonthDropdown"]'))
+    element = chrome_driver.find_element_by_xpath('//*[@id="MonthDropdown"]')
+    s1 = Select(element)
+    print(len(s1.options))
+    options = s1.options
+    for i in range(60):
+        if len(options) <= 1:
+            sleep(1)
+        else:
+            break    
+    for option in options:
+        print(option.text)
+        sc = option.get_attribute("selected")
+        if sc == 'true':
+            chrome_driver.execute_script('arguments[0].removeAttribute(arguments[1])',option, 'selected')
+            sc = option.get_attribute("selected")
+            print(sc)
+            # option.removeAttribute('selected')
+            # print(sc)
+            print('================')   
+    # js="$('#MonthDropdown > option:nth-child(1)').removeAttr('selected')"
+    # chrome_driver.execute_script(js)                 
     s1.select_by_index(num)
 
 
@@ -78,8 +98,14 @@ def web_submit(submit,chrome_driver,debug=0):
     # sleep(2)
     # chrome_driver.find_element_by_xpath('//*[@id="DayDropdown"]').click()
     num = random.randint(0,22)    
-    s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="DayDropdown"]'))
-    s1.select_by_index(num)    
+    element = chrome_driver.find_element_by_xpath('//*[@id="DayDropdown"]')
+    s1 = Select(element)
+    print(len(s1.options))
+    for option in s1.options:
+        print(option.text)
+        # print(option.value)
+    s1.select_by_index(num)  
+    # return  
 
     # year
     # index_ = random.randint(20,40)
@@ -91,8 +117,12 @@ def web_submit(submit,chrome_driver,debug=0):
     # chrome_driver.find_element_by_xpath('//*[@id="YearDropdown"]').click()
     year = random.randint(1985,2005)
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="YearDropdown"]'))
+    print(len(s1.options))
+    for option in s1.options:
+        print(option.text)
+        print(option.value)    
     s1.select_by_value(str(year))  
-
+    # sleep(3000)
     # username
     username = Submit_handle.get_name_real()
     chrome_driver.find_element_by_xpath('//*[@id="signup-username"]').send_keys(username)

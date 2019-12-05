@@ -43,33 +43,6 @@ def Write_Ini(file,content):
         # content += '\n'
         f.write(content)
 
-# def Add_New_Offer(Alliance,New_Offers):
-#     '''
-#     Alliance= 'Finaff'
-#     New_Offers = ['Cam4,'Stripchat]
-#     '''
-#     file_Offer_config = r'ini\Offer.ini'
-#     Alliance_Offer_Config = Read_Ini(file_Offer_config)
-#     type_dict = type({})
-#     if type(Alliance_Offer_Config) != type_dict:
-#         Alliance_Offer_Config = {}
-#     keys = []
-#     for item in Alliance_Offer_Config:
-#         keys.append(item)
-#     if Alliance in keys:
-#         for offer in New_Offers:
-#             if offer not in Alliance_Offer_Config[Alliance]:
-#                 Alliance_Offer_Config[Alliance].append(offer)
-#     else:
-#         Alliance_Offer_Config[Alliance] = New_Offers
-#     Write_Ini(file_Offer_config,Alliance_Offer_Config)
-
-# def Add_New_Config(Offer_name,Offer_config_new):
-#     file_Offer_config = r'ini\Offer_config.ini'
-#     Offer_config = Read_Ini(file_Offer_config) 
-#     Offer_config[Offer_name] = Offer_config_new
-#     Write_Ini(file_Offer_config,Offer_config)
-
 def replace_links():
     file_Offer_link = r'..\res\Offer_link.ini'    
     file_Offer_link_all = r'..\res\Offer_all_links.ini'
@@ -158,6 +131,10 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         account = db.get_account()
         self.vc_range = account['vc_range']
         print(self.vc_range)
+        # reply = QMessageBox.information(self,
+        #           "消息框标题", 
+        #           "这是一条消息。", 
+        #           QMessageBox.Yes | QMessageBox.No)
         # self.resize(500,300)   
   
     def set_comboBox6(self):
@@ -516,8 +493,11 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.file_Offer_link = r'..\res\Offer_link.ini'
         self.offer_link = Read_Ini(self.file_Offer_link)
         # print(Offer_links)
-        plans = luminati.create_plan_data(plan_id,self.offer_link)
-        db.upload_plans(plans)
+        try:
+            plans = luminati.create_plan_data(plan_id,self.offer_link)
+        except Exception as e:
+            self.alert(str(e))
+        db.upload_plans(plans)                    
         print('Uploading finished')
 
     @pyqtSlot()
@@ -643,6 +623,151 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     @pyqtSlot()
     def on_pushButton21_clicked(self):
         db.update_flag_use_all()
+        reply = QMessageBox.information(self,
+                  "Message", 
+                  "Flag clean finished", 
+                  QMessageBox.Yes | QMessageBox.No)        
+        print(reply)
+
+    def alert(self,info):
+            reply = QMessageBox.information(self,
+                  "Message", 
+                  str(info), 
+                  QMessageBox.Ok)
+
+    def get_general_config(self,flag):
+        flag['Mission_Id'] = str(self.lineEdit13.text())        
+        flag['name'] = self.comboBox7.currentText()
+        if self.lineEdit18.text() == '':
+            flag['step'] = self.comboBox17.currentText()
+        else:
+            flag['step'] = self.lineEdit18.text()
+        flag['action'] = self.comboBox8.currentText()
+        flag['general'] = {}
+        flag['general']['scroll'] = self.comboBox11.currentText() 
+        if flag['general']['scroll'] == 'True':
+            flag['general']['scroll'] = True
+        else:
+            flag['general']['scroll'] = False
+        flag['general']['try'] = self.comboBox16.currentText() 
+        if flag['general']['try'] == 'True':
+            flag['general']['try'] = True
+        else:
+            flag['general']['try'] = False
+        flag['general']['xpath'] = self.lineEdit17.text()
+        return flag
+ 
+    @pyqtSlot()
+    def on_pushButton22_clicked(self):
+        '''
+        Recorder_Click
+        '''
+        flag = {}
+        flag = self.get_general_config(flag)
+        flag['step_config'] = {}
+        try:
+            flag = db.upload_pageconfig(flag)
+            self.alert("Add click config success")
+        except Exception as e:
+            self.alert(str(e))
+
+    @pyqtSlot()
+    def on_pushButton23_clicked(self):
+        flag = {}
+        flag['name'] = self.comboBox7.currentText()
+        flag['text'] = self.lineEdit14.text()
+        flag['xpath'] = self.lineEdit15.text()
+        Mission_Id = str(self.lineEdit13.text())
+        try:
+            db.upload_pageflag(Mission_Id,flag)
+            self.alert("Add page flag success")
+        except Exception as e:
+            self.alert(str(e))
+         
+    @pyqtSlot()
+    def on_pushButton24_clicked(self):
+        Page = self.comboBox7.currentText()
+        print(Page)
+        Mission_Id = str(self.lineEdit13.text())
+        try:
+            db.delete_page_flag(Mission_Id,Page)
+            self.alert("Delete page flag success")
+        except Exception as e:
+            self.alert(str(e))
+
+    @pyqtSlot()
+    def on_pushButton25_clicked(self):
+        Page = self.comboBox7.currentText()
+        print(Page)
+        Mission_Id = str(self.lineEdit13.text())
+        try:
+            db.delete_page(Mission_Id,Page)
+            self.alert("Delete page success")
+        except Exception as e:
+            self.alert(str(e))
+
+    @pyqtSlot()
+    def on_pushButton26_clicked(self):
+        Page = self.comboBox7.currentText()
+        print(Page)
+        Mission_Id = str(self.lineEdit13.text())
+        if self.lineEdit18.text() == '':
+            Step = self.comboBox17.currentText()
+        else:
+            Step = self.lineEdit18.text()        
+        try:
+            flag = db.delete_step(Mission_Id,Page,Step)
+            if flag == -1:
+                self.alert('Duplicated step found,please try again')
+            else:
+                self.alert("Delete step success")
+        except Exception as e:
+            self.alert(str(e))
+
+    @pyqtSlot()
+    def on_pushButton27_clicked(self):
+        '''
+        Recorder_Select
+        '''
+        flag = {}
+        try:        
+            data = self.get_general_config(flag)
+            data['step_config'] = {}    
+            data['step_config']['select_index'] = int(self.lineEdit19.text())
+            data['step_config']['select_index_rand'] = self.comboBox18.currentText()
+            data['step_config']['select_value'] = self.comboBox19.currentText()
+            data['step_config']['select_value_range'] = ['','']
+            data['step_config']['select_value_range'][0] = self.lineEdit20.text()
+            data['step_config']['select_value_range'][1] = self.lineEdit21.text()   
+            print('data',data)     
+            flag_upload = db.upload_pageconfig(data)
+            if flag_upload == -1:
+                self.alert("Duplicated step")  
+            else:              
+                self.alert("Add Select config success")
+        except Exception as e:
+            self.alert(str(e))
+
+    @pyqtSlot()
+    def on_lineedit13_clicked(self):
+        pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

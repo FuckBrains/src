@@ -34,6 +34,7 @@ def get_ua_random(uas):
     # print(uas[num])
     return uas[num]
 
+
 def set_flag(name,value):
     gl.set_value(str(name),value)
 
@@ -84,7 +85,15 @@ def tz_test():
     sleep(3000)
 
 def get_chrome(submit = None,pic=0):
-
+    path_download = get_dir()    
+    prefs = {
+            "download.default_directory": path_download,
+             "download.prompt_for_download": False,
+             # "download.directory_upgrade": True,
+             # "safebrowsing.enabled": True,
+             # 'profile.default_content_settings.popups': 0,
+             }   
+    options = webdriver.ChromeOptions()                
     if submit == None:
         uas = get_ua_all()
         ua = get_ua_random(uas)
@@ -101,31 +110,9 @@ def get_chrome(submit = None,pic=0):
             uas = get_ua_all()
             ua = get_ua_random(uas)
             print(ua)            
-    options = webdriver.ChromeOptions()
-    path_download = get_dir()
-    prefs = {
-            "download.default_directory": path_download,
-             "download.prompt_for_download": False,
-             # "download.directory_upgrade": True,
-             # "safebrowsing.enabled": True,
-             # 'profile.default_content_settings.popups': 0,
-             }    
-    # options.add_experimental_option('prefs', prefs)
-    # extension_path = '../tools/extension/1.1.0_0.crx'   
-    # options.add_extension(extension_path) 
-    # prefs = {
-    # 'profile.default_content_setting_values': {
-    # # "User-Agent": ua, # 更换UA
-    # # 0 为屏蔽弹窗，1 为开启弹窗
-    # 'profile.default_content_settings.popups': 0,
-    # } 
-    # }      
-    options.add_argument('user-agent=' + ua)
-    if type(submit) != type(None):
         if 'Country' in submit:
             language = get_lan_config(submit['Country'])
-            options.add_argument('-lang=' +language )
-    if type(submit) != type(None):
+            options.add_argument('-lang=' +language )            
         if submit['Mission_Id'] == '20000':
             print('test chrome')
         else:
@@ -144,7 +131,19 @@ def get_chrome(submit = None,pic=0):
             port = submit['port_lpm']
             proxy = 'socks5://%s:%s'%(ip,port)
             options.add_argument('--proxy-server=%s'%proxy)
-            print(proxy)
+            print(proxy)            
+  
+    # options.add_experimental_option('prefs', prefs)
+    # extension_path = '../tools/extension/1.1.0_0.crx'   
+    # options.add_extension(extension_path) 
+    # prefs = {
+    # 'profile.default_content_setting_values': {
+    # # "User-Agent": ua, # 更换UA
+    # # 0 为屏蔽弹窗，1 为开启弹窗
+    # 'profile.default_content_settings.popups': 0,
+    # } 
+    # }      
+    options.add_argument('user-agent=' + ua)
     # options.add_argument('--single-process')
     # options.add_argument('--process-per-tab') 
     # options.add_argument('–Referer=https://www.facebook.com') 

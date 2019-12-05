@@ -681,10 +681,87 @@ def qt_test():
     sys.stdout.close()
     sys.stdout = out
 
+def login_sql():
+    '''
+    Login sql and create EMU db if not exist
+    choose emu db
+    return the cursor and conn
+    '''
+    import pymysql
+    ip = '192.168.89.139'
+    conn = pymysql.connect(host= ip,port=3306,user='root',passwd='root',charset='utf8mb4',use_unicode=True)
+    cursor = conn.cursor()
+    try:
+        cursor.execute('use %s;'%account['db_name'])
+    except:
+        pass
+    print('Login db success.')
+    # res = cursor.execute('select * from TOKENTABLE;')
+    return conn,cursor
+
+
+def test_ff():
+    # a = ['<selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="41a8c736-079e-4c17-9741-ccd98af7327e")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="8ec4df17-5fa6-447c-a845-729bba0c6516")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="36fbe04a-28e1-4116-a26a-0d5c1980aeef")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="40274fc9-dd01-4e8d-9a1a-4d39d6065962")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="9a9ade26-025d-4294-8ca3-a613c959b120")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="e6117458-f0d1-469a-ba39-1e42fac791c4")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="b5f9b869-8f6f-4bc8-bc36-51a4ab9eb06f")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="e949bdfe-916b-461d-b23e-3f9e35e02419")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="5829cace-0232-4fdc-be26-92206a1af0ea")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="c8a6f425-3c55-43d1-a300-86cb6a9dd529")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="9cff8291-6841-428a-a33f-ee20d3a70572")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="127d7f63-1fe1-4d81-adfa-a393b2c63538")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="cff48027-806f-413a-a8ab-b370ecdbdf59")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="6c0b26a2-d022-4c90-b9c1-390b9994a2c7")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="a1e6dd1a-1b9e-4ece-bb52-e0fa9e8fc713")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="6f4dad85-e23a-4627-b077-4741b73aa2cb")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="1462ccb4-7361-4400-9225-45cab0927b22")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="7538576d-4913-4b3a-81a8-2648b8b75800")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="3b172738-82b0-4a4b-9b93-d5697ba4031c")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="3640693a-16a9-4222-a769-9ca3778cf975")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="ae0c7889-3864-477c-b4b4-44cfb3903b79")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="839dd37b-941c-485e-9dfb-e5dc5e43f1af")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="de17f083-4c6f-4810-862c-0df5b5f2db2c")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="a88f79c6-650f-464f-9813-1ce14466b261")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="22204f94-0634-4130-88d9-50345d3d12a3")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="5cff94d7-e6cd-4e90-975b-f6d99ac9fb29")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="ccf86ef0-870c-4a8c-be0f-3b8e745554bf")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="558074c0-6b50-470b-a057-6fd2b72cc3a0")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="3b7ab56c-9551-44d2-af48-7e4d605abcf0")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="51649f17-69ec-4274-81c6-411bb1444520")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="8967c974-e180-45bb-96d5-befee3c93607")>, <selenium.webdriver.remote.webelement.WebElement (session="d72a7a2dfbc8f9aba1e215ef859cc227", element="66f9e4c4-4994-47b9-be4b-392ceb8e5761")>]
+    Mission_Id = 10047
+    # flag = {
+    #     'name'  :   'page1',
+    #     'xpath' :   '//*[@id="plate-content"]/h3',
+    #     'text'  :   'Do you have car insurance?'
+    # }
+    # db.update_pageflag(Mission_Id,flag)
+    # pages = db.get_pageflag(Mission_Id)
+    # print(pages)
+    step = {
+                'Action' : {
+                    'Click':True,
+                    'Select':False,
+                    'Input':False,
+                    'Slide':False,
+                },                
+                'Config'   : {
+                    # general setting
+                    'scroll' : True,                
+                    'try' : True,                    
+                    'xpath' : '//*[@id="plate-content"]/div[2]/div[2]/button',
+                    'input_setting' : {
+                        'content' : '',
+                        'dynamic' : False,
+                    },
+                    'select_setting' : {
+                        #select general
+                        'selected_css' : '',                    
+                        'select_type' : 1,
+                        #1.select_by_index
+                        # 2.select_by_values
+                        # index_2
+                        'select_index' : 0,
+                        'select_index_rand' : True,
+                        # value_3
+                        'select_value' : 'email',                                        
+                        'select_value_range' : ['10','100'],
+                        'select_value_list' : [],
+                    },
+                    'slide' : {
+                        'x_move_min' : 10,
+                        'x_move_max' : 200,
+                        'y_move_min' : 0,
+                        'y_move_max' : 0
+                    }  
+                } 
+            } 
+
+def test_gg():
+    Mission_Id = 10001
+    flag = {}
+    flag['name'] = '1' 
+    flag['step'] =  1
+    db.check_step(Mission_Id,flag)
+
+
 
 if __name__ == '__main__':
     i = 1
     if i == 0:
         test_plan_status()
     else:
-        qt_test()
+        test_flag_use()

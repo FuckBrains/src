@@ -36,7 +36,8 @@ def web_submit(submit,chrome_driver,debug=0):
     name = name_get.gen_one_word_digit(lowercase=False)
     chrome_driver.maximize_window()
     chrome_driver.refresh()
-    print('Loading finished')    
+    print('Loading finished')
+    Excel_name = 'health'    
     # chrome_driver.find_element_by_xpath('//*[@id="site-header"]/div/div/a[1]').click()
     # i = 0
     # while True:
@@ -56,16 +57,16 @@ def web_submit(submit,chrome_driver,debug=0):
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[1]/select'))
     s1.select_by_value(str(num)) 
     # firstname
-    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[2]/div[1]/div/input').send_keys(submit['Auto']['firstname'])
+    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[2]/div[1]/div/input').send_keys(submit[Excel_name]['firstname'])
     # lastname
-    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[2]/div[2]/div/input').send_keys(submit['Auto']['lastname'])
+    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[2]/div[2]/div/input').send_keys(submit[Excel_name]['lastname'])
     # email
-    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[3]/div/input').send_keys(submit['Auto']['email'])
+    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[3]/div/input').send_keys(submit[Excel_name]['email'])
     # phone
-    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[4]/div/input').send_keys((submit['Auto']['homephone']).split('.')[0])
+    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[4]/div/input').send_keys((submit[Excel_name]['homephone']).split('.')[0])
     # zip
-    submit['Auto']['zip'] = Submit_handle.get_zip(submit['Auto']['zip'])
-    chrome_driver.find_element_by_xpath('//*[@id="postal-code"]').send_keys((submit['Auto']['zip']))
+    submit[Excel_name]['zip'] = Submit_handle.get_zip(submit[Excel_name]['zip'])
+    chrome_driver.find_element_by_xpath('//*[@id="postal-code"]').send_keys((submit[Excel_name]['zip']))
     # selector
     num = random.randint(1,15)
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[7]/div/select'))
@@ -75,7 +76,8 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(15)
     db.update_plan_status(2,submit['ID'])        
     chrome_driver.close()
-    chrome_driver.quit()    
+    chrome_driver.quit()  
+    return 1  
 
 
 

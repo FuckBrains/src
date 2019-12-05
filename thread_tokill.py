@@ -231,8 +231,6 @@ def reg_part(submit):
     except:
         pass
 
-
-
 def multi_reg(Config):  
     # print(Config)
     print('multi_reg')

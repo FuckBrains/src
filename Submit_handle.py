@@ -35,6 +35,22 @@ def get_pwd_real():
         pwd = pwd[0:insert_num]+b[b_insert]+pwd[insert_num:]
     return pwd
 
+def get_pwd_real2():
+    with open(r'ini\pwd.ini','r') as f:
+        lines  = f.readlines()
+        pwds = []
+        for line in lines:
+            if line.strip(' ') == '':
+                continue
+            pwd = line.strip('\n')
+            pwds.append(pwd)
+    while True:
+        num = random.randint(0,len(pwds)-1)
+        pwd = pwds[num]
+        if len(pwd)>=8:
+            break
+    return pwd
+
 def get_name_real():
     with open(r'ini\names.ini','r') as f:
         lines  = f.readlines()
