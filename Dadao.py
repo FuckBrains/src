@@ -138,11 +138,11 @@ def reg_part(plan):
         print('========')
         submit['status'] = 'prepare'
         submit = Module.web_submit(submit,chrome_driver=chrome_driver)
-        if status['status'] == 'No sign':
+        if submit['status'] == 'No sign':
             writelog(chrome_driver,submit)
         # print(submit)
     except Exception as e:
-        traceback.format_exc()
+        # traceback.format_exc()
         print(str(e))
         try:
             print('==========++++')
