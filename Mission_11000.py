@@ -46,6 +46,8 @@ def web_submit(submit,chrome_driver,debug=0):
     if ' ' in name_:
         name_ = name_.split(' ')[0]
     name = name_+str(random.randint(10,1000))
+    if len(name)>=16:
+        name = name[:9]
     chrome_driver.find_element_by_xpath('//*[@id="username"]').send_keys(name)
     # password
     pwd = Submit_handle.get_pwd_real2()

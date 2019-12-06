@@ -339,7 +339,7 @@ class Ui_MainWindow(object):
         self.tab_5 = QtWidgets.QWidget()
         self.tab_5.setObjectName("tab_5")
         self.pushButton20 = QtWidgets.QPushButton(self.tab_5)
-        self.pushButton20.setGeometry(QtCore.QRect(60, 190, 75, 41))
+        self.pushButton20.setGeometry(QtCore.QRect(60, 70, 75, 41))
         self.pushButton20.setObjectName("pushButton20")
         self.Dadao.addTab(self.tab_5, "")
         self.tab_6 = QtWidgets.QWidget()
@@ -873,7 +873,7 @@ class Ui_MainWindow(object):
         self.actionDelete.setObjectName("actionDelete")
 
         self.retranslateUi(MainWindow)
-        self.Dadao.setCurrentIndex(0)
+        self.Dadao.setCurrentIndex(5)
         self.tabWidget.setCurrentIndex(3)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
