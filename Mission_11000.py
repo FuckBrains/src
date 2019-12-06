@@ -59,6 +59,8 @@ def web_submit(submit,chrome_driver,debug=0):
     # page2
     # Name on Card
     fullname = submit['firstname'] + ' ' + submit['lastname']
+    if len(fullname) >= 16:
+        fullname = fullname[0:15]
     chrome_driver.find_element_by_xpath('//*[@id="fullname"]').send_keys(fullname)   
     # card number
     chrome_driver.find_element_by_xpath('//*[@id="cc"]').send_keys(submit['card_number'])
