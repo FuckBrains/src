@@ -94,7 +94,7 @@ def change_ip(submit):
     changer.restart()
 
 
-def write_status(path,workbook,content):
+def write_status(path,workbook,submit,content):
     book2 = copy(workbook)
     sheet2 = book2.get_sheet(0) 
     col = int(str(submit['Mission_Id'])[-1])+11
@@ -127,7 +127,7 @@ def reg_part(plan):
     submit['Site'] = plan['url_link']
     submit['Mission_Id'] = plan['Mission_Id']
     print('reg_part')
-    write_status(path,workbook,submit)  
+    write_status(path,workbook,submit,'using')  
 
     module = 'Mission_'+str(plan['Mission_Id'])
     Module = importlib.import_module(module)
@@ -151,7 +151,7 @@ def reg_part(plan):
             print(str(e))
             traceback.format_exc()
     content = get_write_content(submit)
-    write_status(path,workbook,content)
+    write_status(path,workbook,submit,content)
     try:
         chrome_driver.close()
         chrome_driver.quit()
@@ -160,7 +160,7 @@ def reg_part(plan):
     submit['status'] = 'badname'
     for i in submit['badname']:
         submit['row'] = i
-        write_status(path,workbook,'badname')          
+        write_status(path,workbook,submit,'badname')          
 
 def main():
     while True:

@@ -85,13 +85,16 @@ def web_submit(submit,chrome_driver,debug=0):
     fail_text = 'Seems like something went wrong. Please try again, or contact customer service 888-548-7893.'
     success_xpath = '//*[@id="topRow"]/div/h2/span'
     success_text = 'Welcome to HookupHereNow!'
-    submit['zipcode'] = zipcode
-    submit['password'] = password
+    fail_xpath2 = '//*[@id="J2"]/div/div/div[1]/div[2]/div[2]/form/div[1]/span'
+    fail_text2 = 'The card used to verify has been declined. Please confirm info, or use a new card to verify.'
+    submit['password'] = pwd
     submit['fullname'] = fullname
     if EC.text_to_be_present_in_element((By.XPATH,fail_xpath),fail_text):
-        submit['status'] = 'fail'
+        submit['status'] = fail_text
     elif EC.text_to_be_present_in_element((By.XPATH,success_xpath),success_text):
         submit['status'] = 'success'
+    elif EC.text_to_be_present_in_element((By.XPATH,fail_xpath2),fail_text2):
+        submit['status'] = fail_text2       
     else:
         submit['status'] = 'No sign'
     return submit
