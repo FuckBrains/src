@@ -758,10 +758,16 @@ def test_gg():
     db.check_step(Mission_Id,flag)
 
 
+def test_44():
+    import Dadao
+    submit = {}
+    content = Dadao.get_write_content(submit)    
+    print(content)
+
 
 if __name__ == '__main__':
     i = 1
     if i == 0:
         test_plan_status()
     else:
-        test_flag_use()
+        test_44()

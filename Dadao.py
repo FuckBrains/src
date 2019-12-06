@@ -111,9 +111,12 @@ def mission(plans):
 
 def get_write_content(submit):
     submit_ = {}
-    submit_['password'] = submit['password']
-    submit_['zipcode'] = submit['zipcode']
-    submit_['status'] = submit['status']
+    if 'password' in submit:
+        submit_['password'] = submit['password']
+    if 'zipcode' in submit:
+        submit_['zipcode'] = submit['zipcode']
+    if 'status' in submit:
+        submit_['status'] = submit['status']
     content = json.dumps(submit)
     return content    
 
