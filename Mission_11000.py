@@ -40,7 +40,12 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.refresh()
     print('Loading finished')
     # username
-    name = submit['email'].split('@')[0]+str(random.randint(100,100000))
+    name_ = submit['email'].split('@')[0]
+    if '.' in name_:
+        name_ = name_.split('.')[0]
+    if ' ' in name_:
+        name_ = name_.split(' ')[0]
+    name = name_+str(random.randint(10,1000))
     chrome_driver.find_element_by_xpath('//*[@id="username"]').send_keys(name)
     # password
     pwd = Submit_handle.get_pwd_real2()
@@ -53,7 +58,7 @@ def web_submit(submit,chrome_driver,debug=0):
 
     # page2
     # Name on Card
-    fullname = submit['firstname'] + submit['lastname']
+    fullname = submit['firstname'] + ' ' + submit['lastname']
     chrome_driver.find_element_by_xpath('//*[@id="fullname"]').send_keys(fullname)   
     # card number
     chrome_driver.find_element_by_xpath('//*[@id="cc"]').send_keys(submit['card_number'])
@@ -66,7 +71,7 @@ def web_submit(submit,chrome_driver,debug=0):
     s1.select_by_value(month)       
     # year
     elem = '//*[@id="expYear"]'
-    year = str(submit['year'])
+    year = str(submit['year'])[2:]
     s1 = Select(chrome_driver.find_element_by_xpath(elem))
     s1.select_by_value(year)   
     # cvv    
@@ -80,13 +85,16 @@ def web_submit(submit,chrome_driver,debug=0):
     fail_text = 'Seems like something went wrong. Please try again, or contact customer service 888-548-7893.'
     success_xpath = '//*[@id="topRow"]/div/h2/span'
     success_text = 'Welcome to HookupHereNow!'
+    submit['zipcode'] = zipcode
+    submit['password'] = password
+    submit['fullname'] = fullname
     if EC.text_to_be_present_in_element((By.XPATH,fail_xpath),fail_text):
-        flag = 0
+        submit['status'] = 'fail'
     elif EC.text_to_be_present_in_element((By.XPATH,success_xpath),success_text):
-        flag = 1
+        submit['status'] = 'success'
     else:
-        flag = 2
-    return flag
+        submit['status'] = 'No sign'
+    return submit
 
  
 

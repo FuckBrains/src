@@ -47,8 +47,21 @@ def findpid(key):
 
 
 
+def is_alphabet(uchar):
+    """判断一个unicode是否是英文字母"""
+    if (uchar >= u'\u0041' and uchar<=u'\u005a') or (uchar >= u'\u0061' and uchar<=u'\u007a'):
+        return True
+    else:
+        return False
+
+
 
 if __name__ == '__main__':
     # key = 'cmd'
     # findpid(key)
-    killpid()
+    i = 1
+    if i  == 0:
+        killpid()
+    else:
+        a = '1'
+        is_alphabet(a)

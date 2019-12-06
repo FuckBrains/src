@@ -1,3 +1,4 @@
+from time import sleep
 import xlrd
 from xlutils.copy import copy
 # from wrapt_timeout_decorator import *
@@ -10,7 +11,8 @@ import Chrome_driver
 import random
 import Changer_windows_info as changer
 import traceback
-
+import os
+import json
 
 def makedir_account(path):
     isExists=os.path.exists(path)
@@ -51,17 +53,33 @@ def get_one_data(sheet,Mission_Id):
     rows = sheet.nrows
     print(rows)
     # list_rows = random.sample(range(rows),rows)    
+    badname = []
     for i in range(rows-1):
         if i==0:
             keys = sheet.row_values(i)
             continue
         values = sheet.row_values(i)
         submit = dict(zip(keys,values))
-        print(submit)  
+        # print(submit)  
         key = 'Status_'+ str(Mission_Id)
+        flag_alpha = True
         if submit[key] == '':
-            submit['row'] = i
-            return submit
+            for part in submit['firstname']:
+                a = tools.is_alphabet(part)
+                if a == False:
+                    flag_alpha = a
+                    break
+            for part in submit['lastname']:
+                a = tools.is_alphabet(part)
+                if a == False:
+                    flag_alpha = a
+                    break
+            if flag_alpha == True:
+                submit['row'] = i
+                submit['badname'] = badname
+                return submit
+            else:
+                badname.append(i)
 
 def change_ip(submit):
     country = submit['Country']
@@ -76,12 +94,12 @@ def change_ip(submit):
     changer.restart()
 
 
-def write_status(path,workbook,submit):
+def write_status(path,workbook,content):
     book2 = copy(workbook)
     sheet2 = book2.get_sheet(0) 
     col = int(str(submit['Mission_Id'])[-1])+11
     print(col)
-    sheet2.write(submit['row'],col,submit['status'])
+    sheet2.write(submit['row'],col,content)
     book2.save(path)
 
 def mission(plans):
@@ -90,6 +108,15 @@ def mission(plans):
             reg_part(plan)
         except TimeoutError:
             print('timeout')            
+
+def get_write_content(submit):
+    submit_ = {}
+    submit_['password'] = submit['password']
+    submit_['zipcode'] = submit['zipcode']
+    submit_['status'] = submit['status']
+    content = json.dumps(submit)
+    return content    
+
 
 # @timeout(600)
 def reg_part(plan):
@@ -100,7 +127,8 @@ def reg_part(plan):
     submit['Site'] = plan['url_link']
     submit['Mission_Id'] = plan['Mission_Id']
     print('reg_part')
-    write_status(path,workbook,submit)    
+    write_status(path,workbook,submit)  
+
     module = 'Mission_'+str(plan['Mission_Id'])
     Module = importlib.import_module(module)
     try:
@@ -108,12 +136,11 @@ def reg_part(plan):
         print('----------------====================')
         chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
         print('========')
-        status = Module.web_submit(submit,chrome_driver=chrome_driver)
-        submit['status'] = status
-        if status == 2:
+        submit['status'] = 'prepare'
+        submit = Module.web_submit(submit,chrome_driver=chrome_driver)
+        if status['status'] == 'No sign':
             writelog(chrome_driver,submit)
-        write_status(path,workbook,submit)
-        print(submit)
+        # print(submit)
     except Exception as e:
         traceback.format_exc()
         print(str(e))
@@ -123,12 +150,17 @@ def reg_part(plan):
         except Exception as e:
             print(str(e))
             traceback.format_exc()
+    content = get_write_content(submit)
+    write_status(path,workbook,content)
     try:
         chrome_driver.close()
         chrome_driver.quit()
     except:
         pass
-
+    submit['status'] = 'badname'
+    for i in submit['badname']:
+        submit['row'] = i
+        write_status(path,workbook,'badname')          
 
 def main():
     while True:
@@ -169,7 +201,33 @@ def main():
         changer.Restart()
         sleep(200)
 
+def test():
+    path = r'..\res\Dadao.xlsx'
+    row = 100    
+    for length in range(row):  
+        sheet,workbook = get_excel(path)  
+        row = sheet.nrows        
+        submit = get_one_data(sheet,11000)
+        submit['status'] = 'using'
+        submit['Mission_Id'] = 11000    
+        write_status(path,workbook,submit)
+        print(submit['firstname'],submit['lastname'])
+        for i in submit['firstname']:
+            a = tools.is_alphabet(i)
+            print(i,a)            
+            if a == False:
+                return
+        for i in submit['lastname']:
+            a = tools.is_alphabet(i)
+            print(i,a)            
+            if a == False:
+                return            
+
 
 
 if __name__ == '__main__':
-    main()
+    i = 0
+    if i == 0:
+        main()
+    else:
+        test()
