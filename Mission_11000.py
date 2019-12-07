@@ -45,12 +45,16 @@ def web_submit(submit,chrome_driver,debug=0):
         name_ = name_.split('.')[0]
     if ' ' in name_:
         name_ = name_.split(' ')[0]
+    if '-' in name_:
+        name_.replace('-','')    
     name = name_+str(random.randint(10,1000))
     if len(name)>=16:
         name = name[:9]
     chrome_driver.find_element_by_xpath('//*[@id="username"]').send_keys(name)
     # password
     pwd = Submit_handle.get_pwd_real2()
+    if '-' in pwd:
+        pwd.replace('-','')    
     chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(pwd)
     # email
     chrome_driver.find_element_by_xpath('//*[@id="email"]').send_keys(submit['email'])
@@ -63,6 +67,8 @@ def web_submit(submit,chrome_driver,debug=0):
     fullname = submit['firstname'] + ' ' + submit['lastname']
     if len(fullname) >= 16:
         fullname = fullname[0:15]
+    if '-' in fullname:
+        fullname.replace('-','')
     chrome_driver.find_element_by_xpath('//*[@id="fullname"]').send_keys(fullname)   
     # card number
     chrome_driver.find_element_by_xpath('//*[@id="cc"]').send_keys(submit['card_number'])
@@ -72,7 +78,7 @@ def web_submit(submit,chrome_driver,debug=0):
     if len(month) == 1:
         month = '0'+month
     s1 = Select(chrome_driver.find_element_by_xpath(elem))
-    s1.select_by_value(month)       
+    s1.select_by_value(month)
     # year
     elem = '//*[@id="expYear"]'
     year = str(submit['year'])[2:]

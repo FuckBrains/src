@@ -146,7 +146,7 @@ def reg_part(plan):
     except Exception as e:
         # traceback.format_exc()
         print(str(e))
-        try:
+        try: 
             print('==========++++')
         except Exception as e:
             print(str(e))
