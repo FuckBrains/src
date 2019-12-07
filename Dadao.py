@@ -93,7 +93,6 @@ def change_ip(submit):
             pass
     changer.restart()
 
-
 def write_status(path,workbook,submit,content):
     book2 = copy(workbook)
     sheet2 = book2.get_sheet(0) 
@@ -141,19 +140,19 @@ def reg_part(plan):
         submit['status'] = 'prepare'
         submit = Module.web_submit(submit,chrome_driver=chrome_driver)
         # if submit['status'] == 'No sign':
-        #     writelog(chrome_driver,submit)
+        writelog(chrome_driver,submit)
         # print(submit)
     except Exception as e:
         # traceback.format_exc()
-        print(str(e))
         try: 
+            writelog(chrome_driver,submit)
             print('==========++++')
         except Exception as e:
             print(str(e))
-            traceback.format_exc()
-    content = get_write_content(submit)
+            # traceback.format_exc()
+    # content = get_write_content(submit)
+    content = json.dumps(submit)
     write_status(path,workbook,submit,content)
-    writelog(chrome_driver,submit)  
     try:
         chrome_driver.close()
         chrome_driver.quit()
@@ -224,8 +223,6 @@ def test():
             print(i,a)            
             if a == False:
                 return            
-
-
 
 if __name__ == '__main__':
     i = 0

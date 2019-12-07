@@ -122,7 +122,6 @@ def main():
         copyfile(file,src_file)  
 
 
-
     # [copyfile(file,src) for file in modules_path]
     print('Compile finished.........')
     # modules = [module.strip('.py') for module in modules] 

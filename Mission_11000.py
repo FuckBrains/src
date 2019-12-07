@@ -90,10 +90,10 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.find_element_by_xpath('//*[@id="zip"]').send_keys(submit['zipcode'])
     # submit
     chrome_driver.find_element_by_xpath('//*[@id="signUp"]').click()
-    sleep(15)
+    sleep(30)
     fail_xpath = '/html/body/div[1]/div[2]/section/div/div[2]/div[2]/div/div/div/p'
     fail_text = 'Seems like something went wrong. Please try again, or contact customer service 888-548-7893.'
-    success_xpath = '//*[@id="topRow"]/div/h2/span'
+    success_xpath = '//*[@id="colText"]/div/div[1]/div/h2'
     success_text = 'Welcome to HookupHereNow!'
     fail_xpath2 = '//*[@id="J2"]/div/div/div[1]/div[2]/div[2]/form/div[1]/span'
     fail_text2 = 'The card used to verify has been declined. Please confirm info, or use a new card to verify.'
@@ -103,6 +103,8 @@ def web_submit(submit,chrome_driver,debug=0):
         submit['status'] = fail_text
     elif EC.text_to_be_present_in_element((By.XPATH,success_xpath),success_text):
         submit['status'] = 'success'
+        chrome_driver.find_element_by_xpath('//*[@id="nextBtn"]').click()
+        sleep(15)
     elif EC.text_to_be_present_in_element((By.XPATH,fail_xpath2),fail_text2):
         submit['status'] = fail_text2       
     else:
