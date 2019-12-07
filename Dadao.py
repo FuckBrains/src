@@ -120,7 +120,6 @@ def get_write_content(submit):
     content = json.dumps(submit)
     return content    
 
-
 # @timeout(600)
 def reg_part(plan):
     path = r'..\res\Dadao.xlsx'
@@ -141,20 +140,20 @@ def reg_part(plan):
         print('========')
         submit['status'] = 'prepare'
         submit = Module.web_submit(submit,chrome_driver=chrome_driver)
-        if submit['status'] == 'No sign':
-            writelog(chrome_driver,submit)
+        # if submit['status'] == 'No sign':
+        #     writelog(chrome_driver,submit)
         # print(submit)
     except Exception as e:
         # traceback.format_exc()
         print(str(e))
         try:
             print('==========++++')
-            writelog(chrome_driver,submit)  
         except Exception as e:
             print(str(e))
             traceback.format_exc()
     content = get_write_content(submit)
     write_status(path,workbook,submit,content)
+    writelog(chrome_driver,submit)  
     try:
         chrome_driver.close()
         chrome_driver.quit()

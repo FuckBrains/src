@@ -766,8 +766,8 @@ def test_44():
 
 
 if __name__ == '__main__':
-    i = 1
+    i = 0
     if i == 0:
-        test_plan_status()
+        test_flag_use()
     else:
         test_44()

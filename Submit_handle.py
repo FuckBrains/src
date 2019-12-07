@@ -10,60 +10,6 @@ import os
 Already handled:
 ['']
 '''
-
-
-def get_pwd_real():
-    with open(r'ini\pwd.ini','r') as f:
-        lines  = f.readlines()
-        pwds = []
-        for line in lines:
-            if line.strip(' ') == '':
-                continue
-            pwd = line.strip('\n')
-            pwds.append(pwd)
-    while True:
-        num = random.randint(0,len(pwds)-1)
-        pwd = pwds[num]
-        if len(pwd)>=8:
-            break
-    b = '!@#$%^&'
-    b_insert = random.randint(0,len(b)-1)
-    rate = random.randint(0,2)
-    if rate == 1:
-        print(rate)
-        insert_num = random.randint(1,6)
-        pwd = pwd[0:insert_num]+b[b_insert]+pwd[insert_num:]
-    return pwd
-
-def get_pwd_real2():
-    with open(r'ini\pwd.ini','r') as f:
-        lines  = f.readlines()
-        pwds = []
-        for line in lines:
-            if line.strip(' ') == '':
-                continue
-            pwd = line.strip('\n')
-            pwds.append(pwd)
-    while True:
-        num = random.randint(0,len(pwds)-1)
-        pwd = pwds[num]
-        if len(pwd)>=8:
-            break
-    return pwd
-
-def get_name_real():
-    with open(r'ini\names.ini','r') as f:
-        lines  = f.readlines()
-        names = []
-        for line in lines:
-            if line.strip(' ') == '':
-                continue
-            name = line.strip('\n')
-            names.append(name)
-    num = random.randint(0,len(names)-1)
-    name = names[num]
-    return name
-
 def password_get():
     a = '0123456789'
     b = '!@#$%^&'
@@ -116,6 +62,58 @@ def password_get_Nostale():
         else :
             pwd += d[random.randint(0,len(d)-1)]                                    
     return pwd
+
+def get_pwd_real():
+    with open(r'ini\pwd.ini','r') as f:
+        lines  = f.readlines()
+        pwds = []
+        for line in lines:
+            if line.strip(' ') == '':
+                continue
+            pwd = line.strip('\n')
+            pwds.append(pwd)
+    while True:
+        num = random.randint(0,len(pwds)-1)
+        pwd = pwds[num]
+        if len(pwd)>=8:
+            break
+    b = '!@#$%^&'
+    b_insert = random.randint(0,len(b)-1)
+    rate = random.randint(0,2)
+    if rate == 1:
+        print(rate)
+        insert_num = random.randint(1,6)
+        pwd = pwd[0:insert_num]+b[b_insert]+pwd[insert_num:]
+    return pwd
+
+def get_pwd_real2():
+    with open(r'ini\pwd.ini','r') as f:
+        lines  = f.readlines()
+        pwds = []
+        for line in lines:
+            if line.strip(' ') == '':
+                continue
+            pwd = line.strip('\n')
+            pwds.append(pwd)
+    while True:
+        num = random.randint(0,len(pwds)-1)
+        pwd = pwds[num]
+        if len(pwd)>=8:
+            break
+    return pwd
+
+def get_name_real():
+    with open(r'ini\names.ini','r') as f:
+        lines  = f.readlines()
+        names = []
+        for line in lines:
+            if line.strip(' ') == '':
+                continue
+            name = line.strip('\n')
+            names.append(name)
+    num = random.randint(0,len(names)-1)
+    name = names[num]
+    return name
 
 def Submit_handle(submit):
     try:
@@ -170,8 +168,6 @@ def apt_get(address):
     else:
         apt = random.randint(30,300)
     return int(apt)
-
-
 
 def get_auto_birthday(date):
     if '/' in date:
@@ -287,15 +283,12 @@ def get_next_payday():
     date = [month,day_pay,year,]
     return date
 
-
-
 def makedir_pic(path):
     isExists=os.path.exists(path)
     if isExists:
         return
     else:
         os.makedirs(path)
-
 
 def test_d():
     address = '11235 OAK LEAF DR APT 1919'

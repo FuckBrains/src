@@ -210,27 +210,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.set_comboBox2()
         print(self.comboBox2.currentText())
         if self.comboBox2.currentText() == '':
-            return
-        # offer_chosen = self.comboBox2.currentText().split('.')[1]
-        # print(self.Offer_config[offer_chosen])
-        # Mission_Id = self.Offer_config[offer_chosen]['Mission_Id']
-        # print(Mission_Id)
-        # Excel_used = self.Offer_config[offer_chosen]['Excel']
-        # text = Excel_used[0]+Excel_used[1]
-        # Mission_list = [str(Mission_Id)]
-        # Email_list_dict = self.Offer_config['Email_list']
-        # Email_list = []
-        # print(Email_list_dict)
-        # for item in Email_list_dict:
-        #     if str(Email_list_dict[item]) == '1':
-        #         Email_list.append(item)
-        # print(Mission_list,Excel_used,Email_list)
-        # rest = db.read_rest(Mission_list,Excel_used,Email_list)
-        # print(rest)
-        # text_rest = Excel_used[0]+':'+str(rest[0])+','+Excel_used[1]+':'+str(rest[1])        
-        # self.lineEdit_5.setText(text)
-        # self.lineEdit_6.setText(Mission_Id)
-        # self.lineEdit_7.setText(text_rest)        
+            return 
 
 
     def get_config_info(self):
@@ -248,33 +228,6 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             # offer['Email_list'] = Email_list
             rest = db.read_rest(offer)        
 
-
-    # @pyqtSlot()
-    # def on_comboBox2_currentIndexChanged(self):
-    #     # print('----------')
-    #     print(self.comboBox2.currentText())
-    #     if self.comboBox2.currentText() == '':
-    #         return
-    #     offer_chosen = self.comboBox2.currentText().split('.')[1]
-    #     print(self.Offer_config[offer_chosen])
-    #     Mission_Id = self.Offer_config[offer_chosen]['Mission_Id']
-    #     print(Mission_Id)
-    #     Excel_used = self.Offer_config[offer_chosen]['Excel']
-    #     text = Excel_used[0]+Excel_used[1]
-    #     Mission_list = [str(Mission_Id)]
-    #     Email_list_dict = self.Offer_config['Email_list']
-    #     Email_list = []
-    #     print(Email_list_dict)
-    #     for item in Email_list_dict:
-    #         if str(Email_list_dict[item]) == '1':
-    #             Email_list.append(item)
-    #     print(Mission_list,Excel_used,Email_list)
-    #     rest = db.read_rest(Mission_list,Excel_used,Email_list)
-    #     print(rest)
-    #     text_rest = Excel_used[0]+':'+str(rest[0])+','+Excel_used[1]+':'+str(rest[1])        
-    #     self.lineEdit_5.setText(text)
-    #     self.lineEdit_6.setText(Mission_Id)
-    #     self.lineEdit_7.setText(text_rest)
 
     @pyqtSlot()
     def on_pushButton1_clicked(self):
@@ -749,25 +702,32 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             self.alert(str(e))
 
     @pyqtSlot()
-    def on_lineedit13_clicked(self):
-        pass
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    def on_lineEdit13_editingFinished(self):
+        _translate = QtCore.QCoreApplication.translate
+        j = 0
+        self.comboBox19.clear()
+        print('========')
+        Mission_Id = self.lineEdit13.text()
+        print(Mission_Id)
+        keys = []
+        configs = self.Offer_config
+        for item in configs:
+            if 'Mission_Id' in configs[item]:
+                print(item)            
+                if str(configs[item]['Mission_Id']) == str(Mission_Id):
+                    Mission_list = [str(Mission_Id)]
+                    Excel_name = configs[item]['Excel']
+                    Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
+                    submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
+                    for excel in submit:
+                        keys = [item_ for item_ in submit[excel] if submit[excel][item_]!=None and submit[excel][item_] !='']
+            else:
+                # print('Mission_Id'+str(Mission_Id)+' not in item')
+                pass
+        if keys != []:
+            for j in range(len(keys)):
+                self.comboBox19.addItem("")
+                self.comboBox19.setItemText(j, _translate("MainWindow", keys[j]))                         
 
 
 
