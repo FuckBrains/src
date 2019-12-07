@@ -13,6 +13,12 @@ from time import sleep
 import psutil
 import db
 import luminati
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+
 
 def read_ini():
     file = r'Offer_conf.ini'
@@ -627,16 +633,25 @@ def bat_test():
 def test_p():
     import thread_tokill as tt
     import os
-    os.environ['TZ'] = 'Asia/Shanghai'
+    # os.environ['TZ'] = 'Asia/Shanghai'
 
-    try:
-        chrome_driver = Chrome_driver.get_chrome()
-        chrome_driver.get('https://www.baidu.com')
-        submit = {}
-        submit['Mission_Id'] = 10099
-        a+1
-    except:
-        tt.writelog(chrome_driver,submit)
+    chrome_driver = Chrome_driver.get_chrome()
+    chrome_driver.get('https://www.baidu.com')
+    submit = {}
+    submit['Mission_Id'] = 10099
+    xpath = '//*[@id="su"]'
+    text = '百度一下'
+    # sleep(3000)
+    # sleep(5)
+    # text_=chrome_driver.find_element_by_xpath(xpath).value
+    # print(text_)
+    if EC.text_to_be_present_in_element_value((By.XPATH,xpath),text)(chrome_driver):
+        print('success')
+    else:
+        # a+1
+        print('fail')
+    # except:
+        # tt.writelog(chrome_driver,submit)
 
 def test_c():
     pic = '10064_16806.png'
@@ -766,8 +781,8 @@ def test_44():
 
 
 if __name__ == '__main__':
-    i = 0
+    i = 1
     if i == 0:
         test_flag_use()
     else:
-        test_44()
+        test_p()

@@ -59,7 +59,7 @@ def is_alphabet(uchar):
 if __name__ == '__main__':
     # key = 'cmd'
     # findpid(key)
-    i = 1
+    i = 0
     if i  == 0:
         killpid()
     else:

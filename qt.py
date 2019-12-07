@@ -726,8 +726,8 @@ class Mywindow(QMainWindow,Ui_MainWindow):
                 pass
         if keys != []:
             for j in range(len(keys)):
-                self.comboBox19.addItem("")
-                self.comboBox19.setItemText(j, _translate("MainWindow", keys[j]))                         
+                self.comboBox20.addItem("")
+                self.comboBox20.setItemText(j, _translate("MainWindow", keys[j]))                         
 
 
 
