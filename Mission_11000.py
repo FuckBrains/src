@@ -81,7 +81,7 @@ def web_submit(submit,chrome_driver,debug=0):
     s1.select_by_value(month)
     # year
     elem = '//*[@id="expYear"]'
-    if len(submit['year']) == 4:
+    if len(str(submit['year'])) == 4:
         year = str(submit['year'])[2:]
     else:
         year = str(submit['year'])
