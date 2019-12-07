@@ -102,15 +102,22 @@ def web_submit(submit,chrome_driver,debug=0):
     fail_text2 = 'The card used to verify has been declined. Please confirm info, or use a new card to verify.'
     submit['password'] = pwd
     submit['fullname'] = fullname
-    if EC.text_to_be_present_in_element((By.XPATH,fail_xpath),fail_text)(chrome_driver):
-        submit['status'] = fail_text
-    elif EC.text_to_be_present_in_element((By.XPATH,success_xpath),success_text)(chrome_driver):
-        submit['status'] = 'success'
-        chrome_driver.find_element_by_xpath('//*[@id="nextBtn"]').click()
-        sleep(15)
-    elif EC.text_to_be_present_in_element((By.XPATH,fail_xpath2),fail_text2)(chrome_driver):
-        submit['status'] = fail_text2       
-    else:
+    xpaths = [fail_xpath,fail_xpath2,success_xpath]
+    texts = [fail_text,fail_text2,success_text]
+    flags = dict(zip(xpaths,texts))
+    for xpath_ in xpaths:
+        try:
+            if EC.text_to_be_present_in_element((By.XPATH,xpath_),flags[xpath_])(chrome_driver):
+                if xpath_ == success_xpath:
+                    submit['status'] = 'success'
+                    chrome_driver.find_element_by_xpath('//*[@id="nextBtn"]').click()
+                    sleep(15)
+                else:
+                    submit['status'] = flags[xpath_]
+                break
+        except:
+            pass
+    if submit['status'] == 'prepare':
         submit['status'] = 'No sign'
     return submit
 
