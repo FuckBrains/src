@@ -463,13 +463,6 @@ def test_c():
     print(submit)
 
 
-
-
-
-
-
-
-
 def test():
     # db.email_test()
     # date_of_birth = Submit_handle.get_auto_birthday('')         

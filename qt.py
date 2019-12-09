@@ -16,6 +16,8 @@ import email_imap
 import Auto_update
 import Alliance_login
 from time import sleep
+import Input_Config
+import Submit_handle
 
 def Read_Ini(file):
     submits = []
@@ -121,7 +123,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             self.comboBox1.setItemText(i, _translate("MainWindow", item))
             i+=1
         self.set_comboBox2()
-        self.set_text_woring_links()
+        self.set_text_working_links()
         self.set_text_all_links()
         self.set_comboBox3()
         self.set_comboBox4()
@@ -184,7 +186,18 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             self.comboBox4.setItemText(j, _translate("MainWindow", str(int(item)+1)))            
             j+=1
 
-    def set_text_woring_links(self):
+    def set_comboBox21(self):
+        _translate = QtCore.QCoreApplication.translate
+        key = self.comboBox20.currentText()
+        methods = Input_Config.get_input_config(key)
+        self.comboBox21.clear()
+        self.comboBox21.addItem("")
+        self.comboBox21.setItemText(0, _translate("MainWindow", 'False'))
+        for j in range(len(methods)):
+            self.comboBox21.addItem("")
+            self.comboBox21.setItemText(j+1, _translate("MainWindow", methods[j]))
+
+    def set_text_working_links(self):
         self.file_Offer_link = r'..\res\Offer_link.ini'
         self.offer_link = Read_Ini(self.file_Offer_link)
         text = 'Already in config links\n'
@@ -279,7 +292,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         Add_New_Link(new_offer)
         self.set_text_all_links()
         self.set_comboBox3()
-        self.set_text_woring_links()
+        self.set_text_working_links()
         self.set_comboBox4()
 
     @pyqtSlot()
@@ -291,7 +304,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         Delete_Link(key,1)
         self.set_text_all_links()
         self.set_comboBox3()
-        self.set_text_woring_links()
+        self.set_text_working_links()
         self.set_comboBox4()
 
 
@@ -302,7 +315,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             return
         key = int(key) - 1 
         Delete_Link(key)
-        self.set_text_woring_links()
+        self.set_text_working_links()
         self.set_comboBox4()
 
 
@@ -686,7 +699,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         try:        
             data = self.get_general_config(flag)
             data['step_config'] = {}    
-            data['step_config']['select_index'] = int(self.lineEdit19.text())
+            data['step_config']['select_index'] = self.lineEdit19.text()
             data['step_config']['select_index_rand'] = self.comboBox18.currentText()
             data['step_config']['select_value'] = self.comboBox19.currentText()
             data['step_config']['select_value_range'] = ['','']
@@ -716,7 +729,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             if 'Mission_Id' in configs[item]:
                 print(item)            
                 if str(configs[item]['Mission_Id']) == str(Mission_Id):
-                    Mission_list = [str(Mission_Id)]
+                    Mission_list = [100]
                     Excel_name = configs[item]['Excel']
                     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
                     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
@@ -731,6 +744,51 @@ class Mywindow(QMainWindow,Ui_MainWindow):
                 self.comboBox19.setItemText(j, _translate("MainWindow", keys[j]))                    
                 self.comboBox20.addItem("")
                 self.comboBox20.setItemText(j, _translate("MainWindow", keys[j]))                         
+            self.comboBox19.addItem("")
+            self.comboBox19.setItemText(j+1, _translate("MainWindow", 'False'))                    
+            self.comboBox20.addItem("")
+            self.comboBox20.setItemText(j+1, _translate("MainWindow", 'False'))                    
+
+    @pyqtSlot()
+    def on_pushButton28_clicked(self):
+        '''
+        Recorder_Select
+        '''
+        flag = {}
+        try:        
+            data = self.get_general_config(flag)
+            data['step_config'] = {}    
+            data['step_config']['input_key'] = self.comboBox20.currentText()
+            data['step_config']['input_func'] = self.comboBox21.currentText()
+            data['step_config']['input_content'] = self.lineEdit22.text()
+            # data['step_config']['select_index_rand'] = self.comboBox18.currentText()
+            # data['step_config']['select_value'] = self.comboBox19.currentText()
+            # data['step_config']['select_value_range'] = ['','']
+            # data['step_config']['select_value_range'][0] = self.lineEdit20.text()
+            # data['step_config']['select_value_range'][1] = self.lineEdit21.text()   
+            # print('data',data)     
+            flag_upload = db.upload_pageconfig(data)
+            if flag_upload == -1:
+                self.alert("Duplicated step")  
+            else:              
+                self.alert("Add Input config success")
+        except Exception as e:
+            self.alert(str(e))
+
+    def on_comboBox20_currentIndexChanged(self):
+        # print('----------')
+        self.set_comboBox21()
+
+    def on_comboBox21_currentIndexChanged(self):
+        # print('----------')
+        method = self.comboBox21.currentText()
+        if method != 'False' and method != '':
+            doc = eval('Submit_handle.' + method + '.__doc__')
+            text = 'Rules:\n'+doc
+            self.textBrowser3.setText(text)
+        else:
+            text = 'Rules:\n'
+            self.textBrowser3.setText(text)
 
 
 
@@ -744,16 +802,6 @@ def main():
     # ui.pushButton.clicked.connect(test_sig)
     ui.show()                       # 执行QMainWindow的show()方法，显示这个QMainWindow
     sys.exit(app.exec_())
-
-# def Add_new_module_test():
-#     Offer_name = 'Health(Done)'
-#     Offer_config_new = {"Mission_Id": "10010", "Excel": ["Auto", ""]}
-#     Add_New_Config(Offer_name,Offer_config_new)
-#     Alliance = 'Adsmain'
-#     New_Offers = [Offer_name]
-#     Add_New_Offer(Alliance,New_Offers)
-
-
 
 def change__delay_config(up,down,threads):
     try:

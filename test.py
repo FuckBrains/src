@@ -653,6 +653,16 @@ def test_p():
     # except:
         # tt.writelog(chrome_driver,submit)
 
+def test_pp():
+    '''
+    asdasd
+
+    '''
+    import Submit_handle as sh
+    a = sh.get_name_real.__doc__
+    print('=========')
+    print(a)
+
 def test_c():
     pic = '10064_16806.png'
     # fin = open(pic)
@@ -785,4 +795,4 @@ if __name__ == '__main__':
     if i == 0:
         test_flag_use()
     else:
-        test_p()
+        test_pp()

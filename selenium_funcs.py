@@ -1,7 +1,8 @@
 from time import sleep 
 from selenium.webdriver.common.keys import Keys
 import traceback
-
+import Input_Config
+import Sublime_handle
 
 def get_action(chrome_driver,data,submit):
     action_func = data['action']
@@ -66,28 +67,28 @@ def Select(chrome_driver,data,submit):
         selected = option.get_attribute("selected")        
         if selected == True:
             option.removeAttr('selected')
-            # js="$('%s').removeAttr('selected')"%data['select_setting']['selected_css']
+            # js="$('%s').removeAttr('selected')"%data['step_config']['selected_css']
             # chrome_driver.execute_script(js)              
         values.append(value)
-    # if data['select_setting']['selected_css'] != '':
+    # if data['step_config']['selected_css'] != '':
     #     pass
-    if data['select_setting']['select_index'] != '':        
-        s1.select_by_index(int(data['select_setting']['select_index']))        
-    if data['select_setting']['select_index_rand'] == 'True':
+    if data['step_config']['select_index'] != '':        
+        s1.select_by_index(int(data['step_config']['select_index']))        
+    if data['step_config']['select_index_rand'] == 'True':
         num = random.randint(1,len(options)-1)
         s1.select_by_index(num)
-    if data['select_setting']['select_value'] != '':
-        if submit[data['select_setting']['select_value']] in values:
-            s1.select_by_value(submit[data['select_setting']['select_value']])    
+    if data['step_config']['select_value'] != '':
+        if submit[data['step_config']['select_value']] in values:
+            s1.select_by_value(submit[data['step_config']['select_value']])    
         else:
             num = random.randint(1,len(options)-1)
             s1.select_by_value(str(values[num]))
-    if len(data['select_setting']['select_value_range']) != 0:
-        value_num = random.randint(int(data['select_setting']['select_value_range'][0]),int(data['select_setting']['select_value_range'][1]))
+    if len(data['step_config']['select_value_range']) != 0:
+        value_num = random.randint(int(data['step_config']['select_value_range'][0]),int(data['step_config']['select_value_range'][1]))
         s1.select_by_value(str(value_num))            
-        # if len(data['select_setting']['select_value_list']) != 0:
-        #     num = random.randint(0,len(data['select_setting']['select_value_list'])-1)
-        #     s1.select_by_value(str(data['select_setting']['select_value_list'][num]))            
+        # if len(data['step_config']['select_value_list']) != 0:
+        #     num = random.randint(0,len(data['step_config']['select_value_list'])-1)
+        #     s1.select_by_value(str(data['step_config']['select_value_list'][num]))            
 
 def Slide(chrome_driver,data,submit):
     brightnessSlider=chrome_driver.find_element_by_xpath(data['general']['xpath'])
@@ -97,8 +98,14 @@ def Slide(chrome_driver,data,submit):
     ActionChains(chrome_driver).click_and_hold(brightnessSlider).move_by_offset(x_move_num,y_move_num).release().perform()#通过move_by_offset()移动滑块，-6表示在水平方向上往左移动6个像素，7表示在垂直方向上往上移动7个像素    
 
 def Input(chrome_driver,data,submit):
+    func_dict = Input_Config.
     element = Click(chrome_driver,data,submit)
     clear_deep(element)
+    if data['step_config']['input_key'] != 'False':
+        
+        # input_func = Input_Config.get_input_config(key)
+        # if len(input_func) != 0:
+        #     content = eval('Sublime_handle.'+input_func)(chrome_driver,data,submit)
     element.send_keys(data['content'])
 
 def Click(chrome_driver,data,submit):

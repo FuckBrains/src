@@ -105,7 +105,7 @@ def mission(plans):
     for plan in plans:
         try:
             reg_part(plan)
-        except TimeoutError:
+        except Exception as e:
             print('timeout')            
 
 def get_write_content(submit):

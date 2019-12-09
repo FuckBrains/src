@@ -103,6 +103,9 @@ def get_pwd_real2():
     return pwd
 
 def get_name_real():
+    '''
+    直接从真实用户名文件里获取
+    '''
     with open(r'ini\names.ini','r') as f:
         lines  = f.readlines()
         names = []

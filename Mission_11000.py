@@ -46,15 +46,20 @@ def web_submit(submit,chrome_driver,debug=0):
     if ' ' in name_:
         name_ = name_.split(' ')[0]
     if '-' in name_:
-        name_.replace('-','')    
+        name_ = name_.split('-')[0]
+    if '_' in name_:
+        name_ = name_.split('_')[0]        
     name = name_+str(random.randint(10,1000))
     if len(name)>=16:
-        name = name[:9]
+        num_rand = random.randint(8,14)
+        name = name[:num_rand]
     chrome_driver.find_element_by_xpath('//*[@id="username"]').send_keys(name)
     # password
     pwd = Submit_handle.get_pwd_real2()
     if '-' in pwd:
-        pwd.replace('-','')    
+        pwd = pwd.split('-')[0]
+    if '_' in pwd:
+        pwd = pwd.split('_')[0]           
     chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(pwd)
     # email
     chrome_driver.find_element_by_xpath('//*[@id="email"]').send_keys(submit['email'])
@@ -67,8 +72,11 @@ def web_submit(submit,chrome_driver,debug=0):
     fullname = submit['firstname'] + ' ' + submit['lastname']
     if len(fullname) >= 16:
         fullname = fullname[0:15]
+
     if '-' in fullname:
-        fullname.replace('-','')
+        fullname = fullname.split('-')[0]
+    if '_' in fullname:
+        fullname = fullname.split('_')[0]         
     chrome_driver.find_element_by_xpath('//*[@id="fullname"]').send_keys(fullname)   
     # card number
     chrome_driver.find_element_by_xpath('//*[@id="cc"]').send_keys(submit['card_number'])
