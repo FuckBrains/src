@@ -14,6 +14,11 @@ import datetime
 import os
 import threadpool
 import threading
+import qt
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+import selenium_funcs
 
 
 pool = threadpool.ThreadPool(10)
@@ -27,7 +32,7 @@ def makedir_account(path):
     else:
         os.makedirs(path)
 
-def writelog(chrome_driver,submit):
+def writelog(chrome_driver,submit,content=''):
         '''
         writelog and
         '''
@@ -46,8 +51,9 @@ def writelog(chrome_driver,submit):
         with open(pic,'rb') as f:
             png = f.read()
         Mission_Id = submit['Mission_Id']
-        traceback_ = traceback.format_exc()
-        db.write_log_db(Mission_Id,traceback_,png)
+        if content == '':
+            content = traceback.format_exc()            
+        db.write_log_db(Mission_Id,content,png)
 
         # file_ = r'..\log\log.txt'
         # content = str(datetime.datetime.now())
@@ -86,9 +92,11 @@ def change_tz(windows_):
 def get_submit(Config):
     submit = {}
     while True:
-        if 'BasicInfo_Id' in submit:
-            db.update_flag_use(submit['BasicInfo_Id'])           
-        # print('getting data')
+        for item in submit:
+            if 'BasicInfo_Id' in submit:
+                db.update_flag_use(submit[item]['BasicInfo_Id'])   
+                break        
+            # print('getting data')
         try:
             submit = db.get_luminati_submit(Config)           
             if submit == None:
@@ -120,7 +128,8 @@ def get_submit(Config):
             pass 
         print('refreshing ip.............') 
         if submit['sleep_flag'] != 2:
-            flag,proxy_info = luminati.ip_test(submit['port_lpm'],state=submit['state_'] ,country=submit['Country'])
+            # flag,proxy_info = luminati.ip_test(submit['port_lpm'],state=submit['state_'] ,country=submit['Country'])
+            flag,proxy_info = luminati.ip_test(submit['port_lpm'],state='' ,country=submit['Country'])            
         else:
             for num_ip in range(6):
                 try:
@@ -180,7 +189,7 @@ def data_handler(Config):
 
     print("Mission started,using_num:",using_num)
     try:
-        reg_part(submit)
+        reg_part_(submit)
     except TimeoutError:
         print('timeout')
     using_num = using_num - 1  
@@ -197,19 +206,26 @@ def data_handler(Config):
             submit['Status'] = flag
             print('Mission: ',submit['Mission_Id'],'success,uploading db')
             db.write_one_info([str(submit['Mission_Id'])],submit)
-    if 'BasicInfo_Id' in submit:
-        db.update_flag_use(submit['BasicInfo_Id'])
+    for item in submit:
+        print(item)
+        if 'BasicInfo_Id' in submit[item]:
+            db.update_flag_use(submit[item]['BasicInfo_Id'])
+            break
+
     print('Mission_Id:',submit['Mission_Id'],'finished') 
     return 1       
 
-@timeout(600)
-def reg_part(submit):
+# @timeout(600)
+def reg_part_(submit):
     print('reg_part')
     global timezone 
     global using_num    
-
-    module = 'Mission_'+str(submit['Mission_Id'])
-    Module = importlib.import_module(module)
+    # try:
+    #     module = 'Mission_'+str(submit['Mission_Id'])
+    #     Module = importlib.import_module(module)
+    # except Exception as e:
+    #     print(str(e))
+    Module = ''
 
     try:
         print('----------------====================')
@@ -217,7 +233,11 @@ def reg_part(submit):
             submit.pop('ip_lpm')
         chrome_driver = Chrome_driver.get_chrome(submit)
         print('========')
-        Module.web_submit(submit,chrome_driver=chrome_driver)
+        if Module != "":
+            Module.web_submit(submit,chrome_driver=chrome_driver)
+        else:
+            print('Record modern')
+            web_submit(submit,chrome_driver=chrome_driver)
         print(submit)
     except Exception as e:
         print(str(e))
@@ -230,6 +250,113 @@ def reg_part(submit):
         chrome_driver.quit()
     except:
         pass
+
+
+
+
+def web_submit(submit,chrome_driver,debug=0):
+    # predefine Mission
+    # Excel_tag = 'Auto'    
+    # num_html = 1
+    # Mission_Id = 10046
+
+    # if debug == 1:
+    #     site = 'http://tracking.axad.com/aff_c?offer_id=181&aff_id=2138'
+    #     submit['Site'] = site
+    chrome_driver.get(submit['Site'])
+    print('Load finish')
+    # old_page = chrome_driver.find_element_by_tag_name('html')
+    # print(old_page.id)
+    Page_flags = db.get_page_flag(submit['Mission_Id'])
+    print(Page_flags)
+    # chrome_driver.maximize_window()    
+    # chrome_driver.refresh()
+    handle = chrome_driver.current_window_handle
+    while True:
+        handles=chrome_driver.window_handles   
+        for i in handles:
+            if i != handle:        
+                chrome_driver.switch_to.window(i)  
+        if 'This page isn’t working' in chrome_driver.page_source :
+            return
+        page = get_page_by_flag(Page_flags,chrome_driver)
+        if page == None:
+            content = 'New Page'
+            # writelog(chrome_driver,submit,content='')
+            qt.main(1)
+            return
+        print('Find target_page:',page['Page'])
+        if debug == 1:
+            save_html(chrome_driver,submit['Mission_Id'],page['Page'])
+        config = db.get_page_config(submit['Mission_Id'],page['Page'])
+        config.sort(key=takeStep)
+        print(config)
+        for item in submit:
+            print(item)
+            if 'BasicInfo_Id' in submit[item]:
+                key_excel = item
+                break        
+        for config_ in config:
+            try:
+                print(config_)
+                print(type(config_))
+                selenium_funcs.get_action(chrome_driver,config_,submit[key_excel])
+            except Exception as e:
+                print(str(e))
+                a = traceback.format_exc()            
+                print(a)
+        page_change(chrome_driver,page)
+        if 'Almost' in page['Status']:
+            db.update_plan_status(1,submit['ID'])
+        if 'Finish' in page['Status']:
+            db.update_plan_status(2,submit['ID'])
+            return        
+
+# def sort_page_step(config):
+#     config.sort(key=takeStep)
+#     return
+
+def takeStep(elem):
+    return elem['Step']
+
+def get_page_by_flag(Page_flags,chrome_driver):
+    target_page = None
+    for page in Page_flags:
+        try:
+            if page['Flag_xpath'] == '':
+                chrome_driver.find_element_by_text(page['Flag_text'])
+                print('find target page:',page['Page'],'with text')                                
+                target_page = page
+                break                                
+            element = chrome_driver.find_element_by_xpath(page['Flag_xpath'])
+            # print(page,'find text:',element.text)
+            if EC.text_to_be_present_in_element(element,page['Flag_text']):
+                print('find target page:',page['Page'],'with xpath and text')
+                target_page = page
+                break
+            else:
+                chrome_driver.find_element_by_text(page['Flag_text'])
+                print('find target page:',page['Page'],'with text')                
+                target_page = page
+                break                
+        except Exception as e:
+            print(str(e))
+    return target_page
+
+def page_change(chrome_driver,page):
+    WebDriverWait(chrome_driver,60).until_not(EC.text_to_be_present_in_element((By.XPATH,page['Flag_xpath']),page['Flag_text']))
+
+def save_html(chrome_driver,Mission_Id,page):
+    print('Title',chrome_driver.title)
+    print('url',chrome_driver.current_url)    
+    path_html = r'..\html'
+    file = str(page['name'])+'.html'
+    path_folder = os.path.join(path_html,str(Mission_Id))
+    Submit_handle.makedir_pic(path_folder)    
+    path_file = os.path.join(path_folder,file)
+    html=chrome_driver.page_source
+    with open(path_file,mode="w",encoding="utf-8") as f:
+        f.write(html) 
 
 def multi_reg(Config):  
     # print(Config)

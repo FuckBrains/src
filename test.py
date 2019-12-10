@@ -776,12 +776,19 @@ def test_ff():
             } 
 
 def test_gg():
-    Mission_Id = 10001
+    Mission_Id = 10000
     flag = {}
     flag['name'] = '1' 
     flag['step'] =  1
-    db.check_step(Mission_Id,flag)
+    pages = db.get_pageflag(Mission_Id)
+    # print(pages)
+    pages = pages.sort(key=takeStep)
+    print(pages)
 
+
+def takeStep(elem):
+    print(elem['Step'])
+    return elem['Step']
 
 def test_44():
     import Dadao
@@ -789,10 +796,18 @@ def test_44():
     content = Dadao.get_write_content(submit)    
     print(content)
 
+def test_kk():
+    data = {'Mission_Id': 10002, 'Page': '1', 'Step': 10, 'Action': 'Select', 'General': '{"scroll": "False", "try": "False", "xpath": "//*[@id=\\"list-lead-form\\"]/div[1]/select", "iframe": ""}', 'Step_config': '{"select_index": "", "select_index_rand": "False", "select_value": "False", "select_value_range": ["2000", "2018"]}'}
+    data['General'] = json.loads(data['General'])
+    if data['General']['iframe'] != '':
+        print(111)
+    else:
+        print(data['General']['scroll'])
+
 
 if __name__ == '__main__':
     i = 1
     if i == 0:
         test_flag_use()
     else:
-        test_pp()
+        test_kk()

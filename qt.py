@@ -603,7 +603,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
 
     def get_general_config(self,flag):
         flag['Mission_Id'] = str(self.lineEdit13.text())        
-        flag['name'] = self.comboBox7.currentText()
+        flag['Page'] = self.comboBox7.currentText()
         if self.lineEdit18.text() == '':
             flag['step'] = self.comboBox17.currentText()
         else:
@@ -611,16 +611,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         flag['action'] = self.comboBox8.currentText()
         flag['general'] = {}
         flag['general']['scroll'] = self.comboBox11.currentText() 
-        if flag['general']['scroll'] == 'True':
-            flag['general']['scroll'] = True
-        else:
-            flag['general']['scroll'] = False
         flag['general']['try'] = self.comboBox16.currentText() 
-        if flag['general']['try'] == 'True':
-            flag['general']['try'] = True
-        else:
-            flag['general']['try'] = False
         flag['general']['xpath'] = self.lineEdit17.text()
+        flag['general']['iframe'] = self.lineEdit23.text()
         return flag
  
     @pyqtSlot()
@@ -640,9 +633,10 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     @pyqtSlot()
     def on_pushButton23_clicked(self):
         flag = {}
-        flag['name'] = self.comboBox7.currentText()
-        flag['text'] = self.lineEdit14.text()
-        flag['xpath'] = self.lineEdit15.text()
+        flag['Page'] = self.comboBox7.currentText()
+        flag['Flag_text'] = self.lineEdit14.text()
+        flag['Flag_xpath'] = self.lineEdit15.text()
+        flag['Status'] = self.comboBox22.currentText()
         Mission_Id = str(self.lineEdit13.text())
         try:
             db.upload_pageflag(Mission_Id,flag)
@@ -715,7 +709,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             self.alert(str(e))
 
     @pyqtSlot()
-    def on_lineEdit13_editingFinished(self):
+    def on_pushButton29_clicked(self):
         _translate = QtCore.QCoreApplication.translate
         j = 0
         self.comboBox19.clear()
@@ -791,8 +785,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             self.textBrowser3.setText(text)
 
 
-
-def main():
+def main(i):
     up.main()
     print('111')
     app = QtWidgets.QApplication(sys.argv)  # 创建一个QApplication，也就是你要开发的软件app
@@ -801,7 +794,12 @@ def main():
     # ui.setupUi(MainWindow)   # 执行类中的setupUi方法，方法的参数是第二步中创建的QMainWindow
     # ui.pushButton.clicked.connect(test_sig)
     ui.show()                       # 执行QMainWindow的show()方法，显示这个QMainWindow
-    sys.exit(app.exec_())
+    if i == 0:
+        sys.exit(app.exec_())
+    else:
+        ui.alert("New page found for Mission_Id")
+        sys.exit(app.exec_())
+
 
 def change__delay_config(up,down,threads):
     try:
@@ -834,7 +832,8 @@ def change__delay_config(up,down,threads):
 
 
 if __name__ == '__main__':
-    main()
+    i = 0
+    main(i)
     # Write_Offer_config()
 
 

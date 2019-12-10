@@ -402,27 +402,9 @@ def vehicle_select(elem,vehicle):
 #     }    
 #     return Page_config 
 
-def get_page_by_flag(chrome_driver):
-    print('Title:',chrome_driver.title)
-    Page_config = get_page_config()
-    target_page = None
-    for page in Page_config:
-        try:
-            element = chrome_driver.find_element_by_xpath(Page_config[page]['xpath'])
-            print(page,'find text:',element.text)
-            if EC.text_to_be_present_in_element(element,Page_config[page]['text']):
-                print('find target page:',page)
-                target_page = Page_config[page]
-                break
-        except Exception as e:
-            print(str(e))
-            print(Page_config[page]['name'],'not found')
-    if target_page == None:
-        pass
-    return target_page
 
-def page_change(chrome_driver,page):
-    WebDriverWait(chrome_driver,60).until_not(EC.text_to_be_present_in_element((By.XPATH,page['xpath']),page['text']))
+
+
 
 def page1(chrome_driver,submit):   
     chrome_driver.find_element_by_xpath('//*[@id="plate-content"]/div[2]/div[2]/button').click()
@@ -442,17 +424,7 @@ def page3(chrome_driver,submit):
     chrome_driver.find_element_by_xpath(elem).click()
     # sleep(10)
 
-def save_html(chrome_driver,Mission_Id,page):
-    print('Title',chrome_driver.title)
-    print('url',chrome_driver.current_url)    
-    path_html = r'..\html'
-    file = str(page['name'])+'.html'
-    path_folder = os.path.join(path_html,str(Mission_Id))
-    Submit_handle.makedir_pic(path_folder)    
-    path_file = os.path.join(path_folder,file)
-    html=chrome_driver.page_source
-    with open(path_file,mode="w",encoding="utf-8") as f:
-        f.write(html)  
+ 
 
 def test_c():
     page_config = get_page_config()

@@ -34,6 +34,11 @@ def get_ua_random(uas):
     # print(uas[num])
     return uas[num]
 
+def get_ua():
+    uas = get_ua_all()
+    ua = get_ua_random(uas)
+    return ua
+
 
 def set_flag(name,value):
     gl.set_value(str(name),value)

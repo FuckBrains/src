@@ -4,7 +4,9 @@
 Input_Config ={
     'firstname' : ['get_name_real'],
     'lastname'  : ['func1','func2'],
-    'address'   : []
+    'address'   : [],
+    'homephone' : ['get_phone'],
+    'zip'       : ['get_zip']
 }
 
 

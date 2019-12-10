@@ -158,6 +158,10 @@ def Submit_handle(submit):
     return submit
 
 def get_zip(zip_):
+    '''
+    四位数zip前添加0,
+    处理zip后面的.0
+    '''
     zip_ = zip_.split('.')[0]
     if len(zip_) == 4:
         zip_ = '0' + zip_
@@ -248,6 +252,9 @@ def transfer_zipcode_into_city():
                 print('')
 
 def get_phone(phone):
+    '''
+    处理电话后的.
+    '''
     phone_ = phone.replace('(','').replace(')','').replace('-','')
     if '.' in phone_:
         phone_ = (phone_).split('.')[0]

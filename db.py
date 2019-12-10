@@ -206,18 +206,38 @@ def create_PageFlag_table():
     Execute_sql(sql_content)
 
 def upload_pageflag(Mission_Id,flag):
-    Page = flag['name']
-    Flag_xpath = flag['xpath'] 
-    Flag_text = flag['text']
+    Page = flag['Page']
+    Flag_xpath = flag['Flag_xpath'] 
+    Flag_text = flag['Flag_text']
+    Status = flag['Status']
+    flag_check = check_flag(Mission_Id,flag)
+    if flag_check == False:
+        return -1    
     # sql_content = (int(Mission_Id),Page,pymysql.escape_string(Flag_xpath),pymysql.escape_string(Flag_text))      
-    sql_content = 'INSERT INTO Page_Flag(Mission_Id,Page,Flag_xpath,Flag_text)VALUES("%d","%s","%s","%s")'%(int(Mission_Id),Page,pymysql.escape_string(Flag_xpath),pymysql.escape_string(Flag_text))     
+    sql_content = 'INSERT INTO Page_Flag(Mission_Id,Page,Flag_xpath,Flag_text,Status)VALUES("%d","%s","%s","%s","%s")'%(int(Mission_Id),Page,pymysql.escape_string(Flag_xpath),pymysql.escape_string(Flag_text),Status)     
     # sql_content = 'INSERT IGNORE INTO Page_Flag(Mission_Id,Page,Flag_xpath,Flag_text)VALUES("%d","%s","%s","%s")'%(Mission_Id, Page,Flag_xpath,Flag_text)
     Execute_sql([sql_content])
+
+def check_flag(Mission_Id,flag):
+    account = get_account()
+    conn,cursor=login_sql(account)
+    res = cursor.execute('SELECT * from Page_Flag WHERE Mission_Id = "%d" and Flag_text = "%s"'%(int(Mission_Id),str(flag['Flag_text'])))
+    print(res)
+    # desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    # Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
+    login_out_sql(conn,cursor)
+    # submit = dict(Info_dict,**Info_dict2)
+    if res == 0:
+        flag = True
+    else:
+        flag = False
+    print(flag)
+    return flag
 
 def check_step(Mission_Id,flag):
     account = get_account()
     conn,cursor=login_sql(account)
-    res = cursor.execute('SELECT * from Page_Config WHERE Mission_Id = "%d" and Page = "%s" and Step = "%d"'%(int(Mission_Id),str(flag['name']),int(flag['step'])))
+    res = cursor.execute('SELECT * from Page_Config WHERE Mission_Id = "%d" and Page = "%s" and Step = "%d"'%(int(Mission_Id),str(flag['Page']),int(flag['step'])))
     print(res)
     # desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     # Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
@@ -231,7 +251,7 @@ def check_step(Mission_Id,flag):
     return flag
 
 def upload_pageconfig(flag):
-    Page = flag['name']
+    Page = flag['Page']
     Step = flag['step']
     Mission_Id = flag['Mission_Id']
     flag_check = check_step(Mission_Id,flag)
@@ -1217,11 +1237,22 @@ def get_cookie(Config=None):
     # print(Mission_dict)
     return Mission_dict
 
-def get_pageflag(Mission_Id):
+def get_page_flag(Mission_Id):
     print('     Start reading info from sql server...')
     account = get_account()
     conn,cursor=login_sql(account)
     res = cursor.execute('SELECT * from Page_Flag WHERE Mission_Id="%d"'%int(Mission_Id))
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Pages = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
+    # print(len(Mission_dict))
+    # print(Mission_dict)
+    return Pages
+
+def get_page_config(Mission_Id,Page):
+    print('     Start reading info from sql server...')
+    account = get_account()
+    conn,cursor=login_sql(account)
+    res = cursor.execute('SELECT * from Page_config WHERE Mission_Id="%d" and Page="%s"'%(int(Mission_Id),str(Page)))
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     Pages = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
     # print(len(Mission_dict))
@@ -1268,6 +1299,7 @@ def get_plan_status(ID):
 
 def update_flag_use(id_):
     sql_content = "UPDATE BasicInfo SET flag_use = 0 WHERE BasicInfo_Id = '%s'" % id_
+    print(sql_content)
     Execute_sql([sql_content])
 
 def update_flag_use_all():

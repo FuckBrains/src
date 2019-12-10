@@ -29,6 +29,7 @@ flag:
 # def get_modules():
 #     modules = os.listdir('..\src\\')
 #     modules = [module.strip('.py') for module in modules] 
+#     modules = [module.strip('.py') for module in modules] 
 #     modules_new = []
 #     for module in modules:
 #         if 'Mission' in module:
@@ -58,7 +59,7 @@ def main(i):
         # print('Plan_id:',plan_id,',connecting sql for plan info...')
         try:
             plans_ = db.read_plans(plan_id)
-            # print(len(plans_))
+            print(len(plans_))
             plans = []
             for plan in plans_:
                 # init sleep_flag and Status
@@ -77,6 +78,7 @@ def main(i):
             return
         # print(plans)
         tk.start(plans)
+        return
         print('All Missions finished..............')
         try:
             print('try killing pids')
@@ -99,6 +101,6 @@ def test():
 
 if __name__ == '__main__':
     paras=sys.argv
-    i = int(paras[1])
-    # i = 0
+    # i = int(paras[1])
+    i = 0
     main(i)
