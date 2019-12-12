@@ -109,7 +109,8 @@ def get_submit(Config):
             print(Config)
             submit = db.get_luminati_submit(Config)           
             if submit == {}:
-                qt.main(1)
+                content = 'No data found'
+                qt.main(1,content)
                 return None
             # print(submit)
             # return
@@ -232,7 +233,7 @@ def reg_part_(submit):
     print('reg_part')
     global timezone 
     global using_num    
-    submit['record'] = 1
+    submit['record'] = 0
     Module = ''    
     if submit['record'] == 0:
         try:
@@ -242,7 +243,6 @@ def reg_part_(submit):
             print(str(e))
     else:
         Module = ''    
-
     try:
         print('----------------====================')
         if submit['sleep_flag'] == 2:
@@ -303,11 +303,12 @@ def web_submit(submit,chrome_driver,debug=0):
         page = page_detect(Page_flags,chrome_driver)
         if page == None:
             print('Looking for flag and Timeout or bad page')
+            qt.main(1,content)            
             return
         elif page == '':
             content = 'New Page'
             writelog(chrome_driver,submit,content='')
-            qt.main(1)
+            qt.main(1,content)
             return
         print('Find target_page:',page['Page'])
         '''
@@ -501,7 +502,6 @@ def multi_reg(Config):
             print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
             print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')            
     return  
-
 
 def test():
     stopLoading()    

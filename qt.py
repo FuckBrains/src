@@ -779,6 +779,13 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         except Exception as e:
             self.alert(str(e))
 
+    @pyqtSlot()
+    def on_pushButton30_clicked(self):
+        account = luminati.get_account()
+        ip = account['IP_lpm']        
+        ports_used = ports_get(ip)        
+        self.alert('Total %d ports using.'%int(ports_used))
+
     def on_comboBox20_currentIndexChanged(self):
         # print('----------')
         self.set_comboBox21()
@@ -794,12 +801,13 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             text = 'Rules:\n'
             self.textBrowser3.setText(text)
 
-
 def main(i,message=''):
     up.main()
     # print('111')
     app = QtWidgets.QApplication(sys.argv)  # 创建一个QApplication，也就是你要开发的软件app
     MainWindow = QMainWindow()    # 创建一个QMainWindow，用来装载你需要的各种组件、控件
+    # MainWindow.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint)
+    # MainWindow.setFixedSize(MainWindow.width(), MainWindow.height());  
     ui = Mywindow(MainWindow)                          # ui是你创建的ui类的实例化对象
     # ui.setupUi(MainWindow)   # 执行类中的setupUi方法，方法的参数是第二步中创建的QMainWindow
     # ui.pushButton.clicked.connect(test_sig)
@@ -811,7 +819,6 @@ def main(i,message=''):
             message += '\n'*30+' '*100
             ui.alert(message)
         sys.exit(app.exec_())
-
 
 def change__delay_config(up,down,threads):
     try:
@@ -840,8 +847,9 @@ def change__delay_config(up,down,threads):
     Write_Ini(file_Offer_config,Offer_config)
 
 if __name__ == '__main__':
-    i = 1
-    message = 'test'+'\n'*30+' '*100
+    i = 0
+    # message = 'test'+'\n'*30+' '*100
+    message = ''
     main(i,message)
 
 

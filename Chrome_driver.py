@@ -9,10 +9,24 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import luminati
 from time import sleep
 import globalvar as gl
+from win32api import GetFileVersionInfo, LOWORD, HIWORD 
+
+
+
+def get_version_number(filename):
+    #This is just for windows.
+    info = GetFileVersionInfo(filename, "\\")
+    #print info
+    ms = info['FileVersionMS']
+    ls = info['FileVersionLS']
+    print(HIWORD(ms), LOWORD(ms), HIWORD(ls), LOWORD(ls))
+    return HIWORD(ms)
 
 
 def get_chromedriver_path():
-    return r'driver/chromedriver_77.exe'
+    path = r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+    version = get_version_number(path)    
+    return r'driver/chromedriver_'+str(version)+'.exe'
 
 def get_ua_all():
     uas = []
@@ -24,7 +38,6 @@ def get_ua_all():
                     continue 
                 # if 'Chrome' in line:
                 uas.append(line.strip('"').strip("'").strip('\n'))
-
     # for ua in uas.split('/n'):
         # print(ua)
     return uas

@@ -13,6 +13,12 @@
     <height>575</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
@@ -100,7 +106,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="currentIndex">
-     <number>6</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="widget">
      <attribute name="title">
@@ -803,13 +809,26 @@
       <property name="geometry">
        <rect>
         <x>420</x>
-        <y>330</y>
+        <y>320</y>
         <width>101</width>
         <height>41</height>
        </rect>
       </property>
       <property name="text">
        <string>CleanFlag_use</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton30">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>300</y>
+        <width>81</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Show ports</string>
       </property>
      </widget>
     </widget>
@@ -1036,7 +1055,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="tab_11">
        <attribute name="title">
@@ -2493,61 +2512,6 @@ p, li { white-space: pre-wrap; }
          <pointsize>12</pointsize>
         </font>
        </property>
-       <item>
-        <property name="text">
-         <string>US</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>CA</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>GB</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>AU</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>FR</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>DE</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>IT</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>DK</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>PL</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>ES</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>NZ</string>
-        </property>
-       </item>
       </widget>
      </item>
      <item row="6" column="0">

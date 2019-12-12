@@ -1,3 +1,4 @@
+from win32api import GetFileVersionInfo, LOWORD, HIWORD 
 import time
 import time_related
 import socket
@@ -819,9 +820,23 @@ def test_class():
     f = eval('a.'+func)()
     print(f)
 
+
+
+def get_version_number(filename):
+    #This is just for windows.
+    info = GetFileVersionInfo(filename, "\\")
+    #print info
+    ms = info['FileVersionMS']
+    ls = info['FileVersionLS']
+    print(HIWORD(ms), LOWORD(ms), HIWORD(ls), LOWORD(ls))
+    return HIWORD(ms)
+
+def test_version():
+    get_version_number(r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe")    
+
 if __name__ == '__main__':
     i = 1
     if i == 0:
         test_flag_use()
     else:
-        test_class()
+        test_version()
