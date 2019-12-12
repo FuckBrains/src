@@ -783,8 +783,8 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     def on_pushButton30_clicked(self):
         account = luminati.get_account()
         ip = account['IP_lpm']        
-        ports_used = ports_get(ip)        
-        self.alert('Total %d ports using.'%int(ports_used))
+        ports_used = luminati.ports_get(ip)        
+        self.alert('Total %d ports using.'%int(len(ports_used)))
 
     def on_comboBox20_currentIndexChanged(self):
         # print('----------')
