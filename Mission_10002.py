@@ -32,7 +32,11 @@ def web_submit(submit,chrome_driver,debug=0):
     if debug == 1:
         site = 'https://adpgtrack.com/click/5b73d90a6c42607b3b6c4322/146827/199595/subaccount'
         submit['Site'] = site
+    print('222222222222222222222222')
+    # sleep(3)
     chrome_driver.get(submit['Site'])
+    # sleep(300)    
+    print(submit['Site'])
     name = name_get.gen_one_word_digit(lowercase=False)
     chrome_driver.maximize_window()
     chrome_driver.refresh()

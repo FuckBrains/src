@@ -51,6 +51,10 @@ def get_gl_():
     return flag
 
 def get_lan_config(country):
+    country_list_code = get_all_country()
+    return country_list_code[country]
+
+def get_all_country():
     country_list_code ={
     'US':'en_us',
     'GB':'en_gb',
@@ -62,12 +66,13 @@ def get_lan_config(country):
     'PL':'pl',
     'DK':'dk',
     'NZ':'nz',
-    'CA':'ca'
+    'CA':'ca',
+    'CN':'en_us'
     }
-    return country_list_code[country]
+    return country_list_code    
 
 def tz_test():
-    c = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none"     
+    desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none"     
     desired_capabilities = {
         'os' : 'Windows',
         'os_version' : '7',
@@ -98,23 +103,28 @@ def get_chrome(submit = None,pic=0):
              # "safebrowsing.enabled": True,
              # 'profile.default_content_settings.popups': 0,
              }   
+    desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none"     
+                       
     options = webdriver.ChromeOptions()                
     if submit == None:
         uas = get_ua_all()
         ua = get_ua_random(uas)
         print(ua)
     else:
-        if 'traffic' in submit:
-            desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none" 
-            desired_capabilities["pageLoadStrategy"] = "none"            
-            chrome_driver = webdriver.Chrome(chrome_options=chrome_options, desired_capabilities=desired_capabilities,executable_path=path_driver)            
-            return chrome_driver
+        # if 'traffic' in submit:
+        #     desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none" 
+        #     desired_capabilities["pageLoadStrategy"] = "none"            
+        #     chrome_driver = webdriver.Chrome(chrome_options=chrome_options, desired_capabilities=desired_capabilities,executable_path=path_driver)            
+        #     return chrome_driver
         if 'ua' in submit:
             ua = submit['ua']
         else:
             uas = get_ua_all()
             ua = get_ua_random(uas)
-            print(ua)            
+            print(ua)  
+        if 'record' in submit:
+            if submit['record'] == 1:
+                desired_capabilities["pageLoadStrategy"] = "none"                        
         if 'Country' in submit:
             language = get_lan_config(submit['Country'])
             options.add_argument('-lang=' +language )            
@@ -157,15 +167,16 @@ def get_chrome(submit = None,pic=0):
     options.add_argument("--disable-automation")
     options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])
     path_driver = get_chromedriver_path()
-    chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)
+    chrome_driver = webdriver.Chrome(desired_capabilities=desired_capabilities,chrome_options=options,executable_path=path_driver)
     # chrome_driver = webdriver.Chrome(chrome_options=options,desired_capabilities=desired_capabilities)
-    chrome_driver.set_page_load_timeout(300)
+    chrome_driver.set_page_load_timeout(120)
     # chrome_driver.set_script_timeout(240)
     chrome_driver.implicitly_wait(20)  # 最长等待8秒  
     size = get_size()
     print('Chrome size:',size)
     chrome_driver.set_window_size(size[0],size[1])
-    chrome_driver.maximize_window()    
+    chrome_driver.maximize_window()  
+    sleep(2)  
     return chrome_driver
 
 def get_chrome_normal(submit):
@@ -276,24 +287,24 @@ def test():
     sleep(3000)
 
 def test_meituan():
-    url = 'https://hz.meituan.com'
-    path_driver = get_chromedriver_path()
-    chrome_driver = webdriver.Chrome(executable_path=path_driver)
+    url = 'https://www.baidu.com'
+    submit = {'health': {'BasicInfo_Id': '9ba2a35e-d262-11e9-83eb-0009b6e2541a', 'country': '', 'firstname': 'Rob', 'lastname': 'Arnett', 'address': '1627 farhills ave.', 'city': 'Dayton', 'state': 'OH', 'zip': '45419.0', 'homephone': '9372567324.0', 'workphone': None, 'email': '_arnett13@peoplepc.com', 'dateofbirth': 'null', 'maritalstatus': None, 'gender': 'null', 'education': None, 'occupation': None, 'yearsatemployer': None, 'residencetype': None, 'yearatresidence': None, 'leadtype': None, 'validation': None, 'licensestate': None, 'licenseeversuspendedrevoked': None, 'abs': None, 'airbags': None, 'alarm': None, 'multivehicle': None, 'insurancecompany': None, 'coveragetype': None, 'bodilyinjury': None, 'propertydamage': None, 'collisiondeductible': None, 'comphrensivedeductible': None, 'annualmiles': None, 'year': None, 'make': None, 'model': None, 'submodel': None, 'primaryuse': None, 'ipaddress': None, 'sourceid': None, 'first_name': None, 'last_name': None, 'home_phone': None, 'work_phone': None, 'best_time_to_call': None, 'requested_loan_amount': None, 'ssn': None, 'date_of_birth': None, 'drivers_license': None, 'drivers_license_state': None, 'own_rent': None, 'years_at_residence': None, 'months_at_residence': None, 'age': None, 'military': None, 'income_type': None, 'is_dependent': None, 'net_monthly_income': None, 'years_employed': None, 'months_employed': None, 'supervisor_phone': None, 'pay_period': None, 'paycheck_type': None, 'employer': None, 'account_type': None, 'bank_name': None, 'routing_number': None, 'account_number': None, 'years_bank_account': None, 'months_bank_account': None, 'ip_address': None, 'dts': None, 'Excel_name': 'health', 'postal_code': None, 'zipcode': None, 'reference1_first_name': None, 'reference1_last_name': None, 'reference1_relationship': None, 'phone_reference1': None, 'reference2_first_name': None, 'reference2_last_name': None, 'reference2_relationship': None, 'phone_reference2': None, 'ip': None, 'title': None, 'emailaddress': None, 'phone': None, 'flag_use': 0, 'tzid': None, 'windows': None}, 'ip_lpm': '192.168.89.130', 'port_lpm': '24716', 'state_': 'OH', 'Mission_Id': '10002', 'Country': 'US', 'Site': 'https://adpgtrack.com/click/5d43f1a4a03594103a75da46/146827/233486/subaccount\n', 'Excels_dup': ['health', ''], 'Alliance': 'Adpump', 'Account': '1', 'Offer': 'GETAROUND(Done)', 'ID': 507, 'sleep_flag': 0, 'Mission_dir': 'C:\\EMU\\emu_chromes\\10002,1', 'ua': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36', 'tz': [{'windows': 'Central Standard Time', 'tzid': 'America/Chicago'}, {'windows': 'Central Standard Time', 'tzid': 'America/Chicago America/Indiana/Knox America/Indiana/Tell_City America/Menominee America/North_Dakota/Beulah America/North_Dakota/Center America/North_Dakota/New_Salem'}]}
+    chrome_driver = get_chrome(submit)
     chrome_driver.get(url)
-    handle = chrome_driver.current_window_handle    
-    chrome_driver.find_element_by_xpath('//*[@id="react"]/div/div/div[1]/div[1]/div/div[2]/ul/li[7]/span/span[1]/a').click()
+    # handle = chrome_driver.current_window_handle    
+    # chrome_driver.find_element_by_xpath('//*[@id="react"]/div/div/div[1]/div[1]/div/div[2]/ul/li[7]/span/span[1]/a').click()
     sleep(3)
-    handles=chrome_driver.window_handles   
-    try:
-        for i in handles:
-            if i != handle:
-                chrome_driver.switch_to.window(i)
-                print(i)
-    except Exception as e:
-        print(str(e))    
+    # handles=chrome_driver.window_handles   
+    # try:
+    #     for i in handles:
+    #         if i != handle:
+    #             chrome_driver.switch_to.window(i)
+    #             print(i)
+    # except Exception as e:
+    #     print(str(e))    
     sleep(3000)
 
 
 
 if __name__ == '__main__':
-    tz_test()
+    test_meituan()

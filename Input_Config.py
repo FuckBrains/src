@@ -13,6 +13,8 @@ Input_Config ={
 def get_input_config(key):
     global Input_Config
     if key in Input_Config:
+        print('Input_Config[key]:',Input_Config[key])
         return Input_Config[key]
     else:
+        print('Input_Config[key]:=====[]')        
         return []

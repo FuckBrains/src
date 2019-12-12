@@ -1,4 +1,5 @@
 import time
+import time_related
 import socket
 import Alliance_login
 import os
@@ -443,12 +444,15 @@ def test_html():
     
 
 def test_cam4_fr():
-    Mission_list = ['10005','10043']
-    Excel_name = ['','Email']
+    Mission_list = ['10002']
+    Excel_name = ['health','Email']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
+    start = time_related.Time_start()
     submit1 = db.read_one_excel(Mission_list,Excel_name,Email_list) 
-    print(submit1)  
-
+    # print(submit1)  
+    end = time_related.Time_end()
+    time_used = time_related.Time_used(start,end)
+    print(time_used,'seconds used for test')
 
 def db_test_remote():
     '''
@@ -805,9 +809,19 @@ def test_kk():
         print(data['General']['scroll'])
 
 
+def test_class():
+    class test():
+        def f(self):
+            print('aaaaa')
+            return 'hello world'        
+    func = 'f'
+    a = test()
+    f = eval('a.'+func)()
+    print(f)
+
 if __name__ == '__main__':
     i = 1
     if i == 0:
         test_flag_use()
     else:
-        test_kk()
+        test_class()

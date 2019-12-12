@@ -591,58 +591,128 @@ def read_one_excel_(Mission_list,Excel_name,Email_list):
     # submit = dict(Info_dict,**Info_dict2)
     return Info_dicts
 
+# def read_one_excel(Mission_list,Excel_name,Email_list):
+#     print('     Start reading info from sql server...')
+#     account = get_account()
+#     conn,cursor=login_sql(account)
+#     print('     Login success')    
+#     res = cursor.execute('SELECT * from Mission WHERE Mission_Id="%d"'%int(Mission_list[0]))
+#     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+#     Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
+#     num = 0
+#     step = 100
+#     Info_dicts = {}   
+#     Mission_basicinfo_list = [Mission['BasicInfo_Id'] for Mission in Mission_dict]
+#     Mission_email_list = [Mission['Email_Id'] for Mission in Mission_dict]  
+#     sql_content = 'SELECT COUNT(*) FROM Basicinfo WHERE Excel_name="%s"'%Excel_name[0]
+#     res = cursor.execute(sql_content)
+#     tt = cursor.fetchall()
+#     print(tt)
+#     num_excel = tt[0][0]
+#     # print(num_excel)
+#     Basicinfo_ids = []     
+#     if Excel_name[0] != '' :
+#         while True:
+#             # res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" limit 0,1'%(Excel_name[0]))
+#             res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" and flag_use = 0 ORDER BY rand() limit 10'%Excel_name[0])
+#             # res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" and flag_use = 0 limit %d,%d'%(Excel_name[0],num,step))            
+#             print(res)
+#             desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+#             BasicInfo_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
+#             for info in BasicInfo_dict:
+#                 # print('leninfo',len(info))
+#                 if info['BasicInfo_Id'] not in Mission_basicinfo_list:
+#                     # print(Info_dicts[Excel_name[0]])
+#                     # print(BasicInfo_dict)
+#                     # print(1)
+#                     Info_dicts[Excel_name[0]] = info
+#                     break
+#                 if info['BasicInfo_Id'] not in Basicinfo_ids:
+#                     Basicinfo_ids.append(info['BasicInfo_Id'])
+
+#             sql_content = 'SELECT COUNT(*) FROM Basicinfo WHERE Excel_name="%s" and flag_use = 1'%Excel_name[0]
+#             res = cursor.execute(sql_content)
+#             ff = cursor.fetchall()
+#             # print(ff)
+#             num_flag = ff[0][0]     
+#             # print(num_flag,'infos flag_use = 1')           
+#             if len(Info_dicts) > 0:
+#                 break            
+#             if len(Basicinfo_ids) >= num_excel-num_flag:
+#                 print('No available data for Mission_Id:',str(Mission_list[0]))
+#                 return None
+#         sql_content = "UPDATE BasicInfo SET flag_use = 1 WHERE BasicInfo_Id = '%s'" % Info_dicts[Excel_name[0]]['BasicInfo_Id']
+#         res = cursor.execute(sql_content)                 
+#     else:
+#         BasicInfo_dict = {}
+#     if Excel_name[1] != '':
+#         res = cursor.execute('SELECT * from Email')
+#         desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+#         Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
+#     else:
+#         # Excel_name[1] = {}
+#         Email_dict = {}            
+#     Info_dict2 = {}
+#     if len(Email_dict) != 0:
+#         list_Email = random.sample(range(len(Email_dict)),len(Email_dict))
+#         # print(len(Email_dict))
+#         for i in list_Email:
+#             # print(i)
+#             if Email_dict[i]['Status'] == 'Bad':
+#                 continue
+#             a = Email_dict[i]['Email_emu'].find('@')
+#             end = Email_dict[i]['Email_emu'][a+1:]
+#             if end not in Email_list:
+#                 continue 
+#             flag = 0
+#             if Email_dict[i]['Email_Id'] not in Mission_email_list:
+#                 # print('find email unique')
+#                 Info_dict2 = Email_dict[i]
+#                 break
+#     if len(Info_dict2) != 0:
+#         Info_dicts['Email'] = Info_dict2
+#     login_out_sql(conn,cursor)
+#     # submit = dict(Info_dict,**Info_dict2)
+#     return Info_dicts
+
 def read_one_excel(Mission_list,Excel_name,Email_list):
-    # print('     Start reading info from sql server...')
+    print('     Start reading info from sql server...')
     account = get_account()
     conn,cursor=login_sql(account)
-    # print('     Login success')    
+    print('     Login success')    
     res = cursor.execute('SELECT * from Mission WHERE Mission_Id="%d"'%int(Mission_list[0]))
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
-    num = 0
-    step = 100
+    # num = 0
+    # step = 100
     Info_dicts = {}   
-    Mission_basicinfo_list = [Mission['BasicInfo_Id'] for Mission in Mission_dict]
+    Mission_basicinfo_list = [str(Mission['BasicInfo_Id']) for Mission in Mission_dict]
     Mission_email_list = [Mission['Email_Id'] for Mission in Mission_dict]  
     sql_content = 'SELECT COUNT(*) FROM Basicinfo WHERE Excel_name="%s"'%Excel_name[0]
     res = cursor.execute(sql_content)
     tt = cursor.fetchall()
     # print(tt)
     num_excel = tt[0][0]
-    # print(num_excel)
-    Basicinfo_ids = []     
+    print('Total',num_excel,'infos in excel',Excel_name[0])
+    res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" and flag_use = 0 '%Excel_name[0])
+    print(res)
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可    
+    BasicInfo_dict_ = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
+    flag_test = 0
     if Excel_name[0] != '' :
-        while True:
-            # res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" limit 0,1'%(Excel_name[0]))
-            res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" and flag_use = 0 ORDER BY rand() limit 100'%Excel_name[0])
-            # res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" and flag_use = 0 limit %d,%d'%(Excel_name[0],num,step))            
-            # print(res)
-            desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
-            BasicInfo_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
-            for info in BasicInfo_dict:
-                # print('leninfo',len(info))
-                if info['BasicInfo_Id'] not in Mission_basicinfo_list:
-                    # print(Info_dicts[Excel_name[0]])
-                    # print(BasicInfo_dict)
-                    # print(1)
-                    Info_dicts[Excel_name[0]] = info
-                    break
-                if info['BasicInfo_Id'] not in Basicinfo_ids:
-                    Basicinfo_ids.append(info['BasicInfo_Id'])
-
-            sql_content = 'SELECT COUNT(*) FROM Basicinfo WHERE Excel_name="%s" and flag_use = 1'%Excel_name[0]
-            res = cursor.execute(sql_content)
-            ff = cursor.fetchall()
-            # print(ff)
-            num_flag = ff[0][0]     
-            # print(num_flag,'infos flag_use = 1')           
-            if len(Info_dicts) > 0:
-                break            
-            if len(Basicinfo_ids) >= num_excel-num_flag:
-                print('No available data for Mission_Id:',str(Mission_list[0]))
-                return None
+        BasicInfo_dict_key = random.sample(range(len(BasicInfo_dict_)),len(BasicInfo_dict_))
+        for key in BasicInfo_dict_key:
+            # print('leninfo',len(info))
+            if BasicInfo_dict_[key]['BasicInfo_Id'] not in Mission_basicinfo_list:
+                Info_dicts[Excel_name[0]] = BasicInfo_dict_[key]
+                flag_test = 1
+                break
+        if len(Info_dicts) == 0:
+            return {}
+        print(Info_dicts)
+        print(Info_dicts[Excel_name[0]]['BasicInfo_Id'])
         sql_content = "UPDATE BasicInfo SET flag_use = 1 WHERE BasicInfo_Id = '%s'" % Info_dicts[Excel_name[0]]['BasicInfo_Id']
-        res = cursor.execute(sql_content)                 
+        res = cursor.execute(sql_content)
     else:
         BasicInfo_dict = {}
     if Excel_name[1] != '':
@@ -674,6 +744,7 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
     login_out_sql(conn,cursor)
     # submit = dict(Info_dict,**Info_dict2)
     return Info_dicts
+
 
 
 def read_one_selected_email(Mission_list,Email_list):
@@ -1329,8 +1400,8 @@ def get_luminati_submit(Config):
     Mission_Ids,Excels_dup = [Config['Mission_Id']],Config['Excel']
     # print(Excels_dup)
     submit = read_one_excel(Mission_Ids,Excels_dup,Email_list)
-    if submit == None:
-        return None
+    if submit == {}:
+        return {}
     # print(submit)
     submit['ip_lpm'] = Config['ip_lpm']
     submit['port_lpm'] = Config['port_lpm']

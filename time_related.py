@@ -36,13 +36,15 @@ def mytest(message):
 def Time_start():
     starttime = datetime.datetime.utcnow()
     # print(str(starttime)[:19])
-    return str(starttime)[:19]
+    # return str(starttime)[:19]
+    return starttime
 
 #long running
 def Time_end():
     endtime = datetime.datetime.utcnow()
     print(endtime)
-    return str(endtime)[:19]
+    # return str(endtime)[:19]
+    return endtime
 
 def Time_used(starttime,endtime):    
     time_used = (endtime - starttime).seconds

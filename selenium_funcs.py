@@ -6,13 +6,17 @@ import Submit_handle
 import json
 from selenium.webdriver.support.ui import Select as Select_
 import random
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+
 
 
 def get_action(chrome_driver,data,submit):
     print(data)
     action_func = data['Action']
     data['Step_config'] = json.loads(data['Step_config']) 
-    data['General'] = json.loads(data['General'])     
+    # data['General'] = json.loads(data['General'])     
     print(action_func)
     if data['General']['iframe'] != '':
         chrome_driver.switch_to_frame(data['General']['iframe'])
@@ -91,7 +95,7 @@ def Select(chrome_driver,data,submit):
         num = random.randint(1,len(options)-1)
         s1.select_by_index(num)
         return              
-    if data['Step_config']['select_value'] != '':
+    if data['Step_config']['select_value'] != 'False':
         if submit[data['Step_config']['select_value']] in values:
             s1.select_by_value(submit[data['Step_config']['select_value']])    
             return      
@@ -120,12 +124,12 @@ def Input(chrome_driver,data,submit):
     clear_deep(element)
     input_key = data['Step_config']['input_key']
     if input_key == 'False':
-        content = data['content']
+        content = data['Step_config']['content']
     else:
         key = data['Step_config']['input_func']
         input_func = Input_Config.get_input_config(key)
         if len(input_func) != 0:
-            content = eval('Submit_handle.'+input_func)(chrome_driver,data,submit)
+            content = eval('Submit_handle.'+input_func)(submit[input_key])
         else:
             content = submit[input_key]
     element.send_keys(content)
@@ -133,6 +137,7 @@ def Input(chrome_driver,data,submit):
 def Click(chrome_driver,data,submit):
     if data['General']['scroll'] == True:
         element = scroll_and_find_up(chrome_driver,data['General']['xpath'])
+    WebDriverWait(chrome_driver,120).until(EC.element_to_be_clickable((By.XPATH,data['General']['xpath'])))
     element = chrome_driver.find_element_by_xpath(data['General']['xpath'])
     element.click()
     return element

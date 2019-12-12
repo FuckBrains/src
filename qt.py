@@ -1,3 +1,4 @@
+import Chrome_driver
 import json
 import luminati
 import sys
@@ -116,6 +117,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         end = len(self.offer)
         # text = 'Already in config links\n'
         replace_links()
+        account = db.get_account()
+        self.vc_range = account['vc_range']
+        print(self.vc_range)        
         for item in self.offer:
             if i >= end:
                 break
@@ -130,9 +134,6 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.setWindowTitle('EMU_MultiMission')
         self.accounts = Alliance_login.Get_roboform_account()
         self.set_comboBox6()
-        account = db.get_account()
-        self.vc_range = account['vc_range']
-        print(self.vc_range)
         # reply = QMessageBox.information(self,
         #           "消息框标题", 
         #           "这是一条消息。", 
@@ -146,11 +147,20 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             self.comboBox6.addItem("")
             self.comboBox6.setItemText(i, _translate("MainWindow",str(i+1)))            
 
+    def set_comboBox5(self):
+        countrys_dict = Chrome_driver.get_all_country()
+        countrys = [country for country in countrys_dict]
+        _translate = QtCore.QCoreApplication.translate    
+        length_country = len(countrys)
+        for i in range(length_country):
+            self.comboBox6.addItem("")
+            self.comboBox6.setItemText(i, _translate("MainWindow",countrys[i])) 
+
     def set_comboBox2(self):
         _translate = QtCore.QCoreApplication.translate
         j = 0
         self.comboBox2.clear()
-        print('========')
+        # print('========')
         item = self.comboBox1.currentText()
         if item != '':
             for offer_ in self.offer[item]:
@@ -163,7 +173,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     def set_comboBox3(self):
         _translate = QtCore.QCoreApplication.translate      
         j = 0
-        print('set_comboBox3')
+        # print('set_comboBox3')
         self.comboBox3.clear()
         self.offer_link = Read_Ini(self.file_Offer_link_all)
         for item in self.offer_link:
@@ -176,7 +186,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     def set_comboBox4(self):
         _translate = QtCore.QCoreApplication.translate      
         j = 0
-        print('set_comboBox4')
+        # print('set_comboBox4')
         self.comboBox4.clear()
         self.offer_link_all = Read_Ini(self.file_Offer_link)
         for item in self.offer_link_all:
@@ -378,7 +388,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
                     continue
                 print(offer,self.Offer_config[offer]['Mission_Id'],str(keys[row]))                    
                 if str(self.Offer_config[offer]['Mission_Id']) == str(keys[row]):
-                    print('===========')
+                    # print('===========')
                     Excel_used_ = self.Offer_config[offer]['Excel']
                     Offer_name = offer
             item=QtGui.QStandardItem(Offer_name)
@@ -417,7 +427,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         # layout=QtWidgets.QVBoxLayout()
         # layout.addWidget(self.tableView)
         # self.setLayout(layout)  
-        print('===========++++')    
+        # print('===========++++')    
 
 
     def set_table2(self):
@@ -714,7 +724,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         j = 0
         self.comboBox19.clear()
         self.comboBox20.clear()        
-        print('========')
+        # print('========')
         Mission_Id = self.lineEdit13.text()
         print(Mission_Id)
         keys = []
@@ -785,19 +795,21 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             self.textBrowser3.setText(text)
 
 
-def main(i):
+def main(i,message=''):
     up.main()
-    print('111')
+    # print('111')
     app = QtWidgets.QApplication(sys.argv)  # 创建一个QApplication，也就是你要开发的软件app
     MainWindow = QMainWindow()    # 创建一个QMainWindow，用来装载你需要的各种组件、控件
     ui = Mywindow(MainWindow)                          # ui是你创建的ui类的实例化对象
     # ui.setupUi(MainWindow)   # 执行类中的setupUi方法，方法的参数是第二步中创建的QMainWindow
     # ui.pushButton.clicked.connect(test_sig)
-    ui.show()                       # 执行QMainWindow的show()方法，显示这个QMainWindow
     if i == 0:
+        ui.show()                       # 执行QMainWindow的show()方法，显示这个QMainWindow
         sys.exit(app.exec_())
     else:
-        ui.alert("New page found for Mission_Id")
+        if message != '':
+            message += '\n'*30+' '*100
+            ui.alert(message)
         sys.exit(app.exec_())
 
 
@@ -827,25 +839,11 @@ def change__delay_config(up,down,threads):
     Offer_config['Email_list']['aol.com'] = 1
     Write_Ini(file_Offer_config,Offer_config)
 
-
-
-
-
 if __name__ == '__main__':
-    i = 0
-    main(i)
-    # Write_Offer_config()
+    i = 1
+    message = 'test'+'\n'*30+' '*100
+    main(i,message)
 
-
-    # Add_new_module_test()
-    # Alliance = 'Offer18'
-    # New_Offers = ['Stripchat(Done)']
-    # Add_New_Offer(Alliance,New_Offers)    
-
-    # new_link = {'Offer':'1.Stripchat(Done)'}
-    # new_link['Alliance'] = 'Finaff'
-    # new_link['url_link'] = 'http'
-    # Add_New_Link(new_link,0)
 
 
 

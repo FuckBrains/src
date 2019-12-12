@@ -78,7 +78,6 @@ def main(i):
             return
         # print(plans)
         tk.start(plans)
-        return
         print('All Missions finished..............')
         try:
             print('try killing pids')

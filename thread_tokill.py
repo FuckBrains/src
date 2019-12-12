@@ -1,3 +1,4 @@
+import json
 import random
 import ip_test
 import Changer_windows_info as changer
@@ -15,10 +16,17 @@ import os
 import threadpool
 import threading
 import qt
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.common.keys import Keys
 import selenium_funcs
+import Submit_handle
+import time
+
+
+
 
 
 pool = threadpool.ThreadPool(10)
@@ -98,8 +106,10 @@ def get_submit(Config):
                 break        
             # print('getting data')
         try:
+            print(Config)
             submit = db.get_luminati_submit(Config)           
-            if submit == None:
+            if submit == {}:
+                qt.main(1)
                 return None
             # print(submit)
             # return
@@ -156,7 +166,9 @@ def get_submit(Config):
             Config['port_lpm'] = port_new
             # print(port_new)
             try:
-                luminati.add_proxy(port_new,country=submit['Country'],proxy_config_name='jia1',ip_lpm=submit['ip_lpm'])
+                proxy_config_name_list = ['jia1','jia2'] 
+                num_proxy = random.randint(0,1)
+                luminati.add_proxy(port_new,country=submit['Country'],proxy_config_name=proxy_config_name_list[num_proxy],ip_lpm=submit['ip_lpm'])
             except Exception as e:
                 print(str(e))
             continue
@@ -220,12 +232,16 @@ def reg_part_(submit):
     print('reg_part')
     global timezone 
     global using_num    
-    # try:
-    #     module = 'Mission_'+str(submit['Mission_Id'])
-    #     Module = importlib.import_module(module)
-    # except Exception as e:
-    #     print(str(e))
-    Module = ''
+    submit['record'] = 1
+    Module = ''    
+    if submit['record'] == 0:
+        try:
+            module = 'Mission_'+str(submit['Mission_Id'])
+            Module = importlib.import_module(module)
+        except Exception as e:
+            print(str(e))
+    else:
+        Module = ''    
 
     try:
         print('----------------====================')
@@ -233,7 +249,9 @@ def reg_part_(submit):
             submit.pop('ip_lpm')
         chrome_driver = Chrome_driver.get_chrome(submit)
         print('========')
-        if Module != "":
+        if Module != '':
+            print('11111111111111')
+            print(Module)
             Module.web_submit(submit,chrome_driver=chrome_driver)
         else:
             print('Record modern')
@@ -251,9 +269,6 @@ def reg_part_(submit):
     except:
         pass
 
-
-
-
 def web_submit(submit,chrome_driver,debug=0):
     # predefine Mission
     # Excel_tag = 'Auto'    
@@ -263,58 +278,112 @@ def web_submit(submit,chrome_driver,debug=0):
     # if debug == 1:
     #     site = 'http://tracking.axad.com/aff_c?offer_id=181&aff_id=2138'
     #     submit['Site'] = site
+    Page_flags = db.get_page_flag(submit['Mission_Id'])
+    print(Page_flags)    
+    print('============')
+    print(submit['Site'])
     chrome_driver.get(submit['Site'])
     print('Load finish')
     # old_page = chrome_driver.find_element_by_tag_name('html')
     # print(old_page.id)
-    Page_flags = db.get_page_flag(submit['Mission_Id'])
-    print(Page_flags)
     # chrome_driver.maximize_window()    
     # chrome_driver.refresh()
     handle = chrome_driver.current_window_handle
     while True:
+        '''
+        turn to other page
+        '''
         handles=chrome_driver.window_handles   
         for i in handles:
             if i != handle:        
                 chrome_driver.switch_to.window(i)  
-        if 'This page isn’t working' in chrome_driver.page_source :
-            return
-        page = get_page_by_flag(Page_flags,chrome_driver)
+        '''
+        detect page flag,if find ,continue,if not return
+        '''
+        page = page_detect(Page_flags,chrome_driver)
         if page == None:
+            print('Looking for flag and Timeout or bad page')
+            return
+        elif page == '':
             content = 'New Page'
-            # writelog(chrome_driver,submit,content='')
+            writelog(chrome_driver,submit,content='')
             qt.main(1)
             return
         print('Find target_page:',page['Page'])
-        if debug == 1:
-            save_html(chrome_driver,submit['Mission_Id'],page['Page'])
+        '''
+        save html
+        '''
+        save_html(chrome_driver,submit['Mission_Id'],page['Page'])
+        '''
+        get and sort page config
+        '''
         config = db.get_page_config(submit['Mission_Id'],page['Page'])
         config.sort(key=takeStep)
         print(config)
         for item in submit:
             print(item)
-            if 'BasicInfo_Id' in submit[item]:
-                key_excel = item
-                break        
+            try:
+                if 'BasicInfo_Id' in submit[item]:
+                    key_excel = item
+                    print('find excel name:',key_excel)
+                    break
+            except:
+                pass
+        '''
+        find all xpaths for every step
+        '''
+        xpaths = []
+        for config_ in config:
+            print(config_)
+            config_['General'] = json.loads(config_['General'])              
+            xpaths.append(config_['General']['xpath']) 
+        print(xpaths)
+        '''
+        check step status for every step
+        '''
+        step_detect(chrome_driver,xpaths) 
+        print('All steps ready')
+        '''
+        stop window if every step is ready
+        '''
+        chrome_driver.execute_script("window.stop();")            
+        wait = WebDriverWait(chrome_driver,1)
+        try:
+            wait.until(EC.visibility_of_element_located((By.XPATH,'aaaaaaaa')))
+        except Exception as e:
+            print(str(e))
+        chrome_driver.maximize_window()                
+        print('Stop loading')         
+        # chrome_driver.get('https://www.baidu.com')
+        # sleep(3000)
+        # chrome_driver.execute_script("window.stop();")
+        # chrome_driver.find_element_by_xpath(page['Flag_xpath']).click()
+        # ActionChains(chrome_driver).key_down(Keys.ESCAPE).key_up(Keys.ESCAPE).perform()
+        sleep(3)       
+
+        '''
+        do step by config
+        '''
         for config_ in config:
             try:
-                print(config_)
-                print(type(config_))
                 selenium_funcs.get_action(chrome_driver,config_,submit[key_excel])
+                sleep(1)
             except Exception as e:
-                print(str(e))
                 a = traceback.format_exc()            
                 print(a)
-        page_change(chrome_driver,page)
+        '''
+        check page flag status,if changed,continue
+        '''
+        flag_page_chane = page_change(chrome_driver,page)
+        if flag_page_chane == 1:
+            pass
+        else:
+            return
         if 'Almost' in page['Status']:
             db.update_plan_status(1,submit['ID'])
         if 'Finish' in page['Status']:
             db.update_plan_status(2,submit['ID'])
             return        
-
-# def sort_page_step(config):
-#     config.sort(key=takeStep)
-#     return
 
 def takeStep(elem):
     return elem['Step']
@@ -343,22 +412,69 @@ def get_page_by_flag(Page_flags,chrome_driver):
             print(str(e))
     return target_page
 
+def page_detect(Page_flags,chrome_driver):
+    page = None
+    for i in range(60):
+        page = get_page_by_flag(Page_flags,chrome_driver)
+        if page == None:
+            print('Page Flag Not Found,',i+1)
+            sleep(3)
+        else:
+            print('Page Flag Found')            
+            break
+        status = chrome_driver.execute_script("return document.readyState")
+        print('document status:',status)
+        wrong_pages = ['Webpage not available','This page isn’t working']
+        flag_wrong_page = 0
+        if status == 'complete':
+            for wrong_page in wrong_pages:
+                if wrong_page in chrome_driver.page_source :
+                    print('wrong_page:',wrong_page)
+                    flag_wrong_page = 1
+                    break
+            if flag_wrong_page == 0:
+                page = ''
+                break
+            else:
+                page = None
+                break
+    return page
+
 def page_change(chrome_driver,page):
-    WebDriverWait(chrome_driver,60).until_not(EC.text_to_be_present_in_element((By.XPATH,page['Flag_xpath']),page['Flag_text']))
+    print(page)
+    flag = 0
+    for i in range(360):        
+        if EC.text_to_be_present_in_element((By.XPATH,page['Flag_xpath']),page['Flag_text']):
+            sleep(1)
+        else:
+            flag = 1
+            break
+    if flag == 1:
+        print('page changed')
+        return 1
+    else:
+        print('timeout')
+        return 0
+
+def step_detect(chrome_driver,xpaths):
+    for xpath in xpaths:
+        WebDriverWait(chrome_driver,120).until(EC.visibility_of_element_located((By.XPATH,xpath)))
+        print('xpath:',xpath,'ready')
 
 def save_html(chrome_driver,Mission_Id,page):
     print('Title',chrome_driver.title)
     print('url',chrome_driver.current_url)    
     path_html = r'..\html'
-    file = str(page['name'])+'.html'
+    file = str(page)+'.html'
     path_folder = os.path.join(path_html,str(Mission_Id))
     Submit_handle.makedir_pic(path_folder)    
     path_file = os.path.join(path_folder,file)
-    html=chrome_driver.page_source
+    # html=chrome_driver.page_source
+    html = chrome_driver.execute_script("return document.documentElement.outerHTML")    
     with open(path_file,mode="w",encoding="utf-8") as f:
         f.write(html) 
 
-def multi_reg(Config):  
+def multi_reg(Config):
     # print(Config)
     print('multi_reg')
     return_rand = random.randint(0,5)
@@ -385,3 +501,8 @@ def multi_reg(Config):
             print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
             print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')            
     return  
+
+
+def test():
+    stopLoading()    
+
