@@ -86,10 +86,11 @@ def change_ip(submit):
     country = submit['Country']
     for i in range(3):
         try:
-            zipcode = ip_test.ip_Test('',state = '',country=country )
-            if zipcode != '' and zipcode != None:
-                submit['zipcode'] = zipcode
-                return submit
+            ip_test.ip_Test('',state = '',country=country )
+            return
+            # if zipcode != '' and zipcode != None:
+            #     submit['zipcode'] = zipcode
+            #     return submit
         except:
             pass
     changer.restart()

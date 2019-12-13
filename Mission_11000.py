@@ -98,7 +98,7 @@ def web_submit(submit,chrome_driver,debug=0):
     # cvv    
     chrome_driver.find_element_by_xpath('//*[@id="cvv"]').send_keys(submit['cvv'])    
     # zip    
-    chrome_driver.find_element_by_xpath('//*[@id="zip"]').send_keys(submit['zipcode'])
+    chrome_driver.find_element_by_xpath('//*[@id="zip"]').send_keys(submit['katou'])
     # submit
     chrome_driver.find_element_by_xpath('//*[@id="signUp"]').click()
     sleep(30)

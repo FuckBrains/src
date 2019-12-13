@@ -31,6 +31,7 @@ def get_action(chrome_driver,data,submit):
             traceback_ = traceback.format_exc()
     else:
         eval(action_func)(chrome_driver,data,submit)
+    
 
 def scroll_and_find(chrome_driver,element):
     target = chrome_driver.find_element_by_xpath(element) 
