@@ -9,15 +9,31 @@ import random
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-
+from time import sleep
 
 
 def get_action(chrome_driver,data,submit):
+    for item in submit:
+        print(item)
+        try:
+            if 'BasicInfo_Id' in submit[item]:
+                key_excel = item
+                print('find excel name:',key_excel)
+                break
+        except:
+            pass
     print(data)
     action_func = data['Action']
     data['Step_config'] = json.loads(data['Step_config']) 
     # data['General'] = json.loads(data['General'])     
     print(action_func)
+    if action_func == 'Set_Status':
+        db.update_plan_status(1,submit['ID']) 
+        return
+    if action_func == 'Set_Sleep':
+        time_ = submit['Step_config']['sleep']
+        sleep(time_)
+        return
     if data['General']['iframe'] != '':
         chrome_driver.switch_to_frame(data['General']['iframe'])
     print("data['General']['iframe']",data['General']['iframe'])
@@ -26,12 +42,12 @@ def get_action(chrome_driver,data,submit):
     print("data['General']['scroll']",data['General']['scroll'])        
     if data['General']['try'] == 'True':
         try:    
-            eval(action_func)(chrome_driver,data,submit)
+            eval(action_func)(chrome_driver,data,submit[key_excel])
         except Exception as e:
             traceback_ = traceback.format_exc()
     else:
-        eval(action_func)(chrome_driver,data,submit)
-    
+        eval(action_func)(chrome_driver,data,submit[key_excel])
+
 
 def scroll_and_find(chrome_driver,element):
     target = chrome_driver.find_element_by_xpath(element) 
@@ -87,27 +103,50 @@ def Select(chrome_driver,data,submit):
             # js="$('%s').removeAttr('selected')"%data['Step_config']['selected_css']
             # chrome_driver.execute_script(js)              
         values.append(value)
-    # if data['Step_config']['selected_css'] != '':
-    #     pass
+
+    '''
+    5 ways to select
+    '''
+    # 1.select_by_index
     if data['Step_config']['select_index'] != '':        
         s1.select_by_index(int(data['Step_config']['select_index']))  
         return      
+    # 2.select_by_index and random
     if data['Step_config']['select_index_rand'] == 'True':
         num = random.randint(1,len(options)-1)
         s1.select_by_index(num)
         return              
+    # 3.select_by_value
+        # use func to handle data if necessary
+        # use random if values not in values in page
     if data['Step_config']['select_value'] != 'False':
-        if submit[data['Step_config']['select_value']] in values:
+        if data['Step_config']['select_func'] != 'False':
+            content = eval('Submit_handle.'+data['Step_config']['select_func'])(submit['Step_config']['select_value'])
+        else:                  
+            content = submit[data['Step_config']['select_value']]
+        if content in values:
             s1.select_by_value(submit[data['Step_config']['select_value']])    
             return      
         else:
             num = random.randint(1,len(options)-1)
             s1.select_by_value(str(values[num]))
             return      
-    if len(data['Step_config']['select_value_range']) != 0:
+    # 4.select_value_range
+    if data['Step_config']['select_value_range'][0] != '':
         value_num = random.randint(int(data['Step_config']['select_value_range'][0]),int(data['Step_config']['select_value_range'][1]))
         s1.select_by_value(str(value_num))   
-        return      
+        return  
+    # 5. select by values set and in random
+    if data['Step_config']['select_value_content'] != '':
+        contents = data['Step_config']['select_value_content'].split('\n')
+        contents = [content for content in contents if content in values]
+        if len(contents) != 0:
+            num = random.randint(0,len(contents))
+            s1.select_by_value(str(contents[num]))   
+        else:
+            num = random.randint(1,len(options)-1)
+            s1.select_by_value(str(values[num]))
+        return
 
         # if len(data['Step_config']['select_value_list']) != 0:
         #     num = random.randint(0,len(data['Step_config']['select_value_list'])-1)
@@ -123,16 +162,18 @@ def Slide(chrome_driver,data,submit):
 def Input(chrome_driver,data,submit):
     element = Click(chrome_driver,data,submit)
     clear_deep(element)
-    input_key = data['Step_config']['input_key']
-    if input_key == 'False':
-        content = data['Step_config']['content']
-    else:
-        key = data['Step_config']['input_func']
-        input_func = Input_Config.get_input_config(key)
-        if len(input_func) != 0:
-            content = eval('Submit_handle.'+input_func)(submit[input_key])
+    if data['Step_config']['input_key'] != 'False':
+        if data['Step_config']['input_func'] != 'False' :
+            content = eval('Submit_handle.'+data['Step_config']['input_func'])(submit[data['Step_config']['input_key']])
         else:
-            content = submit[input_key]
+            content = submit['Step_config']['input_key']
+    elif data['Step_config']['input_generate'] != 'False':
+        if data['Step_config']['input_func'] != 'False' :
+            content = eval('Submit_handle.'+data['Step_config']['input_func'])()
+        else:
+            content = submit['Step_config']['input_generate']
+    else:
+        content = submit['Step_config']['input_content']
     element.send_keys(content)
 
 def Click(chrome_driver,data,submit):
@@ -142,5 +183,4 @@ def Click(chrome_driver,data,submit):
     element = chrome_driver.find_element_by_xpath(data['General']['xpath'])
     element.click()
     return element
-
 

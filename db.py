@@ -237,7 +237,7 @@ def check_flag(Mission_Id,flag):
 def check_step(Mission_Id,flag):
     account = get_account()
     conn,cursor=login_sql(account)
-    res = cursor.execute('SELECT * from Page_Config WHERE Mission_Id = "%d" and Page = "%s" and Step = "%d"'%(int(Mission_Id),str(flag['Page']),int(flag['step'])))
+    res = cursor.execute('SELECT * from Page_Config WHERE Mission_Id = "%d" and Page = "%s" and Step = "%d"'%(int(Mission_Id),str(flag['Page']),int(flag['Step'])))
     print(res)
     # desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     # Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
@@ -252,14 +252,14 @@ def check_step(Mission_Id,flag):
 
 def upload_pageconfig(flag):
     Page = flag['Page']
-    Step = flag['step']
+    Step = flag['Step']
     Mission_Id = flag['Mission_Id']
     flag_check = check_step(Mission_Id,flag)
     if flag_check == False:
         return -1
-    Action = flag['action'] 
-    General = json.dumps(flag['general'])
-    Step_config = json.dumps(flag['step_config'])  
+    Action = flag['Action'] 
+    General = json.dumps(flag['General'])
+    Step_config = json.dumps(flag['Step_config'])  
     print('General',General)
     print('Step_config',Step_config)
     print(flag)  

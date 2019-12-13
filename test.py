@@ -846,6 +846,15 @@ def test_get_excels():
         
         response = db.Execute_sql_single(sql_content)
 
+def test_sss1():
+    values = ['1','a','b','c']
+    contents = ['a','b','d','3']
+    test = [content for content in contents if content in values]
+    print(test)
+
+def test_sss2():
+    num = random.randint(0,0)
+    print(num)
 
 
 if __name__ == '__main__':
@@ -853,4 +862,4 @@ if __name__ == '__main__':
     if i == 0:
         test_flag_use()
     else:
-        test_get_excels()
+        test_sss2()

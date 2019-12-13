@@ -173,6 +173,18 @@ class Mywindow(QMainWindow,Ui_MainWindow):
                 self.comboBox2.setItemText(j, _translate("MainWindow", str(j+1)+'.'+offer_))            
                 j+=1
     
+    def set_comboBox25(self):
+        _translate = QtCore.QCoreApplication.translate
+        generate_dict = Input_Config.get_generate_items()
+        items = [item for item in generate_dict]
+        print(items)
+        self.comboBox25.clear()
+        self.comboBox25.addItem("")
+        self.comboBox25.setItemText(0, _translate("MainWindow", 'False'))
+        for j in range(len(items)):
+            self.comboBox25.addItem("")
+            self.comboBox25.setItemText(j+1, _translate("MainWindow", items[j]))
+
     def set_comboBox3(self):
         _translate = QtCore.QCoreApplication.translate      
         j = 0
@@ -202,13 +214,33 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     def set_comboBox21(self):
         _translate = QtCore.QCoreApplication.translate
         key = self.comboBox20.currentText()
-        methods = Input_Config.get_input_config(key)
+        if key == 'False':
+            key = self.comboBox25.currentText()
+            if key == 'False':
+                return
+            else:
+                methods = Input_Config.get_generate_config(key)
+
+        else:
+            methods = Input_Config.get_input_config(key)
         self.comboBox21.clear()
         self.comboBox21.addItem("")
         self.comboBox21.setItemText(0, _translate("MainWindow", 'False'))
         for j in range(len(methods)):
             self.comboBox21.addItem("")
             self.comboBox21.setItemText(j+1, _translate("MainWindow", methods[j]))
+
+    def set_comboBox24(self):
+        _translate = QtCore.QCoreApplication.translate
+        key = self.comboBox19.currentText()
+        methods = Input_Config.get_select_config(key)
+        self.comboBox24.clear()
+        self.comboBox24.addItem("")
+        self.comboBox24.setItemText(0, _translate("MainWindow", 'False'))
+        for j in range(len(methods)):
+            self.comboBox24.addItem("")
+            self.comboBox24.setItemText(j+1, _translate("MainWindow", methods[j]))
+
 
     def set_text_working_links(self):
         self.file_Offer_link = r'..\res\Offer_link.ini'
@@ -239,8 +271,22 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         # print('----------')
         self.set_comboBox2()
         print(self.comboBox2.currentText())
+        self.set_lineEdit13()
         if self.comboBox2.currentText() == '':
             return 
+
+    def on_comboBox2_currentIndexChanged(self):
+        self.set_lineEdit13()
+
+    def set_lineEdit13(self):
+        # print('----------')
+        Mission_Id = ''
+        offer_ = self.comboBox2.currentText()
+        if offer_ != '':
+            print(offer_)
+            offer = offer_.split('.')[1]
+            Mission_Id = self.Offer_config[offer]['Mission_Id']        
+        self.lineEdit13.setText(str(Mission_Id))
 
 
     def get_config_info(self):
@@ -640,15 +686,15 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         flag['Mission_Id'] = str(self.lineEdit13.text())        
         flag['Page'] = self.comboBox7.currentText()
         if self.lineEdit18.text() == '':
-            flag['step'] = self.comboBox17.currentText()
+            flag['Step'] = self.comboBox17.currentText()
         else:
-            flag['step'] = self.lineEdit18.text()
-        flag['action'] = self.comboBox8.currentText()
-        flag['general'] = {}
-        flag['general']['scroll'] = self.comboBox11.currentText() 
-        flag['general']['try'] = self.comboBox16.currentText() 
-        flag['general']['xpath'] = self.lineEdit17.text()
-        flag['general']['iframe'] = self.lineEdit23.text()
+            flag['Step'] = self.lineEdit18.text()
+        flag['Action'] = self.comboBox8.currentText()
+        flag['General'] = {}
+        flag['General']['scroll'] = self.comboBox11.currentText() 
+        flag['General']['try'] = self.comboBox16.currentText() 
+        flag['General']['xpath'] = self.lineEdit17.text()
+        flag['General']['iframe'] = self.lineEdit23.text()
         return flag
  
     @pyqtSlot()
@@ -658,7 +704,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         '''
         flag = {}
         flag = self.get_general_config(flag)
-        flag['step_config'] = {}
+        flag['Step_config'] = {}
         try:
             flag = db.upload_pageconfig(flag)
             self.alert("Add click config success")
@@ -724,16 +770,23 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         '''
         Recorder_Select
         '''
+        text = self.textEdit.toPlainText() 
+        print(text)
+        inputs = text.split('\n')
+        print(inputs)
         flag = {}
+        print()
         try:        
             data = self.get_general_config(flag)
-            data['step_config'] = {}    
-            data['step_config']['select_index'] = self.lineEdit19.text()
-            data['step_config']['select_index_rand'] = self.comboBox18.currentText()
-            data['step_config']['select_value'] = self.comboBox19.currentText()
-            data['step_config']['select_value_range'] = ['','']
-            data['step_config']['select_value_range'][0] = self.lineEdit20.text()
-            data['step_config']['select_value_range'][1] = self.lineEdit21.text()   
+            data['Step_config'] = {}    
+            data['Step_config']['select_index'] = self.lineEdit19.text()
+            data['Step_config']['select_index_rand'] = self.comboBox18.currentText()
+            data['Step_config']['select_value'] = self.comboBox19.currentText()
+            data['Step_config']['select_func'] = self.comboBox24.currentText()            
+            data['Step_config']['select_value_range'] = ['','']
+            data['Step_config']['select_value_range'][0] = self.lineEdit20.text()
+            data['Step_config']['select_value_range'][1] = self.lineEdit21.text()   
+            data['Step_config']['select_value_content'] = self.textEdit.toPlainText() 
             print('data',data)     
             flag_upload = db.upload_pageconfig(data)
             if flag_upload == -1:
@@ -776,7 +829,8 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             self.comboBox19.addItem("")
             self.comboBox19.setItemText(j+1, _translate("MainWindow", 'False'))                    
             self.comboBox20.addItem("")
-            self.comboBox20.setItemText(j+1, _translate("MainWindow", 'False'))                    
+            self.comboBox20.setItemText(j+1, _translate("MainWindow", 'False'))  
+        self.set_comboBox25()                  
 
     @pyqtSlot()
     def on_pushButton28_clicked(self):
@@ -786,23 +840,64 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         flag = {}
         try:        
             data = self.get_general_config(flag)
-            data['step_config'] = {}    
-            data['step_config']['input_key'] = self.comboBox20.currentText()
-            data['step_config']['input_func'] = self.comboBox21.currentText()
-            data['step_config']['input_content'] = self.lineEdit22.text()
-            # data['step_config']['select_index_rand'] = self.comboBox18.currentText()
-            # data['step_config']['select_value'] = self.comboBox19.currentText()
-            # data['step_config']['select_value_range'] = ['','']
-            # data['step_config']['select_value_range'][0] = self.lineEdit20.text()
-            # data['step_config']['select_value_range'][1] = self.lineEdit21.text()   
+            data['Step_config'] = {}    
+            data['Step_config']['input_key'] = self.comboBox20.currentText()
+            data['Step_config']['input_generate'] = self.comboBox25.currentText()
+            data['Step_config']['input_func'] = self.comboBox21.currentText()
+            data['Step_config']['input_content'] = self.lineEdit22.text()
+            flag_check = 0
+            print(data)
+            for item in data['Step_config']:
+                if data['Step_config'][item] != '' and data['Step_config'][item] != 'False':
+                    flag_check = 1
+                    break
+            print(flag_check)
+            if flag_check == 0:
+                content = 'Bad config,all false or empty are not allowed! '
+                self.alert(content)
+                return
+            # data['Step_config']['select_index_rand'] = self.comboBox18.currentText()
+            # data['Step_config']['select_value'] = self.comboBox19.currentText()
+            # data['Step_config']['select_value_range'] = ['','']
+            # data['Step_config']['select_value_range'][0] = self.lineEdit20.text()
+            # data['Step_config']['select_value_range'][1] = self.lineEdit21.text()   
             # print('data',data)     
             flag_upload = db.upload_pageconfig(data)
             if flag_upload == -1:
-                self.alert("Duplicated step")  
+                self.alert("Duplicated Step")  
             else:              
                 self.alert("Add Input config success")
         except Exception as e:
             self.alert(str(e))
+
+    @pyqtSlot()
+    def on_pushButton31_clicked(self):
+        '''
+        set status
+        '''
+        flag = {}
+        flag = self.get_general_config(flag)
+        flag['Step_config'] = {}
+        try:
+            flag = db.upload_pageconfig(flag)
+            self.alert("Add setstatus config success")
+        except Exception as e:
+            self.alert(str(e))        
+
+    @pyqtSlot()
+    def on_pushButton32_clicked(self):
+        '''
+        add set sleep
+        '''
+        flag = {}
+        flag = self.get_general_config(flag)
+        flag['Step_config'] = {}
+        flag['Step_config']['sleep'] = self.lineEdit24.text
+        try:
+            flag = db.upload_pageconfig(flag)
+            self.alert("Add set sleep config success")
+        except Exception as e:
+            self.alert(str(e))   
 
     @pyqtSlot()
     def on_pushButton30_clicked(self):
@@ -815,6 +910,15 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         # print('----------')
         self.set_comboBox21()
 
+    def on_comboBox25_currentIndexChanged(self):
+        # print('----------')
+        self.set_comboBox21()
+
+    def on_comboBox19_currentIndexChanged(self):
+        # print('----------')
+        self.set_comboBox24()
+
+
     def on_comboBox21_currentIndexChanged(self):
         # print('----------')
         method = self.comboBox21.currentText()
@@ -825,6 +929,17 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         else:
             text = 'Rules:\n'
             self.textBrowser3.setText(text)
+
+    def on_comboBox24_currentIndexChanged(self):
+        # print('----------')
+        method = self.comboBox24.currentText()
+        if method != 'False' and method != '':
+            doc = eval('Submit_handle.' + method + '.__doc__')
+            text = 'Rules:\n'+doc
+            self.textBrowser4.setText(text)
+        else:
+            text = 'Rules:\n'
+            self.textBrowser4.setText(text)
 
 def main(i,message=''):
     up.main()

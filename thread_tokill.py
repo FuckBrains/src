@@ -321,15 +321,7 @@ def web_submit(submit,chrome_driver,debug=0):
         config = db.get_page_config(submit['Mission_Id'],page['Page'])
         config.sort(key=takeStep)
         print(config)
-        for item in submit:
-            print(item)
-            try:
-                if 'BasicInfo_Id' in submit[item]:
-                    key_excel = item
-                    print('find excel name:',key_excel)
-                    break
-            except:
-                pass
+
         '''
         find all xpaths for every step
         '''
@@ -348,11 +340,11 @@ def web_submit(submit,chrome_driver,debug=0):
         stop window if every step is ready
         '''
         chrome_driver.execute_script("window.stop();")            
-        wait = WebDriverWait(chrome_driver,1)
-        try:
-            wait.until(EC.visibility_of_element_located((By.XPATH,'aaaaaaaa')))
-        except Exception as e:
-            print(str(e))
+        # wait = WebDriverWait(chrome_driver,1)
+        # try:
+        #     wait.until(EC.visibility_of_element_located((By.XPATH,'aaaaaaaa')))
+        # except Exception as e:
+        #     print(str(e))
         chrome_driver.maximize_window()                
         print('Stop loading')         
         # chrome_driver.get('https://www.baidu.com')
@@ -367,7 +359,7 @@ def web_submit(submit,chrome_driver,debug=0):
         '''
         for config_ in config:
             try:
-                selenium_funcs.get_action(chrome_driver,config_,submit[key_excel])
+                selenium_funcs.get_action(chrome_driver,config_,submit)
                 sleep(1)
             except Exception as e:
                 a = traceback.format_exc()            
@@ -380,10 +372,10 @@ def web_submit(submit,chrome_driver,debug=0):
             pass
         else:
             return
-        if 'Almost' in page['Status']:
-            db.update_plan_status(1,submit['ID'])
-        if 'Finish' in page['Status']:
+        if 'Success' in page['Status']:
             db.update_plan_status(2,submit['ID'])
+        if 'Fail' in page['Status']:
+            db.update_plan_status(1,submit['ID'])
             return        
 
 def takeStep(elem):
@@ -442,7 +434,7 @@ def page_detect(Page_flags,chrome_driver):
     return page
 
 def page_change(chrome_driver,page):
-    print(page)
+    print('Detecting page if changed or changing....')
     flag = 0
     for i in range(360):        
         if EC.text_to_be_present_in_element((By.XPATH,page['Flag_xpath']),page['Flag_text']):

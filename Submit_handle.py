@@ -11,6 +11,13 @@ Already handled:
 ['']
 '''
 def password_get():
+    '''
+    随机生成密码，长度9-15位
+    a = '0123456789'
+    b = '!@#$%^&'
+    c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    d = 'abcdefghijklmnopqrstuvwxyz'    
+    '''
     a = '0123456789'
     b = '!@#$%^&'
     c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -177,6 +184,9 @@ def apt_get(address):
     return int(apt)
 
 def get_auto_birthday(date):
+    '''
+    return MM/DD/Year 
+    '''
     if '/' in date:
         birthday = date.split('/')
     elif '-' in date:
@@ -197,6 +207,28 @@ def get_auto_birthday(date):
     if int(birthday[2]) <= 1970:
         birthday[2] = str(random.randint(1970,1990))
     return birthday
+
+def get_birthday_mm(date=''):
+    '''
+    return mm
+    '''
+    birthday = get_auto_birthday(date)
+    return birthday[0]
+
+def get_birthday_dd(date=''):
+    '''
+    return dd
+    '''    
+    birthday = get_auto_birthday(date)
+    return birthday[0]
+
+def get_birthday_year(date=''):
+    '''
+    return year
+    '''    
+    birthday = get_auto_birthday(date)
+    return birthday[0]
+
 
 def get_height_info():
     num_ft = random.randint(5,7)

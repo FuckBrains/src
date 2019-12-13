@@ -120,8 +120,6 @@ def web_submit(submit,chrome_driver,debug=0):
             if text == success_text:
                 chrome_driver.find_element_by_xpath('//*[@id="nextBtn"]').click()
                 sleep(15)
-
-
             # flag_return = 1
     # if flag_return != 1 :
     #     submit['status'] = 0
