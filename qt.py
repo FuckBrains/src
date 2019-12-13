@@ -958,6 +958,7 @@ def main(i,message=''):
         if message != '':
             message += '\n'*30+' '*100
             ui.alert(message)
+            ui.show()                       # 执行QMainWindow的show()方法，显示这个QMainWindow
         sys.exit(app.exec_())
 
 def change__delay_config(up,down,threads):
