@@ -1029,9 +1029,27 @@ def Execute_sql(sql_contents):
         # print(sql_content)
         res = cursor.execute(sql_content)
         response = cursor.fetchall()
-        print(response)
+        # print(response)
     login_out_sql(conn,cursor)
     print('Login out db')
+
+def Execute_sql_single(sql_contents):
+    account = get_account()
+    # print(account)
+    responses = []
+    conn,cursor = login_sql(account)
+    for sql_content in sql_contents:
+        res = cursor.execute(sql_content)
+        print(res)
+        response = cursor.fetchall()
+        responses.append(response)
+    # desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    # response = cursor.fetchall()
+    # res_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
+    # print(response)
+    login_out_sql(conn,cursor)
+    print('Login out db')
+    return responses
 
 def email_test():
     sql_content1 = 'SELECT * from Email'
@@ -1419,7 +1437,8 @@ def get_luminati_submit(Config):
     submit['ID'] = Config['ID']
     submit['sleep_flag'] = Config['sleep_flag']
     # print(submit['Site'])
-    submit['Mission_dir'] = Config['Mission_dir']    
+    submit['Mission_dir'] = Config['Mission_dir'] 
+    submit['Record'] = Config['Record']  
     # print(submit)
     uas = Chrome_driver.get_ua_all()
     ua = Chrome_driver.get_ua_random(uas)

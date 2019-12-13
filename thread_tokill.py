@@ -233,9 +233,9 @@ def reg_part_(submit):
     print('reg_part')
     global timezone 
     global using_num    
-    submit['record'] = 0
+    submit['Record'] = 0
     Module = ''    
-    if submit['record'] == 0:
+    if submit['Record'] == 0:
         try:
             module = 'Mission_'+str(submit['Mission_Id'])
             Module = importlib.import_module(module)

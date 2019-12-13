@@ -135,8 +135,8 @@ def get_chrome(submit = None,pic=0):
             uas = get_ua_all()
             ua = get_ua_random(uas)
             print(ua)  
-        if 'record' in submit:
-            if submit['record'] == 1:
+        if 'Record' in submit:
+            if submit['Record'] == 1:
                 desired_capabilities["pageLoadStrategy"] = "none"                        
         if 'Country' in submit:
             language = get_lan_config(submit['Country'])

@@ -134,6 +134,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.setWindowTitle('EMU_MultiMission')
         self.accounts = Alliance_login.Get_roboform_account()
         self.set_comboBox6()
+        self.set_comboBox5()
         # reply = QMessageBox.information(self,
         #           "消息框标题", 
         #           "这是一条消息。", 
@@ -148,13 +149,15 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             self.comboBox6.setItemText(i, _translate("MainWindow",str(i+1)))            
 
     def set_comboBox5(self):
+        print('=======')
         countrys_dict = Chrome_driver.get_all_country()
         countrys = [country for country in countrys_dict]
+        print(countrys)
         _translate = QtCore.QCoreApplication.translate    
         length_country = len(countrys)
         for i in range(length_country):
-            self.comboBox6.addItem("")
-            self.comboBox6.setItemText(i, _translate("MainWindow",countrys[i])) 
+            self.comboBox5.addItem("")
+            self.comboBox5.setItemText(i, _translate("MainWindow",countrys[i])) 
 
     def set_comboBox2(self):
         _translate = QtCore.QCoreApplication.translate
@@ -214,7 +217,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         for item in self.offer_link:
             if 'Account' not in self.offer_link[item]:
                 self.offer_link[item]['Account'] = 'Not set'
-            text += str(int(item)+1)+' : '+self.offer_link[item]['Alliance']+'-->> '+'Account'+self.offer_link[item]['Account']+'-->>'+self.offer_link[item]['Offer']+'-->>'+self.offer_link[item]['Country']+'-->>run'+str(self.offer_link[item]['Mission_time'])+'times-->>Activate_status:'+str(self.offer_link[item]['Activate_status'])+'\n     '+str(self.offer_link[item]['url_link'])+'\n'            
+            if 'Record' not in self.offer_link[item]:
+                self.offer_link[item]['Record'] = '0'                
+            text += str(int(item)+1)+' : '+self.offer_link[item]['Alliance']+'-->> '+'Account'+self.offer_link[item]['Account']+'-->>'+self.offer_link[item]['Offer']+'-->>'+self.offer_link[item]['Country']+'-->>run'+str(self.offer_link[item]['Mission_time'])+'times-->>Activate_status:'+str(self.offer_link[item]['Activate_status'])+'--->Record type:'+str(self.offer_link[item]['Record'])+'\n     '+str(self.offer_link[item]['url_link'])+'\n'            
         self.textBrowser2.setText(text)        
 
     def set_text_all_links(self):
@@ -224,7 +229,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         for item in self.offer_link_all:
             if 'Account' not in self.offer_link_all[item]:
                 self.offer_link_all[item]['Account'] = 'Not set'  
-            text += str(int(item)+1)+' : '+self.offer_link_all[item]['Alliance']+'-->> '+'Account'+self.offer_link_all[item]['Account']+'-->>'+self.offer_link_all[item]['Offer']+'-->>'+self.offer_link_all[item]['Country']+'-->>run'+str(self.offer_link_all[item]['Mission_time'])+'times-->>Activate_status:'+str(self.offer_link_all[item]['Activate_status'])+'\n     '+self.offer_link_all[item]['url_link']+'\n'
+            if 'Record' not in self.offer_link_all[item]:
+                self.offer_link_all[item]['Record'] = '0'                 
+            text += str(int(item)+1)+' : '+self.offer_link_all[item]['Alliance']+'-->> '+'Account'+self.offer_link_all[item]['Account']+'-->>'+self.offer_link_all[item]['Offer']+'-->>'+self.offer_link_all[item]['Country']+'-->>run'+str(self.offer_link_all[item]['Mission_time'])+'times-->>Activate_status:'+str(self.offer_link_all[item]['Activate_status'])+'--->Record type:'+str(self.offer_link_all[item]['Record'])+'\n     '+self.offer_link_all[item]['url_link']+'\n'
         self.textBrowser1.setText(text) 
 
     # @pyqtSlot()
@@ -268,6 +275,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         new_offer['Account'] = self.comboBox9.currentText()
         new_offer['Mission_time'] = self.comboBox12.currentText()
         new_offer['zone'] = self.comboBox15.currentText()        
+        new_offer['Record'] = self.comboBox23.currentText()                
         if self.comboBox13.currentText() == 'Yes':
             new_offer['Activate_status'] = 1
         else:
@@ -358,6 +366,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         # (?# f = os.popen(r'python email_imap.py','r'))
         # self.textBrowser1.setText(f.read()) 
         # f.close()
+
     @pyqtSlot()
     def on_pushButton8_clicked(self):
         self.excels,self.emails,self.Missions = db.read_all_info()
@@ -446,6 +455,22 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.tableView_2.horizontalHeader().setStretchLastSection(True)
         self.tableView_2.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)  
 
+
+    # def set_table3(self):
+    #     Alliance,site,Alliance_dict = Alliance_login.Get_Alliance_name()
+    #     excel_list = ['Excel','Num','In use',]
+    #     self.model=QtGui.QStandardItemModel(200,4)
+    #     self.model.setHorizontalHeaderLabels(excel_list)
+    #     for row in range(len(Alliance)):
+    #         item=QtGui.QStandardItem(Alliance[row])
+    #         #设置每个位置的文本值
+    #         self.model.setItem(row,0,item)         
+    #         item=QtGui.QStandardItem(site[row])
+    #         #设置每个位置的文本值
+    #         self.model.setItem(row,1,item) 
+    #     self.tableView_2.setModel(self.model) 
+    #     self.tableView_2.horizontalHeader().setStretchLastSection(True)
+    #     self.tableView_2.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
 
     @pyqtSlot()
     def on_pushButton9_clicked(self):

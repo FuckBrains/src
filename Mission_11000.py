@@ -113,18 +113,30 @@ def web_submit(submit,chrome_driver,debug=0):
     xpaths = [fail_xpath,fail_xpath2,success_xpath]
     texts = [fail_text,fail_text2,success_text]
     flags = dict(zip(xpaths,texts))
-    for xpath_ in xpaths:
-        try:
-            if EC.text_to_be_present_in_element((By.XPATH,xpath_),flags[xpath_])(chrome_driver):
-                if xpath_ == success_xpath:
-                    submit['status'] = 'success'
-                    chrome_driver.find_element_by_xpath('//*[@id="nextBtn"]').click()
-                    sleep(15)
-                else:
-                    submit['status'] = flags[xpath_]
-                break
-        except:
-            pass
+    flag_return = 0
+    for text in texts:
+        if text in chrome_driver.page_source:
+            submit['status'] = text
+            if text == success_text:
+                chrome_driver.find_element_by_xpath('//*[@id="nextBtn"]').click()
+                sleep(15)
+
+
+            # flag_return = 1
+    # if flag_return != 1 :
+    #     submit['status'] = 0
+    # for xpath_ in xpaths:
+    #     try:
+    #         if EC.text_to_be_present_in_element((By.XPATH,xpath_),flags[xpath_])(chrome_driver):
+    #             if xpath_ == success_xpath:
+    #                 submit['status'] = 'success'
+    #                 chrome_driver.find_element_by_xpath('//*[@id="nextBtn"]').click()
+    #                 sleep(15)
+    #             else:
+    #                 submit['status'] = flags[xpath_]
+    #             break
+    #     except:
+    #         pass
     if submit['status'] == 'prepare':
         submit['status'] = 'No sign'
     return submit

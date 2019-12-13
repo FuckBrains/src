@@ -834,9 +834,23 @@ def get_version_number(filename):
 def test_version():
     get_version_number(r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe")    
 
+def test_get_excels():
+    sql_content = 'select DISTINCT excel_name from basicinfo'
+    response = db.Execute_sql_single(sql_content)    
+    # print(response)
+    excels = [key[0] for key in response]
+    print(excels)
+    sql_contents = []
+    for excel in excels:
+        sql_content = 'SELECT * from BasicInfo  WHERE Excel_name = "%s"'%excel
+        
+        response = db.Execute_sql_single(sql_content)
+
+
+
 if __name__ == '__main__':
     i = 1
     if i == 0:
         test_flag_use()
     else:
-        test_version()
+        test_get_excels()

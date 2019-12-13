@@ -13,6 +13,7 @@ import Changer_windows_info as changer
 import traceback
 import os
 import json
+import thread_tokill
 
 def makedir_account(path):
     isExists=os.path.exists(path)
@@ -128,17 +129,23 @@ def reg_part(plan):
     submit['Site'] = plan['url_link']
     submit['Mission_Id'] = plan['Mission_Id']
     print('reg_part')
-    write_status(path,workbook,submit,'using')  
-
+    write_status(path,workbook,submit,'using')
     module = 'Mission_'+str(plan['Mission_Id'])
-    Module = importlib.import_module(module)
+    Module = ''
+    try:
+        Module = importlib.import_module(module)
+    except:
+        pass
     try:
         change_ip(submit)
         print('----------------====================')
         chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
         print('========')
         submit['status'] = 'prepare'
-        submit = Module.web_submit(submit,chrome_driver=chrome_driver)
+        if Module != '':
+            submit = Module.web_submit(submit,chrome_driver=chrome_driver)
+        else:
+            thread_tokill.web_submit(submit,chrome_driver,debug=0)
         # if submit['status'] == 'No sign':
         writelog(chrome_driver,submit)
         # print(submit)

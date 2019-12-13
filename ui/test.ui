@@ -2684,12 +2684,12 @@ p, li { white-space: pre-wrap; }
         </font>
        </property>
        <property name="text">
-        <string>Type</string>
+        <string>Record</string>
        </property>
       </widget>
      </item>
      <item row="10" column="1">
-      <widget class="QComboBox" name="comboBox15_2">
+      <widget class="QComboBox" name="comboBox23">
        <property name="font">
         <font>
          <pointsize>12</pointsize>
@@ -2697,12 +2697,12 @@ p, li { white-space: pre-wrap; }
        </property>
        <item>
         <property name="text">
-         <string>Native</string>
+         <string>False</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Record</string>
+         <string>True</string>
         </property>
        </item>
       </widget>
