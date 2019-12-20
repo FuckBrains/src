@@ -1055,7 +1055,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="tab_11">
        <attribute name="title">
@@ -1270,6 +1270,11 @@
         <item>
          <property name="text">
           <string>Set_Sleep</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Set_Cookie</string>
          </property>
         </item>
        </widget>
@@ -1760,43 +1765,70 @@
          <string>Iframe</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton31">
+       <widget class="QLineEdit" name="lineEdit25">
         <property name="geometry">
          <rect>
-          <x>390</x>
-          <y>130</y>
-          <width>91</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Set_Status</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton32">
-        <property name="geometry">
-         <rect>
-          <x>390</x>
-          <y>180</y>
-          <width>91</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Set_Sleep</string>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="lineEdit24">
-        <property name="geometry">
-         <rect>
-          <x>490</x>
-          <y>190</y>
-          <width>71</width>
+          <x>130</x>
+          <y>260</y>
+          <width>141</width>
           <height>20</height>
          </rect>
         </property>
         <property name="text">
          <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_34">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>260</y>
+          <width>111</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Hidden_Xpath</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit26">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>290</y>
+          <width>141</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_49">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>290</y>
+          <width>111</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>tagname</string>
         </property>
        </widget>
       </widget>
@@ -2311,8 +2343,60 @@ p, li { white-space: pre-wrap; }
       </widget>
       <widget class="QWidget" name="tab_13">
        <attribute name="title">
-        <string>Set_Status</string>
+        <string>Others</string>
        </attribute>
+       <widget class="QPushButton" name="pushButton32">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>70</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Set_Sleep</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton33">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>120</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Set_Cookie</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit24">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>80</y>
+          <width>71</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton31">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>20</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Set_Status</string>
+        </property>
+       </widget>
       </widget>
      </widget>
      <widget class="QPushButton" name="pushButton25">
@@ -2505,6 +2589,171 @@ p, li { white-space: pre-wrap; }
       <property name="text">
        <string>Get config</string>
       </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox7_2">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>30</y>
+        <width>91</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <item>
+       <property name="text">
+        <string>1</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>3</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>4</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>5</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>6</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>7</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>8</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>9</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>10</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>11</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>12</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>13</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>14</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>15</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>16</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>17</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>18</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>19</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>20</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>21</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>22</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>23</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>24</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>25</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>26</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>27</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>28</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>29</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>30</string>
+       </property>
+      </item>
      </widget>
     </widget>
    </widget>

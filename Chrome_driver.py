@@ -1,3 +1,4 @@
+import winreg
 from selenium import webdriver
 import os
 import sys
@@ -19,14 +20,23 @@ def get_version_number(filename):
     #print info
     ms = info['FileVersionMS']
     ls = info['FileVersionLS']
-    print(HIWORD(ms), LOWORD(ms), HIWORD(ls), LOWORD(ls))
+    print('Chrome_version:',HIWORD(ms), LOWORD(ms), HIWORD(ls), LOWORD(ls))
     return HIWORD(ms)
 
 
 def get_chromedriver_path():
-    path = r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-    version = get_version_number(path)    
+    path = getInstallBdyAdree()
+    path_chrome = path + r'\chrome.exe'
+    version = get_version_number(path_chrome)    
     return r'driver/chromedriver_'+str(version)+'.exe'
+
+def getInstallBdyAdree():
+    url = r'SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe'    
+    key = winreg.OpenKeyEx(winreg.HKEY_LOCAL_MACHINE, url)
+    data = winreg.QueryValueEx(key, "Path")
+    path_chrome = data[0]
+    print('Chrome_path:',path_chrome)
+    return path_chrome
 
 def get_ua_all():
     uas = []
@@ -137,7 +147,8 @@ def get_chrome(submit = None,pic=0):
             print(ua)  
         if 'Record' in submit:
             if submit['Record'] == 1:
-                desired_capabilities["pageLoadStrategy"] = "none"                        
+                desired_capabilities["pageLoadStrategy"] = "none" 
+                print('Record chrome')                       
         if 'Country' in submit:
             language = get_lan_config(submit['Country'])
             options.add_argument('-lang=' +language )            
@@ -320,4 +331,5 @@ def test_meituan():
 
 
 if __name__ == '__main__':
-    test_meituan()
+    path = get_chromedriver_path()
+    print(path)

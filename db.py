@@ -1326,6 +1326,21 @@ def get_cookie(Config=None):
     # print(Mission_dict)
     return Mission_dict
 
+def get_cehuoaccount(submit):
+    print('     Start reading info from sql server...')
+    account = get_account()
+    conn,cursor=login_sql(account)
+    res = cursor.execute('SELECT * from accounts WHERE country="%s" and cookie!="" and Mission_Id="%s" and  status!="%d" and flag!="%d" limit 0,1'%(submit['Country'],submit['Mission_Id'],1,1))
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    account_ = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
+    if len(account_) == 0:
+        return {}
+    account = account_[0]
+    # print(len(Mission_dict))
+    # print(Mission_dict)
+    update_accounts(account['BasicInfo_Id'])
+    return account    
+
 def get_page_flag(Mission_Id):
     print('     Start reading info from sql server...')
     account = get_account()
@@ -1451,7 +1466,19 @@ def update_cookie(submit):
     print('Mission_Id:',submit['Mission_Id'])
     print('Email_Id:',submit['Email']['Email_Id'])
     print('Cookie:',submit['Cookie'])
-    sql_content = "UPDATE Mission SET Cookie = '%s' WHERE Mission_id = '%s' and Email_Id = '%s'" % (submit['Cookie'],submit['Mission_Id'],submit['Email']['Email_Id'])
+    sql_content = "UPDATE Mission SET Cookie = '%s' WHERE Mission_id = '%s' and Email_Id = '%s'" % (pymysql.escape_string(submit['Cookie']),submit['Mission_Id'],submit['Email']['Email_Id'])
+    Execute_sql([sql_content])
+
+def upload_accounts(submit):
+    print('Uploading accounts')
+    print('Mission_Id:',submit['Mission_Id'])
+    # print('Email_Id:',submit['Email']['Email_Id'])
+    print('Cookie:',submit['Cookie'])
+    sql_content = 'INSERT INTO accounts(BasicInfo_Id,Mission_Id,country,ua,cookie)VALUES("%s","%s","%s","%s","%s")'%(submit['BasicInfo_Id'],submit['Mission_Id'],submit['Country'],submit['ua'],pymysql.escape_string(submit['Cookie']))      
+    Execute_sql([sql_content])
+
+def update_accounts(BasicInfo_Id):
+    sql_content = "UPDATE accounts SET flag = '%d' WHERE BasicInfo_Id = '%s'" % (1,BasicInfo_Id)
     Execute_sql([sql_content])
 
 def update_activate_status(submit):

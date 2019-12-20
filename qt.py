@@ -694,6 +694,8 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         flag['General']['scroll'] = self.comboBox11.currentText() 
         flag['General']['try'] = self.comboBox16.currentText() 
         flag['General']['xpath'] = self.lineEdit17.text()
+        flag['General']['hidden_xpath'] = self.lineEdit25.text()        
+        flag['General']['tagname'] = self.lineEdit26.text()                
         flag['General']['iframe'] = self.lineEdit23.text()
         return flag
  
@@ -892,10 +894,24 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         flag = {}
         flag = self.get_general_config(flag)
         flag['Step_config'] = {}
-        flag['Step_config']['sleep'] = self.lineEdit24.text
+        flag['Step_config']['sleep'] = str(self.lineEdit24.text)
         try:
             flag = db.upload_pageconfig(flag)
             self.alert("Add set sleep config success")
+        except Exception as e:
+            self.alert(str(e))   
+
+    @pyqtSlot()
+    def on_pushButton33_clicked(self):
+        '''
+        add set sleep
+        '''
+        flag = {}
+        flag = self.get_general_config(flag)
+        flag['Step_config'] = {}
+        try:
+            flag = db.upload_pageconfig(flag)
+            self.alert("Add set cookie config success")
         except Exception as e:
             self.alert(str(e))   
 

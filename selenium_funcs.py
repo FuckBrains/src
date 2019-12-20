@@ -1,3 +1,4 @@
+from selenium.webdriver import ActionChains
 from time import sleep 
 from selenium.webdriver.common.keys import Keys
 import traceback
@@ -10,36 +11,56 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
+import db
+import tools
+import os
+import sys
+sys.path.append("..")
 
+
+def write_cookie(cookie,country):
+    path_res = r'..\res\cookies'
+    tools.makedir_account(path_res)    
+    path_country = os.path.join(path_res,country)
+    tools.makedir_account(path_country)
+    filename = str(random.randint(100000,999999999))+'.txt'
+    path_cookie = os.path.join(path_country,filename)
+    with open (path_cookie,'w') as f:
+        f.write(cookie)
 
 def get_action(chrome_driver,data,submit):
-    for item in submit:
-        print(item)
-        try:
-            if 'BasicInfo_Id' in submit[item]:
-                key_excel = item
-                print('find excel name:',key_excel)
-                break
-        except:
-            pass
+    # print('Keys in submit:',len(submit))
+    for key in submit:
+        # print(key)
+        if 'BasicInfo_Id' in submit[key]:
+            key_excel = key
+            break
     print(data)
     action_func = data['Action']
     data['Step_config'] = json.loads(data['Step_config']) 
-    # data['General'] = json.loads(data['General'])     
+    # data['General'] = json.loads(data['General'])
     print(action_func)
     if action_func == 'Set_Status':
         db.update_plan_status(1,submit['ID']) 
         return
+    if action_func == 'Set_Cookie':
+        cookies = chrome_driver.get_cookies()
+        cookie_str = json.dumps(cookies)
+        submit['Cookie'] = cookie_str
+        submit['BasicInfo_Id'] = submit[key_excel]['BasicInfo_Id']
+        write_cookie(cookie_str)
+        # db.upload_accounts(submit) 
+        return
     if action_func == 'Set_Sleep':
-        time_ = submit['Step_config']['sleep']
+        time_ = submit[data['Step_config']['sleep']]
         sleep(time_)
         return
     if data['General']['iframe'] != '':
         chrome_driver.switch_to_frame(data['General']['iframe'])
-    print("data['General']['iframe']",data['General']['iframe'])
-    if data['General']['scroll'] == 'True':
-        scroll_and_find_up(chrome_driver,data['General']['xpath'])    
-    print("data['General']['scroll']",data['General']['scroll'])        
+    # print("data['General']['iframe']",data['General']['iframe'])
+    # scroll_and_find_up(chrome_driver,data['General']['xpath'])    
+    # sleep(1)
+    # print("data['General']['scroll']",data['General']['scroll'])        
     if data['General']['try'] == 'True':
         try:    
             eval(action_func)(chrome_driver,data,submit[key_excel])
@@ -58,8 +79,8 @@ def scroll_and_find(chrome_driver,element):
     return target
 
 def scroll_and_find_up(chrome_driver,element):
-    target = chrome_driver.find_element_by_xpath(element) 
-    chrome_driver.execute_script("arguments[0].scrollIntoView();", target)
+    target = chrome_driver.find_elements_by_xpath(element) 
+    chrome_driver.execute_script("arguments[0].scrollIntoView();", target[0])
     # js="var q=document.documentElement.scrollTop=-300"
     # chrome_driver.execute_script(js) 
     sleep(3)
@@ -86,7 +107,42 @@ def Select(chrome_driver,data,submit):
     2 all_selected_options     # 返回select元素中所有已选中的选项
     3 first_selected_options   # 返回select元素中选中的第一个选项        
     '''
-    element = chrome_driver.find_element_by_xpath(data['General']['xpath'])    
+    # if data['General']['hidden_xpath'] != '':
+    #     print("data['General']['hidden_xpath']:",data['General']['hidden_xpath'])
+    #     element = chrome_driver.find_element_by_xpath(data['General']['hidden_xpath'])    
+    if data['General']['tagname'] != '':
+        element = chrome_driver.find_element_by_xpath(data['General']['xpath'])
+        element.click()
+        sleep(2)
+        print('Find element of xpath')
+        if ',' in data['General']['hidden_xpath'] :
+            xpaths_hidden = data['General']['hidden_xpath'].split(',')
+            tagnames = data['General']['tagname'].split(',')
+            print('xpaths_hidden',xpaths_hidden)
+            print('tagnames:',tagnames)
+        else:
+            xpaths_hidden = [data['General']['hidden_xpath']]
+            tagnames = [data['General']['tagname']]
+        for xpath_ in xpaths_hidden:
+            print('xpath_',xpath_)
+            try:
+                element_hidden = chrome_driver.find_element_by_xpath(xpath_)
+                index_tag = xpaths_hidden.index(xpath_)
+                print('index_tag:',index_tag)
+                options = element_hidden.find_elements_by_tag_name(tagnames[index_tag])
+                num = random.randint(1,len(options)-1)
+                sleep(1)
+                print(options)
+                options[num].click()
+                return  
+            except:
+                traceback.print_exc()
+    elif data['General']['hidden_xpath'] != '':
+        element = chrome_driver.find_element_by_xpath(data['General']['hidden_xpath'])        
+        print('Find element of hidden_xpath')        
+    else:
+        element = chrome_driver.find_element_by_xpath(data['General']['xpath'])        
+        print('also xpath')
     s1 = Select_(element)    
     options = s1.options
     values = []
@@ -121,7 +177,7 @@ def Select(chrome_driver,data,submit):
         # use random if values not in values in page
     if data['Step_config']['select_value'] != 'False':
         if data['Step_config']['select_func'] != 'False':
-            content = eval('Submit_handle.'+data['Step_config']['select_func'])(submit['Step_config']['select_value'])
+            content = eval('Submit_handle.'+data['Step_config']['select_func'])(submit[data['Step_config']['select_value']])
         else:                  
             content = submit[data['Step_config']['select_value']]
         if content in values:
@@ -166,21 +222,28 @@ def Input(chrome_driver,data,submit):
         if data['Step_config']['input_func'] != 'False' :
             content = eval('Submit_handle.'+data['Step_config']['input_func'])(submit[data['Step_config']['input_key']])
         else:
-            content = submit['Step_config']['input_key']
+            content = submit[data['Step_config']['input_key']]
     elif data['Step_config']['input_generate'] != 'False':
         if data['Step_config']['input_func'] != 'False' :
             content = eval('Submit_handle.'+data['Step_config']['input_func'])()
         else:
-            content = submit['Step_config']['input_generate']
+            content = submit[data['Step_config']['input_generate']]
     else:
-        content = submit['Step_config']['input_content']
+        content = submit[data['Step_config']['input_content']]
     element.send_keys(content)
 
 def Click(chrome_driver,data,submit):
-    if data['General']['scroll'] == True:
-        element = scroll_and_find_up(chrome_driver,data['General']['xpath'])
-    WebDriverWait(chrome_driver,120).until(EC.element_to_be_clickable((By.XPATH,data['General']['xpath'])))
-    element = chrome_driver.find_element_by_xpath(data['General']['xpath'])
-    element.click()
+    WebDriverWait(chrome_driver,120).until(EC.element_to_be_clickable((By.XPATH,data['General']['xpath'])))    
+    if data['General']['hidden_xpath'] != '':
+        xpath = data['General']['hidden_xpath']
+    else:
+        xpath = data['General']['xpath'] 
+    try:
+        element = chrome_driver.find_element_by_xpath(xpath)
+        element.click()
+    except:
+        element = chrome_driver.find_element_by_xpath(xpath)
+        actions = ActionChains(chrome_driver)
+        actions.move_to_element_with_offset(element,0,0).click().perform()           
     return element
 

@@ -1,3 +1,4 @@
+import selenium_funcs
 from win32api import GetFileVersionInfo, LOWORD, HIWORD 
 import time
 import time_related
@@ -853,13 +854,69 @@ def test_sss1():
     print(test)
 
 def test_sss2():
-    num = random.randint(0,0)
-    print(num)
+    import sys
+    print(sys.path)
 
+
+def getInstallBdyAdree():
+    import os
+    print(type(os.environ))    
+    print(dict(os.environ))
+
+    # paths = os.environ.split
+
+def test_ddd():
+    import win32com.client
+    strComputer = "."
+    objWMIService = win32com.client.Dispatch("WbemScripting.SWbemLocator")
+    objSWbemServices = objWMIService.ConnectServer(strComputer,"root\cimv2")
+    # objSWbemServices = objWMIService.ConnectServer(strComputer,"root\cimv2")  
+    # print(colItems)  
+    colItems = objSWbemServices.ExecQuery("Select * from Win32_Product")
+    print(objSWbemServices)
+    for objItem in colItems:
+        print("Caption: ", objItem.Caption)
+        # print("Description: ", objItem.Description)
+        # print("Identifying Number: ", objItem.IdentifyingNumber)
+        # print("Install Date: ", objItem.InstallDate)
+        # print("Install Date 2: ", objItem.InstallDate2)
+        # print("Install Location: ", objItem.InstallLocation)
+        # print("Install State: ", objItem.InstallState)
+        # print("Name: ", objItem.Name)
+        # print("Package Cache: ", objItem.PackageCache)
+        # print("SKU Number: ", objItem.SKUNumber)
+        # print("Vendor: ", objItem.Vendor)
+        # print("Version: ", objItem.Version)    
+
+
+def reg_test():
+    # url = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\chrome'
+    url = r'SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe'    
+    getInstallBdyAdree(url)
+
+def getInstallBdyAdree(url):
+    import winreg
+    key = winreg.OpenKeyEx(winreg.HKEY_LOCAL_MACHINE, url)
+    # print(key)
+    data = winreg.QueryValueEx(key, "Path")
+    # print(data)
+    path_chrome = data[0]
+    print(path_chrome)
+
+def test_account():
+    sql_content = 'Update accounts set flag = "%d"'%(0)
+    db.Execute_sql([sql_content])
+    
+def test_cookies_write():
+    cookie = '========'
+    country = 'US'
+    selenium_funcs.write_cookie(cookie,country)
 
 if __name__ == '__main__':
-    i = 1
+    i = 2
     if i == 0:
         test_flag_use()
+    elif i==1:
+        test_account()
     else:
-        test_sss2()
+        test_cookies_write()

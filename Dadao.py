@@ -52,16 +52,17 @@ def get_excel(path):
 
 def get_one_data(sheet,Mission_Id):
     rows = sheet.nrows
-    print(rows)
+    # print(rows)
     # list_rows = random.sample(range(rows),rows)    
     badname = []
-    for i in range(rows-1):
+    for i in range(rows):
+        print(i)
         if i==0:
             keys = sheet.row_values(i)
             continue
         values = sheet.row_values(i)
         submit = dict(zip(keys,values))
-        # print(submit)  
+        print(submit)  
         key = 'Status_'+ str(Mission_Id)
         flag_alpha = True
         if submit[key] == '':

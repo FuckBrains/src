@@ -109,7 +109,7 @@ def get_pwd_real2():
             break
     return pwd
 
-def get_name_real():
+def get_name_real(name=''):
     '''
     直接从真实用户名文件里获取
     '''
@@ -220,14 +220,14 @@ def get_birthday_dd(date=''):
     return dd
     '''    
     birthday = get_auto_birthday(date)
-    return birthday[0]
+    return birthday[1]
 
 def get_birthday_year(date=''):
     '''
     return year
     '''    
     birthday = get_auto_birthday(date)
-    return birthday[0]
+    return birthday[2]
 
 
 def get_height_info():
@@ -338,4 +338,5 @@ def test_d():
     print(apt)
 
 if __name__ == '__main__':
-    test_d()
+    birthday = get_auto_birthday('')
+    print(birthday)

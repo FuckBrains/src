@@ -1,4 +1,8 @@
-import Dadao
+from selenium import webdriver
+from selenium.webdriver import ActionChains
+import json
+from time import sleep
+# import xlrd
 import random
 import os
 import time
@@ -16,8 +20,12 @@ import name_get
 import db
 import selenium_funcs
 import Submit_handle
-import random
 
+
+'''
+GETAROUND
+Auto
+'''
 
 
 
@@ -54,44 +62,49 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(3000)
 
 
+def test1():
+    with open('1.txt','r') as f:
+        cookie_str = f.readlines() 
+    print(cookie_str[0])
+    return cookie_str[0]    
 
+# {"scroll": "False", "try": "False", "xpath": "//*[@id=\"signup\"]", "hidden_xpath": "", "tagname": "", "iframe": ""}
 
 def test():
     # db.email_test()
     # date_of_birth = Submit_handle.get_auto_birthday('')         
-    # Mission_list = ['10023']
-    # excel = 'Ukchoujiang'    
+    # Mission_list = ['10049']
+    # excel = 'health'    
     # Excel_name = [excel,'']
     # Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     # submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
-    # # [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None]
+    # [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None]
     # [print(item,':',submit[excel][item]) for item in submit[excel] if item == 'homephone']  
-    # submit['Mission_Id'] = '10023'
+    submit = {}
+    submit['Country'] = 'US'
+    submit['Mission_Id'] = '10067'
     # phone = submit[excel]['homephone']
     # phone = Submit_handle.get_uk_phone1(phone)
     # print(phone)
-    
-    chrome_driver = Chrome_driver.get_chrome(submit)
-    web_submit(submit,chrome_driver,1)
+    account = db.get_cehuoaccount(submit)
+    print(account)
+    submit['Cookie'] = account['cookie']
+    submit['ua'] = account['ua']
+    print(submit['Cookie'])
+    cookie_str = test1()
+    print(cookie_str)
+    cookies = json.loads(submit['Cookie'])
+    # for cookie in cookies:
+    #     for key in cookie:
+    #         print(key,cookie[key])
+    #         print(type(key),type(cookie[key])) 
+    # submit['Record'] = 1
 
-def data_get():
-    path = r'..\res\Dadao.xlsx'    
-    sheet,workbook = Dadao.get_excel(path)   
-    Mission_Id = 11001 
-    submit = Dadao.get_one_data(sheet,Mission_Id)
-    submit['Mission_Id'] = Mission_Id
-    return submit
-    chrome_driver = Chrome_driver.get_chrome(submit)    
-    web_submit(submit,chrome_driver,debug=0)
+    # chrome_driver = Chrome_driver.get_chrome(submit)
+    # web_submit(submit,chrome_driver)
 
-    content = 1
-    Dadao.write_status(path,workbook,submit,content)
 
-def main():
-    while True:
-        submit = data_get()
-        if submit == None:
-            return    
+
 
 if __name__=='__main__':
-    data_test()
+    test()

@@ -54,7 +54,12 @@ def is_alphabet(uchar):
     else:
         return False
 
-
+def makedir_account(path=r'c:\emu_download'):
+    isExists=os.path.exists(path)
+    if isExists:
+        return
+    else:
+        os.makedirs(path)
 
 if __name__ == '__main__':
     # key = 'cmd'

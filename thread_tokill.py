@@ -62,7 +62,6 @@ def writelog(chrome_driver,submit,content=''):
         if content == '':
             content = traceback.format_exc()            
         db.write_log_db(Mission_Id,content,png)
-
         # file_ = r'..\log\log.txt'
         # content = str(datetime.datetime.now())
         # with open(file_,'a+') as f:
@@ -124,12 +123,12 @@ def get_submit(Config):
             return None
         if submit['Excels_dup'][1] != '':
             print('testing email.........')
-            flag = imap_test.Email_emu_getlink(submit['Email'])
-            if flag == 0:
+            flag_email = imap_test.Email_emu_getlink(submit['Email'])
+            if flag_email == 0:
                 # print('Bad email:',submit['Email']['Email_emu'])
                 db.updata_email_status(submit['Email']['Email_Id'],0)
                 continue
-            elif flag == 1:
+            elif flag_email == 1:
                 # print("Good email")
                 db.updata_email_status(submit['Email']['Email_Id'],1)
             else:
@@ -138,10 +137,15 @@ def get_submit(Config):
         else:
             pass 
         print('refreshing ip.............') 
+        flag = 0
         if submit['sleep_flag'] != 2:
             # flag,proxy_info = luminati.ip_test(submit['port_lpm'],state=submit['state_'] ,country=submit['Country'])
             flag,proxy_info = luminati.ip_test(submit['port_lpm'],state='' ,country=submit['Country'])            
+            print('proxy_info:',proxy_info)
         else:
+            # city = ''
+            # proxy_info = {}
+            # flag = 1
             for num_ip in range(6):
                 try:
                     city = ip_test.ip_Test('','',country=submit['Country'])
@@ -185,6 +189,7 @@ def data_handler(Config):
     if submit == None:
         return None
         # print('Reading config from sql server success')
+    print('Proxy:',proxy_info)
     if submit['sleep_flag'] != 2: 
         submit['tz'] = db.get_cst_zone(proxy_info['geo']['tz'])
     # print("proxy_info['geo']['tz']:",proxy_info['geo']['tz'])
@@ -199,7 +204,6 @@ def data_handler(Config):
             print("using_num:",using_num)
         else:
             using_num += 1 
-
     print("Mission started,using_num:",using_num)
     try:
         reg_part_(submit)
@@ -233,16 +237,17 @@ def reg_part_(submit):
     print('reg_part')
     global timezone 
     global using_num    
-    submit['Record'] = 0
+    # submit['Record'] = 0
     Module = ''    
-    if submit['Record'] == 0:
+    if str(submit['Record']) == '0':
         try:
             module = 'Mission_'+str(submit['Mission_Id'])
             Module = importlib.import_module(module)
         except Exception as e:
             print(str(e))
     else:
-        Module = ''    
+        Module = ''  
+    print('Module is :',Module)  
     try:
         print('----------------====================')
         if submit['sleep_flag'] == 2:
@@ -279,7 +284,7 @@ def web_submit(submit,chrome_driver,debug=0):
     #     site = 'http://tracking.axad.com/aff_c?offer_id=181&aff_id=2138'
     #     submit['Site'] = site
     Page_flags = db.get_page_flag(submit['Mission_Id'])
-    print(Page_flags)    
+    print(Page_flags) 
     print('============')
     print(submit['Site'])
     chrome_driver.get(submit['Site'])
@@ -328,8 +333,9 @@ def web_submit(submit,chrome_driver,debug=0):
         xpaths = []
         for config_ in config:
             print(config_)
-            config_['General'] = json.loads(config_['General'])              
-            xpaths.append(config_['General']['xpath']) 
+            config_['General'] = json.loads(config_['General'])   
+            if config_['Action'] not in ['Set_Status','Set_Sleep'] :
+                xpaths.append(config_['General']['xpath']) 
         print(xpaths)
         '''
         check step status for every step
@@ -367,17 +373,18 @@ def web_submit(submit,chrome_driver,debug=0):
         '''
         check page flag status,if changed,continue
         '''
+        if 'Success' in page['Status']:
+            db.update_plan_status(2,submit['ID'])
+            return
+        if 'Fail' in page['Status']:
+            db.update_plan_status(1,submit['ID'])
+            return          
         flag_page_chane = page_change(chrome_driver,page)
         if flag_page_chane == 1:
             pass
         else:
             return
-        if 'Success' in page['Status']:
-            db.update_plan_status(2,submit['ID'])
-        if 'Fail' in page['Status']:
-            db.update_plan_status(1,submit['ID'])
-            return        
-
+      
 def takeStep(elem):
     return elem['Step']
 
@@ -420,6 +427,12 @@ def page_detect(Page_flags,chrome_driver):
         wrong_pages = ['Webpage not available','This page isn’t working']
         flag_wrong_page = 0
         if status == 'complete':
+            page = get_page_by_flag(Page_flags,chrome_driver)
+            if page == None:
+                print('Page Flag Not Found,',i+1)
+            else:
+                print('Page Flag Found')  
+                return page          
             for wrong_page in wrong_pages:
                 if wrong_page in chrome_driver.page_source :
                     print('wrong_page:',wrong_page)
@@ -436,7 +449,13 @@ def page_detect(Page_flags,chrome_driver):
 def page_change(chrome_driver,page):
     print('Detecting page if changed or changing....')
     flag = 0
-    for i in range(360):        
+    for i in range(360): 
+        try:    
+            chrome_driver.find_element_by_xpath(page['Flag_xpath'])   
+            # print(element.text)
+        except:
+            flag = 1
+            break
         if EC.text_to_be_present_in_element((By.XPATH,page['Flag_xpath']),page['Flag_text']):
             sleep(1)
         else:
@@ -450,9 +469,12 @@ def page_change(chrome_driver,page):
         return 0
 
 def step_detect(chrome_driver,xpaths):
-    for xpath in xpaths:
-        WebDriverWait(chrome_driver,120).until(EC.visibility_of_element_located((By.XPATH,xpath)))
-        print('xpath:',xpath,'ready')
+    if xpaths[-1] == '':
+        print('No xpath needed.........')
+        return
+    # selenium_funcs.scroll_and_find_up(chrome_driver,xpaths[-1])
+    WebDriverWait(chrome_driver,120).until(EC.visibility_of_element_located((By.XPATH,xpaths[-1])))
+    print('xpath:',xpaths[-1],'ready')
 
 def save_html(chrome_driver,Mission_Id,page):
     print('Title',chrome_driver.title)
