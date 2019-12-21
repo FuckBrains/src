@@ -27,6 +27,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 
 def web_submit(submit,chrome_driver,debug=0):
+    submit['firstname'] = submit['firstname'].replace('\t','').replace(' ','')
+    submit['lastname'] = submit['lastname'].replace('\t','').replace(' ','')    
     # test
     if debug == 1:
         site = 'http://nc.fclitloan.com/click.php?c=9&key=mqrrjq7g3e8ayad39m7if251'
