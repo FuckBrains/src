@@ -81,7 +81,8 @@ def web_submit(submit,chrome_driver,debug=0):
         fullname = fullname.split('_')[0]         
     chrome_driver.find_element_by_xpath('//*[@id="fullname"]').send_keys(fullname)   
     # card number
-    chrome_driver.find_element_by_xpath('//*[@id="cc"]').send_keys(submit['card_number'])
+    card_number = submit['card_number'].replace('\t','')
+    chrome_driver.find_element_by_xpath('//*[@id="cc"]').send_keys(card_number)
     # month
     elem = '//*[@id="expMonth"]'
     month = str(submit['month']).replace('\t','')
@@ -100,9 +101,11 @@ def web_submit(submit,chrome_driver,debug=0):
     s1 = Select(chrome_driver.find_element_by_xpath(elem))
     s1.select_by_value(year)   
     # cvv    
-    chrome_driver.find_element_by_xpath('//*[@id="cvv"]').send_keys(submit['cvv'])    
+    cvv = submit['cvv'].replace('\t','')
+    chrome_driver.find_element_by_xpath('//*[@id="cvv"]').send_keys(cvv)    
     # zip    
-    chrome_driver.find_element_by_xpath('//*[@id="zip"]').send_keys(submit['katou'])
+    zipcode = submit['katou'].replace('\t','')
+    chrome_driver.find_element_by_xpath('//*[@id="zip"]').send_keys(zipcode)
     # submit
     chrome_driver.find_element_by_xpath('//*[@id="signUp"]').click()
     submit['status'] = 'cvv uploaded'
