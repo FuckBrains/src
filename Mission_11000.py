@@ -92,13 +92,11 @@ def web_submit(submit,chrome_driver,debug=0):
     s1.select_by_value(month)
     # year
     elem = '//*[@id="expYear"]'
+    year = str(submit['year'])
     year = year.replace('\t','')
     year = year.replace(' ','')      
-    if len(str(submit['year'])) == 4:
-        year = str(submit['year'])[2:]
-    else:
-        year = str(submit['year'])
-  
+    if len(year) == 4:
+        year = year[2:]  
     s1 = Select(chrome_driver.find_element_by_xpath(elem))
     s1.select_by_value(year)   
     # cvv    
@@ -147,11 +145,15 @@ def web_submit(submit,chrome_driver,debug=0):
     return submit
 
  
-
+def test():
+    year = '\t2022\t '
+    year = str(year)
+    year = year.replace('\t','')
+    year = year.replace(' ','')      
+    if len(year) == 4:
+        year = year[2:]    
+    print(year)  
 
 
 if __name__=='__main__':
-    submit = db.get_one_info()
-    chrome_driver = Chrome_driver.get_chrome()
-    print(submit)
-    web_submit(submit,chrome_driver)
+    test()
