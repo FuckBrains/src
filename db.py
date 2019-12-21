@@ -695,7 +695,7 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
     num_excel = tt[0][0]
     print('Total',num_excel,'infos in excel',Excel_name[0])
     res = cursor.execute('SELECT * from BasicInfo  WHERE Excel_name = "%s" and flag_use = 0 '%Excel_name[0])
-    print(res)
+    # print(res)
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可    
     BasicInfo_dict_ = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
     flag_test = 0
@@ -709,7 +709,7 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
                 break
         if len(Info_dicts) == 0:
             return {}
-        print(Info_dicts)
+        # print(Info_dicts)
         print(Info_dicts[Excel_name[0]]['BasicInfo_Id'])
         sql_content = "UPDATE BasicInfo SET flag_use = 1 WHERE BasicInfo_Id = '%s'" % Info_dicts[Excel_name[0]]['BasicInfo_Id']
         res = cursor.execute(sql_content)

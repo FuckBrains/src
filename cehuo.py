@@ -53,9 +53,6 @@ def web_submit(submit,chrome_driver,debug=0):
     # chrome_driver.refresh()
     sleep(3000)
 
-
-
-
 def test():
     # db.email_test()
     # date_of_birth = Submit_handle.get_auto_birthday('')         
@@ -70,12 +67,11 @@ def test():
     # phone = submit[excel]['homephone']
     # phone = Submit_handle.get_uk_phone1(phone)
     # print(phone)
-    
     chrome_driver = Chrome_driver.get_chrome(submit)
     web_submit(submit,chrome_driver,1)
 
 def data_get():
-    path = r'..\res\Dadao.xlsx'    
+    path = r'..\res\Dadao.xlsx' 
     sheet,workbook = Dadao.get_excel(path)   
     Mission_Id = 11001 
     submit = Dadao.get_one_data(sheet,Mission_Id)
@@ -87,11 +83,37 @@ def data_get():
     content = 1
     Dadao.write_status(path,workbook,submit,content)
 
+def get_path():
+    return path
+
+def get_ip():
+    for num_ip in range(6):
+        try:
+            city = ip_test.ip_Test('','',country=submit['country'])
+            if  city != 'Not found':
+                flag = 1
+                proxy_info = ''
+                break
+            if num_ip == 5:
+                print('Net wrong...!!!!!!')
+                changer.Restart()
+        except:
+            changer.Restart()     
+
+def get_cookie():
+    path = get_path()
+    with open('1.txt','r') as f:
+        cookie_str = f.readlines()    
+
 def main():
     while True:
         submit = data_get()
         if submit == None:
-            return    
+            return 
+        get_ip(submit)
+
+
+
 
 if __name__=='__main__':
     data_test()

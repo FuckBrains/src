@@ -29,6 +29,9 @@ Auto
 
 def web_submit(submit,chrome_driver,debug=0):
     # test
+    chrome_driver.close()
+    chrome_driver.quit()
+    chrome_driver = Chrome_driver.get_chrome(submit,pic=1)    
     if debug == 1:
         site = 'https://adpgtrack.com/click/5b73d90a6c42607b3b6c4322/146827/199595/subaccount'
         submit['Site'] = site
@@ -38,21 +41,11 @@ def web_submit(submit,chrome_driver,debug=0):
     # sleep(300)    
     print(submit['Site'])
     name = name_get.gen_one_word_digit(lowercase=False)
-    chrome_driver.maximize_window()
-    chrome_driver.refresh()
+    # chrome_driver.maximize_window()
+    # chrome_driver.refresh()
     print('Loading finished')
     Excel_name = 'health'    
-    # chrome_driver.find_element_by_xpath('//*[@id="site-header"]/div/div/a[1]').click()
-    # i = 0
-    # while True:
-    #     try:
-    #         chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[1]/select')
-    #         print('find selecter')
-    #         break
-    #     except:
-    #         i+=1
-    #         if i >= 5:
-    #             break
+
     # year
     sleep(5)
     selenium_funcs.scroll_and_find(chrome_driver,'//*[@id="list-lead-form"]/div[1]/select')
@@ -77,17 +70,11 @@ def web_submit(submit,chrome_driver,debug=0):
     s1.select_by_index(num)     
     # button
     chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/button').click()
-    sleep(60)
+    sleep(360)
     db.update_plan_status(2,submit['ID'])        
     chrome_driver.close()
     chrome_driver.quit()  
     return 1  
-
-
-
-
- 
-
 
 
 if __name__=='__main__':

@@ -20,6 +20,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import requests
 
 
 
@@ -912,6 +913,103 @@ def test_cookies_write():
     country = 'US'
     selenium_funcs.write_cookie(cookie,country)
 
+def test_generate():
+    # account = luminati.get_account()
+    # ip = account['IP_lpm']
+    # port = '24041'
+    # proxy = 'socks5://%s:%s'%(ip,port)
+    uas = Chrome_driver.get_ua_all()
+    ua = Chrome_driver.get_ua_random(uas) 
+    headers_1 = {
+        'user-agent':ua,
+        }    
+    headers = {
+        'user-agent':ua,
+        'accept': 'application/json, text/javascript, */*; q=0.01',
+        'accept-encoding': 'gzip, deflate, br',
+        'accept-language': 'en-US,en;q=0.9',
+        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'origin': 'https://www.getaround.com',
+        'referer': 'https://www.getaround.com/sharecar?utm_source=impact radius&utm_medium=affiliate&utm_campaign=impact-radius-affiliate-all-market-supply&utm_content=__tkey:Q2FyIExlYWRfSW1wYWN0IFJhZGl1c19Db250ZW50X0FmZmlsaWF0ZV9QYWlkX1Byb3NwZWN0X19BTExfX0ltcGFjdCBSYWRpdXMgQWZmaWxpYXRlIEFsbCBtYXJrZXQgU3VwcGx5X0ltcGFjdCBSYWRpdXMgQWZmaWxpYXRlIEFsbCBtYXJrZXQgU3VwcGx5X0BAX0BAX0BA&tkey=Q2FyIExlYWRfSW1wYWN0IFJhZGl1c19Db250ZW50X0FmZmlsaWF0ZV9QYWlkX1Byb3NwZWN0X19BTExfX0ltcGFjdCBSYWRpdXMgQWZmaWxpYXRlIEFsbCBtYXJrZXQgU3VwcGx5X0ltcGFjdCBSYWRpdXMgQWZmaWxpYXRlIEFsbCBtYXJrZXQgU3VwcGx5X0BAX0BAX0BA&affiliate=365723&clickid=3YPUkz2V2xyOTk7wUx0Mo3YQUknUT-xFRzyo2s0&ircid=7962&irgwc=1&sharedid=233486',
+    }         
+    session = requests.session()
+    # session.proxies = {'http': proxy,
+    #                    'https': proxy}  
+    # print('Approaching:',url)
+    # print(proxy)
+    year = random.randint(2003,2017)
+    Mission_list = ['10002']
+    excel = 'health'    
+    Excel_name = [excel,'']
+    Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
+    submit_ = db.read_one_excel(Mission_list,Excel_name,Email_list)
+    submit = submit_['health']
+    first_name = submit['firstname']
+    last_name = submit['lastname']
+    zip_ = submit['zip'].split('.')[0]
+    phone = submit['homephone'].split('.')[0]
+    email = submit['email']
+    data = {
+    'year': str(year),
+    'country': 'US',
+    'zipcode': zip_,
+    'first_name': first_name,
+    'last_name': last_name,
+    'email': email,
+    'phone': phone,
+    'source': 'News Article',
+    'source_other': '', 
+    'lead_page': 'getaround.com/sharecar' 
+    }   
+    print(data)
+    data_ = json.dumps(data)  
+    # url_google = 'https://www.google.com'
+    url = 'https://adpgtrack.com/click/5d43f1a4a03594103a75da46/146827/233486/subaccount'
+    session.get(url,headers=headers_1)  
+    url = 'https://www.getaround.com/ajax/generate-lead'    
+    resp=session.post(url,data=data_,headers=headers)  
+    # print(headers)
+    print(resp.text)
+    # print(resp.headers)
+    # print(resp.status_code)
+    # print(type(resp.status_code))
+    url = 'https://www.google.com/pagead/conversion_async.js'
+    headers_2 = {
+        'user-agent':ua,
+        'referer': 'https://www.getaround.com/sharecar?utm_source=impact%20radius&utm_medium=affiliate&utm_campaign=impact-radius-affiliate-all-market-supply&utm_content=__tkey:Q2FyIExlYWRfSW1wYWN0IFJhZGl1c19Db250ZW50X0FmZmlsaWF0ZV9QYWlkX1Byb3NwZWN0X19BTExfX0ltcGFjdCBSYWRpdXMgQWZmaWxpYXRlIEFsbCBtYXJrZXQgU3VwcGx5X0ltcGFjdCBSYWRpdXMgQWZmaWxpYXRlIEFsbCBtYXJrZXQgU3VwcGx5X0BAX0BAX0BA&tkey=Q2FyIExlYWRfSW1wYWN0IFJhZGl1c19Db250ZW50X0FmZmlsaWF0ZV9QYWlkX1Byb3NwZWN0X19BTExfX0ltcGFjdCBSYWRpdXMgQWZmaWxpYXRlIEFsbCBtYXJrZXQgU3VwcGx5X0ltcGFjdCBSYWRpdXMgQWZmaWxpYXRlIEFsbCBtYXJrZXQgU3VwcGx5X0BAX0BAX0BA&affiliate=365723&clickid=3YPUkz2V2xyOTk7wUx0Mo3YQUknUT-xFRzyo2s0&ircid=7962&irgwc=1&sharedid=233486'
+    } 
+    resp=session.get(url,headers=headers_2)  
+    print(headers)
+    print(resp.text)
+    print(resp.headers)
+    print(resp.status_code)
+    print(type(resp.status_code))       
+
+def conversion():
+    account = luminati.get_account()
+    ip = account['IP_lpm']
+    port = '24041'
+    proxy = 'socks5://%s:%s'%(ip,port)
+    uas = Chrome_driver.get_ua_all()
+    ua = Chrome_driver.get_ua_random(uas) 
+    url = 'https://www.google.com/pagead/conversion_async.js'
+    # url = 'http://lumtest.com/myip.json'
+    headers = {
+        'user-agent':ua,
+        'referer': 'https://www.getaround.com/sharecar?utm_source=impact%20radius&utm_medium=affiliate&utm_campaign=impact-radius-affiliate-all-market-supply&utm_content=__tkey:Q2FyIExlYWRfSW1wYWN0IFJhZGl1c19Db250ZW50X0FmZmlsaWF0ZV9QYWlkX1Byb3NwZWN0X19BTExfX0ltcGFjdCBSYWRpdXMgQWZmaWxpYXRlIEFsbCBtYXJrZXQgU3VwcGx5X0ltcGFjdCBSYWRpdXMgQWZmaWxpYXRlIEFsbCBtYXJrZXQgU3VwcGx5X0BAX0BAX0BA&tkey=Q2FyIExlYWRfSW1wYWN0IFJhZGl1c19Db250ZW50X0FmZmlsaWF0ZV9QYWlkX1Byb3NwZWN0X19BTExfX0ltcGFjdCBSYWRpdXMgQWZmaWxpYXRlIEFsbCBtYXJrZXQgU3VwcGx5X0ltcGFjdCBSYWRpdXMgQWZmaWxpYXRlIEFsbCBtYXJrZXQgU3VwcGx5X0BAX0BAX0BA&affiliate=365723&clickid=QDlRQb2XDxyOU6nwUx0Mo3Q3UknUXjS9522h1g0&ircid=7962&irgwc=1&sharedid=233486'
+        # 'https://www.getaround.com/sharecar?utm_source=impact radius&utm_medium=affiliate&utm_campaign=impact-radius-affiliate-all-market-supply&utm_content=__tkey:Q2FyIExlYWRfSW1wYWN0IFJhZGl1c19Db250ZW50X0FmZmlsaWF0ZV9QYWlkX1Byb3NwZWN0X19BTExfX0ltcGFjdCBSYWRpdXMgQWZmaWxpYXRlIEFsbCBtYXJrZXQgU3VwcGx5X0ltcGFjdCBSYWRpdXMgQWZmaWxpYXRlIEFsbCBtYXJrZXQgU3VwcGx5X0BAX0BAX0BA&tkey=Q2FyIExlYWRfSW1wYWN0IFJhZGl1c19Db250ZW50X0FmZmlsaWF0ZV9QYWlkX1Byb3NwZWN0X19BTExfX0ltcGFjdCBSYWRpdXMgQWZmaWxpYXRlIEFsbCBtYXJrZXQgU3VwcGx5X0ltcGFjdCBSYWRpdXMgQWZmaWxpYXRlIEFsbCBtYXJrZXQgU3VwcGx5X0BAX0BAX0BA&affiliate=365723&clickid=3YPUkz2V2xyOTk7wUx0Mo3YQUknUT-xFRzyo2s0&ircid=7962&irgwc=1&sharedid=233486'
+    }
+    session = requests.session()
+    # session.proxies = {'http': proxy,
+    #                    'https': proxy}      
+    resp=session.get(url,headers=headers)  
+    print(headers)
+    print(resp.text)
+    print(resp.headers)
+    print(resp.status_code)
+    print(type(resp.status_code))    
+
+
 if __name__ == '__main__':
     i = 2
     if i == 0:
@@ -919,4 +1017,4 @@ if __name__ == '__main__':
     elif i==1:
         test_account()
     else:
-        test_cookies_write()
+        test_generate()

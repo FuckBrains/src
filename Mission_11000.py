@@ -32,7 +32,7 @@ Auto
 def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
-        site = 'https://adpgtrack.com/click/5b73d90a6c42607b3b6c4322/146827/199595/subaccount'
+        site = 'http://nc.fclitloan.com/click.php?c=9&key=mqrrjq7g3e8ayad39m7if251'
         submit['Site'] = site
     chrome_driver.get(submit['Site'])
     name = name_get.gen_one_word_digit(lowercase=False)
@@ -54,6 +54,7 @@ def web_submit(submit,chrome_driver,debug=0):
         num_rand = random.randint(8,14)
         name = name[:num_rand]
     chrome_driver.find_element_by_xpath('//*[@id="username"]').send_keys(name)
+
     # password
     pwd = Submit_handle.get_pwd_real2()
     if '-' in pwd:
@@ -63,6 +64,8 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys(pwd)
     # email
     chrome_driver.find_element_by_xpath('//*[@id="email"]').send_keys(submit['email'])
+    submit['status'] = 'email uploaded'
+
     # next
     chrome_driver.find_element_by_xpath('//*[@id="nextBtn"]').click()
     WebDriverWait(chrome_driver,20).until(EC.text_to_be_present_in_element((By.XPATH,'//*[@id="J2"]/div/div/div[1]/div[1]'),"Get Verified. It's Free!"))
@@ -72,7 +75,6 @@ def web_submit(submit,chrome_driver,debug=0):
     fullname = submit['firstname'] + ' ' + submit['lastname']
     if len(fullname) >= 16:
         fullname = fullname[0:15]
-
     if '-' in fullname:
         fullname = fullname.split('-')[0]
     if '_' in fullname:
@@ -82,9 +84,10 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.find_element_by_xpath('//*[@id="cc"]').send_keys(submit['card_number'])
     # month
     elem = '//*[@id="expMonth"]'
-    month = str(submit['month'])
+    month = str(submit['month']).replace('\t','')
     if len(month) == 1:
         month = '0'+month
+    month = month.replace(' ','')    
     s1 = Select(chrome_driver.find_element_by_xpath(elem))
     s1.select_by_value(month)
     # year
@@ -93,6 +96,8 @@ def web_submit(submit,chrome_driver,debug=0):
         year = str(submit['year'])[2:]
     else:
         year = str(submit['year'])
+    year = year.replace('\t','')
+    year = year.replace(' ','')    
     s1 = Select(chrome_driver.find_element_by_xpath(elem))
     s1.select_by_value(year)   
     # cvv    
@@ -101,25 +106,27 @@ def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.find_element_by_xpath('//*[@id="zip"]').send_keys(submit['katou'])
     # submit
     chrome_driver.find_element_by_xpath('//*[@id="signUp"]').click()
+    submit['status'] = 'cvv uploaded'
+
     sleep(30)
-    fail_xpath = '/html/body/div[1]/div[2]/section/div/div[2]/div[2]/div/div/div/p'
-    fail_text = 'Seems like something went wrong. Please try again, or contact customer service 888-548-7893.'
-    success_xpath = '//*[@id="colText"]/div/div[1]/div/h2'
-    success_text = 'Welcome to HookupHereNow!'
-    fail_xpath2 = '//*[@id="J2"]/div/div/div[1]/div[2]/div[2]/form/div[1]/span'
-    fail_text2 = 'The card used to verify has been declined. Please confirm info, or use a new card to verify.'
-    submit['password'] = pwd
-    submit['fullname'] = fullname
-    xpaths = [fail_xpath,fail_xpath2,success_xpath]
-    texts = [fail_text,fail_text2,success_text]
-    flags = dict(zip(xpaths,texts))
-    flag_return = 0
-    for text in texts:
-        if text in chrome_driver.page_source:
-            submit['status'] = text
-            if text == success_text:
-                chrome_driver.find_element_by_xpath('//*[@id="nextBtn"]').click()
-                sleep(15)
+    # fail_xpath = '/html/body/div[1]/div[2]/section/div/div[2]/div[2]/div/div/div/p'
+    # fail_text = 'Seems like something went wrong. Please try again, or contact customer service 888-548-7893.'
+    # success_xpath = '//*[@id="colText"]/div/div[1]/div/h2'
+    # success_text = 'Welcome to HookupHereNow!'
+    # fail_xpath2 = '//*[@id="J2"]/div/div/div[1]/div[2]/div[2]/form/div[1]/span'
+    # fail_text2 = 'The card used to verify has been declined. Please confirm info, or use a new card to verify.'
+    # submit['password'] = pwd
+    # submit['fullname'] = fullname
+    # xpaths = [fail_xpath,fail_xpath2,success_xpath]
+    # texts = [fail_text,fail_text2,success_text]
+    # flags = dict(zip(xpaths,texts))
+    # flag_return = 0
+    # for text in texts:
+    #     if text in chrome_driver.page_source:
+    #         submit['status'] = text
+    #         if text == success_text:
+    #             chrome_driver.find_element_by_xpath('//*[@id="nextBtn"]').click()
+    #             sleep(15)
             # flag_return = 1
     # if flag_return != 1 :
     #     submit['status'] = 0
@@ -135,8 +142,7 @@ def web_submit(submit,chrome_driver,debug=0):
     #             break
     #     except:
     #         pass
-    if submit['status'] == 'prepare':
-        submit['status'] = 'No sign'
+
     return submit
 
  

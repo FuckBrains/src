@@ -109,6 +109,8 @@ def mission(plans):
         try:
             reg_part(plan)
         except Exception as e:
+            a = traceback.format_exc()
+            print(a)
             print('timeout')            
 
 def get_write_content(submit):
@@ -143,7 +145,6 @@ def reg_part(plan):
         print('----------------====================')
         chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
         print('========')
-        submit['status'] = 'prepare'
         if Module != '':
             submit = Module.web_submit(submit,chrome_driver=chrome_driver)
         else:
@@ -173,7 +174,8 @@ def reg_part(plan):
         write_status(path,workbook,submit,'badname')          
 
 def main():
-    while True:
+    # while True:
+    for i in range(1):
         try:
             tools.killpid()
         except Exception as e:

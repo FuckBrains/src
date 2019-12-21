@@ -439,14 +439,14 @@ def test():
     # db.email_test()
     # date_of_birth = Submit_handle.get_auto_birthday('')         
     Mission_list = ['10002']
-    excel = 'Auto'    
+    excel = 'health'    
     Excel_name = [excel,'']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
-    print(submit)
-    # [item for item in submit[excel] if submit[excel][item]!=None and submit[excel][item] !='']
+    # print(submit)
+    # [pritem for item in submit[excel] if submit[excel][item]!=None and submit[excel][item] !='']
 
-    # [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None and submit[excel][item] !='']
+    [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None and submit[excel][item] !='']
     # [print(item,':',submit[excel][item]) for item in submit[excel] if item == 'homephone']  
     return
     submit['Mission_Id'] = '10046'
