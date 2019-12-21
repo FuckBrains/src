@@ -23,10 +23,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 '''
-GETAROUND
-Auto
 '''
-
 
 
 def web_submit(submit,chrome_driver,debug=0):
@@ -107,10 +104,13 @@ def web_submit(submit,chrome_driver,debug=0):
     zipcode = submit['katou'].replace('\t','')
     chrome_driver.find_element_by_xpath('//*[@id="zip"]').send_keys(zipcode)
     # submit
-    chrome_driver.find_element_by_xpath('//*[@id="signUp"]').click()
+    try:
+        chrome_driver.find_element_by_xpath('//*[@id="signUp"]').click()
+        sleep(30)
+    except:
+        pass
     submit['status'] = 'cvv uploaded'
-
-    sleep(30)
+    return submit
     # fail_xpath = '/html/body/div[1]/div[2]/section/div/div[2]/div[2]/div/div/div/p'
     # fail_text = 'Seems like something went wrong. Please try again, or contact customer service 888-548-7893.'
     # success_xpath = '//*[@id="colText"]/div/div[1]/div/h2'
@@ -144,8 +144,6 @@ def web_submit(submit,chrome_driver,debug=0):
     #             break
     #     except:
     #         pass
-
-    return submit
 
  
 def test():
