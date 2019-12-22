@@ -1055,7 +1055,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_11">
        <attribute name="title">
@@ -1275,6 +1275,11 @@
         <item>
          <property name="text">
           <string>Set_Cookie</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Set_Refresh</string>
          </property>
         </item>
        </widget>
@@ -1829,6 +1834,39 @@
         </property>
         <property name="text">
          <string>tagname</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_50">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>230</y>
+          <width>101</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Class_name</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit27">
+        <property name="geometry">
+         <rect>
+          <x>390</x>
+          <y>230</y>
+          <width>141</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </widget>
@@ -2395,6 +2433,19 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="text">
          <string>Set_Status</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton33_2">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>180</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Set_Refresh</string>
         </property>
        </widget>
       </widget>

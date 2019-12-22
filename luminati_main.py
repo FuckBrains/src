@@ -49,11 +49,11 @@ flag:
 
 def main(i):
     while True:
-        try:
-            tools.killpid()
-        except Exception as e:
-            print(str(e))
-            pass
+        # try:
+        #     tools.killpid()
+        # except Exception as e:
+        #     print(str(e))
+        #     pass
         account = db.get_account()
         plan_id = account['plan_id']
         # print('Plan_id:',plan_id,',connecting sql for plan info...')
@@ -79,13 +79,13 @@ def main(i):
         # print(plans)
         tk.start(plans)
         print('All Missions finished..............')
-        try:
-            print('try killing pids')
-            tools.killpid()
-            print('kill pids finished')
-        except Exception as e:
-            print(str(e))
-            pass          
+        # try:
+        #     print('try killing pids')
+        #     tools.killpid()
+        #     print('kill pids finished')
+        # except Exception as e:
+        #     print(str(e))
+        #     pass          
         restart_time = random.randint(3,5)
         print('Mission completed.........')
         print('Sleep',restart_time,'minutes')

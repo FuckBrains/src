@@ -143,21 +143,21 @@ def get_submit(Config):
             flag,proxy_info = luminati.ip_test(submit['port_lpm'],state='' ,country=submit['Country'])            
             print('proxy_info:',proxy_info)
         else:
-            # city = ''
-            # proxy_info = {}
-            # flag = 1
-            for num_ip in range(6):
-                try:
-                    city = ip_test.ip_Test('','',country=submit['Country'])
-                    if  city != 'Not found':
-                        flag = 1
-                        proxy_info = ''
-                        break
-                    if num_ip == 5:
-                        print('Net wrong...!!!!!!')
-                        changer.Restart()
-                except:
-                    changer.Restart()            
+            city = ''
+            proxy_info = {}
+            flag = 1
+            # for num_ip in range(6):
+            #     try:
+            #         city = ip_test.ip_Test('','',country=submit['Country'])
+            #         if  city != 'Not found':
+            #             flag = 1
+            #             proxy_info = ''
+            #             break
+            #         if num_ip == 5:
+            #             print('Net wrong...!!!!!!')
+            #             changer.Restart()
+            #     except:
+            #         changer.Restart()            
 
         # changing IP
         print(flag,'=========================')
@@ -252,7 +252,7 @@ def reg_part_(submit):
         print('----------------====================')
         if submit['sleep_flag'] == 2:
             submit.pop('ip_lpm')
-        chrome_driver = Chrome_driver.get_chrome(submit)
+        chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
         print('========')
         if Module != '':
             print('11111111111111')
@@ -340,7 +340,8 @@ def web_submit(submit,chrome_driver,debug=0):
         '''
         check step status for every step
         '''
-        step_detect(chrome_driver,xpaths) 
+        if len(xpaths) !=0:
+            step_detect(chrome_driver,xpaths) 
         print('All steps ready')
         '''
         stop window if every step is ready
@@ -418,7 +419,7 @@ def page_detect(Page_flags,chrome_driver):
         page = get_page_by_flag(Page_flags,chrome_driver)
         if page == None:
             print('Page Flag Not Found,',i+1)
-            sleep(3)
+            sleep(10)
         else:
             print('Page Flag Found')            
             break
@@ -427,6 +428,7 @@ def page_detect(Page_flags,chrome_driver):
         wrong_pages = ['Webpage not available','This page isn’t working']
         flag_wrong_page = 0
         if status == 'complete':
+            sleep(10)
             page = get_page_by_flag(Page_flags,chrome_driver)
             if page == None:
                 print('Page Flag Not Found,',i+1)

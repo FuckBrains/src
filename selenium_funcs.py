@@ -19,12 +19,10 @@ sys.path.append("..")
 
 
 def write_cookie(cookie,country):
-    path_res = r'..\res\cookies'
+    path_res = r'..\res\cookies\US'
     tools.makedir_account(path_res)    
-    path_country = os.path.join(path_res,country)
-    tools.makedir_account(path_country)
     filename = str(random.randint(100000,999999999))+'.txt'
-    path_cookie = os.path.join(path_country,filename)
+    path_cookie = os.path.join(path_res,filename)
     with open (path_cookie,'w') as f:
         f.write(cookie)
 
@@ -43,16 +41,20 @@ def get_action(chrome_driver,data,submit):
     if action_func == 'Set_Status':
         db.update_plan_status(1,submit['ID']) 
         return
+    if action_func == 'Set_Refresh':
+        chrome_driver.refresh()
+        sleep(2)
+        return        
     if action_func == 'Set_Cookie':
         cookies = chrome_driver.get_cookies()
         cookie_str = json.dumps(cookies)
         submit['Cookie'] = cookie_str
         submit['BasicInfo_Id'] = submit[key_excel]['BasicInfo_Id']
-        write_cookie(cookie_str)
+        write_cookie(cookie_str,submit['Country'])
         # db.upload_accounts(submit) 
         return
     if action_func == 'Set_Sleep':
-        time_ = submit[data['Step_config']['sleep']]
+        time_ = data['Step_config']['sleep']
         sleep(time_)
         return
     if data['General']['iframe'] != '':
@@ -233,7 +235,14 @@ def Input(chrome_driver,data,submit):
     element.send_keys(content)
 
 def Click(chrome_driver,data,submit):
-    WebDriverWait(chrome_driver,120).until(EC.element_to_be_clickable((By.XPATH,data['General']['xpath'])))    
+    if 'class_name' in data['General']:
+        try:
+            chrome_driver.find_element_by_class_name(data['General']['class_name'])
+        except:
+            pass
+        return
+    else:
+        WebDriverWait(chrome_driver,120).until(EC.element_to_be_clickable((By.XPATH,data['General']['xpath'])))    
     if data['General']['hidden_xpath'] != '':
         xpath = data['General']['hidden_xpath']
     else:
