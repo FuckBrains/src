@@ -1011,9 +1011,8 @@ def conversion():
 
 
 def test_t_t():
-    a = '\tasdad'
-    b = a.replace('\t','')
-    print(b)
+    import Mission_11002
+    Mission_11002.test('')
 
 if __name__ == '__main__':
     i = 2

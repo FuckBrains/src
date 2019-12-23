@@ -55,11 +55,12 @@ def web_submit(submit,chrome_driver,debug=0):
     # cookies = chrome_driver.get_cookies()    
     # print('cookies',cookies)    
     # chrome_driver.get('https://account.blizzard.com/')     
+    xpath_payment = '//*[@id="app"]/main/section[1]/div/ul/li[7]/a'    
+    print(xpath_payment)
     try:
         chrome_driver.find_element_by_xpath(xpath_payment)
     except:
         chrome_driver.refresh()
-    xpath_payment = '//*[@id="app"]/main/section[1]/div/ul/li[7]/a'
     flag_info = 0
     while True:
         for j in range(10):
@@ -276,14 +277,15 @@ def test(chrome_driver):
     submit['Mission_Id'] = 11002
     submit['Country'] = 'US'
     # submit['ua'] = data['ua']
-    chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
-    web_submit(chrome_driver)
+    # chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
+    web_submit(submit,chrome_driver)
 
 def get_data():
     path = r'..\res\Dadao.xlsx' 
     sheet,workbook = Dadao.get_excel(path)   
     Mission_Id = 11001 
     submit = Dadao.get_one_data(sheet,Mission_Id)
+    print(submit)
     submit['Mission_Id'] = Mission_Id
     return submit,path,workbook    
 

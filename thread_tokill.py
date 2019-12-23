@@ -260,10 +260,10 @@ def reg_part_(submit):
         if Module != '':
             print('11111111111111')
             print(Module)
-            Module.web_submit(submit,chrome_driver=chrome_driver)
+            chrome_driver = Module.web_submit(submit,chrome_driver=chrome_driver)
         else:
             print('Record modern')
-            web_submit(submit,chrome_driver=chrome_driver)
+            chrome_driver = web_submit(submit,chrome_driver=chrome_driver)
         print(submit)
     except Exception as e:
         print(str(e))
@@ -272,6 +272,7 @@ def reg_part_(submit):
         except:
             pass
     import Mission_11002
+    print('Import Mission_11002')
     Mission_11002.test(chrome_driver)
     try:
         chrome_driver.close()
@@ -381,15 +382,15 @@ def web_submit(submit,chrome_driver,debug=0):
         '''
         if 'Success' in page['Status']:
             db.update_plan_status(2,submit['ID'])
-            return
+            return chrome_driver
         if 'Fail' in page['Status']:
             db.update_plan_status(1,submit['ID'])
-            return          
+            return chrome_driver         
         flag_page_chane = page_change(chrome_driver,page)
         if flag_page_chane == 1:
             pass
         else:
-            return
+            return chrome_driver
       
 def takeStep(elem):
     return elem['Step']

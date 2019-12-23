@@ -69,10 +69,10 @@ def get_one_data(sheet,Mission_Id):
             submit[key_] = str(submit[key_]).replace('\t','').replace(' ','')
         firstname = submit['firstname'].replace('\t','').replace(' ','')
         lastname = submit['lastname'].replace('\t','').replace(' ','') 
+        print(submit[key])
+        print(firstname)
+        print(lastname)        
         if submit[key] == '':
-            print(submit[key])
-            print(firstname)
-            print(lastname)
             for part in firstname:
                 a = tools.is_alphabet(part)
                 if a == False:
