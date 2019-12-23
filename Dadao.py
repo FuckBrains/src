@@ -69,15 +69,21 @@ def get_one_data(sheet,Mission_Id):
         firstname = submit['firstname'].replace(' ','')        
         lastname = submit['lastname'].replace('\t','')
         lastname = submit['lastname'].replace(' ','')        
+        print('key:',key)
         if submit[key] == '':
+            print(submit[key])
+            print(firstname)
+            print(lastname)
             for part in firstname:
                 a = tools.is_alphabet(part)
                 if a == False:
                     flag_alpha = a
+                    print('not alpha:',a)
                     break
             for part in lastname:
                 a = tools.is_alphabet(part)
                 if a == False:
+                    print('not alpha:',a)                    
                     flag_alpha = a
                     break
             if flag_alpha == True:
@@ -224,6 +230,7 @@ def test():
         sheet,workbook = get_excel(path)  
         row = sheet.nrows        
         submit = get_one_data(sheet,11000)
+        return
         submit['status'] = 'using'
         submit['Mission_Id'] = 11000    
         write_status(path,workbook,submit)

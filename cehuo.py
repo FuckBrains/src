@@ -113,7 +113,5 @@ def main():
         get_ip(submit)
 
 
-
-
 if __name__=='__main__':
     data_test()

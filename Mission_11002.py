@@ -288,4 +288,5 @@ def get_data():
     return submit,path,workbook    
 
 if __name__=='__main__':
-    test()
+    submit,_,_ =get_data()
+    print(submit)
