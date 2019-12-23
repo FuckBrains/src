@@ -66,7 +66,7 @@ def get_one_data(sheet,Mission_Id):
         key = 'Status_'+ str(Mission_Id)
         flag_alpha = True
         for key_ in submit:
-            submit[key_] = submit[key_].replace('\t','').replace(' ','')
+            submit[key_] = str(submit[key_]).replace('\t','').replace(' ','')
         firstname = submit['firstname'].replace('\t','').replace(' ','')
         lastname = submit['lastname'].replace('\t','').replace(' ','') 
         if submit[key] == '':
