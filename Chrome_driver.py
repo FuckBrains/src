@@ -311,8 +311,13 @@ def test():
     sleep(3000)
 
 def test_meituan():
-    url = 'https://www.baidu.com'
+    url = 'https://www.google.com'
     submit = {'health': {'BasicInfo_Id': '9ba2a35e-d262-11e9-83eb-0009b6e2541a', 'country': '', 'firstname': 'Rob', 'lastname': 'Arnett', 'address': '1627 farhills ave.', 'city': 'Dayton', 'state': 'OH', 'zip': '45419.0', 'homephone': '9372567324.0', 'workphone': None, 'email': '_arnett13@peoplepc.com', 'dateofbirth': 'null', 'maritalstatus': None, 'gender': 'null', 'education': None, 'occupation': None, 'yearsatemployer': None, 'residencetype': None, 'yearatresidence': None, 'leadtype': None, 'validation': None, 'licensestate': None, 'licenseeversuspendedrevoked': None, 'abs': None, 'airbags': None, 'alarm': None, 'multivehicle': None, 'insurancecompany': None, 'coveragetype': None, 'bodilyinjury': None, 'propertydamage': None, 'collisiondeductible': None, 'comphrensivedeductible': None, 'annualmiles': None, 'year': None, 'make': None, 'model': None, 'submodel': None, 'primaryuse': None, 'ipaddress': None, 'sourceid': None, 'first_name': None, 'last_name': None, 'home_phone': None, 'work_phone': None, 'best_time_to_call': None, 'requested_loan_amount': None, 'ssn': None, 'date_of_birth': None, 'drivers_license': None, 'drivers_license_state': None, 'own_rent': None, 'years_at_residence': None, 'months_at_residence': None, 'age': None, 'military': None, 'income_type': None, 'is_dependent': None, 'net_monthly_income': None, 'years_employed': None, 'months_employed': None, 'supervisor_phone': None, 'pay_period': None, 'paycheck_type': None, 'employer': None, 'account_type': None, 'bank_name': None, 'routing_number': None, 'account_number': None, 'years_bank_account': None, 'months_bank_account': None, 'ip_address': None, 'dts': None, 'Excel_name': 'health', 'postal_code': None, 'zipcode': None, 'reference1_first_name': None, 'reference1_last_name': None, 'reference1_relationship': None, 'phone_reference1': None, 'reference2_first_name': None, 'reference2_last_name': None, 'reference2_relationship': None, 'phone_reference2': None, 'ip': None, 'title': None, 'emailaddress': None, 'phone': None, 'flag_use': 0, 'tzid': None, 'windows': None}, 'ip_lpm': '192.168.89.130', 'port_lpm': '24716', 'state_': 'OH', 'Mission_Id': '10002', 'Country': 'US', 'Site': 'https://adpgtrack.com/click/5d43f1a4a03594103a75da46/146827/233486/subaccount\n', 'Excels_dup': ['health', ''], 'Alliance': 'Adpump', 'Account': '1', 'Offer': 'GETAROUND(Done)', 'ID': 507, 'sleep_flag': 0, 'Mission_dir': 'C:\\EMU\\emu_chromes\\10002,1', 'ua': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36', 'tz': [{'windows': 'Central Standard Time', 'tzid': 'America/Chicago'}, {'windows': 'Central Standard Time', 'tzid': 'America/Chicago America/Indiana/Knox America/Indiana/Tell_City America/Menominee America/North_Dakota/Beulah America/North_Dakota/Center America/North_Dakota/New_Salem'}]}
+    # submit = {}
+    submit.pop('ip_lpm')
+    submit['Mission_Id'] = '10001'
+    print(submit)
+    return
     chrome_driver = get_chrome(submit)
     chrome_driver.get(url)
     # handle = chrome_driver.current_window_handle    
@@ -331,5 +336,4 @@ def test_meituan():
 
 
 if __name__ == '__main__':
-    path = get_chromedriver_path()
-    print(path)
+    test_meituan()

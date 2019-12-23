@@ -252,6 +252,9 @@ def reg_part_(submit):
         print('----------------====================')
         if submit['sleep_flag'] == 2:
             submit.pop('ip_lpm')
+        print(submit)
+        print('===============================')
+        print('===============================')        
         chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
         print('========')
         if Module != '':

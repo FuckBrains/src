@@ -49,7 +49,7 @@ flag:
 
 def main(i):
     # while True:
-    for i in range(1):
+    for j in range(1):
         # try:
         #     tools.killpid()
         # except Exception as e:
