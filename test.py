@@ -1010,6 +1010,11 @@ def conversion():
     print(type(resp.status_code))    
 
 
+def test_t_t():
+    a = '\tasdad'
+    b = a.replace('\t','')
+    print(b)
+
 if __name__ == '__main__':
     i = 2
     if i == 0:
@@ -1017,4 +1022,4 @@ if __name__ == '__main__':
     elif i==1:
         test_account()
     else:
-        test_generate()
+        test_t_t()

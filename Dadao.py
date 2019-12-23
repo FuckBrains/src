@@ -65,10 +65,8 @@ def get_one_data(sheet,Mission_Id):
         print(submit)  
         key = 'Status_'+ str(Mission_Id)
         flag_alpha = True
-        firstname = submit['firstname'].replace('\t','')
-        firstname = submit['firstname'].replace(' ','')        
-        lastname = submit['lastname'].replace('\t','')
-        lastname = submit['lastname'].replace(' ','')        
+        firstname = submit['firstname'].replace('\t','').replace(' ','')
+        lastname = submit['lastname'].replace('\t','').replace(' ','') 
         print('key:',key)
         if submit[key] == '':
             print(submit[key])
@@ -78,12 +76,12 @@ def get_one_data(sheet,Mission_Id):
                 a = tools.is_alphabet(part)
                 if a == False:
                     flag_alpha = a
-                    print('not alpha:',a)
+                    print('not alpha:',part)
                     break
             for part in lastname:
                 a = tools.is_alphabet(part)
                 if a == False:
-                    print('not alpha:',a)                    
+                    print('not alpha:',part)                    
                     flag_alpha = a
                     break
             if flag_alpha == True:
