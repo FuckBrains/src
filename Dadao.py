@@ -87,6 +87,8 @@ def get_one_data(sheet,Mission_Id):
             if flag_alpha == True:
                 submit['row'] = i
                 submit['badname'] = badname
+                submit['lastname'] = lastname
+                submit['firstname'] = firstname                
                 return submit
             else:
                 badname.append(i)
