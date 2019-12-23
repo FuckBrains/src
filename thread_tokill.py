@@ -232,7 +232,7 @@ def data_handler(Config):
     print('Mission_Id:',submit['Mission_Id'],'finished') 
     return 1       
 
-@timeout(600)
+# @timeout(600)
 def reg_part_(submit):
     print('reg_part')
     global timezone 
