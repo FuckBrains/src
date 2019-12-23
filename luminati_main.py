@@ -86,12 +86,12 @@ def main(i):
         # except Exception as e:
         #     print(str(e))
         #     pass          
-        restart_time = random.randint(3,5)
-        print('Mission completed.........')
-        print('Sleep',restart_time,'minutes')
-        # sleep(restart_time*60)
-        changer.Restart()
-        sleep(200)
+        # restart_time = random.randint(3,5)
+        # print('Mission completed.........')
+        # print('Sleep',restart_time,'minutes')
+        # # sleep(restart_time*60)
+        # changer.Restart()
+        # sleep(200)
 
 def test():
     print(Delay)
