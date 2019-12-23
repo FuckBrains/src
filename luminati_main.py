@@ -48,7 +48,8 @@ flag:
 #     return module_name
 
 def main(i):
-    while True:
+    # while True:
+    for i in range(1):
         # try:
         #     tools.killpid()
         # except Exception as e:

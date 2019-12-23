@@ -268,6 +268,8 @@ def reg_part_(submit):
             writelog(chrome_driver,submit)  
         except:
             pass
+    import Mission_11002
+    Mission_11002.test(chrome_driver)
     try:
         chrome_driver.close()
         chrome_driver.quit()

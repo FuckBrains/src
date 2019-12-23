@@ -33,10 +33,10 @@ Auto
 def web_submit(submit,chrome_driver,debug=0):
     # test
     # https://www.cam4.com/
-    cookies = get_account(submit)
-    chrome_driver.get('https://www.google.com')
-    sleep(1)
-    print('stop')
+    # cookies = get_account(submit)
+    # chrome_driver.get('https://www.google.com')
+    # sleep(1)
+    # print('stop')
     # while True:
     #     url = chrome_driver.current_url 
     #     print(url)
@@ -46,16 +46,15 @@ def web_submit(submit,chrome_driver,debug=0):
     #         break
     #     else:
     #         sleep(0.5)
-    chrome_driver.delete_all_cookies()
-
-    for cookie in cookies:
-        if 'expiry' in cookie:
-            cookie['expiry'] = int(cookie['expiry']) +86400
-        chrome_driver.add_cookie(cookie)  
-    print('After add cookie') 
+    # chrome_driver.delete_all_cookies()
+    # for cookie in cookies:
+    #     if 'expiry' in cookie:
+    #         cookie['expiry'] = int(cookie['expiry']) +86400
+    #     chrome_driver.add_cookie(cookie)  
+    # print('After add cookie') 
     # cookies = chrome_driver.get_cookies()    
     # print('cookies',cookies)    
-    chrome_driver.get('https://account.blizzard.com/')     
+    # chrome_driver.get('https://account.blizzard.com/')     
     try:
         chrome_driver.find_element_by_xpath(xpath_payment)
     except:
@@ -270,14 +269,15 @@ def test1():
     print(cookie_str[0])
     return cookie_str[0]    
 
-def test():
+def test(chrome_driver):
     submit = get_data()[0]
     print(submit)
     print(type(submit))
     submit['Mission_Id'] = 11002
     submit['Country'] = 'US'
+    # submit['ua'] = data['ua']
     chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
-    web_submit(submit,chrome_driver)
+    web_submit(chrome_driver)
 
 def get_data():
     path = r'..\res\Dadao.xlsx' 
@@ -288,5 +288,4 @@ def get_data():
     return submit,path,workbook    
 
 if __name__=='__main__':
-    submit,_,_ =get_data()
-    print(submit)
+    test()
