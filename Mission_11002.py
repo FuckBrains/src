@@ -54,7 +54,8 @@ def web_submit(submit,chrome_driver,debug=0):
     # print('After add cookie') 
     # cookies = chrome_driver.get_cookies()    
     # print('cookies',cookies)    
-    # chrome_driver.get('https://account.blizzard.com/')     
+    # chrome_driver.get('https://account.blizzard.com/')  
+    sleep(3)   
     xpath_payment = '//*[@id="app"]/main/section[1]/div/ul/li[7]/a'    
     print(xpath_payment)
     try:
@@ -64,6 +65,7 @@ def web_submit(submit,chrome_driver,debug=0):
     flag_info = 0
     while True:
         for j in range(10):
+            sleep(3)   
             chrome_driver.find_element_by_xpath(xpath_payment).click()
             print('click payment method')        
             for i in range(10):
@@ -90,14 +92,20 @@ def web_submit(submit,chrome_driver,debug=0):
                     sleep(3)
             for i in range(10):
                 try:
+                    chrome_driver.switch_to_frame('wallet-app-iframe')
                     element = chrome_driver.find_element_by_xpath('//*[@id="firstName"]')
                     flag_info = 1
+                    print('Find info page')
                     break
-                except:
+                except Exception as e:
+                    print(str(e))
+                    print('Does not find info page,',i)
                     sleep(3)
             if flag_info !=1:
+                print('Does not Find info page')
                 chrome_driver.refresh()
             else:
+                print('Find info page')                
                 break
         if flag_info != 1:
             print('Does not find info page !!!!!!!!!!')
@@ -108,6 +116,7 @@ def web_submit(submit,chrome_driver,debug=0):
         for i in range(6):
             a = get_info()
             info.append(a)
+        print(info)
         chrome_driver.find_element_by_xpath('//*[@id="firstName"]').send_keys(info[0])        
         chrome_driver.find_element_by_xpath('//*[@id="lastName"]').send_keys(info[1])
         chrome_driver.find_element_by_xpath('//*[@id="addressLine1"]').send_keys(info[2])
@@ -116,14 +125,20 @@ def web_submit(submit,chrome_driver,debug=0):
         chrome_driver.find_element_by_xpath('//*[@id="postalCode"]').send_keys(info[5])
         sleep(2)
         chrome_driver.find_element_by_xpath('/html/body/app-root/div/div/app-address-selection/div/app-actions-with-cancel/div/button[1]').click()
-        sleep(5)    
+        sleep(5)  
+        chrome_driver.switch_to.default_content()
         flag_card = 0
         for i in range(10):
             try:
+                element = chrome_driver.find_element_by_class_name('js-iframe')
+                chrome_driver.switch_to_frame(element)
                 chrome_driver.find_element_by_xpath('//*[@id="cardNumber"]')
+
+                print('Find card info to input after send info')
                 flag_card = 1
             except:
-                sleep(3)
+                print('No card info to input after send info')
+                sleep(30)
         if flag_card == 0:
             print('No card info to input after send info')
             chrome_driver.close()
@@ -151,6 +166,7 @@ def web_submit(submit,chrome_driver,debug=0):
             chrome_driver.find_element_by_xpath(path_cvv).send_keys(cvv)
             sleep(2)
             chrome_driver.find_element_by_xpath(path_button).click()
+            chrome_driver.switch_to.default_content()
             flag_error = 0
             flag_success = 0
             flag_account_ban = 0
@@ -199,10 +215,13 @@ def web_submit(submit,chrome_driver,debug=0):
                 path_cvv = '//*[@id="encryptedSecurityCode"]'
                 path_button = '//*[@id="encryptedSecurityCode"]'
                 try:
+                    sleep(2)
+                    chrome_driver.switch_to_frame('token-payment-iframe')                    
                     chrome_driver.find_element_by_xpath(path_card)
                 except:
                     print('Does not Find card input xpath')
                     path_cardtype = '//*[@id="paymentoptionslist"]/li[3]/form/button'
+                    chrome_driver.switch_to_frame('token-payment-iframe')
                     chrome_driver.find_element_by_xpath(path_cardtype).click()
                     print('Find visa select button')
                     path_card = '//*[@id="cardNumber"]'
@@ -214,6 +233,7 @@ def web_submit(submit,chrome_driver,debug=0):
                     for i in range(30):
                         try:
                             chrome_driver.find_element_by_xpath(card_name).send_keys(name)
+                            chrome_driver.switch_to.default_content()
                             break
                         except:
                             sleep(1)
