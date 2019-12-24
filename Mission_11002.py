@@ -356,17 +356,32 @@ def switch_iframe_(chrome_driver,xpath):
     chrome_driver.switch_to.default_content()    
     try:
         chrome_driver.switch_to_frame('wallet-app-iframe')            
-        elements = chrome_driver.find_elements_by_class_name('js-iframe')    
-        chrome_driver.switch_to_frame(elements[0])
-        chrome_driver.find_element_by_xpath(xpath)
+        elements = chrome_driver.find_elements_by_class_name('js-iframe') 
+        print(elements)   
+        for element in elements:
+            chrome_driver.switch_to_frame(element)    
+            try:
+                chrome_driver.find_element_by_xpath(xpath)
+                print('Not In iframe :',element)            
+                return elements
+            except:
+                chrome_driver.switch_to.parent_frame()
+                print('Not In iframe :',element)
         print('In wallet-app-iframe')        
         return elements
     except:
         print('Not In wallet-app-iframe')
         chrome_driver.switch_to_frame('token-payment-iframe')            
-        elements = chrome_driver.find_elements_by_class_name('js-iframe')    
-        chrome_driver.switch_to_frame(elements[0])
-        chrome_driver.find_element_by_xpath(xpath)
+        elements = chrome_driver.find_elements_by_class_name('js-iframe')   
+        for element in elements:
+            chrome_driver.switch_to_frame(element)    
+            try:
+                chrome_driver.find_element_by_xpath(xpath)
+                print('Not In iframe :',element)            
+                return elements
+            except:
+                chrome_driver.switch_to.parent_frame()
+                print('Not In iframe :',element)         
         print('token-payment-iframe')        
         return elements        
 
