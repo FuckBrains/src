@@ -1012,7 +1012,28 @@ def conversion():
 
 def test_t_t():
     import Mission_11002
-    Mission_11002.test('')
+    submit,path,workbook = Mission_11002.get_data()
+    submit['status'] = 'badname'
+    for i in submit['badname']:
+        submit['row'] = i
+        Mission_11002.write_status(path,workbook,submit,'badname')              
+    card = submit['card_number'].replace('\t','')
+    month = submit['month'].replace('\t','').split('.')[0]
+    year = submit['year'].replace('\t','').split('.')[0]
+    year = str(year)            
+    cvv = submit['cvv'].replace('\t','').split('.')[0]
+    cvv = str(cvv)
+    if len(month) == 1:
+        month = '0' + month
+    if len(year) != 2:
+        year = year[-2:]
+    if len(cvv) == 1:
+        cvv = '00'+ cvv
+    elif len(cvv) == 2:
+        cvv = '0' + cvv        
+    print(cvv,year,month)
+
+
 
 if __name__ == '__main__':
     i = 2

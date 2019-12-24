@@ -128,7 +128,7 @@ def web_submit(submit,chrome_driver,debug=0):
         sleep(5)  
         # chrome_driver.switch_to.default_content()
         flag_card = 0
-        for i in range(60):
+        for i in range(6):
             try:
                 # element = chrome_driver.find_element_by_class_name('js-iframe')
                 # chrome_driver.switch_to_frame(element)
@@ -138,30 +138,44 @@ def web_submit(submit,chrome_driver,debug=0):
                 break
             except:
                 print('No card info to input after send info')
-                sleep(3)
+                chrome_driver.refresh()
+                sleep(5)
         if flag_card == 0:
-            print('No card info to input after send info')
-            chrome_driver.close()
-            chrome_driver.quit()
-            return
+            continue
+            # print('No card info to input after send info')
+            # chrome_driver.close()
+            # chrome_driver.quit()
+            # return
         path_card = '//*[@id="encryptedCardNumber"]'
         path_day = '//*[@id="encryptedExpiryDate"]'
         path_cvv = '//*[@id="encryptedSecurityCode"]'
-        path_button = '//*[@id="encryptedSecurityCode"]'
+        path_button = '/html/body/app-root/div/div/app-collect-payment-adyen/div/div/form/div[2]/div/app-actions-with-cancel/div/button[1]'
         while True:
             submit,path,workbook = get_data()
             submit['status'] = 'badname'
             for i in submit['badname']:
                 submit['row'] = i
                 write_status(path,workbook,submit,'badname')              
-            card = submit['card_number'].replace('\t','')
-            month = submit['month'].replace('\t','')
-            cvv = submit['cvv'].replace('\t','')
+            card = submit['card_number'].replace('\t','').split('.')[0]
+            card = str(card)
+            month = submit['month'].replace('\t','').split('.')[0]
+            month = str(month)
+            year = submit['year'].replace('\t','').split('.')[0]
+            year = str(year)            
+            cvv = submit['cvv'].replace('\t','').split('.')[0]
+            cvv = str(cvv)
             if len(month) == 1:
                 month = '0' + month
+            if len(year) != 2:
+                year = year[-2:]
+            month = month+year
+            if len(cvv) == 1:
+                cvv = '00'+ cvv
+            elif len(cvv) == 2:
+                cvv = '0' + cvv
             try:
-                elements = chrome_driver.find_elements_by_class_name('js-iframe')
-                chrome_driver.switch_to_frame(elements[0])                
+                xpath = path_card
+                elements_iframe = switch_iframe(chrome_driver,xpath)             
                 chrome_driver.find_element_by_xpath(path_card).send_keys(card)
             except Exception as  e:
                 print(str(e))
@@ -170,26 +184,33 @@ def web_submit(submit,chrome_driver,debug=0):
                 path_cvv = '//*[@id="cvv"]'
                 path_button = '//*[@id="primaryButton"]' 
                 card_name = '//*[@id="cardholderName"]'                  
+                xpath = path_card                
+                elements_iframe = switch_iframe(chrome_driver,xpath)
                 chrome_driver.find_element_by_xpath(path_card).send_keys(card)                
             # expiryDate
-            chrome_driver.switch_to_frame('wallet-app-iframe')            
-            chrome_driver.switch_to_frame(elements[1])                
+            chrome_driver.switch_to.parent_frame()
+            chrome_driver.switch_to_frame(elements_iframe[1])
+            # switch_iframe(chrome_driver,path_day)              
             element = chrome_driver.find_element_by_xpath(path_day)
             for num in month:
                 element.send_keys(int(num))
             #cvv
-            chrome_driver.switch_to_frame('wallet-app-iframe')            
-            chrome_driver.switch_to_frame(elements[2])
+            chrome_driver.switch_to.parent_frame()
+            chrome_driver.switch_to_frame(elements_iframe[2])            
+            # switch_iframe(chrome_driver,path_cvv)              
             chrome_driver.find_element_by_xpath(path_cvv).send_keys(cvv)
             name = submit['firstname'] + ' ' + submit['lastname']
-            chrome_driver.switch_to_frame('wallet-app-iframe')
             try:
+                switch_iframe(chrome_driver,card_name)              
                 chrome_driver.find_element_by_xpath(card_name).send_keys(name)
             except:
                 sleep(1)            
             sleep(2)
+            # button
+            chrome_driver.switch_to.parent_frame()
+            # chrome_driver.switch_to_frame(elements[1])            
+            # switch_iframe(chrome_driver,path_button)                          
             chrome_driver.find_element_by_xpath(path_button).click()                              
-            chrome_driver.switch_to.default_content()
             flag_error = 0
             flag_success = 0
             flag_account_ban = 0
@@ -201,7 +222,9 @@ def web_submit(submit,chrome_driver,debug=0):
                 fail
                 '''
                 try:
-                    element = chrome_driver.find_element_by_xpath('//*[@id="app"]/main/section[2]/div/div[2]/div[1]/div[2]/ul/li/span')
+                    path_flag = '//*[@id="app"]/main/section[2]/div/div[2]/div[1]/div[2]/ul/li/span'
+                    switch_iframe(chrome_driver,path_flag)                          
+                    element = chrome_driver.find_element_by_xpath(path_flag)
                     if element.text == error_info:
                         print('Find fail text')
                         flag_error = 1
@@ -248,14 +271,12 @@ def web_submit(submit,chrome_driver,debug=0):
                 path_button = '//*[@id="encryptedSecurityCode"]'
                 try:
                     sleep(2)
-                    chrome_driver.switch_to_frame('token-payment-iframe')                    
+                    switch_iframe(chrome_driver,path_card)                                              
                     chrome_driver.find_element_by_xpath(path_card)
                 except:
                     print('Does not Find card input xpath')
                     path_cardtype = '//*[@id="paymentoptionslist"]/li[3]/form/button'
-                    chrome_driver.switch_to_frame('token-payment-iframe')
-                    elements = chrome_driver.find_elements_by_class_name('js-iframe')
-                    chrome_driver.switch_to_frame(elements[0])                    
+                    switch_iframe(chrome_driver,path_cardtype)
                     chrome_driver.find_element_by_xpath(path_cardtype).click()
                     print('Find visa select button')
                     path_card = '//*[@id="cardNumber"]'
@@ -266,6 +287,7 @@ def web_submit(submit,chrome_driver,debug=0):
                     name = submit['firstname'] + ' ' + submit['lastname']
                     for i in range(30):
                         try:
+                            switch_iframe(chrome_driver,card_name)
                             chrome_driver.find_element_by_xpath(card_name).send_keys(name)
                             # chrome_driver.switch_to.default_content()
                             break
@@ -285,6 +307,42 @@ def web_submit(submit,chrome_driver,debug=0):
             else:
                 print('Find none of success, fail or account ban info')
                 sleep(3000)
+
+def switch_iframe(chrome_driver,xpath):
+    chrome_driver.switch_to.default_content()    
+    try:
+        chrome_driver.find_element_by_xpath(xpath)
+        print('In default_content')        
+        return chrome_driver
+    except:
+        print('Not In default_content')
+        pass
+    try:
+        chrome_driver.switch_to_frame('wallet-app-iframe')            
+        chrome_driver.find_element_by_xpath(xpath)
+        print('In wallet-app-iframe')        
+        return
+    except:
+        print('Not In wallet-app-iframe')
+    try:
+        chrome_driver.switch_to_frame('token-payment-iframe')                    
+        chrome_driver.find_element_by_xpath(xpath)
+        print('In token-payment-iframe')        
+        return 
+    except:
+        print('Not In token-payment-iframe')
+    elements = chrome_driver.find_elements_by_class_name('js-iframe')
+    print(elements)
+    for element in elements:
+        chrome_driver.switch_to_frame(element)    
+        try:
+            chrome_driver.find_element_by_xpath(xpath)
+            print('Not In iframe :',element)            
+            return elements
+        except:
+            chrome_driver.switch_to.parent_frame()
+            print('Not In iframe :',element)
+
 
 def get_account(submit):
     path = select_account(submit)
