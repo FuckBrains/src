@@ -465,17 +465,23 @@ def page_change(chrome_driver,page):
     print('Detecting page if changed or changing....')
     flag = 0
     for i in range(360): 
-        try:    
-            chrome_driver.find_element_by_xpath(page['Flag_xpath'])   
-            # print(element.text)
-        except:
+        if page['Flag_text'] not in chrome_driver.page_source:
             flag = 1
-            break
-        if EC.text_to_be_present_in_element((By.XPATH,page['Flag_xpath']),page['Flag_text']):
-            sleep(1)
+            print("page['Flag_text'] not in chrome_driver.page_source,page changed!!!!!!!!!!!")
         else:
-            flag = 1
-            break
+            print("page['Flag_text'] still not in chrome_driver.page_source,page not changed")            
+            sleep(1)
+        # try:    
+        #     chrome_driver.find_element_by_xpath(page['Flag_xpath'])   
+        #     # print(element.text)
+        # except:
+        #     flag = 1
+        #     break
+        # if EC.text_to_be_present_in_element((By.XPATH,page['Flag_xpath']),page['Flag_text']):
+        #     sleep(1)
+        # else:
+        #     flag = 1
+        #     break
     if flag == 1:
         print('page changed')
         return 1

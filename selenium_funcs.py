@@ -71,7 +71,6 @@ def get_action(chrome_driver,data,submit):
     else:
         eval(action_func)(chrome_driver,data,submit[key_excel])
 
-
 def scroll_and_find(chrome_driver,element):
     target = chrome_driver.find_element_by_xpath(element) 
     chrome_driver.execute_script("arguments[0].scrollIntoView();", target)
