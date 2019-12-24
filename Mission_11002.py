@@ -173,20 +173,29 @@ def web_submit(submit,chrome_driver,debug=0):
                 cvv = '00'+ cvv
             elif len(cvv) == 2:
                 cvv = '0' + cvv
-            try:
-                xpath = path_card
-                elements_iframe = switch_iframe_(chrome_driver,xpath)             
-                chrome_driver.find_element_by_xpath(path_card).send_keys(card)
-            except Exception as  e:
-                print(str(e))
-                path_card = '//*[@id="cardNumber"]'
-                path_day = '//*[@id="expiryDate"]'
-                path_cvv = '//*[@id="cvv"]'
-                path_button = '//*[@id="primaryButton"]' 
-                card_name = '//*[@id="cardholderName"]'                  
-                xpath = path_card                
-                elements_iframe = switch_iframe_(chrome_driver,xpath)
-                chrome_driver.find_element_by_xpath(path_card).send_keys(card)                
+            for i in range(60):
+                if 'Payment Details' in chrome_driver.page_source:
+                    try:
+                        xpath = path_card
+                        elements_iframe = switch_iframe_(chrome_driver,xpath)             
+                        chrome_driver.find_element_by_xpath(path_card).send_keys(card)
+                        break
+                    except Exception as  e:
+                        print(str(e))
+                        path_card = '//*[@id="cardNumber"]'
+                        path_day = '//*[@id="expiryDate"]'
+                        path_cvv = '//*[@id="cvv"]'
+                        path_button = '//*[@id="primaryButton"]' 
+                        card_name = '//*[@id="cardholderName"]'                  
+                        xpath = path_card   
+                        try:             
+                            elements_iframe = switch_iframe_(chrome_driver,xpath)
+                            chrome_driver.find_element_by_xpath(path_card).send_keys(card)                
+                            break
+                        except:
+                            pass
+                else:
+                    sleep(3)
             # expiryDate
             chrome_driver.switch_to.parent_frame()
             chrome_driver.switch_to_frame(elements_iframe[1])
