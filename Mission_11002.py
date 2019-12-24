@@ -368,7 +368,6 @@ def switch_iframe_(chrome_driver,xpath):
                 chrome_driver.switch_to.parent_frame()
                 print('Not In iframe :',element)
         print('In wallet-app-iframe')        
-        return elements
     except:
         print('Not In wallet-app-iframe')
         chrome_driver.switch_to_frame('token-payment-iframe')            
@@ -382,8 +381,8 @@ def switch_iframe_(chrome_driver,xpath):
             except:
                 chrome_driver.switch_to.parent_frame()
                 print('Not In iframe :',element)         
-        print('token-payment-iframe')        
-        return elements        
+        print('token-payment-iframe')   
+             
 
 
 
