@@ -175,7 +175,7 @@ def web_submit(submit,chrome_driver,debug=0):
                 cvv = '0' + cvv
             try:
                 xpath = path_card
-                elements_iframe = switch_iframe(chrome_driver,xpath)             
+                elements_iframe = switch_iframe_(chrome_driver,xpath)             
                 chrome_driver.find_element_by_xpath(path_card).send_keys(card)
             except Exception as  e:
                 print(str(e))
@@ -185,7 +185,7 @@ def web_submit(submit,chrome_driver,debug=0):
                 path_button = '//*[@id="primaryButton"]' 
                 card_name = '//*[@id="cardholderName"]'                  
                 xpath = path_card                
-                elements_iframe = switch_iframe(chrome_driver,xpath)
+                elements_iframe = switch_iframe_(chrome_driver,xpath)
                 chrome_driver.find_element_by_xpath(path_card).send_keys(card)                
             # expiryDate
             chrome_driver.switch_to.parent_frame()
@@ -271,7 +271,7 @@ def web_submit(submit,chrome_driver,debug=0):
                 # path_button = '//*[@id="encryptedSecurityCode"]'
                 try:
                     sleep(2)
-                    switch_iframe(chrome_driver,path_card)                                              
+                    switch_iframe_(chrome_driver,path_card)                                              
                     chrome_driver.find_element_by_xpath(path_card)
                 except:
                     print('Does not Find card input xpath')
@@ -342,6 +342,25 @@ def switch_iframe(chrome_driver,xpath):
         except:
             chrome_driver.switch_to.parent_frame()
             print('Not In iframe :',element)
+
+def switch_iframe_(chrome_driver,xpath):
+    chrome_driver.switch_to.default_content()    
+    try:
+        chrome_driver.switch_to_frame('wallet-app-iframe')            
+        elements = chrome_driver.find_elements_by_class_name('js-iframe')    
+        chrome_driver.switch_to_frame(elements[0])
+        chrome_driver.find_element_by_xpath(xpath)
+        print('In wallet-app-iframe')        
+        return elements
+    except:
+        print('Not In wallet-app-iframe')
+        chrome_driver.switch_to_frame('token-payment-iframe')            
+        elements = chrome_driver.find_elements_by_class_name('js-iframe')    
+        chrome_driver.switch_to_frame(elements[0])
+        chrome_driver.find_element_by_xpath(xpath)
+        print('token-payment-iframe')        
+        return elements        
+
 
 
 def get_account(submit):
