@@ -468,6 +468,7 @@ def page_change(chrome_driver,page):
         if page['Flag_text'] not in chrome_driver.page_source:
             flag = 1
             print("page['Flag_text'] not in chrome_driver.page_source,page changed!!!!!!!!!!!")
+            break            
         else:
             print("page['Flag_text'] still not in chrome_driver.page_source,page not changed")            
             sleep(1)
