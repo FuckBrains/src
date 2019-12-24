@@ -90,7 +90,7 @@ def web_submit(submit,chrome_driver,debug=0):
                 except:
                     print('find not continue button')                    
                     sleep(3)
-            for i in range(10):
+            for i in range(5):
                 try:
                     chrome_driver.switch_to_frame('wallet-app-iframe')
                     element = chrome_driver.find_element_by_xpath('//*[@id="firstName"]')
@@ -174,7 +174,8 @@ def web_submit(submit,chrome_driver,debug=0):
             elif len(cvv) == 2:
                 cvv = '0' + cvv
             for i in range(60):
-                if 'Payment Details' in chrome_driver.page_source:
+                if 'Card Number' in chrome_driver.page_source:
+                    print('Find card Number')                    
                     try:
                         xpath = path_card
                         elements_iframe = switch_iframe_(chrome_driver,xpath)             
@@ -195,6 +196,7 @@ def web_submit(submit,chrome_driver,debug=0):
                         except:
                             pass
                 else:
+                    print('Find not card Number')
                     sleep(3)
             # expiryDate
             chrome_driver.switch_to.parent_frame()
@@ -349,7 +351,7 @@ def switch_iframe(chrome_driver,xpath):
         chrome_driver.switch_to_frame(element)    
         try:
             chrome_driver.find_element_by_xpath(xpath)
-            print('Not In iframe :',element)            
+            print('In iframe :',element)            
             return elements
         except:
             chrome_driver.switch_to.parent_frame()
@@ -360,18 +362,18 @@ def switch_iframe_(chrome_driver,xpath):
     try:
         chrome_driver.switch_to_frame('wallet-app-iframe')            
         elements = chrome_driver.find_elements_by_class_name('js-iframe') 
-        print(elements)   
+        print(len(elements),'elements')   
         for element in elements:
             chrome_driver.switch_to_frame(element)    
             try:
                 chrome_driver.find_element_by_xpath(xpath)
-                print('Not In iframe :',element)            
+                print('Find iframe In wallet-app-iframe')            
                 return elements
             except:
                 chrome_driver.switch_to.parent_frame()
                 print('Not In iframe :',element)
-        print('In wallet-app-iframe')        
-    except:
+    except Exceptiona as e:
+        print(str(e))
         print('Not In wallet-app-iframe')
         chrome_driver.switch_to_frame('token-payment-iframe')            
         elements = chrome_driver.find_elements_by_class_name('js-iframe')   
