@@ -147,10 +147,6 @@ def web_submit(submit,chrome_driver,debug=0):
             # chrome_driver.quit()
             # return
         while True:
-            path_card = '//*[@id="encryptedCardNumber"]'
-            path_day = '//*[@id="encryptedExpiryDate"]'
-            path_cvv = '//*[@id="encryptedSecurityCode"]'
-            path_button = '/html/body/app-root/div/div/app-collect-payment-adyen/div/div/form/div[2]/div/app-actions-with-cancel/div/button[1]'
             submit,path,workbook = get_data()
             submit['status'] = 'badname'
             for i in submit['badname']:
@@ -175,7 +171,12 @@ def web_submit(submit,chrome_driver,debug=0):
                 cvv = '0' + cvv
             for i in range(60):
                 if 'Card Number' in chrome_driver.page_source:
-                    print('Find card Number')                    
+                    path_card = '//*[@id="encryptedCardNumber"]'
+                    path_day = '//*[@id="encryptedExpiryDate"]'
+                    path_cvv = '//*[@id="encryptedSecurityCode"]'
+                    path_button = '/html/body/app-root/div/div/app-collect-payment-adyen/div/div/form/div[2]/div/app-actions-with-cancel/div/button[1]'
+                    print('Find card Number')  
+                    sleep(5)                  
                     try:
                         xpath = path_card
                         elements_iframe = switch_iframe_(chrome_driver,xpath)             
@@ -232,41 +233,40 @@ def web_submit(submit,chrome_driver,debug=0):
                 '''
                 fail
                 '''
-                # try:
-                if error_info in chrome_driver.page_source:
-                # path_flag = '//*[@id="app"]/main/section[2]/div/div[2]/div[1]/div[2]/ul/li/span'
-                # switch_iframe(chrome_driver,path_flag)                          
-                # element = chrome_driver.find_element_by_xpath(path_flag)
-                # if element.text == error_info:
-                    print('Find fail text')
-                    flag_error = 1
-                else:
-                # except:
+                try:
+                # if error_info in chrome_driver.page_source:
+                    path_flag = '//*[@id="app"]/main/section[2]/div/div[2]/div[1]/div[2]/ul/li/span'
+                    switch_iframe(chrome_driver,path_flag)                          
+                    element = chrome_driver.find_element_by_xpath(path_flag)
+                    if element.text == error_info:
+                        print('Find fail text')
+                        flag_error = 1
+                # else:
+                except:
                     print('Find not fail text')
                 '''
                 success
                 '''
-
-                # try:
-                if success_info in chrome_driver.page_source:                    
-                # element = chrome_driver.find_element_by_class_name('success-title')
-                # if success_info in element.text:
-                    print('Find success text')                        
-                    flag_success = 1
-                else:
-                # except:
+                try:
+                # if success_info in chrome_driver.page_source:                    
+                    element = chrome_driver.find_element_by_class_name('success-title')
+                    if success_info in element.text:
+                        print('Find success text')                        
+                        flag_success = 1
+                # else:
+                except:
                     print('Find not success text')
                 '''
                 ban
                 '''
-                # try:
-                if account_ban_info in chrome_driver.page_source:                                        
-                # element = chrome_driver.find_element_by_xpath('/html/body/app-root/div/div/app-init-token-error/div/div[2]/h5')
-                # if account_ban_info in element.text:
-                    print('Find account ban text')                        
-                    flag_account_ban = 1
-                else:
-                # except:
+                try:
+                # if account_ban_info in chrome_driver.page_source:                                        
+                    element = chrome_driver.find_element_by_xpath('/html/body/app-root/div/div/app-init-token-error/div/div[2]/h5')
+                    if account_ban_info in element.text:
+                        print('Find account ban text')                        
+                        flag_account_ban = 1
+                # else:
+                except:
                     print('Find not account ban text')
                 if flag_error == 0 and flag_success == 0 and flag_account_ban == 0:
                     print('Find none of success, fail or account ban info')
@@ -374,10 +374,11 @@ def switch_iframe_(chrome_driver,xpath):
                 chrome_driver.find_element_by_xpath(xpath)
                 print('Find iframe In wallet-app-iframe')            
                 return elements
-            except:
+            except Exception as e:
+                print(str(e))
                 chrome_driver.switch_to.parent_frame()
                 print('Not In iframe :',element)
-    except Exceptiona as e:
+    except Exception as e:
         print(str(e))
         print('Not In wallet-app-iframe')
         chrome_driver.switch_to_frame('token-payment-iframe')            
