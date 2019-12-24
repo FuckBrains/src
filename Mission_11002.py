@@ -126,28 +126,28 @@ def web_submit(submit,chrome_driver,debug=0):
         sleep(2)
         chrome_driver.find_element_by_xpath('/html/body/app-root/div/div/app-address-selection/div/app-actions-with-cancel/div/button[1]').click()
         sleep(5)  
-        chrome_driver.switch_to.default_content()
+        # chrome_driver.switch_to.default_content()
         flag_card = 0
-        for i in range(10):
+        for i in range(60):
             try:
-                element = chrome_driver.find_element_by_class_name('js-iframe')
-                chrome_driver.switch_to_frame(element)
-                chrome_driver.find_element_by_xpath('//*[@id="cardNumber"]')
-
+                # element = chrome_driver.find_element_by_class_name('js-iframe')
+                # chrome_driver.switch_to_frame(element)
+                chrome_driver.find_element_by_xpath('/html/body/app-root/div/div/app-collect-payment-adyen/div/div/form/div[2]/h4')
                 print('Find card info to input after send info')
                 flag_card = 1
+                break
             except:
                 print('No card info to input after send info')
-                sleep(30)
+                sleep(3)
         if flag_card == 0:
             print('No card info to input after send info')
             chrome_driver.close()
             chrome_driver.quit()
             return
-        path_card = '//*[@id="cardNumber"]'
-        path_day = '//*[@id="expiryDate"]'
-        path_cvv = '//*[@id="cvv"]'
-        path_button = '//*[@id="primaryButton"]'
+        path_card = '//*[@id="encryptedCardNumber"]'
+        path_day = '//*[@id="encryptedExpiryDate"]'
+        path_cvv = '//*[@id="encryptedSecurityCode"]'
+        path_button = '//*[@id="encryptedSecurityCode"]'
         while True:
             submit,path,workbook = get_data()
             submit['status'] = 'badname'
@@ -159,13 +159,36 @@ def web_submit(submit,chrome_driver,debug=0):
             cvv = submit['cvv'].replace('\t','')
             if len(month) == 1:
                 month = '0' + month
-            chrome_driver.find_element_by_xpath(path_card).send_keys(card)
+            try:
+                elements = chrome_driver.find_elements_by_class_name('js-iframe')
+                chrome_driver.switch_to_frame(elements[0])                
+                chrome_driver.find_element_by_xpath(path_card).send_keys(card)
+            except Exception as  e:
+                print(str(e))
+                path_card = '//*[@id="cardNumber"]'
+                path_day = '//*[@id="expiryDate"]'
+                path_cvv = '//*[@id="cvv"]'
+                path_button = '//*[@id="primaryButton"]' 
+                card_name = '//*[@id="cardholderName"]'                  
+                chrome_driver.find_element_by_xpath(path_card).send_keys(card)                
+            # expiryDate
+            chrome_driver.switch_to_frame('wallet-app-iframe')            
+            chrome_driver.switch_to_frame(elements[1])                
             element = chrome_driver.find_element_by_xpath(path_day)
             for num in month:
                 element.send_keys(int(num))
+            #cvv
+            chrome_driver.switch_to_frame('wallet-app-iframe')            
+            chrome_driver.switch_to_frame(elements[2])
             chrome_driver.find_element_by_xpath(path_cvv).send_keys(cvv)
+            name = submit['firstname'] + ' ' + submit['lastname']
+            chrome_driver.switch_to_frame('wallet-app-iframe')
+            try:
+                chrome_driver.find_element_by_xpath(card_name).send_keys(name)
+            except:
+                sleep(1)            
             sleep(2)
-            chrome_driver.find_element_by_xpath(path_button).click()
+            chrome_driver.find_element_by_xpath(path_button).click()                              
             chrome_driver.switch_to.default_content()
             flag_error = 0
             flag_success = 0
@@ -173,7 +196,10 @@ def web_submit(submit,chrome_driver,debug=0):
             error_info = 'An error occurred.'
             success_info = 'Payment method successfully added'
             account_ban_info = 'Heads up!'
-            for i in range(20):
+            for i in range(30):
+                '''
+                fail
+                '''
                 try:
                     element = chrome_driver.find_element_by_xpath('//*[@id="app"]/main/section[2]/div/div[2]/div[1]/div[2]/ul/li/span')
                     if element.text == error_info:
@@ -181,6 +207,9 @@ def web_submit(submit,chrome_driver,debug=0):
                         flag_error = 1
                 except:
                     print('Find not fail text')
+                '''
+                success
+                '''
                 try:
                     element = chrome_driver.find_element_by_class_name('success-title')
                     if success_info in element.text:
@@ -188,6 +217,9 @@ def web_submit(submit,chrome_driver,debug=0):
                         flag_success = 1
                 except:
                     print('Find not success text')
+                '''
+                ban
+                '''
                 try:
                     element = chrome_driver.find_element_by_xpath('/html/body/app-root/div/div/app-init-token-error/div/div[2]/h5')
                     if account_ban_info in element.text:
@@ -222,6 +254,8 @@ def web_submit(submit,chrome_driver,debug=0):
                     print('Does not Find card input xpath')
                     path_cardtype = '//*[@id="paymentoptionslist"]/li[3]/form/button'
                     chrome_driver.switch_to_frame('token-payment-iframe')
+                    elements = chrome_driver.find_elements_by_class_name('js-iframe')
+                    chrome_driver.switch_to_frame(elements[0])                    
                     chrome_driver.find_element_by_xpath(path_cardtype).click()
                     print('Find visa select button')
                     path_card = '//*[@id="cardNumber"]'
@@ -233,7 +267,7 @@ def web_submit(submit,chrome_driver,debug=0):
                     for i in range(30):
                         try:
                             chrome_driver.find_element_by_xpath(card_name).send_keys(name)
-                            chrome_driver.switch_to.default_content()
+                            # chrome_driver.switch_to.default_content()
                             break
                         except:
                             sleep(1)

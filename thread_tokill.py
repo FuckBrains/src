@@ -400,21 +400,28 @@ def get_page_by_flag(Page_flags,chrome_driver):
     for page in Page_flags:
         try:
             if page['Flag_xpath'] == '':
-                chrome_driver.find_element_by_text(page['Flag_text'])
-                print('find target page:',page['Page'],'with text')                                
-                target_page = page
-                break                                
-            element = chrome_driver.find_element_by_xpath(page['Flag_xpath'])
-            # print(page,'find text:',element.text)
-            if EC.text_to_be_present_in_element(element,page['Flag_text']):
-                print('find target page:',page['Page'],'with xpath and text')
-                target_page = page
-                break
-            else:
-                chrome_driver.find_element_by_text(page['Flag_text'])
-                print('find target page:',page['Page'],'with text')                
-                target_page = page
-                break                
+                if page['Flag_text'] in chrome_driver.page_source:
+                    chrome_driver.find_element_by_text(page['Flag_text'])
+                    print('find target page:',page['Page'],'with text')                                
+                    target_page = page
+                    break
+                else:
+                    sleep(1)
+            else:                                
+                if page['Flag_text'] in chrome_driver.page_source:                
+                    element = chrome_driver.find_element_by_xpath(page['Flag_xpath'])
+                    # print(page,'find text:',element.text)
+                    if EC.text_to_be_present_in_element(element,page['Flag_text']):
+                        print('find target page:',page['Page'],'with xpath and text')
+                        target_page = page
+                        break
+                    else:
+                        chrome_driver.find_element_by_text(page['Flag_text'])
+                        print('find target page:',page['Page'],'with text')                
+                        target_page = page
+                        break  
+                else:
+                    sleep(1)             
         except Exception as e:
             print(str(e))
     return target_page
