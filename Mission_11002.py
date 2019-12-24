@@ -268,7 +268,7 @@ def web_submit(submit,chrome_driver,debug=0):
                 path_card = '//*[@id="encryptedCardNumber"]'
                 path_day = '//*[@id="encryptedExpiryDate"]'
                 path_cvv = '//*[@id="encryptedSecurityCode"]'
-                path_button = '//*[@id="encryptedSecurityCode"]'
+                # path_button = '//*[@id="encryptedSecurityCode"]'
                 try:
                     sleep(2)
                     switch_iframe(chrome_driver,path_card)                                              
