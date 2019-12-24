@@ -232,39 +232,44 @@ def web_submit(submit,chrome_driver,debug=0):
                 '''
                 fail
                 '''
-                try:
-                    if error_info in chrome_driver.page_source:
-                    # path_flag = '//*[@id="app"]/main/section[2]/div/div[2]/div[1]/div[2]/ul/li/span'
-                    # switch_iframe(chrome_driver,path_flag)                          
-                    # element = chrome_driver.find_element_by_xpath(path_flag)
-                    # if element.text == error_info:
-                        print('Find fail text')
-                        flag_error = 1
-                except:
+                # try:
+                if error_info in chrome_driver.page_source:
+                # path_flag = '//*[@id="app"]/main/section[2]/div/div[2]/div[1]/div[2]/ul/li/span'
+                # switch_iframe(chrome_driver,path_flag)                          
+                # element = chrome_driver.find_element_by_xpath(path_flag)
+                # if element.text == error_info:
+                    print('Find fail text')
+                    flag_error = 1
+                else:
+                # except:
                     print('Find not fail text')
                 '''
                 success
                 '''
-                try:
-                    if success_info in chrome_driver.page_source:                    
-                    # element = chrome_driver.find_element_by_class_name('success-title')
-                    # if success_info in element.text:
-                        print('Find success text')                        
-                        flag_success = 1
-                except:
+
+                # try:
+                if success_info in chrome_driver.page_source:                    
+                # element = chrome_driver.find_element_by_class_name('success-title')
+                # if success_info in element.text:
+                    print('Find success text')                        
+                    flag_success = 1
+                else:
+                # except:
                     print('Find not success text')
                 '''
                 ban
                 '''
-                try:
-                    if account_ban_info in chrome_driver.page_source:                                        
-                    # element = chrome_driver.find_element_by_xpath('/html/body/app-root/div/div/app-init-token-error/div/div[2]/h5')
-                    # if account_ban_info in element.text:
-                        print('Find account ban text')                        
-                        flag_account_ban = 1
-                except:
+                # try:
+                if account_ban_info in chrome_driver.page_source:                                        
+                # element = chrome_driver.find_element_by_xpath('/html/body/app-root/div/div/app-init-token-error/div/div[2]/h5')
+                # if account_ban_info in element.text:
+                    print('Find account ban text')                        
+                    flag_account_ban = 1
+                else:
+                # except:
                     print('Find not account ban text')
                 if flag_error == 0 and flag_success == 0 and flag_account_ban == 0:
+                    print('Find none of success, fail or account ban info')
                     sleep(3)
                 else:
                     break
