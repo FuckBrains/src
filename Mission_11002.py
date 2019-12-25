@@ -104,14 +104,16 @@ def web_submit(submit,chrome_driver,debug=0):
             if flag_info !=1:
                 print('Does not Find info page')
                 chrome_driver.refresh()
+                break
             else:
                 print('Find info page')                
                 break
         if flag_info != 1:
             print('Does not find info page !!!!!!!!!!')
-            chrome_driver.close()
-            chrome_driver.quit()
-            return
+            continue
+            # chrome_driver.close()
+            # chrome_driver.quit()
+            # return
         info = []
         for i in range(6):
             a = get_info()
@@ -126,6 +128,21 @@ def web_submit(submit,chrome_driver,debug=0):
         sleep(2)
         chrome_driver.find_element_by_xpath('/html/body/app-root/div/div/app-address-selection/div/app-actions-with-cancel/div/button[1]').click()
         sleep(5)  
+        # detect heads up flag
+        try:
+            path_flag = '/html/body/app-root/div/div/app-init-token-error/div/div[2]/h5'                                                    
+            chrome_driver.switch_to.default_content() 
+            chrome_driver.switch_to_frame('wallet-app-iframe')                
+            if account_ban_info in chrome_driver.page_source:
+                print('Find account ban text')                        
+                flag_account_ban = 1
+                chrome_driver.quit()
+                chrome_driver.close()
+                return
+            else:
+                print('Find not account ban text')  
+        except:
+            pass      
         # chrome_driver.switch_to.default_content()
         flag_card = 0
         for i in range(6):
@@ -286,17 +303,15 @@ def web_submit(submit,chrome_driver,debug=0):
                 '''
                 ban
                 '''
-                try:
                 # if account_ban_info in chrome_driver.page_source:    
-                    path_flag = '/html/body/app-root/div/div/app-init-token-error/div/div[2]/h5'                                                    
-                    chrome_driver.switch_to.default_content()                    
+                path_flag = '/html/body/app-root/div/div/app-init-token-error/div/div[2]/h5'                                                    
+                chrome_driver.switch_to.default_content() 
                     # switch_iframe(chrome_driver,path_flag)                                                                  
-                    element = chrome_driver.find_element_by_xpath(path_flag)
-                    if account_ban_info in element.text:
-                        print('Find account ban text')                        
-                        flag_account_ban = 1
-                # else:
-                except:
+                    # element = chrome_driver.find_element_by_xpath(path_flag)
+                if account_ban_info in chrome_driver.page_source:
+                    print('Find account ban text')                        
+                    flag_account_ban = 1
+                else:
                     print('Find not account ban text')
                 if flag_error == 0 and flag_success == 0 and flag_account_ban == 0:
                     print('Find none of success, fail or account ban info')
