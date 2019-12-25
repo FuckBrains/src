@@ -138,9 +138,9 @@ def web_submit(submit,chrome_driver,debug=0):
                 break
             except:
                 print('No card info to input after send info')
-                chrome_driver.refresh()
-                sleep(5)
+                sleep(3)                
         if flag_card == 0:
+            chrome_driver.refresh()
             continue
             # print('No card info to input after send info')
             # chrome_driver.close()
