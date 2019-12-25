@@ -248,7 +248,8 @@ def web_submit(submit,chrome_driver,debug=0):
                 success
                 '''
                 try:
-                # if success_info in chrome_driver.page_source:                    
+                # if success_info in chrome_driver.page_source: 
+                    chrome_driver.switch_to.default_content()
                     element = chrome_driver.find_element_by_class_name('success-title')
                     if success_info in element.text:
                         print('Find success text')                        
@@ -260,8 +261,10 @@ def web_submit(submit,chrome_driver,debug=0):
                 ban
                 '''
                 try:
-                # if account_ban_info in chrome_driver.page_source:                                        
-                    element = chrome_driver.find_element_by_xpath('/html/body/app-root/div/div/app-init-token-error/div/div[2]/h5')
+                # if account_ban_info in chrome_driver.page_source:    
+                    path_flag = '/html/body/app-root/div/div/app-init-token-error/div/div[2]/h5'                                                    
+                    switch_iframe(chrome_driver,path_flag)                                                                  
+                    element = chrome_driver.find_element_by_xpath(path_flag)
                     if account_ban_info in element.text:
                         print('Find account ban text')                        
                         flag_account_ban = 1
@@ -325,7 +328,7 @@ def web_submit(submit,chrome_driver,debug=0):
                 return
             else:
                 print('Find none of success, fail or account ban info')
-                sleep(3000)
+                break
 
 def switch_iframe(chrome_driver,xpath):
     chrome_driver.switch_to.default_content()    

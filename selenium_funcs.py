@@ -235,13 +235,19 @@ def Input(chrome_driver,data,submit):
 
 def Click(chrome_driver,data,submit):
     if 'class_name' in data['General']:
-        try:
-            chrome_driver.find_element_by_class_name(data['General']['class_name'])
-        except:
-            pass
-        return
+        if data['General']['class_name'] != '':
+            try:
+                element = chrome_driver.find_element_by_class_name(data['General']['class_name'])
+            except:
+                pass
+            return element
     else:
         WebDriverWait(chrome_driver,120).until(EC.element_to_be_clickable((By.XPATH,data['General']['xpath'])))    
+    if ',' in data['General']['xpath']:
+        xpaths = data['General']['xpath'].split(',')
+        num = len(xpaths)
+        num_ = random.randint(0,num)
+        xpath = xpaths[num_]
     if data['General']['hidden_xpath'] != '':
         xpath = data['General']['hidden_xpath']
     else:
@@ -254,4 +260,5 @@ def Click(chrome_driver,data,submit):
         actions = ActionChains(chrome_driver)
         actions.move_to_element_with_offset(element,0,0).click().perform()           
     return element
+
 
