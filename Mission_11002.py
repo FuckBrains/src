@@ -151,7 +151,7 @@ def web_submit(submit,chrome_driver,debug=0):
             submit['status'] = 'badname'
             for i in submit['badname']:
                 submit['row'] = i
-                write_status(path,workbook,submit,'badname')              
+                Dadao.write_status(path,workbook,submit,'badname')              
             card = submit['card_number'].replace('\t','').split('.')[0]
             card = str(card)
             month = submit['month'].replace('\t','').split('.')[0]
