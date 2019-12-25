@@ -303,21 +303,27 @@ def web_submit(submit,chrome_driver,debug=0):
                 '''
                 ban
                 '''
-                # if account_ban_info in chrome_driver.page_source:    
-                path_flag = '/html/body/app-root/div/div/app-init-token-error/div/div[2]/h5'                                                    
-                chrome_driver.switch_to.default_content() 
-                    # switch_iframe(chrome_driver,path_flag)                                                                  
-                    # element = chrome_driver.find_element_by_xpath(path_flag)
-                if account_ban_info in chrome_driver.page_source:
-                    print('Find account ban text')                        
-                    flag_account_ban = 1
-                else:
-                    print('Find not account ban text')
-                if flag_error == 0 and flag_success == 0 and flag_account_ban == 0:
-                    print('Find none of success, fail or account ban info')
-                    sleep(3)
-                else:
-                    break
+                try:
+                    # if account_ban_info in chrome_driver.page_source:    
+                    path_flag = '/html/body/app-root/div/div/app-init-token-error/div/div[2]/h5'                                                    
+                    chrome_driver.switch_to.default_content() 
+                    chrome_driver.switch_to_frame('wallet-app-iframe')                
+                        # switch_iframe(chrome_driver,path_flag)                                                                  
+                        # element = chrome_driver.find_element_by_xpath(path_flag)
+                    if account_ban_info in chrome_driver.page_source:
+                        print('Find account ban text')                        
+                        flag_account_ban = 1
+                    else:
+                        print('Find not account ban text')
+                    if flag_error == 0 and flag_success == 0 and flag_account_ban == 0:
+                        print('Find none of success, fail or account ban info')
+                        sleep(3)
+                    else:
+                        break
+                except Exception as e:
+                    print(str(e))
+            if flag_wait != -1:
+                continue
             if flag_error == 1:
                 '''
                 fail
