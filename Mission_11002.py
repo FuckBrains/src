@@ -64,6 +64,7 @@ def web_submit(submit,chrome_driver,debug=0):
         chrome_driver.refresh()
     flag_info = 0
     while True:
+        chrome_driver.switch_to.default_content()
         for j in range(10):
             sleep(3)   
             chrome_driver.find_element_by_xpath(xpath_payment).click()

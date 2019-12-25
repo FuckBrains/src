@@ -337,6 +337,11 @@ def test_d():
     apt = apt_get(address)
     print(apt)
 
+def select_email_type(email):
+    pass
+
+
+
 if __name__ == '__main__':
     birthday = get_auto_birthday('')
     print(birthday)
