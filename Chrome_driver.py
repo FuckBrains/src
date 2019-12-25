@@ -60,6 +60,7 @@ def get_ua_random(uas):
 def get_ua():
     uas = get_ua_all()
     ua = get_ua_random(uas)
+    ua = ua.replace('"','')
     return ua
 
 
