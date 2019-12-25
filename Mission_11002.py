@@ -251,9 +251,9 @@ def web_submit(submit,chrome_driver,debug=0):
                 # if success_info in chrome_driver.page_source: 
                     chrome_driver.switch_to.default_content()
                     element = chrome_driver.find_element_by_class_name('success-title')
-                    if success_info in element.text:
-                        print('Find success text')                        
-                        flag_success = 1
+                    print(element.text)
+                    print('Find success text')                        
+                    flag_success = 1
                 # else:
                 except:
                     print('Find not success text')

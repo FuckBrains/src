@@ -3,7 +3,9 @@
 
 Input_Config ={
     'firstname' : ['get_name_real'],
+    'first_name' : ['get_name_real'],    
     'lastname'  : ['get_name_real'],
+    'last_name'  : ['get_name_real'],    
     'address'   : ['apt_get'],
     'homephone' : ['get_phone'],
     'zip'       : ['get_zip'],

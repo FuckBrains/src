@@ -205,10 +205,16 @@ def data_handler(Config):
         else:
             using_num += 1 
     print("Mission started,using_num:",using_num)
-    try:
-        reg_part_(submit)
-    except TimeoutError:
-        print('timeout')
+    if str(submit['Mission_Id']) == '11001':
+        try:
+            reg_part_(submit)
+        except TimeoutError:
+            print('timeout')
+    else:
+        try:
+            reg_part_cpl(submit)
+        except TimeoutError:
+            print('timeout')        
     using_num = using_num - 1  
     print("Mission finished,using_num:",using_num)
     print("timezone:",timezone) 
@@ -279,6 +285,52 @@ def reg_part_(submit):
         chrome_driver.quit()
     except:
         pass
+
+@timeout(600)
+def reg_part_cpl(submit):
+    print('reg_part')
+    global timezone 
+    global using_num    
+    # submit['Record'] = 0
+    Module = ''    
+    if str(submit['Record']) == '0':
+        try:
+            module = 'Mission_'+str(submit['Mission_Id'])
+            Module = importlib.import_module(module)
+        except Exception as e:
+            print(str(e))
+    else:
+        Module = ''  
+    print('Module is :',Module)  
+    try:
+        print('----------------====================')
+        if submit['sleep_flag'] == 2:
+            submit.pop('ip_lpm')
+        print(submit)
+        print('===============================')
+        print('===============================')        
+        chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
+        print('========')
+        if Module != '':
+            print('11111111111111')
+            print(Module)
+            chrome_driver = Module.web_submit(submit,chrome_driver=chrome_driver)
+        else:
+            print('Record modern')
+            chrome_driver = web_submit(submit,chrome_driver=chrome_driver)
+        print(submit)
+    except Exception as e:
+        print(str(e))
+        try:
+            writelog(chrome_driver,submit)  
+        except:
+            pass
+    try:
+        chrome_driver.close()
+        chrome_driver.quit()
+    except:
+        pass
+
 
 def web_submit(submit,chrome_driver,debug=0):
     # predefine Mission
