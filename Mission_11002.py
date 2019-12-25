@@ -269,7 +269,7 @@ def web_submit(submit,chrome_driver,debug=0):
             success_info = 'Payment method successfully added'
             account_ban_info = 'Heads up!'
             sleep(5)
-            for i in range(30):
+            for i in range(2):
                 '''
                 fail
                 '''
@@ -376,6 +376,7 @@ def web_submit(submit,chrome_driver,debug=0):
                 chrome_driver.quit()
                 return
             else:
+                Dadao.write_status(path,workbook,submit,'No flag found')                
                 print('Find none of success, fail or account ban info')
                 break
 

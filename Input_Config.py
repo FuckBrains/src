@@ -10,6 +10,7 @@ Input_Config ={
     'homephone' : ['get_phone'],
     'zip'       : ['get_zip'],
     'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year'],    
+    'email'     : ['']
 }
 
 Select_Config ={
