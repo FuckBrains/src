@@ -178,38 +178,49 @@ def web_submit(submit,chrome_driver,debug=0):
                 print('Find visa select button')
             except:
                 print('Find not visa select button')
-            for i in range(60):                
+            for i in range(60): 
+                flag_wait = 0               
                 chrome_driver.switch_to.default_content()
                 chrome_driver.switch_to_frame('wallet-app-iframe')
                 if 'Card Number' in chrome_driver.page_source:
-                    path_card = '//*[@id="encryptedCardNumber"]'
-                    path_day = '//*[@id="encryptedExpiryDate"]'
-                    path_cvv = '//*[@id="encryptedSecurityCode"]'
-                    path_button = '/html/body/app-root/div/div/app-collect-payment-adyen/div/div/form/div[2]/div/app-actions-with-cancel/div/button[1]'
-                    print('Find card Number')  
-                    sleep(5)                  
-                    try:
-                        xpath = path_card
-                        elements_iframe = switch_iframe_(chrome_driver,xpath)             
-                        chrome_driver.find_element_by_xpath(path_card).send_keys(card)
-                        break
-                    except Exception as  e:                                                   
-                        print(str(e))
-                        path_card = '//*[@id="cardNumber"]'
-                        path_day = '//*[@id="expiryDate"]'
-                        path_cvv = '//*[@id="cvv"]'
-                        path_button = '//*[@id="primaryButton"]' 
-                        card_name = '//*[@id="cardholderName"]'                  
-                        xpath = path_card   
-                        try:             
-                            elements_iframe = switch_iframe_(chrome_driver,xpath)
-                            chrome_driver.find_element_by_xpath(path_card).send_keys(card)                
+                    if 'Please wait while we take care of some business.' not in chrome_driver.page_source:
+                        flag_wait = -1
+                        path_card = '//*[@id="encryptedCardNumber"]'
+                        path_day = '//*[@id="encryptedExpiryDate"]'
+                        path_cvv = '//*[@id="encryptedSecurityCode"]'
+                        path_button = '/html/body/app-root/div/div/app-collect-payment-adyen/div/div/form/div[2]/div/app-actions-with-cancel/div/button[1]'
+                        print('Find card Number')  
+                        sleep(5)                  
+                        try:
+                            xpath = path_card
+                            elements_iframe = switch_iframe_(chrome_driver,xpath)             
+                            chrome_driver.find_element_by_xpath(path_card).send_keys(card)
                             break
-                        except:
-                            pass
+                        except Exception as  e:                                                   
+                            print(str(e))
+                            path_card = '//*[@id="cardNumber"]'
+                            path_day = '//*[@id="expiryDate"]'
+                            path_cvv = '//*[@id="cvv"]'
+                            path_button = '//*[@id="primaryButton"]' 
+                            card_name = '//*[@id="cardholderName"]'                  
+                            xpath = path_card   
+                            try:             
+                                elements_iframe = switch_iframe_(chrome_driver,xpath)
+                                chrome_driver.find_element_by_xpath(path_card).send_keys(card)                
+                                break
+                            except:
+                                pass
+                    else:
+                        flag_wait += 1
+                        sleep(3)
+                        if flag_wait >= 10:
+                            break
                 else:
                     print('Find not card Number')
                     sleep(3)
+            if flag_wait != -1:
+                chrome_driver.refresh()
+                break
             # expiryDate
             chrome_driver.switch_to.parent_frame()
             chrome_driver.switch_to_frame(elements_iframe[1])
