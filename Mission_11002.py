@@ -170,12 +170,12 @@ def web_submit(submit,chrome_driver,debug=0):
             elif len(cvv) == 2:
                 cvv = '0' + cvv
             try:
-                 path_cardtype = '//*[@id="paymentoptionslist"]/li[3]/form/button'
-                 switch_iframe(chrome_driver,path_cardtype)
-                 chrome_driver.find_element_by_xpath(path_cardtype).click()
-                 print('Find visa select button')
+                path_cardtype = '//*[@id="paymentoptionslist"]/li[3]/form/button'
+                switch_iframe(chrome_driver,path_cardtype)
+                chrome_driver.find_element_by_xpath(path_cardtype).click()
+                print('Find visa select button')
             except:
-                print('Find not visa select button')                 
+                print('Find not visa select button')
             for i in range(20):                
                 if 'Card Number' in chrome_driver.page_source:
                     path_card = '//*[@id="encryptedCardNumber"]'
