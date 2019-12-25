@@ -280,6 +280,7 @@ def web_submit(submit,chrome_driver,debug=0):
                 chrome_driver.find_element_by_xpath(path_button).click() 
             else:
                 writelog(chrome_driver,submit)
+                break
             flag_error = 0
             flag_success = 0
             flag_account_ban = 0
