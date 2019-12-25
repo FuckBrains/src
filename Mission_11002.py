@@ -178,6 +178,7 @@ def web_submit(submit,chrome_driver,debug=0):
             except:
                 print('Find not visa select button')
             for i in range(20):                
+                chrome_driver.switch_to_frame('wallet-app-iframe')
                 if 'Card Number' in chrome_driver.page_source:
                     path_card = '//*[@id="encryptedCardNumber"]'
                     path_day = '//*[@id="encryptedExpiryDate"]'
