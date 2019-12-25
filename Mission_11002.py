@@ -171,7 +171,8 @@ def web_submit(submit,chrome_driver,debug=0):
                 cvv = '0' + cvv
             try:
                 path_cardtype = '//*[@id="paymentoptionslist"]/li[3]/form/button'
-                switch_iframe(chrome_driver,path_cardtype)
+                chrome_driver.switch_to.default_content() 
+                chrome_driver.switch_to_frame('token-payment-iframe')                 
                 chrome_driver.find_element_by_xpath(path_cardtype).click()
                 print('Find visa select button')
             except:
@@ -236,6 +237,7 @@ def web_submit(submit,chrome_driver,debug=0):
             error_info = 'An error occurred.'
             success_info = 'Payment method successfully added'
             account_ban_info = 'Heads up!'
+            sleep(2)
             for i in range(30):
                 '''
                 fail
@@ -271,7 +273,8 @@ def web_submit(submit,chrome_driver,debug=0):
                 try:
                 # if account_ban_info in chrome_driver.page_source:    
                     path_flag = '/html/body/app-root/div/div/app-init-token-error/div/div[2]/h5'                                                    
-                    switch_iframe(chrome_driver,path_flag)                                                                  
+                    chrome_driver.switch_to.default_content()                    
+                    # switch_iframe(chrome_driver,path_flag)                                                                  
                     element = chrome_driver.find_element_by_xpath(path_flag)
                     if account_ban_info in element.text:
                         print('Find account ban text')                        
@@ -355,13 +358,6 @@ def switch_iframe(chrome_driver,xpath):
         return
     except:
         print('Not In wallet-app-iframe')
-    try:
-        chrome_driver.switch_to_frame('token-payment-iframe')                    
-        chrome_driver.find_element_by_xpath(xpath)
-        print('In token-payment-iframe')        
-        return 
-    except:
-        print('Not In token-payment-iframe')
     elements = chrome_driver.find_elements_by_class_name('js-iframe')
     print(elements)
     for element in elements:
@@ -392,19 +388,8 @@ def switch_iframe_(chrome_driver,xpath):
                 print('Not In iframe :',element)
     except Exception as e:
         print(str(e))
-        print('Not In wallet-app-iframe')
-        chrome_driver.switch_to_frame('token-payment-iframe')            
-        elements = chrome_driver.find_elements_by_class_name('js-iframe')   
-        for element in elements:
-            chrome_driver.switch_to_frame(element)    
-            try:
-                chrome_driver.find_element_by_xpath(xpath)
-                print('Not In iframe :',element)            
-                return elements
-            except:
-                chrome_driver.switch_to.parent_frame()
-                print('Not In iframe :',element)         
-        print('token-payment-iframe')   
+
+
 
 
 
