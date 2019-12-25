@@ -251,7 +251,7 @@ def web_submit(submit,chrome_driver,debug=0):
             error_info = 'An error occurred.'
             success_info = 'Payment method successfully added'
             account_ban_info = 'Heads up!'
-            sleep(2)
+            sleep(5)
             for i in range(30):
                 '''
                 fail
@@ -267,6 +267,7 @@ def web_submit(submit,chrome_driver,debug=0):
                 # else:
                 except:
                     print('Find not fail text')
+                sleep(2)
                 '''
                 success
                 '''
@@ -277,6 +278,7 @@ def web_submit(submit,chrome_driver,debug=0):
                     print(element.text)
                     print('Find success text')                        
                     flag_success = 1
+                    flag_error = 0
                     break
                 # else:
                 except:
