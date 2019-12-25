@@ -187,12 +187,14 @@ def web_submit(submit,chrome_driver,debug=0):
                 cvv = '00'+ cvv
             elif len(cvv) == 2:
                 cvv = '0' + cvv
+            flag_visa = 0
             try:
                 path_cardtype = '//*[@id="paymentoptionslist"]/li[3]/form/button'
                 chrome_driver.switch_to.default_content() 
                 chrome_driver.switch_to_frame('wallet-app-iframe')                
                 chrome_driver.switch_to_frame('token-payment-iframe')                 
                 chrome_driver.find_element_by_xpath(path_cardtype).click()
+                flag_visa = 1
                 print('Find visa select button')
             except:
                 print('Find not visa select button')
@@ -200,6 +202,8 @@ def web_submit(submit,chrome_driver,debug=0):
                 flag_wait = 0               
                 chrome_driver.switch_to.default_content()
                 chrome_driver.switch_to_frame('wallet-app-iframe')
+                if flag_visa == 1:
+                    chrome_driver.switch_to_frame('token-payment-iframe')                 
                 if 'Card Number' in chrome_driver.page_source:
                     if 'Please wait while we take care of some business.' not in chrome_driver.page_source:
                         flag_wait = -1
@@ -211,8 +215,13 @@ def web_submit(submit,chrome_driver,debug=0):
                         sleep(5)                  
                         try:
                             xpath = path_card
-                            elements_iframe = switch_iframe_(chrome_driver,xpath)             
-                            chrome_driver.find_element_by_xpath(path_card).send_keys(card)
+                            if flag_visa == 0:
+                                elements_iframe = switch_iframe_(chrome_driver,xpath) 
+                            else:
+                                elements_iframe = switch_iframe_visa(chrome_driver,xpath)
+                            element = chrome_driver.find_element_by_xpath(path_card)
+                            element.clear()
+                            element.send_keys(card)
                             break
                         except Exception as  e:                                                   
                             print(str(e))
@@ -223,8 +232,13 @@ def web_submit(submit,chrome_driver,debug=0):
                             card_name = '//*[@id="cardholderName"]'                  
                             xpath = path_card   
                             try:             
-                                elements_iframe = switch_iframe_(chrome_driver,xpath)
-                                chrome_driver.find_element_by_xpath(path_card).send_keys(card)                
+                                if flag_visa == 0:
+                                    elements_iframe = switch_iframe_(chrome_driver,xpath) 
+                                else:
+                                    elements_iframe = switch_iframe_visa(chrome_driver,xpath)
+                                element = chrome_driver.find_element_by_xpath(path_card)
+                                element.clear()
+                                element.send_keys(card)
                                 break
                             except:
                                 pass
@@ -261,8 +275,11 @@ def web_submit(submit,chrome_driver,debug=0):
             # button
             chrome_driver.switch_to.parent_frame()
             # chrome_driver.switch_to_frame(elements[1])            
-            # switch_iframe(chrome_driver,path_button)                          
-            chrome_driver.find_element_by_xpath(path_button).click()                              
+            # switch_iframe(chrome_driver,path_button)   
+            if EC.element_to_be_clickable((By.XPATH,path_button)):
+                chrome_driver.find_element_by_xpath(path_button).click() 
+            else:
+                writelog(chrome_driver,submit)
             flag_error = 0
             flag_success = 0
             flag_account_ban = 0
@@ -381,6 +398,31 @@ def web_submit(submit,chrome_driver,debug=0):
                 print('Find none of success, fail or account ban info')
                 break
 
+def writelog(chrome_driver,submit):
+    '''
+    writelog and
+    '''
+    path = r'..\log'        
+    makedir_account(path)        
+    path_ = r'..\log\pics'        
+    makedir_account(path_)
+    pic_name = str(submit['Mission_Id'])+'_'+str(random.randint(0,100000))+'.png'
+    pic = os.path.join(path_,pic_name)
+    print(pic)
+    try:
+        chrome_driver.save_screenshot(pic)
+        print('pic saved success')
+    except Exception as e:
+        print(str(e))
+
+
+def change_iframe(iframe):
+    if iframe == 'token-payment-iframe':
+        iframe = 'wallet-app-iframe'
+    else:
+        iframe = 'token-payment-iframe'
+    return iframe
+
 def switch_iframe(chrome_driver,xpath):
     chrome_driver.switch_to.default_content()    
     try:
@@ -428,7 +470,25 @@ def switch_iframe_(chrome_driver,xpath):
     except Exception as e:
         print(str(e))
 
-
+def switch_iframe_visa(chrome_driver,xpath):
+    chrome_driver.switch_to.default_content()    
+    try:
+        chrome_driver.switch_to_frame('wallet-app-iframe')  
+        chrome_driver.switch_to_frame('token-payment-iframe')          
+        elements = chrome_driver.find_elements_by_class_name('js-iframe') 
+        print(len(elements),'elements')   
+        for element in elements:
+            chrome_driver.switch_to_frame(element)    
+            try:
+                chrome_driver.find_element_by_xpath(xpath)
+                print('Find iframe In wallet-app-iframe')            
+                return elements
+            except Exception as e:
+                print(str(e))
+                chrome_driver.switch_to.parent_frame()
+                print('Not In iframe :',element)
+    except Exception as e:
+        print(str(e))
 
 
 
