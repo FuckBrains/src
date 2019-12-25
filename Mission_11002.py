@@ -172,12 +172,14 @@ def web_submit(submit,chrome_driver,debug=0):
             try:
                 path_cardtype = '//*[@id="paymentoptionslist"]/li[3]/form/button'
                 chrome_driver.switch_to.default_content() 
+                chrome_driver.switch_to_frame('wallet-app-iframe')                
                 chrome_driver.switch_to_frame('token-payment-iframe')                 
                 chrome_driver.find_element_by_xpath(path_cardtype).click()
                 print('Find visa select button')
             except:
                 print('Find not visa select button')
-            for i in range(20):                
+            for i in range(60):                
+                chrome_driver.switch_to.default_content()
                 chrome_driver.switch_to_frame('wallet-app-iframe')
                 if 'Card Number' in chrome_driver.page_source:
                     path_card = '//*[@id="encryptedCardNumber"]'
