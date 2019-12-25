@@ -143,21 +143,21 @@ def get_submit(Config):
             flag,proxy_info = luminati.ip_test(submit['port_lpm'],state='' ,country=submit['Country'])            
             print('proxy_info:',proxy_info)
         else:
-            city = ''
-            proxy_info = {}
-            flag = 1
-            # for num_ip in range(6):
-            #     try:
-            #         city = ip_test.ip_Test('','',country=submit['Country'])
-            #         if  city != 'Not found':
-            #             flag = 1
-            #             proxy_info = ''
-            #             break
-            #         if num_ip == 5:
-            #             print('Net wrong...!!!!!!')
-            #             changer.Restart()
-            #     except:
-            #         changer.Restart()            
+            # city = ''
+            # proxy_info = {}
+            # flag = 1
+            for num_ip in range(6):
+                try:
+                    city = ip_test.ip_Test('','',country=submit['Country'])
+                    if  city != 'Not found':
+                        flag = 1
+                        proxy_info = ''
+                        break
+                    if num_ip == 5:
+                        print('Net wrong...!!!!!!')
+                        changer.Restart()
+                except:
+                    changer.Restart()            
 
         # changing IP
         print(flag,'=========================')
