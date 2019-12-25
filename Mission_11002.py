@@ -21,6 +21,8 @@ import name_get
 import db
 import selenium_funcs
 import Submit_handle
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
 
 '''
