@@ -260,17 +260,22 @@ def web_submit(submit,chrome_driver,debug=0):
             chrome_driver.switch_to_frame(elements_iframe[1])
             # switch_iframe(chrome_driver,path_day)              
             element = chrome_driver.find_element_by_xpath(path_day)
+            element.clear()
             for num in month:
                 element.send_keys(int(num))
             #cvv
             chrome_driver.switch_to.parent_frame()
             chrome_driver.switch_to_frame(elements_iframe[2])            
             # switch_iframe(chrome_driver,path_cvv)              
-            chrome_driver.find_element_by_xpath(path_cvv).send_keys(cvv)
+            element = chrome_driver.find_element_by_xpath(path_cvv)
+            element.clear()
+            element.send_keys(cvv)
             name = submit['firstname'] + ' ' + submit['lastname']
             try:
                 switch_iframe(chrome_driver,card_name)              
-                chrome_driver.find_element_by_xpath(card_name).send_keys(name)
+                element = chrome_driver.find_element_by_xpath(card_name)
+                element.clear()
+                element.send_keys(name)
             except:
                 sleep(1)            
             sleep(2)
@@ -278,11 +283,8 @@ def web_submit(submit,chrome_driver,debug=0):
             chrome_driver.switch_to.parent_frame()
             # chrome_driver.switch_to_frame(elements[1])            
             # switch_iframe(chrome_driver,path_button)   
-            if EC.element_to_be_clickable((By.XPATH,path_button)):
-                chrome_driver.find_element_by_xpath(path_button).click() 
-            else:
-                writelog(chrome_driver,submit)
-                break
+            chrome_driver.find_element_by_xpath(path_button).click() 
+            # writelog(chrome_driver,submit)
             flag_error = 0
             flag_success = 0
             flag_account_ban = 0
@@ -290,6 +292,13 @@ def web_submit(submit,chrome_driver,debug=0):
             success_info = 'Payment method successfully added'
             account_ban_info = 'Heads up!'
             sleep(5)
+            try:
+                element = chrome_driver.find_element_by_xpath(path_cvv)
+                print('text in cvv:',element.text)
+            except:
+                pass
+                # if element.text != '':
+
             for i in range(2):
                 '''
                 fail
