@@ -169,7 +169,14 @@ def web_submit(submit,chrome_driver,debug=0):
                 cvv = '00'+ cvv
             elif len(cvv) == 2:
                 cvv = '0' + cvv
-            for i in range(60):
+            try:
+                 path_cardtype = '//*[@id="paymentoptionslist"]/li[3]/form/button'
+                 switch_iframe(chrome_driver,path_cardtype)
+                 chrome_driver.find_element_by_xpath(path_cardtype).click()
+                 print('Find visa select button')
+            except:
+                print('Find not visa select button')                 
+            for i in range(20):                
                 if 'Card Number' in chrome_driver.page_source:
                     path_card = '//*[@id="encryptedCardNumber"]'
                     path_day = '//*[@id="encryptedExpiryDate"]'
@@ -182,7 +189,7 @@ def web_submit(submit,chrome_driver,debug=0):
                         elements_iframe = switch_iframe_(chrome_driver,xpath)             
                         chrome_driver.find_element_by_xpath(path_card).send_keys(card)
                         break
-                    except Exception as  e:
+                    except Exception as  e:                                                   
                         print(str(e))
                         path_card = '//*[@id="cardNumber"]'
                         path_day = '//*[@id="expiryDate"]'
@@ -254,6 +261,7 @@ def web_submit(submit,chrome_driver,debug=0):
                     print(element.text)
                     print('Find success text')                        
                     flag_success = 1
+                    break
                 # else:
                 except:
                     print('Find not success text')
@@ -320,6 +328,7 @@ def web_submit(submit,chrome_driver,debug=0):
                 # success
                 print('Find success info')
                 Dadao.write_status(path,workbook,submit,success_info)
+                break
             elif flag_account_ban == 1:
                 # account ban
                 print('Find account ban info!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
