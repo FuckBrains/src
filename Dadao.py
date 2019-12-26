@@ -73,6 +73,14 @@ def get_one_data(sheet,Mission_Id):
         print(firstname)
         print(lastname)        
         if submit[key] == '':
+            if len(firstname) == 0:
+                submit['row'] = i
+                submit['badname'] = badname
+                return submit
+            if len(lastname) == 0:
+                submit['row'] = i
+                submit['badname'] = badname
+                return submit            
             for part in firstname:
                 a = tools.is_alphabet(part)
                 if a == False:

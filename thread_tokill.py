@@ -74,12 +74,12 @@ def writelog(chrome_driver,submit,content=''):
 
 def start(plans):
     print('Start func')
-    if plans[0]['sleep_flag'] == 2:
-        multi_reg(plans[0]) 
-    else:
-        requests = threadpool.makeRequests(multi_reg, plans)
-        [pool.putRequest(req) for req in requests]
-        pool.wait()     
+    # if plans[0]['sleep_flag'] == 2:
+    #     multi_reg(plans[0]) 
+    # else:
+    requests = threadpool.makeRequests(multi_reg, plans)
+    [pool.putRequest(req) for req in requests]
+    pool.wait()     
 
 def change_tz(windows_):
     global using_num
@@ -331,7 +331,6 @@ def reg_part_cpl(submit):
     except:
         pass
 
-
 def web_submit(submit,chrome_driver,debug=0):
     # predefine Mission
     # Excel_tag = 'Auto'    
@@ -566,29 +565,29 @@ def save_html(chrome_driver,Mission_Id,page):
 def multi_reg(Config):
     # print(Config)
     print('multi_reg')
-    return_rand = random.randint(0,5)
-    if return_rand == 0:
-        print('unique  random,return for Mission_Id:',Config)
-        if Config['sleep_flag'] != 2:
-            time_return = random.randint(0,600)
-            sleep(time_return)
+    # return_rand = random.randint(0,5)
+    # if return_rand == 0:
+    #     print('unique  random,return for Mission_Id:',Config)
+    #     if Config['sleep_flag'] != 2:
+    #         time_return = random.randint(0,600)
+    #         # sleep(time_return)
+    # else:
+    time_cheat = random.randint(0,600)
+    # print(Config)
+    if Config['Alliance'] != 'Test':
+        if Config['Mission_Id'] != '20000':
+            if Config['sleep_flag'] == 1:
+                print('Sleep for random time:',time_cheat,'-------------')
+                sleep(time_cheat)
     else:
-        time_cheat = random.randint(0,600)
-        # print(Config)
-        if Config['Alliance'] != 'Test':
-            if Config['Mission_Id'] != '20000':
-                if Config['sleep_flag'] == 1:
-                    print('Sleep for random time:',time_cheat,'-------------')
-                    sleep(time_cheat)
-        else:
-            print('test...........')
-        flag = data_handler(Config)
-        if flag == None:
-            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')            
-            print('Mission',Config['Mission_Id'],'is out of data............')
-            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')            
+        print('test...........')
+    flag = data_handler(Config)
+    if flag == None:
+        print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')            
+        print('Mission',Config['Mission_Id'],'is out of data............')
+        print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')            
     return  
 
 def test():

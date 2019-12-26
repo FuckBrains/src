@@ -617,7 +617,7 @@ class Ui_MainWindow(object):
         self.tab_7 = QtWidgets.QWidget()
         self.tab_7.setObjectName("tab_7")
         self.pushButton22 = QtWidgets.QPushButton(self.tab_7)
-        self.pushButton22.setGeometry(QtCore.QRect(210, 120, 75, 41))
+        self.pushButton22.setGeometry(QtCore.QRect(210, 200, 75, 41))
         self.pushButton22.setObjectName("pushButton22")
         self.tabWidget.addTab(self.tab_7, "")
         self.tab_8 = QtWidgets.QWidget()
@@ -754,7 +754,7 @@ class Ui_MainWindow(object):
         self.comboBox20.setObjectName("comboBox20")
         self.comboBox20.addItem("")
         self.textBrowser3 = QtWidgets.QTextBrowser(self.tab_9)
-        self.textBrowser3.setGeometry(QtCore.QRect(330, 70, 231, 221))
+        self.textBrowser3.setGeometry(QtCore.QRect(330, 120, 231, 221))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.textBrowser3.setFont(font)
@@ -1064,7 +1064,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.Dadao.setCurrentIndex(6)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(4)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

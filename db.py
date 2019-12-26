@@ -1432,7 +1432,15 @@ def get_luminati_submit(Config):
     Email_list = {"hotmail.com": 1, "outlook.com": 1, "yahoo.com": 1, "aol.com": 1}
     Mission_Ids,Excels_dup = [Config['Mission_Id']],Config['Excel']
     # print(Excels_dup)
-    submit = read_one_excel(Mission_Ids,Excels_dup,Email_list)
+    Mission_Id  = Config['Mission_Id']
+    if Config['Excel'] == 'Dadao':
+        path = r'..\res\Dadao.xlsx' 
+        sheet,workbook = Dadao.get_excel(path)   
+        submit = Dadao.get_one_data(sheet,Mission_Id)
+        print(submit)
+        submit['Mission_Id'] = Mission_Id  
+    else:      
+        submit = read_one_excel(Mission_Ids,Excels_dup,Email_list)
     if submit == {}:
         return {}
     # print(submit)
@@ -1441,7 +1449,10 @@ def get_luminati_submit(Config):
     if Excels_dup[0] == '':
         submit['state_'] = ''
     else:
-        submit['state_'] = submit[Excels_dup[0]]['state']
+        if Excels_dup[0] != 'Dadao':
+            submit['state_'] = submit[Excels_dup[0]]['state']
+        else:
+            submit['state_'] = ''
     submit['Mission_Id'] = Config['Mission_Id']
     submit['Country'] = Config['Country']
     submit['Site'] = Config['url_link']

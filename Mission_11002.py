@@ -565,5 +565,9 @@ def get_data():
     submit['Mission_Id'] = Mission_Id
     return submit,path,workbook    
 
+def test_():
+    submit = get_data()[0]
+    print(submit)
+
 if __name__=='__main__':
-    test()
+    test_()
