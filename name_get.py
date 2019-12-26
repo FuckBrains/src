@@ -418,8 +418,10 @@ def gen_birthday(westenstyle=False):
     return str("%02d%02d" % (day, month))
 
 if __name__ == '__main__':
-    for i in range(500):
-        print(gen_two_words(split=' ', lowercase=False))
+    name = gen_two_words()
+    print(name)
+    # for i in range(500):
+        # print(gen_two_words(split=' ', lowercase=False))
     # [print(gen_one_word_digit(lowercase=False)) for i in range(100)]
     # print(gen_one_word_digit(lowercase=False))
     # print(gen_year(1988, 2015))

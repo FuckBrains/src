@@ -270,7 +270,7 @@ def web_submit(submit,chrome_driver,debug=0):
             element = chrome_driver.find_element_by_xpath(path_cvv)
             element.clear()
             element.send_keys(cvv)
-            name = submit['firstname'] + ' ' + submit['lastname']
+            name = get_name()
             try:
                 switch_iframe(chrome_driver,card_name)              
                 element = chrome_driver.find_element_by_xpath(card_name)
@@ -501,6 +501,10 @@ def switch_iframe_visa(chrome_driver,xpath):
     except Exception as e:
         print(str(e))
 
+
+def get_name():
+    name = name_get.gen_two_words()
+    return name
 
 
 
