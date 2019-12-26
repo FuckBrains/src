@@ -54,8 +54,9 @@ def get_ua_all():
 
 def get_ua_random(uas):
     num = random.randint(0,len(uas)-1)
+    ua = uas[num].replace('"','')    
     # print(uas[num])
-    return uas[num]
+    return ua
 
 def get_ua():
     uas = get_ua_all()

@@ -292,13 +292,12 @@ def web_submit(submit,chrome_driver,debug=0):
             success_info = 'Payment method successfully added'
             account_ban_info = 'Heads up!'
             sleep(5)
-            try:
-                element = chrome_driver.find_element_by_xpath(path_cvv)
-                print('text in cvv:',element.text)
-            except:
-                pass
-                # if element.text != '':
+            # try:
+            #     element = chrome_driver.find_element_by_xpath(path_cvv)
+            #     print('text in cvv:',element.text)
 
+            # except:
+            #     pass
             for i in range(2):
                 '''
                 fail
