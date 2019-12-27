@@ -74,9 +74,19 @@ def writelog(chrome_driver,submit,content=''):
 
 def start(plans):
     print('Start func')
-    # if plans[0]['sleep_flag'] == 2:
-    #     multi_reg(plans[0]) 
-    # else:
+    if plans[0]['sleep_flag'] == 2:
+        for num_ip in range(6):
+            try:
+                city = ip_test.ip_Test('','',country=plans[0]['Country'])
+                if  city != 'Not found':
+                    flag = 1
+                    proxy_info = ''
+                    break
+                if num_ip == 5:
+                    print('Net wrong...!!!!!!')
+                    changer.Restart()
+            except:
+                changer.Restart()        
     requests = threadpool.makeRequests(multi_reg, plans)
     [pool.putRequest(req) for req in requests]
     pool.wait()     
@@ -143,21 +153,9 @@ def get_submit(Config):
             flag,proxy_info = luminati.ip_test(submit['port_lpm'],state='' ,country=submit['Country'])            
             print('proxy_info:',proxy_info)
         else:
-            # city = ''
-            # proxy_info = {}
-            # flag = 1
-            for num_ip in range(6):
-                try:
-                    city = ip_test.ip_Test('','',country=submit['Country'])
-                    if  city != 'Not found':
-                        flag = 1
-                        proxy_info = ''
-                        break
-                    if num_ip == 5:
-                        print('Net wrong...!!!!!!')
-                        changer.Restart()
-                except:
-                    changer.Restart()            
+            city = ''
+            proxy_info = {}
+            flag = 1        
 
         # changing IP
         print(flag,'=========================')
