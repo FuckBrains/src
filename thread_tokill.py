@@ -531,7 +531,7 @@ def page_detect(Page_flags,chrome_driver):
 def page_change(chrome_driver,page):
     print('Detecting page if changed or changing....')
     flag = 0
-    for i in range(120): 
+    for i in range(60): 
         if page['Flag_text'] not in chrome_driver.page_source:
             flag = 1
             print("page['Flag_text'] not in chrome_driver.page_source,page changed!!!!!!!!!!!")
