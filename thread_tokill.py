@@ -71,7 +71,7 @@ def writelog(chrome_driver,submit,content=''):
         if submit['Excels_dup'][0] == 'Dadao':
             status = db.get_plan_status(submit['ID'])
             path = submit['Dadao']['path']
-            workbook = submit['Dadao']['workbook']    
+            sheet,workbook = Dadao.get_excel(path)   
             content = 'Mission Status:'+str(status)+'\n'+'traceback:\n    '+content        
             Dadao.write_status(path,workbook,submit['Dadao'],content)            
             return            
