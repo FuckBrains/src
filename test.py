@@ -1040,6 +1040,11 @@ def db_test_cc():
     db.write_one_info(Mission_list,submit)
 
 
+def test_qt_test():
+    import qt
+    qt.test_k()
+
+
 
 if __name__ == '__main__':
     i = 2
@@ -1048,4 +1053,4 @@ if __name__ == '__main__':
     elif i==1:
         test_account()
     else:
-        db_test_cc()
+        test_qt_test()

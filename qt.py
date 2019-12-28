@@ -972,6 +972,23 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             text = 'Rules:\n'
             self.textBrowser4.setText(text)
 
+        def write_config():
+            pass
+
+def test_k():
+    file = r'ini\Offer_num.ini'
+    with open(file,'a+') as f:
+        offers = f.readlines()
+        print(offers)
+        nums = []
+        for line in offers:
+            num_ = line.split(',')
+            if len(num_) >= 3:
+                num_mission = num_[0]
+                nums.append(num_mission)
+        print(nums)
+
+
 def main(i,message=''):
     up.main()
     # print('111')
