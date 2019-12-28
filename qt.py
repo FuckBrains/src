@@ -1,4 +1,5 @@
 import Chrome_driver
+import Dadao
 import json
 import luminati
 import sys
@@ -814,10 +815,19 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             if 'Mission_Id' in configs[item]:
                 print(item)            
                 if str(configs[item]['Mission_Id']) == str(Mission_Id):
-                    Mission_list = [100]
-                    Excel_name = configs[item]['Excel']
-                    Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
-                    submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
+                    if configs[item]['Excel'][0] == 'Dadao':
+                        path = r'..\res\Dadao.xlsx' 
+                        sheet,workbook = Dadao.get_excel(path)   
+                        submit_ = Dadao.get_one_data(sheet,Mission_Id)
+                        print(submit_)
+                        submit_['Mission_Id'] = Mission_Id 
+                        submit = {}
+                        submit['Dadao'] = submit_
+                    else:
+                        Mission_list = [100]
+                        Excel_name = configs[item]['Excel']
+                        Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
+                        submit = db.read_one_excel(Mission_list,Excel_name,Email_list)                        
                     for excel in submit:
                         keys = [item_ for item_ in submit[excel] if submit[excel][item_]!=None and submit[excel][item_] !='']
             else:
