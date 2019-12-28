@@ -71,7 +71,7 @@ def writelog(chrome_driver,submit,content=''):
         if submit['Excels_dup'][0] == 'Dadao':
             path = submit['Dadao']['path']
             workbook = submit['Dadao']['workbook']            
-            Dadao.write_status(path,workbook,submit,content)            
+            Dadao.write_status(path,workbook,submit['Dadao'],content)            
             return            
         with open(pic,'rb') as f:
             png = f.read()
