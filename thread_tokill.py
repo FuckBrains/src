@@ -69,8 +69,10 @@ def writelog(chrome_driver,submit,content=''):
             if content == '':
                 content = 'NO traceback'        
         if submit['Excels_dup'][0] == 'Dadao':
+            status = db.get_plan_status(submit['ID'])
             path = submit['Dadao']['path']
-            workbook = submit['Dadao']['workbook']            
+            workbook = submit['Dadao']['workbook']    
+            content = 'Mission Status:'+str(status)+'\n'+'traceback:\n    '+content        
             Dadao.write_status(path,workbook,submit['Dadao'],content)            
             return            
         with open(pic,'rb') as f:

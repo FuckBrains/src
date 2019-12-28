@@ -1050,11 +1050,9 @@ def test_qt_test():
     qt.test_k()
 
 def more_test():
-    import db
-    submit_ = {'ID': 578, 'Plan_Id': 40, 'Alliance': 'admarz', 'Account': '1', 'Offer': 'FreeHookup Affair - PPT Low Auth', 'url_link': 'https://admarz.go2cloud.org/aff_c?offer_id=1123&aff_id=4073\n', 'Country': 'FR', 'Excel': ['Dadao', ''], 'Mission_Id': '11003', 'Mission_dir': 'C:\\EMU\\emu_chromes\\11003,1', 'ip_lpm': '192.168.30.132', 'port_lpm': '24100', 'Mission_time': 1, 'Activate_status': 1, 'zone': 'jia1', 'Status': 0, 'Record': 0, 'sleep_flag': 2}
-    submit = db.get_luminati_submit(submit_) 
-    print(submit)          
-
+    ID = 579
+    status = db.get_plan_status(ID)
+    print(status)
 
 
 
