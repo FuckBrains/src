@@ -63,8 +63,11 @@ def writelog(chrome_driver,submit,content=''):
         except Exception as e:
             print(str(e))
         if content == '':
-            content = traceback.format_exc()            
-        if submit['Excels_dup'][0] != 'Dadao':
+            content = traceback.format_exc()  
+            print('traceback.format_exc():' ,content)  
+            if content == '':
+                content = 'NO traceback'        
+        if submit['Excels_dup'][0] == 'Dadao':
             path = submit['Dadao']['path']
             workbook = submit['Dadao']['workbook']            
             Dadao.write_status(path,workbook,submit,content)            
