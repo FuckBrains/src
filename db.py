@@ -1470,6 +1470,7 @@ def get_luminati_submit(Config):
     submit['Account'] = Config['Account']
     submit['Offer'] = Config['Offer']
     submit['ID'] = Config['ID']
+    submit['city'] = Config['city']    
     submit['sleep_flag'] = Config['sleep_flag']
     # print(submit['Site'])
     submit['Mission_dir'] = Config['Mission_dir'] 

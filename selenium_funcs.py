@@ -168,8 +168,15 @@ def Select(chrome_driver,data,submit):
     5 ways to select
     '''
     # 1.select_by_index
-    if data['Step_config']['select_index'] != '':        
-        s1.select_by_index(int(data['Step_config']['select_index']))  
+    if data['Step_config']['select_index'] != '': 
+        item_list = data['Step_config']['select_index'].split(',')
+        key = data['Step_config']['select_value']
+        value = str(submit[key]).split('.')[0]
+        if key == 'year':
+            if len(value) >2:
+                value = value[2:] 
+        index_ = item_list.index(int(value))       
+        s1.select_by_index(index_)  
         return      
     # 2.select_by_index and random
     if data['Step_config']['select_index_rand'] == 'True':

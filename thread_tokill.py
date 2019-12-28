@@ -104,7 +104,10 @@ def start(plans):
                     print('Net wrong...!!!!!!')
                     changer.Restart()
             except:
-                changer.Restart()        
+                changer.Restart()     
+    for plan in plans:
+        plan['city'] = city
+        print('911 city:',city)   
     requests = threadpool.makeRequests(multi_reg, plans)
     [pool.putRequest(req) for req in requests]
     pool.wait()     
@@ -508,7 +511,7 @@ def page_detect(Page_flags,chrome_driver):
             break
         status = chrome_driver.execute_script("return document.readyState")
         print('document status:',status)
-        wrong_pages = ['Webpage not available','This page isn’t working']
+        wrong_pages = ['Webpage not available','This page isn’t working','ERR_TIMED_OUT','ERR_CONNECTION_RESET']
         flag_wrong_page = 0
         if status == 'complete':
             sleep(10)
