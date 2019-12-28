@@ -73,6 +73,21 @@ def password_get_Nostale():
             pwd += d[random.randint(0,len(d)-1)]                                    
     return pwd
 
+def cvv_get(cvv):
+    '''
+    cvv
+    '''
+    cvv = str(cvv).split('.')[0]
+    if len(cvv) == 1:
+        cvv = '00'+cvv
+    elif len(cvv) == 2:
+        cvv = '0' + cvv
+    else:
+        pass
+    return cvv
+
+
+
 def get_pwd_real():
     with open(r'ini\pwd.ini','r') as f:
         lines  = f.readlines()

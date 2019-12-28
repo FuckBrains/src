@@ -60,7 +60,9 @@ def web_submit(submit,chrome_driver,debug=0):
     # email
     chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[3]/div/input').send_keys(submit[Excel_name]['email'])
     # phone
-    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[4]/div/input').send_keys((submit[Excel_name]['homephone']).split('.')[0])
+    phone = submit[Excel_name]['homephone']
+    phone = Submit_handle.get_phone(phone)
+    chrome_driver.find_element_by_xpath('//*[@id="list-lead-form"]/div[4]/div/input').send_keys(phone)
     # zip
     submit[Excel_name]['zip'] = Submit_handle.get_zip(submit[Excel_name]['zip'])
     chrome_driver.find_element_by_xpath('//*[@id="postal-code"]').send_keys((submit[Excel_name]['zip']))
