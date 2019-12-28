@@ -451,6 +451,11 @@ def test_cam4_fr():
     Excel_name = ['health','Email']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     start = time_related.Time_start()
+    start = str(start)
+    print(start)
+    after = start.split('.')[0].replace(':','-')
+    print(after)    
+    return
     submit1 = db.read_one_excel(Mission_list,Excel_name,Email_list) 
     # print(submit1)  
     end = time_related.Time_end()
@@ -1044,6 +1049,13 @@ def test_qt_test():
     import qt
     qt.test_k()
 
+def more_test():
+    import db
+    submit_ = {'ID': 578, 'Plan_Id': 40, 'Alliance': 'admarz', 'Account': '1', 'Offer': 'FreeHookup Affair - PPT Low Auth', 'url_link': 'https://admarz.go2cloud.org/aff_c?offer_id=1123&aff_id=4073\n', 'Country': 'FR', 'Excel': ['Dadao', ''], 'Mission_Id': '11003', 'Mission_dir': 'C:\\EMU\\emu_chromes\\11003,1', 'ip_lpm': '192.168.30.132', 'port_lpm': '24100', 'Mission_time': 1, 'Activate_status': 1, 'zone': 'jia1', 'Status': 0, 'Record': 0, 'sleep_flag': 2}
+    submit = db.get_luminati_submit(submit_) 
+    print(submit)          
+
+
 
 
 if __name__ == '__main__':
@@ -1053,4 +1065,4 @@ if __name__ == '__main__':
     elif i==1:
         test_account()
     else:
-        test_qt_test()
+        more_test()

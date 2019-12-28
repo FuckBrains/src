@@ -20,7 +20,7 @@ Select_Config ={
 
 Geberate_Config = {
     'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year'],    
-    'pwd'         : ['password_get'],        
+    'pwd'         : ['password_get','password_get_Nostale'],        
 }
 
 

@@ -24,6 +24,7 @@ from selenium.webdriver.common.keys import Keys
 import selenium_funcs
 import Submit_handle
 import time
+import time_related
 
 
 
@@ -48,7 +49,12 @@ def writelog(chrome_driver,submit,content=''):
         makedir_account(path)        
         path_ = r'..\log\pics'        
         makedir_account(path_)
-        pic_name = str(submit['Mission_Id'])+'_'+str(random.randint(0,100000))+'.png'
+        path_ = os.path.join(path_,str(submit['Mission_Id']))        
+        makedir_account(path_)        
+        start = time_related.Time_start()
+        start = str(start)
+        after = start.split('.')[0].replace(':','-')        
+        pic_name = str(submit['Mission_Id'])+'_'+after+'.png'
         pic = os.path.join(path_,pic_name)
         print(pic)
         try:
@@ -56,11 +62,17 @@ def writelog(chrome_driver,submit,content=''):
             print('pic saved success')
         except Exception as e:
             print(str(e))
+        if content == '':
+            content = traceback.format_exc()            
+        if submit['Excels_dup'][0] != 'Dadao':
+            path = submit['Dadao']['path']
+            workbook = submit['Dadao']['workbook']            
+            Dadao.write_status(path,workbook,submit,content)            
+            return            
         with open(pic,'rb') as f:
             png = f.read()
         Mission_Id = submit['Mission_Id']
-        if content == '':
-            content = traceback.format_exc()            
+
         db.write_log_db(Mission_Id,content,png)
         # file_ = r'..\log\log.txt'
         # content = str(datetime.datetime.now())
@@ -74,19 +86,19 @@ def writelog(chrome_driver,submit,content=''):
 
 def start(plans):
     print('Start func')
-    if plans[0]['sleep_flag'] == 2:
-        for num_ip in range(6):
-            try:
-                city = ip_test.ip_Test('','',country=plans[0]['Country'])
-                if  city != 'Not found':
-                    flag = 1
-                    proxy_info = ''
-                    break
-                if num_ip == 5:
-                    print('Net wrong...!!!!!!')
-                    changer.Restart()
-            except:
-                changer.Restart()        
+    # if plans[0]['sleep_flag'] == 2:
+    #     for num_ip in range(6):
+    #         try:
+    #             city = ip_test.ip_Test('','',country=plans[0]['Country'])
+    #             if  city != 'Not found':
+    #                 flag = 1
+    #                 proxy_info = ''
+    #                 break
+    #             if num_ip == 5:
+    #                 print('Net wrong...!!!!!!')
+    #                 changer.Restart()
+    #         except:
+    #             changer.Restart()        
     requests = threadpool.makeRequests(multi_reg, plans)
     [pool.putRequest(req) for req in requests]
     pool.wait()     
@@ -115,7 +127,7 @@ def get_submit(Config):
                 break        
             # print('getting data')
         try:
-            print(Config)
+            print('Config',Config)
             submit = db.get_luminati_submit(Config)           
             if submit == {}:
                 content = 'No data found'
@@ -212,7 +224,9 @@ def data_handler(Config):
         try:
             reg_part_cpl(submit)
         except TimeoutError:
-            print('timeout')        
+            print('timeout')   
+    if submit['Excels_dup'][0] == 'Dadao':
+        return 1
     using_num = using_num - 1  
     print("Mission finished,using_num:",using_num)
     print("timezone:",timezone) 
@@ -232,7 +246,6 @@ def data_handler(Config):
         if 'BasicInfo_Id' in submit[item]:
             db.update_flag_use(submit[item]['BasicInfo_Id'])
             break
-
     print('Mission_Id:',submit['Mission_Id'],'finished') 
     return 1       
 
@@ -317,6 +330,8 @@ def reg_part_cpl(submit):
             print('Record modern')
             chrome_driver = web_submit(submit,chrome_driver=chrome_driver)
         print(submit)
+        if submit['Excels_dup'][0] == 'Dadao':
+            writelog(chrome_driver,submit)
     except Exception as e:
         print(str(e))
         try:

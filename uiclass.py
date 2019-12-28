@@ -1063,7 +1063,7 @@ class Ui_MainWindow(object):
         self.actionDelete.setObjectName("actionDelete")
 
         self.retranslateUi(MainWindow)
-        self.Dadao.setCurrentIndex(6)
+        self.Dadao.setCurrentIndex(3)
         self.tabWidget.setCurrentIndex(4)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 

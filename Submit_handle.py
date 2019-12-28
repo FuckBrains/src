@@ -45,10 +45,13 @@ def password_get():
     return pwd
 
 def password_get_Nostale():
+    '''
+    0aA
+    '''
     a = '0123456789'
     c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     d = 'abcdefghijklmnopqrstuvwxyz'
-    num = random.randint(9,15)
+    num = random.randint(6,12)
     pwd = ''
     for i in range(num):
         num_pwd = random.randint(0,3)

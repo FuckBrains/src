@@ -30,6 +30,9 @@ def get_action(chrome_driver,data,submit):
     # print('Keys in submit:',len(submit))
     for key in submit:
         # print(key)
+        if key == 'Dadao':
+            key_excel = key
+            break
         if 'BasicInfo_Id' in submit[key]:
             key_excel = key
             break

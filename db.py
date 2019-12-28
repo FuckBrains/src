@@ -1,3 +1,4 @@
+import Dadao
 import pymysql
 import sys
 sys.path.append("..")
@@ -345,7 +346,12 @@ def upload_data():
     path = os.getcwd()
     path = r'..\res'
     files = os.listdir(path)
-    excels_path = [os.path.join(path,file) for file in files if 'xlsx' in file]
+    # blacklist = ['Dadao']
+    excels_path = [os.path.join(path,file) for file in files if 'xlsx' in file and 'Dadao' not in file]
+    print(excels_path)
+    if len(excels_path) == 0:
+        print('No excel to upload')
+        return
     conn,cursor = login_sql(account)
     for path_excel in excels_path:
         # print(path_excel)
@@ -1433,12 +1439,15 @@ def get_luminati_submit(Config):
     Mission_Ids,Excels_dup = [Config['Mission_Id']],Config['Excel']
     # print(Excels_dup)
     Mission_Id  = Config['Mission_Id']
-    if Config['Excel'] == 'Dadao':
+    if Config['Excel'][0] == 'Dadao':
+        submit = {}
         path = r'..\res\Dadao.xlsx' 
         sheet,workbook = Dadao.get_excel(path)   
-        submit = Dadao.get_one_data(sheet,Mission_Id)
+        submit['Dadao'] = Dadao.get_one_data(sheet,Mission_Id)
         print(submit)
-        submit['Mission_Id'] = Mission_Id  
+        submit['Dadao']['Mission_Id'] = Mission_Id 
+        submit['Dadao']['path'] = path
+        submit['Dadao']['workbook'] = workbook 
     else:      
         submit = read_one_excel(Mission_Ids,Excels_dup,Email_list)
     if submit == {}:
