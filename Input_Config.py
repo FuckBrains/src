@@ -12,6 +12,7 @@ Input_Config ={
     'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year'],    
     'email'     : ['select_email_type'],
     'cvv'          : ['cvv_get'],
+    'katou'     : ['get_zip']
 }
 
 Select_Config ={
