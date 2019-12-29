@@ -386,12 +386,13 @@ def web_submit(submit,chrome_driver,debug=0):
         '''
         page = page_detect(Page_flags,chrome_driver)
         if page == None:
-            print('Looking for flag and Timeout or bad page')
+            content = 'Looking for flag and Timeout or bad page'
+            print(content)
             qt.main(1,content)            
             return
         elif page == '':
             content = 'New Page'
-            writelog(chrome_driver,submit,content='')
+            writelog(chrome_driver,submit,content)
             qt.main(1,content)
             return
         print('Find target_page:',page['Page'])
