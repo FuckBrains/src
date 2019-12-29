@@ -476,8 +476,10 @@ def get_page_by_flag(Page_flags,chrome_driver):
         try:
             if page['Iframe'] != '':
                 try:
+                    print("page['Iframe']:",page['Iframe'])
                     chrome_driver.switch_to(page['Iframe'])
-                except:
+                except Exception as e:
+                    print(str(e))
                     continue
             if page['Flag_xpath'] == '':
                 if page['Flag_text'] in chrome_driver.page_source:
@@ -576,6 +578,7 @@ def step_detect(chrome_driver,xpaths,iframe=''):
         return
     # selenium_funcs.scroll_and_find_up(chrome_driver,xpaths[-1])
     if iframe != '':
+        print('iframe:',iframe)
         chrome_driver.switch_to(iframe)
     WebDriverWait(chrome_driver,120).until(EC.visibility_of_element_located((By.XPATH,xpaths[-1])))
     print('xpath:',xpaths[-1],'ready')
