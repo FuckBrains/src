@@ -35,7 +35,7 @@ import random
 def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
-        site = 'https://axisempire022.afftrack.com/click?aid=270&linkid=T2381&s1=&s2=&s3=&s4=&s5='
+        site = 'https://axisempire022.afftrack.com/click?aid=275&linkid=T2626&s1=&s2=&s3=&s4=&s5='
         print(site)
         submit['Site'] = site
     chrome_driver.get(submit['Site'])
@@ -61,30 +61,42 @@ def web_submit(submit,chrome_driver,debug=0):
     print('zipcode:',zipcode)    
     chrome_driver.find_element_by_xpath('//*[@id="form-step-one-top"]/div[4]/div/input').send_keys(zipcode)
     sleep(1)
+    handle = chrome_driver.current_window_handle    
     chrome_driver.find_element_by_xpath('//*[@id="top"]').click()
     sleep(3)
+
+    while True:
+        '''
+        turn to other page
+        '''
+        handles=chrome_driver.window_handles 
+        if len(handles)>1:
+            break  
+    for i in handles:
+        if i != handle:        
+            chrome_driver.switch_to.window(i)     
     # page2
-    chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[2]/div[3]/a').click()
+    chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/form/div[2]/div[3]/a').click()
     sleep(2)
-    # None of these happen
-    try:
-        chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[3]/div[2]/div/div[6]/label/span').click()
-        # continue
-        chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[3]/div[2]/a').click()
-    except:
-        pass
+    # # None of these happen
+    # try:
+    #     chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[3]/div[2]/div/div[6]/label/span').click()
+    #     # continue
+    #     chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[3]/div[2]/a').click()
+    # except:
+    #     pass
     sleep(3)
     # household size
     index = random.randint(1,4)
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="houseHoldSize"]'))
     s1.select_by_index(index)   
     # household income
-    index = random.randint(1,4)
-    s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="houseHoldIncome"]'))
-    s1.select_by_index(index)       
+    # index = random.randint(1,4)
+    # s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="houseHoldIncome"]'))
+    # s1.select_by_index(index)       
     sleep(2)
     # continue
-    chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[4]/div[2]/a').click()
+    chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/form/div[4]/div[2]/a').click()
     # height
     num_info = Submit_handle.get_height_info()
     chrome_driver.find_element_by_xpath('//*[@id="step2b-height_ft"]').send_keys(num_info['Height_FT'])
@@ -94,15 +106,15 @@ def web_submit(submit,chrome_driver,debug=0):
     # checkbox
     index = random.randint(0,2)
     if index==0:
-        chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[5]/div[2]/div/div[1]/div[3]/div[1]/div/label').click()
+        chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/form/div[5]/div[2]/div/div[1]/div[3]/div[1]/div/label').click()
     elif index == 1:
-        chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[5]/div[2]/div/div[1]/div[3]/div[2]/div/label').click()
+        chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/form/div[5]/div[2]/div/div[1]/div[3]/div[2]/div/label').click()
     else:
-        chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[5]/div[2]/div/div[1]/div[3]/div[1]/div/label').click()
-        chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[5]/div[2]/div/div[1]/div[3]/div[2]/div/label').click()
+        chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/form/div[5]/div[2]/div/div[1]/div[3]/div[1]/div/label').click()
+        chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/form/div[5]/div[2]/div/div[1]/div[3]/div[2]/div/label').click()
     sleep(2)
     # continue
-    chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[5]/div[2]/a').click()
+    chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/form/div[5]/div[2]/a').click()
     sleep(5)
     # page3
     # firstname
@@ -115,16 +127,16 @@ def web_submit(submit,chrome_driver,debug=0):
     cellphone = Submit_handle.chansfer_float_into_int(submit['health']['homephone'].split('.')[0])
     element = chrome_driver.find_element_by_xpath('//*[@id="step3-phone"]')
     element.click()
-    db.update_plan_status(1,submit['ID'])        
+    # db.update_plan_status(1,submit['ID'])        
     print('cellphone:',cellphone)
     element.send_keys(cellphone)    
     # address
     chrome_driver.find_element_by_xpath('//*[@id="step3-address1"]').send_keys(submit['health']['address'])
     sleep(3)
     # get my quote
-    chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[6]/div[2]/a').click()
-    db.update_plan_status(2,submit['ID'])        
-    sleep(300)
+    chrome_driver.find_element_by_xpath('/html/body/div[1]/div[3]/form/div[6]/div[2]/a').click()
+    db.update_plan_status(1,submit['ID'])        
+    sleep(60)
 
 def test():
     Mission_list = ['10000']
