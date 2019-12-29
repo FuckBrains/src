@@ -721,7 +721,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         flag['Page'] = self.comboBox7.currentText()
         flag['Flag_text'] = self.lineEdit14.text()
         flag['Flag_xpath'] = self.lineEdit15.text()
+        flag['Iframe'] = self.lineEdit28.text()        
         flag['Status'] = self.comboBox22.currentText()
+        print(flag)
         Mission_Id = str(self.lineEdit13.text())
         try:
             db.upload_pageflag(Mission_Id,flag)

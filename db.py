@@ -210,12 +210,13 @@ def upload_pageflag(Mission_Id,flag):
     Page = flag['Page']
     Flag_xpath = flag['Flag_xpath'] 
     Flag_text = flag['Flag_text']
+    Flag_iframe = flag['Iframe']    
     Status = flag['Status']
     flag_check = check_flag(Mission_Id,flag)
     if flag_check == False:
         return -1    
     # sql_content = (int(Mission_Id),Page,pymysql.escape_string(Flag_xpath),pymysql.escape_string(Flag_text))      
-    sql_content = 'INSERT INTO Page_Flag(Mission_Id,Page,Flag_xpath,Flag_text,Status)VALUES("%d","%s","%s","%s","%s")'%(int(Mission_Id),Page,pymysql.escape_string(Flag_xpath),pymysql.escape_string(Flag_text),Status)     
+    sql_content = 'INSERT INTO Page_Flag(Mission_Id,Page,Flag_xpath,Flag_text,Iframe,Status)VALUES("%d","%s","%s","%s","%s","%s")'%(int(Mission_Id),Page,pymysql.escape_string(Flag_xpath),pymysql.escape_string(Flag_text),pymysql.escape_string(Flag_iframe),Status)     
     # sql_content = 'INSERT IGNORE INTO Page_Flag(Mission_Id,Page,Flag_xpath,Flag_text)VALUES("%d","%s","%s","%s")'%(Mission_Id, Page,Flag_xpath,Flag_text)
     Execute_sql([sql_content])
 
