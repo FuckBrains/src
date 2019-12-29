@@ -421,6 +421,7 @@ def web_submit(submit,chrome_driver,debug=0):
         check step status for every step
         '''
         if len(xpaths) !=0:
+            iframe = config_['General']['iframe']
             step_detect(chrome_driver,xpaths) 
         print('All steps ready')
         '''
@@ -473,6 +474,11 @@ def get_page_by_flag(Page_flags,chrome_driver):
     target_page = None
     for page in Page_flags:
         try:
+            if page['Iframe'] != '':
+                try:
+                    chrome_driver.switch_to(page['Iframe'])
+                except:
+                    continue
             if page['Flag_xpath'] == '':
                 if page['Flag_text'] in chrome_driver.page_source:
                     chrome_driver.find_element_by_text(page['Flag_text'])
@@ -564,11 +570,13 @@ def page_change(chrome_driver,page):
         print('timeout')
         return 0
 
-def step_detect(chrome_driver,xpaths):
+def step_detect(chrome_driver,xpaths,iframe=''):
     if xpaths[-1] == '':
         print('No xpath needed.........')
         return
     # selenium_funcs.scroll_and_find_up(chrome_driver,xpaths[-1])
+    if iframe != '':
+        chrome_driver.switch_to(iframe)
     WebDriverWait(chrome_driver,120).until(EC.visibility_of_element_located((By.XPATH,xpaths[-1])))
     print('xpath:',xpaths[-1],'ready')
 
