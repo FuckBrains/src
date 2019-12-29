@@ -47,7 +47,14 @@ def get_action(chrome_driver,data,submit):
     if action_func == 'Set_Refresh':
         chrome_driver.refresh()
         sleep(2)
-        return        
+        return    
+    if action_func == 'Alert':
+        dig_alert = chrome_driver.switch_to.alert
+        sleep(1)
+        print(dig_alert.text)
+        dig_alert.accept()
+        sleep(1)
+        return             
     if action_func == 'Set_Cookie':
         cookies = chrome_driver.get_cookies()
         cookie_str = json.dumps(cookies)

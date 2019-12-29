@@ -247,8 +247,19 @@ def get_birthday_year(date=''):
     birthday = get_auto_birthday(date)
     return birthday[2]
 
+def get_birthday_all(data=''):
+    '''
+    mm,dd,year
+    __/__/____
+    '''
+    birthday = get_auto_birthday(date)
+    birthday = str(birthday[0])+str(birthday[1])+str(birthday[2])
+    return birthday  
 
-def get_height_info():
+def get_height_info(a=''):
+    '''
+    num_info = [ft,in,weight]
+    '''
     num_ft = random.randint(5,7)
     num_in = random.randint(1,9)
     num_weight = random.randint(105,275)
@@ -257,6 +268,28 @@ def get_height_info():
     num_info['Height_Inch'] = num_in
     num_info['Weight'] = num_weight
     return num_info
+
+def get_height_ft(a=''):
+    '''
+    ft
+    '''
+    num_info = get_height_info()
+    return num_info['Height_FT']
+
+def get_height_inch(a=''):
+    '''
+    inch
+    '''
+    num_info = get_height_info()
+    return num_info['Height_Inch']
+
+def get_height_weight(a=''):
+    '''
+    weight
+    '''
+    num_info = get_height_info()
+    return num_info['Weight']
+
 
 def get_city_by_zip(zip_):
     url = 'https://tools.usps.com/tools/app/ziplookup/cityByZip'

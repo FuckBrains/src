@@ -905,7 +905,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         flag = {}
         flag = self.get_general_config(flag)
         flag['Step_config'] = {}
-        flag['Step_config']['sleep'] = str(self.lineEdit24.text)
+        print('str(self.lineEdit24.text):')
+        print(self.lineEdit24.text())
+        flag['Step_config']['sleep'] = str(self.lineEdit24.text())
         try:
             flag = db.upload_pageconfig(flag)
             self.alert("Add set sleep config success")
@@ -938,7 +940,21 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             flag = db.upload_pageconfig(flag)
             self.alert("Add set refresh config success")
         except Exception as e:
-            self.alert(str(e))            
+            self.alert(str(e))     
+
+    @pyqtSlot()
+    def on_pushButton35_clicked(self):
+        '''
+        add set Alert
+        '''
+        flag = {}
+        flag = self.get_general_config(flag)
+        flag['Step_config'] = {}
+        try:
+            flag = db.upload_pageconfig(flag)
+            self.alert("Add set Alert config success")
+        except Exception as e:
+            self.alert(str(e))                     
 
     @pyqtSlot()
     def on_pushButton30_clicked(self):

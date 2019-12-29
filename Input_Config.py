@@ -9,7 +9,7 @@ Input_Config ={
     'address'   : ['apt_get'],
     'homephone' : ['get_phone'],
     'zip'       : ['get_zip'],
-    'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year'],    
+    'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all'],    
     'email'     : ['select_email_type'],
     'cvv'          : ['cvv_get'],
     'katou'     : ['get_zip']
@@ -17,12 +17,13 @@ Input_Config ={
 
 Select_Config ={
     'state'       : ['get_name_real'],
-    'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year'],
+    'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all'],
 }
 
 Geberate_Config = {
     'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year'],    
     'pwd'         : ['password_get','password_get_Nostale'],        
+    'height'      : ['get_height_ft','get_height_inch','get_height_weight']    
 }
 
 
