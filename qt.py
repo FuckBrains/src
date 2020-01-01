@@ -699,6 +699,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         flag['General']['hidden_xpath'] = self.lineEdit25.text()        
         flag['General']['tagname'] = self.lineEdit26.text()                
         flag['General']['iframe'] = self.lineEdit23.text()
+        flag['General']['detect'] = self.comboBox29.currentText()
         return flag
  
     @pyqtSlot()

@@ -92,22 +92,22 @@ def writelog(chrome_driver,submit,content=''):
 
 def start(plans):
     print('Start func')
-    if plans[0]['sleep_flag'] == 2:
-        for num_ip in range(6):
-            try:
-                city = ip_test.ip_Test('','',country=plans[0]['Country'])
-                if  city != 'Not found':
-                    flag = 1
-                    proxy_info = ''
-                    break
-                if num_ip == 5:
-                    print('Net wrong...!!!!!!')
-                    changer.Restart()
-            except:
-                changer.Restart()     
-    for plan in plans:
-        plan['city'] = city
-        print('911 city:',city)   
+    # if plans[0]['sleep_flag'] == 2:
+    #     for num_ip in range(6):
+    #         try:
+    #             city = ip_test.ip_Test('','',country=plans[0]['Country'])
+    #             if  city != 'Not found':
+    #                 flag = 1
+    #                 proxy_info = ''
+    #                 break
+    #             if num_ip == 5:
+    #                 print('Net wrong...!!!!!!')
+    #                 changer.Restart()
+    #         except:
+    #             changer.Restart()     
+    # for plan in plans:
+    #     plan['city'] = city
+    #     print('911 city:',city)   
     requests = threadpool.makeRequests(multi_reg, plans)
     [pool.putRequest(req) for req in requests]
     pool.wait()     
@@ -149,7 +149,8 @@ def get_submit(Config):
             # print('Data for this mission:')
             # print(submit)
         except Exception as e:
-            print(str(e))
+            content = traceback.format_exc()  
+            print('traceback.format_exc():' ,content)              
             print('Get data wrong..................................')
             return None
         if submit['Excels_dup'][1] != '':
@@ -403,26 +404,26 @@ def web_submit(submit,chrome_driver,debug=0):
         '''
         get and sort page config
         '''
-        config = db.get_page_config(submit['Mission_Id'],page['Page'])
-        config.sort(key=takeStep)
-        print(config)
+        configs = db.get_page_config(submit['Mission_Id'],page['Page'])
+        configs.sort(key=takeStep)
+        print(configs)
 
         '''
         find all xpaths for every step
         '''
-        xpaths = []
-        for config_ in config:
+        # xpaths = []
+        for config_ in configs:
             print(config_)
             config_['General'] = json.loads(config_['General'])   
-            if config_['Action'] not in ['Set_Status','Set_Sleep'] :
-                xpaths.append(config_['General']['xpath']) 
-        print(xpaths)
+        #     if config_['Action'] not in ['Set_Status','Set_Sleep'] :
+        #         xpaths.append(config_['General']['xpath']) 
+        # print(xpaths)
         '''
         check step status for every step
         '''
-        if len(xpaths) !=0:
-            iframe = config_['General']['iframe']
-            step_detect(chrome_driver,xpaths) 
+        # if len(xpaths) !=0:
+        #     iframe = config_['General']['iframe']
+        step_detect(chrome_driver,configs) 
         print('All steps ready')
         '''
         stop window if every step is ready
@@ -445,8 +446,9 @@ def web_submit(submit,chrome_driver,debug=0):
         '''
         do step by config
         '''
-        for config_ in config:
+        for config_ in configs:
             try:
+                iframe_change(chrome_driver,config_['General']['iframe'])
                 selenium_funcs.get_action(chrome_driver,config_,submit)
                 sleep(1)
             except Exception as e:
@@ -477,7 +479,8 @@ def get_page_by_flag(Page_flags,chrome_driver):
             if page['Iframe'] != '':
                 try:
                     print("page['Iframe']:",page['Iframe'])
-                    chrome_driver.switch_to_frame(page['Iframe'])
+                    iframe_change(chrome_driver,page['Iframe'])
+                    # chrome_driver.switch_to_frame(page['Iframe'])
                 except Exception as e:
                     print(str(e))
                     continue
@@ -572,16 +575,32 @@ def page_change(chrome_driver,page):
         print('timeout')
         return 0
 
-def step_detect(chrome_driver,xpaths,iframe=''):
-    if xpaths[-1] == '':
-        print('No xpath needed.........')
-        return
+def step_detect(chrome_driver,configs):
+    # xpaths = []
+    configs_detect = []
+    for config in configs:
+        if config['Action'] in ['Click','Select','Input','Slide']:
+            if 'detect' not in config['General']:
+                configs_detect.append(config)
+
+            else:
+                print("config['General']['detect']:",config['General']['detect'])
+                if config['General']['detect'] == 'True':
+                    configs_detect.append(config)
     # selenium_funcs.scroll_and_find_up(chrome_driver,xpaths[-1])
-    if iframe != '':
-        print('iframe:',iframe)
+    for config in configs_detect:
+        iframe_change(chrome_driver,config['General']['iframe'])
+        WebDriverWait(chrome_driver,120).until(EC.visibility_of_element_located((By.XPATH,config['General']['xpath'])))
+        print('Step',config['Step'],' ready')
+
+def iframe_change(chrome_driver,iframes):
+    if iframes == '':
+        return
+    else:
+        iframes = iframes.split(',')
+    chrome_driver.switch_to.default_content() 
+    for iframe in iframes:
         chrome_driver.switch_to_frame(iframe)
-    WebDriverWait(chrome_driver,120).until(EC.visibility_of_element_located((By.XPATH,xpaths[-1])))
-    print('xpath:',xpaths[-1],'ready')
 
 def save_html(chrome_driver,Mission_Id,page):
     print('Title',chrome_driver.title)

@@ -67,8 +67,8 @@ def get_action(chrome_driver,data,submit):
         time_ = data['Step_config']['sleep']
         sleep(time_)
         return
-    if data['General']['iframe'] != '':
-        chrome_driver.switch_to_frame(data['General']['iframe'])
+    # if data['General']['iframe'] != '':
+    #     chrome_driver.switch_to_frame(data['General']['iframe'])
     # print("data['General']['iframe']",data['General']['iframe'])
     # scroll_and_find_up(chrome_driver,data['General']['xpath'])    
     # sleep(1)
