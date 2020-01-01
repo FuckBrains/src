@@ -50,11 +50,12 @@ def get_excel(path):
     sheet = workbook.sheet_by_index(0)
     return sheet,workbook    
 
-def get_one_data(sheet,Mission_Id):
+def get_one_data(sheet,Mission_Id,Country=''):
     rows = sheet.nrows
     # print(rows)
     # list_rows = random.sample(range(rows),rows)    
     badname = []
+    submit_ = {}
     for i in range(rows):
         print(i)
         if i==0:
@@ -62,7 +63,10 @@ def get_one_data(sheet,Mission_Id):
             continue
         values = sheet.row_values(i)
         submit = dict(zip(keys,values))
-        print(submit)  
+        print(submit) 
+        if Country != '': 
+            if submit['Country'] != Country:
+                continue
         key = 'Status_'+ str(Mission_Id)
         flag_alpha = True
         for key_ in submit:
@@ -76,11 +80,13 @@ def get_one_data(sheet,Mission_Id):
             if len(firstname) == 0:
                 submit['row'] = i
                 submit['badname'] = badname
-                return submit
+                submit_ = submit
+                break
             if len(lastname) == 0:
                 submit['row'] = i
                 submit['badname'] = badname
-                return submit            
+                submit_ = submit                
+                break            
             for part in firstname:
                 a = tools.is_alphabet(part)
                 if a == False:
@@ -97,10 +103,12 @@ def get_one_data(sheet,Mission_Id):
                 submit['row'] = i
                 submit['badname'] = badname
                 submit['lastname'] = lastname
-                submit['firstname'] = firstname                
-                return submit
+                submit['firstname'] = firstname   
+                submit_ = submit              
+                break
             else:
                 badname.append(i)
+    return submit_
 
 def change_ip(submit):
     country = submit['Country']
