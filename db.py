@@ -1444,7 +1444,7 @@ def get_luminati_submit(Config):
         submit = {}
         path = r'..\res\Dadao.xlsx'
         sheet,workbook = Dadao.get_excel(path)   
-        submit['Dadao'] = Dadao.get_one_data(sheet,Mission_Id)
+        submit['Dadao'] = Dadao.get_one_data(sheet,Mission_Id,Config['Country'])
         print(submit)
         if len(submit['Dadao']) == 0:
             return {}
