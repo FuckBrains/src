@@ -518,7 +518,7 @@ def create_plan_data(plan_id,Offer_links):
     # print(myname)
     myaddr = socket.gethostbyname(myname)
     # print(myaddr)
-    print('Start uploading')
+    # print('Start uploading')
     num_plan = 1
     for item in Offer_links:
         print(' uploading plan %d'%num_plan)
@@ -547,6 +547,11 @@ def create_plan_data(plan_id,Offer_links):
         else:
             proxy_zone = 'jia1'      
         Config['zone'] = proxy_zone  
+        if 'Record' in Offer_links[item]:
+            if Offer_links[item]['Record'] == 'False':
+                Offer_links[item]['Record'] = 0
+            else:
+                Offer_links[item]['Record'] = 1
         try:
             add_proxy(Offer_links[item]['port_lpm'],country=Offer_links[item]['Country'],proxy_config_name= proxy_zone,ip_lpm=ip_lpm)
         except:

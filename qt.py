@@ -545,6 +545,8 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             plans = luminati.create_plan_data(plan_id,self.offer_link)
         except Exception as e:
             self.alert(str(e))
+        print(plans)
+        print('=============')
         db.upload_plans(plans)                    
         print('Uploading finished')
 
