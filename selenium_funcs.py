@@ -44,10 +44,7 @@ def get_action(chrome_driver,data,submit):
     if action_func == 'Set_Status':
         db.update_plan_status(1,submit['ID']) 
         return
-    if action_func == 'Set_Refresh':
-        chrome_driver.refresh()
-        sleep(2)
-        return    
+  
     if action_func == 'Alert':
         dig_alert = chrome_driver.switch_to.alert
         sleep(1)
