@@ -446,22 +446,19 @@ def web_submit(submit,chrome_driver,debug=0):
         '''
         do step by config
         '''
-        flag_refresh = 0
+        
         for config_ in configs:
             try:
                 if config_['Action'] == 'Set_Refresh':
                     chrome_driver.refresh()
                     sleep(2)
-                    flag_refresh = 1
-                    break                  
+                    continue                  
                 iframe_change(chrome_driver,config_['General']['iframe'])
                 selenium_funcs.get_action(chrome_driver,config_,submit)
                 sleep(1)
             except Exception as e:
                 a = traceback.format_exc()            
                 print(a)
-        if flag_refresh == 1:
-            continue
         '''
         check page flag status,if changed,continue
         '''
