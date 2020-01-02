@@ -45,7 +45,7 @@ class Ui_MainWindow(object):
         self.lineEdit_2.setObjectName("lineEdit_2")
         self.gridLayout.addWidget(self.lineEdit_2, 0, 1, 1, 1)
         self.Dadao = QtWidgets.QTabWidget(self.centralwidget)
-        self.Dadao.setGeometry(QtCore.QRect(390, 20, 651, 511))
+        self.Dadao.setGeometry(QtCore.QRect(390, 20, 651, 521))
         self.Dadao.setObjectName("Dadao")
         self.widget = QtWidgets.QWidget()
         self.widget.setObjectName("widget")
@@ -366,7 +366,7 @@ class Ui_MainWindow(object):
         self.label_27.setFont(font)
         self.label_27.setObjectName("label_27")
         self.tabWidget = QtWidgets.QTabWidget(self.tab_6)
-        self.tabWidget.setGeometry(QtCore.QRect(40, 100, 581, 371))
+        self.tabWidget.setGeometry(QtCore.QRect(40, 110, 581, 361))
         self.tabWidget.setObjectName("tabWidget")
         self.tab_11 = QtWidgets.QWidget()
         self.tab_11.setObjectName("tab_11")
@@ -1095,8 +1095,8 @@ class Ui_MainWindow(object):
         self.actionDelete.setObjectName("actionDelete")
 
         self.retranslateUi(MainWindow)
-        self.Dadao.setCurrentIndex(3)
-        self.tabWidget.setCurrentIndex(1)
+        self.Dadao.setCurrentIndex(6)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

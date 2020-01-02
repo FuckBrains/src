@@ -99,14 +99,14 @@
       <x>390</x>
       <y>20</y>
       <width>651</width>
-      <height>511</height>
+      <height>521</height>
      </rect>
     </property>
     <property name="toolTip">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="widget">
      <attribute name="title">
@@ -1049,13 +1049,13 @@
       <property name="geometry">
        <rect>
         <x>40</x>
-        <y>100</y>
+        <y>110</y>
         <width>581</width>
-        <height>371</height>
+        <height>361</height>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_11">
        <attribute name="title">
