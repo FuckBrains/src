@@ -92,22 +92,22 @@ def writelog(chrome_driver,submit,content=''):
 
 def start(plans):
     print('Start func')
-    if plans[0]['sleep_flag'] == 2:
-        for num_ip in range(6):
-            try:
-                city = ip_test.ip_Test('','',country=plans[0]['Country'])
-                if  city != 'Not found':
-                    flag = 1
-                    proxy_info = ''
-                    break
-                if num_ip == 5:
-                    print('Net wrong...!!!!!!')
-                    changer.Restart()
-            except:
-                changer.Restart()     
-    for plan in plans:
-        plan['city'] = city
-        print('911 city:',city)   
+    # if plans[0]['sleep_flag'] == 2:
+    #     for num_ip in range(6):
+    #         try:
+    #             city = ip_test.ip_Test('','',country=plans[0]['Country'])
+    #             if  city != 'Not found':
+    #                 flag = 1
+    #                 proxy_info = ''
+    #                 break
+    #             if num_ip == 5:
+    #                 print('Net wrong...!!!!!!')
+    #                 changer.Restart()
+    #         except:
+    #             changer.Restart()     
+    # for plan in plans:
+    #     plan['city'] = city
+    #     print('911 city:',city)   
     requests = threadpool.makeRequests(multi_reg, plans)
     [pool.putRequest(req) for req in requests]
     pool.wait()     
@@ -454,6 +454,7 @@ def web_submit(submit,chrome_driver,debug=0):
                 if config_['Action'] == 'Set_Refresh':
                     if flag_refresh == 0:
                         chrome_driver.refresh()
+                        print('Chrome refreshing......')
                         flag_refresh = 1
                         break                        
                     else:
@@ -466,6 +467,7 @@ def web_submit(submit,chrome_driver,debug=0):
                 a = traceback.format_exc()
                 print(a)
         if flag_refresh == 1:
+            print('flag_refresh = ',flag_refresh)
             continue
         '''
         check page flag status,if changed,continue
@@ -527,6 +529,14 @@ def get_page_by_flag(Page_flags,chrome_driver):
 def page_detect(Page_flags,chrome_driver):
     page = None
     for i in range(60):
+        for i in range(120):
+            status = chrome_driver.execute_script("return document.readyState")
+            if status == 'loading':
+                print('document status:',status)
+                sleep(1)
+            else:
+                print('document status:',status)
+                break
         page = get_page_by_flag(Page_flags,chrome_driver)
         if page == None:
             print('Page Flag Not Found,',i+1)
@@ -595,7 +605,6 @@ def step_detect(chrome_driver,configs):
         if config['Action'] in ['Click','Select','Input','Slide']:
             if 'detect' not in config['General']:
                 configs_detect.append(config)
-
             else:
                 print("config['General']['detect']:",config['General']['detect'])
                 if config['General']['detect'] == 'True':
