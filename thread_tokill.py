@@ -374,10 +374,12 @@ def web_submit(submit,chrome_driver,debug=0):
     # chrome_driver.maximize_window()    
     # chrome_driver.refresh()
     handle = chrome_driver.current_window_handle
+    flag_refresh = 0
     while True:
         '''
         turn to other page
         '''
+
         handles=chrome_driver.window_handles   
         for i in handles:
             if i != handle:        
@@ -404,17 +406,17 @@ def web_submit(submit,chrome_driver,debug=0):
         '''
         get and sort page config
         '''
-        configs = db.get_page_config(submit['Mission_Id'],page['Page'])
-        configs.sort(key=takeStep)
-        print(configs)
-
-        '''
-        find all xpaths for every step
-        '''
-        # xpaths = []
-        for config_ in configs:
-            print(config_)
-            config_['General'] = json.loads(config_['General'])   
+        if flag_refresh == 0:        
+            configs = db.get_page_config(submit['Mission_Id'],page['Page'])
+            configs.sort(key=takeStep)
+            print(configs)
+            '''
+            find all xpaths for every step
+            '''
+            # xpaths = []
+            for config_ in configs:
+                print(config_)
+                config_['General'] = json.loads(config_['General'])   
         #     if config_['Action'] not in ['Set_Status','Set_Sleep'] :
         #         xpaths.append(config_['General']['xpath']) 
         # print(xpaths)
@@ -446,19 +448,25 @@ def web_submit(submit,chrome_driver,debug=0):
         '''
         do step by config
         '''
-        
+        # flag_refresh = 0
         for config_ in configs:
             try:
                 if config_['Action'] == 'Set_Refresh':
-                    chrome_driver.refresh()
-                    sleep(2)
-                    continue                  
+                    if flag_refresh == 0:
+                        chrome_driver.refresh()
+                        flag_refresh = 1
+                        break                        
+                    else:
+                        continue
                 iframe_change(chrome_driver,config_['General']['iframe'])
                 selenium_funcs.get_action(chrome_driver,config_,submit)
+                flag_refresh = 0
                 sleep(1)
             except Exception as e:
-                a = traceback.format_exc()            
+                a = traceback.format_exc()
                 print(a)
+        if flag_refresh == 1:
+            continue
         '''
         check page flag status,if changed,continue
         '''
