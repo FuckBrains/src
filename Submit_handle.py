@@ -10,7 +10,7 @@ import os
 Already handled:
 ['']
 '''
-def password_get():
+def password_get(submit=''):
     '''
     随机生成密码，长度9-15位
     a = '0123456789'
@@ -44,7 +44,7 @@ def password_get():
             pwd += d[random.randint(0,len(d)-1)]                                    
     return pwd
 
-def password_get_Nostale():
+def password_get_Nostale(submit=''):
     '''
     0aA
     '''
@@ -86,9 +86,7 @@ def cvv_get(cvv):
         pass
     return cvv
 
-
-
-def get_pwd_real():
+def get_pwd_real(submit=''):
     with open(r'ini\pwd.ini','r') as f:
         lines  = f.readlines()
         pwds = []
@@ -111,7 +109,7 @@ def get_pwd_real():
         pwd = pwd[0:insert_num]+b[b_insert]+pwd[insert_num:]
     return pwd
 
-def get_pwd_real2():
+def get_pwd_real2(submit=''):
     with open(r'ini\pwd.ini','r') as f:
         lines  = f.readlines()
         pwds = []
