@@ -246,7 +246,7 @@ def Input(chrome_driver,data,submit):
     clear_deep(element)
     if data['Step_config']['input_key'] != 'False':
         if data['Step_config']['input_func'] != 'False' :
-            content = eval('Submit_handle.'+data['Step_config']['input_func'])(submit[data['Step_config']['input_key']])
+            content = eval('Submit_handle.'+data['Step_config']['input_func'])(submit)
         else:
             content = submit[data['Step_config']['input_key']]
     elif data['Step_config']['input_generate'] != 'False':

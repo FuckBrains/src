@@ -73,10 +73,11 @@ def password_get_Nostale(submit=''):
             pwd += d[random.randint(0,len(d)-1)]                                    
     return pwd
 
-def cvv_get(cvv):
+def cvv_get(submit=''):
     '''
     cvv
     '''
+    cvv = submit['cvv']
     cvv = str(cvv).split('.')[0]
     if len(cvv) == 1:
         cvv = '00'+cvv
@@ -180,17 +181,19 @@ def Submit_handle(submit):
         submit['handle'] = False          
     return submit
 
-def get_zip(zip_):
+def get_zip(submit):
     '''
     四位数zip前添加0,
     处理zip后面的.0
     '''
+    zip_ = submit['zip']
     zip_ = zip_.split('.')[0]
     if len(zip_) == 4:
         zip_ = '0' + zip_
     return zip_ 
 
-def apt_get(address):
+def apt_get(submit):
+    address = submit['address']
     if ' ' in address:
         apt = address.split(' ')[0]
         if not apt.isdecimal():
@@ -351,14 +354,26 @@ def get_fullname(submit):
     name = firstname + ' ' +lastname
     return name
 
-def get_phone(phone):
+def get_phone(submit):
     '''
     处理电话后的.
     '''
+    phone = submit['homephone']
     phone_ = phone.replace('(','').replace(')','').replace('-','')
     if '.' in phone_:
         phone_ = (phone_).split('.')[0]
     return phone_
+
+def get_phone_dadao(submit):
+    '''
+    123-123-12345
+    '''
+    phone = submit['phone']
+    a = phone[0:3]
+    b = phone[3:6]
+    c = phone[6:]
+    phone = a+'-'+b+'-'+c
+    return phone
 
 def get_uk_phone1(phone):
     phone = phone.replace(' ','')

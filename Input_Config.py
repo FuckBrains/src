@@ -13,7 +13,8 @@ Input_Config ={
     'email'     : ['select_email_type'],
     'cvv'          : ['cvv_get'],
     'katou'     : ['get_zip'],
-    'fullname'    : ['get_fullname'],      
+    'fullname'    : ['get_fullname'],  
+    'phone'     : ['get_phone_dadao']    
 }
 
 Select_Config ={
