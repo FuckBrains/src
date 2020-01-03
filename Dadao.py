@@ -126,7 +126,7 @@ def change_ip(submit):
 def write_status(path,workbook,submit,content):
     book2 = copy(workbook)
     sheet2 = book2.get_sheet(0) 
-    col = int(str(submit['Mission_Id'])[-1])+11
+    col = int(str(submit['Mission_Id'])[-1])+12
     print(col)
     sheet2.write(submit['row'],col,content)
     book2.save(path)
