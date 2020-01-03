@@ -251,7 +251,7 @@ def Input(chrome_driver,data,submit):
             content = submit[data['Step_config']['input_key']]
     elif data['Step_config']['input_generate'] != 'False':
         if data['Step_config']['input_func'] != 'False' :
-            content = eval('Submit_handle.'+data['Step_config']['input_func'])()
+            content = eval('Submit_handle.'+data['Step_config']['input_func'])(submit)
             submit[data['Step_config']['input_generate']] = content
         else:
             content = submit[data['Step_config']['input_generate']]

@@ -247,7 +247,7 @@ def get_birthday_year(date=''):
     birthday = get_auto_birthday(date)
     return birthday[2]
 
-def get_birthday_all(data=''):
+def get_birthday_all(date=''):
     '''
     mm,dd,year
     __/__/____
@@ -333,6 +333,25 @@ def transfer_zipcode_into_city():
                 print(city)
             except:
                 print('')
+
+def get_fullname(submit):
+    '''
+    firstname+' '+lastname
+    '''
+    if 'firstname' in submit:
+        firstname = submit['firstname']
+    elif 'first_name' in submit:
+        firstname = submit['first_name']
+    else:
+        firstname = ''
+    if 'lastname' in submit:
+        lastname = submit['lastname']
+    elif 'last_name' in submit:
+        lastname = submit['last_name']
+    else:
+        lastname = ''
+    name = firstname + ' ' +lastname
+    return name
 
 def get_phone(phone):
     '''

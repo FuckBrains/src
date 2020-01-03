@@ -12,7 +12,8 @@ Input_Config ={
     'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all'],    
     'email'     : ['select_email_type'],
     'cvv'          : ['cvv_get'],
-    'katou'     : ['get_zip']
+    'katou'     : ['get_zip'],
+    'fullname'    : ['get_fullname'],      
 }
 
 Select_Config ={
@@ -20,10 +21,11 @@ Select_Config ={
     'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all'],
 }
 
-Geberate_Config = {
+Generate_Config = {
     'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year'],    
     'pwd'         : ['password_get','password_get_Nostale'],        
-    'height'      : ['get_height_ft','get_height_inch','get_height_weight']    
+    'height'      : ['get_height_ft','get_height_inch','get_height_weight'],  
+    'fullname'    : ['get_fullname'],  
 }
 
 
@@ -48,14 +50,14 @@ def get_select_config(key):
         return []
 
 def get_generate_config(key):
-    global Geberate_Config
-    if key in Geberate_Config:
-        print('Input_Config[key]:',Geberate_Config[key])
-        return Geberate_Config[key]
+    global Generate_Config
+    if key in Generate_Config:
+        print('Input_Config[key]:',Generate_Config[key])
+        return Generate_Config[key]
     else:
         # print('Input_Config[key]:=====[]')        
         return []
 
 def get_generate_items():
-    global Geberate_Config
-    return Geberate_Config    
+    global Generate_Config
+    return Generate_Config    
