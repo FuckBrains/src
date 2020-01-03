@@ -1007,6 +1007,19 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         def write_config():
             pass
 
+    @pyqtSlot()
+    def on_pushButton36_clicked(self):
+        country = self.comboBox5.currentText()
+        submit = {}
+        submit['Country'] = country
+        submit['Mission_Id'] = 10000
+        chrome_driver = Chrome_driver.get_chrome(submit,1)
+        url = self.lineEdit.text()
+        chrome_driver.get(url)
+        sleep(3000)
+
+
+
 def test_k():
     file = r'ini\Offer_num.ini'
     with open(file,'a+') as f:

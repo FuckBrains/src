@@ -1050,8 +1050,8 @@ def test_qt_test():
     qt.test_k()
 
 def more_test():
-    ID = 579
-    status = db.get_plan_status(ID)
+    ID = 11005
+    status = db.get_page_flag(ID)
     print(status)
 
 
