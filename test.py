@@ -1050,9 +1050,13 @@ def test_qt_test():
     qt.test_k()
 
 def more_test():
-    ID = 11005
-    status = db.get_page_flag(ID)
-    print(status)
+    Mission_Id = 11006
+    import Dadao
+    submit = {}
+    path = r'..\res\Dadao.xlsx'
+    sheet,workbook = Dadao.get_excel(path)   
+    submit['Dadao'] = Dadao.get_one_data(sheet,Mission_Id,'FR')
+    print(submit)
 
 
 
