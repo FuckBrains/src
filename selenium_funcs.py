@@ -61,8 +61,12 @@ def get_action(chrome_driver,data,submit):
         # db.upload_accounts(submit) 
         return
     if action_func == 'Set_Sleep':
-        time_ = data['Step_config']['sleep']
-        sleep(time_)
+        time_ = int(data['Step_config']['sleep'])
+        try:
+            print('sleep:',time_)
+            sleep(time_)
+        except Exception as e:
+            print('sleep fail:',str(e))
         return
     # if data['General']['iframe'] != '':
     #     chrome_driver.switch_to_frame(data['General']['iframe'])
