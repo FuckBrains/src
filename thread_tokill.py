@@ -431,7 +431,17 @@ def web_submit(submit,chrome_driver,debug=0):
         '''
         stop window if every step is ready
         '''
-        chrome_driver.execute_script("window.stop();")            
+        if submit['Excels_dup'][0] != 'Dadao':
+            chrome_driver.execute_script("window.stop();")            
+        else:
+            for i in range(120):
+                status = chrome_driver.execute_script("return document.readyState")
+                if status != 'complete':
+                    print('document status:',status)
+                    sleep(1)
+                else:
+                    print('document status:',status)
+                    break            
         # wait = WebDriverWait(chrome_driver,1)
         # try:
         #     wait.until(EC.visibility_of_element_located((By.XPATH,'aaaaaaaa')))
