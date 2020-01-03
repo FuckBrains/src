@@ -461,7 +461,7 @@ def web_submit(submit,chrome_driver,debug=0):
                     else:
                         continue
                 iframe_change(chrome_driver,config_['General']['iframe'])
-                selenium_funcs.get_action(chrome_driver,config_,submit)
+                submit = selenium_funcs.get_action(chrome_driver,config_,submit)
                 flag_refresh = 0
                 sleep(1)
             except Exception as e:

@@ -43,7 +43,7 @@ def get_action(chrome_driver,data,submit):
     print(action_func)
     if action_func == 'Set_Status':
         db.update_plan_status(1,submit['ID']) 
-        return
+        return submit
   
     if action_func == 'Alert':
         dig_alert = chrome_driver.switch_to.alert
@@ -51,7 +51,7 @@ def get_action(chrome_driver,data,submit):
         print(dig_alert.text)
         dig_alert.accept()
         sleep(1)
-        return             
+        return submit            
     if action_func == 'Set_Cookie':
         cookies = chrome_driver.get_cookies()
         cookie_str = json.dumps(cookies)
@@ -59,7 +59,7 @@ def get_action(chrome_driver,data,submit):
         submit['BasicInfo_Id'] = submit[key_excel]['BasicInfo_Id']
         write_cookie(cookie_str,submit['Country'])
         # db.upload_accounts(submit) 
-        return
+        return submit
     if action_func == 'Set_Sleep':
         time_ = int(data['Step_config']['sleep'])
         try:
@@ -67,7 +67,7 @@ def get_action(chrome_driver,data,submit):
             sleep(time_)
         except Exception as e:
             print('sleep fail:',str(e))
-        return
+        return submit
     # if data['General']['iframe'] != '':
     #     chrome_driver.switch_to_frame(data['General']['iframe'])
     # print("data['General']['iframe']",data['General']['iframe'])
@@ -75,12 +75,19 @@ def get_action(chrome_driver,data,submit):
     # sleep(1)
     # print("data['General']['scroll']",data['General']['scroll'])        
     if data['General']['try'] == 'True':
-        try:    
-            eval(action_func)(chrome_driver,data,submit[key_excel])
+        try:
+            if action_func == 'Input':
+                submit[key_excel] = eval(action_func)(chrome_driver,data,submit[key_excel])
+            else:
+                eval(action_func)(chrome_driver,data,submit[key_excel])                
         except Exception as e:
             traceback_ = traceback.format_exc()
     else:
-        eval(action_func)(chrome_driver,data,submit[key_excel])
+        if action_func == 'Input':
+            submit[key_excel] = eval(action_func)(chrome_driver,data,submit[key_excel])
+        else:
+            eval(action_func)(chrome_driver,data,submit[key_excel])
+    return submit
 
 def scroll_and_find(chrome_driver,element):
     target = chrome_driver.find_element_by_xpath(element) 
@@ -245,11 +252,13 @@ def Input(chrome_driver,data,submit):
     elif data['Step_config']['input_generate'] != 'False':
         if data['Step_config']['input_func'] != 'False' :
             content = eval('Submit_handle.'+data['Step_config']['input_func'])()
+            submit[data['Step_config']['input_generate']] = content
         else:
             content = submit[data['Step_config']['input_generate']]
     else:
         content = submit[data['Step_config']['input_content']]
     element.send_keys(content)
+    return submit
 
 def Click(chrome_driver,data,submit):
     if 'class_name' in data['General']:
