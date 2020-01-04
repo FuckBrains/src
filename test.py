@@ -1051,13 +1051,11 @@ def test_qt_test():
 
 def more_test():
     Mission_Id = 11006
-    import Dadao
-    submit = {}
-    path = r'..\res\Dadao.xlsx'
-    sheet,workbook = Dadao.get_excel(path)   
-    submit['Dadao'] = Dadao.get_one_data(sheet,Mission_Id,'FR')
-    print(submit)
-
+    Page_flags = db.get_page_flag(Mission_Id)
+    print(Page_flags)
+    Page_flags = [item for item in Page_flags if item['Country'] == '']
+    print(Page_flags)
+    
 
 
 if __name__ == '__main__':

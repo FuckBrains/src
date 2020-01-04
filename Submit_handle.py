@@ -190,7 +190,10 @@ def get_zip(submit):
     四位数zip前添加0,
     处理zip后面的.0
     '''
-    zip_ = submit['zip']
+    if 'zip' in submit:
+        zip_ = submit['zip']
+    elif 'katou' in submit:
+        zip_ = submit['katou']
     zip_ = zip_.split('.')[0]
     if len(zip_) == 4:
         zip_ = '0' + zip_

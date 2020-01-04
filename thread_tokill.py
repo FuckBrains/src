@@ -359,7 +359,6 @@ def web_submit(submit,chrome_driver,debug=0):
     # Excel_tag = 'Auto'    
     # num_html = 1
     # Mission_Id = 10046
-
     # if debug == 1:
     #     site = 'http://tracking.axad.com/aff_c?offer_id=181&aff_id=2138'
     #     submit['Site'] = site
