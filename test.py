@@ -1053,9 +1053,9 @@ def more_test():
     Mission_Id = 11006
     Page_flags = db.get_page_flag(Mission_Id)
     print(Page_flags)
-    Page_flags = [item for item in Page_flags if item['Country'] == '']
+    Page_flags = [item for item in Page_flags if item['Country'] == 'US']
     print(Page_flags)
-    
+
 
 
 if __name__ == '__main__':

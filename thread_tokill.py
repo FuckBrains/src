@@ -363,6 +363,7 @@ def web_submit(submit,chrome_driver,debug=0):
     #     site = 'http://tracking.axad.com/aff_c?offer_id=181&aff_id=2138'
     #     submit['Site'] = site
     Page_flags = db.get_page_flag(submit['Mission_Id'])
+    Page_flags = [item for item in Page_flags if item['Country'] == submit['Country']]    
     print(Page_flags) 
     print('============')
     print(submit['Site'])

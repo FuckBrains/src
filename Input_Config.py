@@ -26,7 +26,8 @@ Generate_Config = {
     'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year'],    
     'pwd'         : ['password_get','password_get_Nostale'],        
     'height'      : ['get_height_ft','get_height_inch','get_height_weight'],  
-    'fullname'    : ['get_fullname'],  
+    'fullname'    : ['get_fullname'], 
+    'firstname' : ['get_name_real'],     
 }
 
 
