@@ -44,7 +44,12 @@ def get_action(chrome_driver,data,submit):
     if action_func == 'Set_Status':
         db.update_plan_status(1,submit['ID']) 
         return submit
-  
+    if action_func == 'Js':
+        chrome_driver.execute_script(data['Step_config']['js_remove'])
+        date = Submit_handle.get_next_payday_bi_str()
+        js_set_value = data['Step_config']['js_set_value']+date+'"'
+        chrome_driver.execute_script(js_set_value)        
+        return submit  
     if action_func == 'Alert':
         dig_alert = chrome_driver.switch_to.alert
         sleep(1)
@@ -259,6 +264,7 @@ def Input(chrome_driver,data,submit):
         if data['Step_config']['input_func'] != 'False' :
             content = eval('Submit_handle.'+data['Step_config']['input_func'])(submit)
             submit[data['Step_config']['input_generate']] = content
+            print('content:',content)
         else:
             content = submit[data['Step_config']['input_generate']]
     else:
@@ -276,15 +282,16 @@ def Click(chrome_driver,data,submit):
             return element
     else:
         WebDriverWait(chrome_driver,120).until(EC.element_to_be_clickable((By.XPATH,data['General']['xpath'])))    
-    if ',' in data['General']['xpath']:
-        xpaths = data['General']['xpath'].split(',')
-        num = len(xpaths)
-        num_ = random.randint(0,num)
-        xpath = xpaths[num_]
     if data['General']['hidden_xpath'] != '':
         xpath = data['General']['hidden_xpath']
     else:
-        xpath = data['General']['xpath'] 
+        if ',' in data['General']['xpath']:
+            xpaths = data['General']['xpath'].split(',')
+            num = len(xpaths)
+            num_ = random.randint(0,num)
+            xpath = xpaths[num_] 
+        else:       
+            xpath = data['General']['xpath'] 
     try:
         element = chrome_driver.find_element_by_xpath(xpath)
         element.click()

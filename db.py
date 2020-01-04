@@ -1263,6 +1263,7 @@ def delete_page(Mission_Id,Page):
     Execute_sql(sql_content)
 
 def delete_step(Mission_Id,Page,Step):
+    print('===')
     sql_content = 'DELETE from Page_Config WHERE Mission_Id = "%d" and Page = "%s" and Step = "%d"'%(int(Mission_Id),str(Page),int(Step))    
     sql_content = [sql_content]
     Execute_sql(sql_content)

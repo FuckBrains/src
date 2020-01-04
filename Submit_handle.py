@@ -342,6 +342,23 @@ def get_ssn(submit):
     ssn = chansfer_float_into_int(ssn)
     return ssn
 
+def get_routing_number(submit=''):
+    '''
+    routing_number
+    '''
+    routing_number = submit['routing_number']
+    routing_number = chansfer_float_into_int(routing_number)
+    return routing_number
+
+def get_account_number(submit=''):
+    '''
+    account_number
+    '''
+    account_number = submit['account_number']
+    account_number = chansfer_float_into_int(account_number)
+    return account_number
+
+
 def get_drivers_license(submit):
     '''
     drivers_license
@@ -365,35 +382,43 @@ def get_fullname(submit):
     '''
     firstname+' '+lastname
     '''
-    if 'firstname' in submit:
-        firstname = submit['firstname']
-    elif 'first_name' in submit:
-        firstname = submit['first_name']
-    else:
-        firstname = ''
-    if 'lastname' in submit:
-        lastname = submit['lastname']
-    elif 'last_name' in submit:
-        lastname = submit['last_name']
-    else:
-        lastname = ''
+    keys = ['firstname','first_name']
+    firstname = get_value(keys,submit)
+    keys = ['lastname','last_name']
+    lastname = get_value(keys,submit)
     name = firstname + ' ' +lastname
     return name
+
+def get_value(keys,submit):
+    value = None
+    for key in keys:
+        if key in submit:
+            if submit[key] != None:
+                value = submit[key]
+    return value
 
 def get_phone(submit):
     '''
     处理电话后的.
     '''
-    if 'homephone' in submit:
-        phone = submit['homephone']
-    elif 'home_phone' in submit:
-        phone = submit['home_phone']
-    else:
-        pass
+    keys = ['homephone','home_phone']
+    phone = get_value(keys,submit)
     phone_ = phone.replace('(','').replace(')','').replace('-','')
     if '.' in phone_:
         phone_ = (phone_).split('.')[0]
     return phone_
+
+def get_workphone(submit):
+    '''
+    处理电话后的.
+    '''
+    keys = ['workphone','work_phone']
+    phone = get_value(keys,submit)
+    phone_ = phone.replace('(','').replace(')','').replace('-','')
+    if '.' in phone_:
+        phone_ = (phone_).split('.')[0]
+    return phone_
+
 
 def get_phone_dadao(submit):
     '''
@@ -420,6 +445,9 @@ def get_uk_phone1(phone):
     return phone
 
 def get_next_payday():
+    '''
+    [Janauary,01,1991] 
+    '''
     import datetime
     year = datetime.datetime.now().year
     month = datetime.datetime.now().month
@@ -438,6 +466,14 @@ def get_next_payday():
     date = []
     date = [month,day_pay,year,]
     return date
+
+def get_next_payday_bi_str(submit=''):
+    '''
+    Janauary 01,2020
+    '''
+    payday = get_next_payday()
+    payday_ = payday[0]+' '+str(payday[1])+','+str(payday[2]) 
+    return payday_   
 
 def makedir_pic(path):
     isExists=os.path.exists(path)

@@ -50,11 +50,11 @@ flag:
 def main(i):
     # while True:
     for j in range(1):
-        try:
-            tools.killpid()
-        except Exception as e:
-            print(str(e))
-            pass
+        # try:
+        #     tools.killpid()
+        # except Exception as e:
+        #     print(str(e))
+        #     pass
         account = db.get_account()
         plan_id = account['plan_id']
         # print('Plan_id:',plan_id,',connecting sql for plan info...')
@@ -82,7 +82,7 @@ def main(i):
         print('All Missions finished..............')
         try:
             print('try killing pids')
-            tools.killpid()
+            # tools.killpid()
             print('kill pids finished')
         except Exception as e:
             print(str(e))

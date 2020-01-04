@@ -9,6 +9,8 @@ Input_Config ={
     'address'   : ['apt_get'],
     'homephone' : ['get_phone'],
     'home_phone' : ['get_phone'],    
+    'workphone' : ['get_workphone'],
+    'work_phone' : ['get_workphone'],    
     'zip'       : ['get_zip'],
     'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all'],    
     'email'     : ['select_email_type'],
@@ -19,6 +21,8 @@ Input_Config ={
     'date_of_birth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all'],    
     'ssn'           : ['get_ssn'],
     'drivers_license': ['get_drivers_license'],
+    'routing_number' : ['get_routing_number'],
+    'account_number' : ['get_account_number'],
 }
 
 Select_Config ={
@@ -31,7 +35,8 @@ Generate_Config = {
     'pwd'         : ['password_get','password_get_Nostale'],        
     'height'      : ['get_height_ft','get_height_inch','get_height_weight'],  
     'fullname'    : ['get_fullname'], 
-    'firstname' : ['get_name_real'],     
+    'firstname' : ['get_name_real'],  
+    'next_pay_day':['get_next_payday_bi_str']   ,
 }
 
 

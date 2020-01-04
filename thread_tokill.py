@@ -91,23 +91,23 @@ def writelog(chrome_driver,submit,content=''):
         # print(e.__traceback__.tb_lineno)                        # 发生异常所在的行数    
 
 def start(plans):
-    print('Start func')
-    if plans[0]['sleep_flag'] == 2:
-        for num_ip in range(6):
-            try:
-                city = ip_test.ip_Test('','',country=plans[0]['Country'])
-                if  city != 'Not found':
-                    flag = 1
-                    proxy_info = ''
-                    break
-                if num_ip == 5:
-                    print('Net wrong...!!!!!!')
-                    changer.Restart()
-            except:
-                changer.Restart()     
-    for plan in plans:
-        plan['city'] = city
-        print('911 city:',city)   
+    # print('Start func')
+    # if plans[0]['sleep_flag'] == 2:
+    #     for num_ip in range(6):
+    #         try:
+    #             city = ip_test.ip_Test('','',country=plans[0]['Country'])
+    #             if  city != 'Not found':
+    #                 flag = 1
+    #                 proxy_info = ''
+    #                 break
+    #             if num_ip == 5:
+    #                 print('Net wrong...!!!!!!')
+    #                 changer.Restart()
+    #         except:
+    #             changer.Restart()     
+    # for plan in plans:
+    #     plan['city'] = city
+    #     print('911 city:',city)   
     requests = threadpool.makeRequests(multi_reg, plans)
     [pool.putRequest(req) for req in requests]
     pool.wait()     
@@ -307,7 +307,7 @@ def reg_part_(submit):
     except:
         pass
 
-@timeout(600)
+@timeout(1200)
 def reg_part_cpl(submit):
     print('reg_part')
     global timezone 
@@ -427,6 +427,7 @@ def web_submit(submit,chrome_driver,debug=0):
         # if len(xpaths) !=0:
         #     iframe = config_['General']['iframe']
         step_detect(chrome_driver,configs) 
+        # sleep(3)
         print('All steps ready')
         '''
         stop window if every step is ready
@@ -542,7 +543,7 @@ def page_detect(Page_flags,chrome_driver):
     for i in range(60):
         for i in range(120):
             status = chrome_driver.execute_script("return document.readyState")
-            if status == 'loading':
+            if status != 'complete':
                 print('document status:',status)
                 sleep(1)
             else:

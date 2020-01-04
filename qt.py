@@ -1006,8 +1006,6 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             text = 'Rules:\n'
             self.textBrowser4.setText(text)
 
-        def write_config():
-            pass
 
     @pyqtSlot()
     def on_pushButton36_clicked(self):
@@ -1020,6 +1018,24 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         chrome_driver.get(url)
         sleep(3000)
 
+    @pyqtSlot()
+    def on_pushButton37_clicked(self):
+        '''
+        Recorder_Js
+        '''
+        flag = {}
+        flag = self.get_general_config(flag)
+        flag['Step_config'] = {}
+        elem_id = self.lineEdit29.text()
+        js_remove = 'document.getElementById("%s").removeAttribute("readonly")'%elem_id
+        js_set_value = 'document.getElementById("%s").value="'%(elem_id)
+        flag['Step_config']['js_remove'] = js_remove
+        flag['Step_config']['js_set_value'] = js_set_value
+        try:
+            flag = db.upload_pageconfig(flag)
+            self.alert("Add click config success")
+        except Exception as e:
+            self.alert(str(e))
 
 
 def test_k():

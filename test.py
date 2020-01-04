@@ -1056,6 +1056,10 @@ def more_test():
     Page_flags = [item for item in Page_flags if item['Country'] == 'US']
     print(Page_flags)
 
+def test_ps():
+    import Submit_handle
+    day = Submit_handle.get_next_payday_bi_str()
+    print(day)
 
 
 if __name__ == '__main__':
@@ -1065,4 +1069,4 @@ if __name__ == '__main__':
     elif i==1:
         test_account()
     else:
-        more_test()
+        test_ps()
