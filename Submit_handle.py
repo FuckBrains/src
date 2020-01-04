@@ -77,7 +77,10 @@ def cvv_get(submit=''):
     '''
     cvv
     '''
+    print('func name: cvv_get')
+    print('submit:',submit)
     cvv = submit['cvv']
+    print('cvv get fix..........:',cvv)
     cvv = str(cvv).split('.')[0]
     if len(cvv) == 1:
         cvv = '00'+cvv
@@ -85,6 +88,7 @@ def cvv_get(submit=''):
         cvv = '0' + cvv
     else:
         pass
+    print('cvv after fixed')
     return cvv
 
 def get_pwd_real(submit=''):

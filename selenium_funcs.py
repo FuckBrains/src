@@ -242,13 +242,19 @@ def Slide(chrome_driver,data,submit):
     ActionChains(chrome_driver).click_and_hold(brightnessSlider).move_by_offset(x_move_num,y_move_num).release().perform()#通过move_by_offset()移动滑块，-6表示在水平方向上往左移动6个像素，7表示在垂直方向上往上移动7个像素    
 
 def Input(chrome_driver,data,submit):
+    print('submit in INput:',submit)
+    print('data:',data)
+    print('city:',submit['City'])
     element = Click(chrome_driver,data,submit)
+    print('after click')
     clear_deep(element)
+    print('after clear_deep')
     if data['Step_config']['input_key'] != 'False':
         if data['Step_config']['input_func'] != 'False' :
             content = eval('Submit_handle.'+data['Step_config']['input_func'])(submit)
         else:
             content = submit[data['Step_config']['input_key']]
+            print(content)
     elif data['Step_config']['input_generate'] != 'False':
         if data['Step_config']['input_func'] != 'False' :
             content = eval('Submit_handle.'+data['Step_config']['input_func'])(submit)
