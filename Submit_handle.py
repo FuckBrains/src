@@ -328,8 +328,27 @@ def get_city_by_zip(zip_):
     # print(requests.get('https://adpgtrack.com/click/5d43f1a4a03594103a75da46/146827/233486/subaccount').text) 
 
 def chansfer_float_into_int(str_float):
+    '''
+    12354.0-->>12354
+    '''
     str_int = (str_float.split('.'))[0]
     return str_int
+
+def get_ssn(submit):
+    '''
+    ssn
+    '''
+    ssn = submit['ssn']
+    ssn = chansfer_float_into_int(ssn)
+    return ssn
+
+def get_drivers_license(submit):
+    '''
+    drivers_license
+    '''
+    drivers_license = submit['drivers_license']
+    drivers_license = chansfer_float_into_int(drivers_license)
+    return drivers_license
 
 def transfer_zipcode_into_city():
     with open('testzip.txt') as f:
@@ -365,7 +384,12 @@ def get_phone(submit):
     '''
     处理电话后的.
     '''
-    phone = submit['homephone']
+    if 'homephone' in submit:
+        phone = submit['homephone']
+    elif 'home_phone' in submit:
+        phone = submit['home_phone']
+    else:
+        pass
     phone_ = phone.replace('(','').replace(')','').replace('-','')
     if '.' in phone_:
         phone_ = (phone_).split('.')[0]

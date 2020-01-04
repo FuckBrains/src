@@ -8,13 +8,17 @@ Input_Config ={
     'last_name'  : ['get_name_real'],    
     'address'   : ['apt_get'],
     'homephone' : ['get_phone'],
+    'home_phone' : ['get_phone'],    
     'zip'       : ['get_zip'],
     'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all'],    
     'email'     : ['select_email_type'],
     'cvv'          : ['cvv_get'],
     'katou'     : ['get_zip'],
     'fullname'    : ['get_fullname'],  
-    'phone'     : ['get_phone_dadao']    
+    'phone'     : ['get_phone_dadao'],    
+    'date_of_birth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all'],    
+    'ssn'           : ['get_ssn'],
+    'drivers_license': ['get_drivers_license'],
 }
 
 Select_Config ={

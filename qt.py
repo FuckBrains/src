@@ -213,6 +213,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             j+=1
 
     def set_comboBox21(self):
+        import Input_Config        
         _translate = QtCore.QCoreApplication.translate
         key = self.comboBox20.currentText()
         if key == 'False':
@@ -232,6 +233,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             self.comboBox21.setItemText(j+1, _translate("MainWindow", methods[j]))
 
     def set_comboBox24(self):
+        import Input_Config
         _translate = QtCore.QCoreApplication.translate
         key = self.comboBox19.currentText()
         methods = Input_Config.get_select_config(key)
