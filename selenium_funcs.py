@@ -243,8 +243,8 @@ def Slide(chrome_driver,data,submit):
 
 def Input(chrome_driver,data,submit):
     print('submit in INput:',submit)
-    print('data:',data)
-    print('city:',submit['City'])
+    # print('data:',data)
+    # print('city:',submit['City'])
     element = Click(chrome_driver,data,submit)
     print('after click')
     clear_deep(element)
