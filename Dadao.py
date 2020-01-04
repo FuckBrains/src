@@ -52,7 +52,7 @@ def get_excel(path):
 
 def get_one_data(sheet,Mission_Id,Country=''):
     rows = sheet.nrows
-    # print(rows)
+    print(rows)
     # list_rows = random.sample(range(rows),rows)    
     badname = []
     submit_ = {}
