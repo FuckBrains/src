@@ -108,6 +108,7 @@ def get_one_data(sheet,Mission_Id,Country=''):
                 break
             else:
                 badname.append(i)
+    print('submit find:',submit)
     return submit_
 
 def change_ip(submit):
