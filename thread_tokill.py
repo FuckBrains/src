@@ -541,7 +541,7 @@ def get_page_by_flag(Page_flags,chrome_driver):
 def page_detect(Page_flags,chrome_driver):
     page = None
     for i in range(60):
-        for i in range(120):
+        for i in range(600):
             status = chrome_driver.execute_script("return document.readyState")
             if status != 'complete':
                 print('document status:',status)
