@@ -78,21 +78,59 @@ def get_action(chrome_driver,data,submit):
     # print("data['General']['iframe']",data['General']['iframe'])
     # scroll_and_find_up(chrome_driver,data['General']['xpath'])    
     # sleep(1)
-    # print("data['General']['scroll']",data['General']['scroll'])        
+    # print("data['General']['scroll']",data['General']['scroll'])   
+    element = ''
+    if 'father_type' in data['General']:
+        element = get_element(chrome_driver,data)
+        print('Element get before action_func:',element)
     if data['General']['try'] == 'True':
         try:
             if action_func == 'Input':
-                submit[key_excel] = eval(action_func)(chrome_driver,data,submit[key_excel])
+                submit[key_excel] = eval(action_func)(chrome_driver,data,submit[key_excel],element)
             else:
-                eval(action_func)(chrome_driver,data,submit[key_excel])                
+                eval(action_func)(chrome_driver,data,submit[key_excel],element)
         except Exception as e:
-            traceback_ = traceback.format_exc()
+            a = traceback_ = traceback.format_exc()
+            print(a)
     else:
         if action_func == 'Input':
-            submit[key_excel] = eval(action_func)(chrome_driver,data,submit[key_excel])
+            submit[key_excel] = eval(action_func)(chrome_driver,data,submit[key_excel],element)
         else:
-            eval(action_func)(chrome_driver,data,submit[key_excel])
+            eval(action_func)(chrome_driver,data,submit[key_excel],element)
     return submit
+
+def get_element(chrome_driver,data):
+    father_elem = ''
+    if data['General']['father_type'] != 'False':
+        #find father elem with xpath or class
+        content_father = data['General']['father_content']
+        method_father = data['General']['father_type']
+        father_elem = get_elem_part(chrome_driver,method_father,content_father)
+    if father_elem != '':
+        # find child elem from father elem
+        elem = father_elem
+    else:
+        # find elem without father elem
+        elem = chrome_driver
+    content_child = data['General']['child_content']
+    method_child = data['General']['child_type']        
+    element = get_elem_part(elem,method_child,content_child)
+    return element
+
+def get_elem_part(elem,method,content):
+    if ',' in content:
+        contents = content.split(',')
+        num = len(contents)
+        num_ = random.randint(0,num-1)
+        content = contents[num_]
+    element = ''
+    if method == 'Xpath':
+        element = elem.find_element_by_xpath(content)
+    elif method == 'Class':
+        element = elem.find_element_by_class_name(content)
+    else:
+        pass
+    return element
 
 def scroll_and_find(chrome_driver,element):
     target = chrome_driver.find_element_by_xpath(element) 
@@ -118,7 +156,7 @@ def clear_deep(element):
     element.send_keys(Keys.CONTROL,'a')
     element.send_keys(Keys.BACK_SPACE)
 
-def Select(chrome_driver,data,submit):
+def Select(chrome_driver,data,submit,element_new=''):
     '''
     select_type:
         1.select_by_index
@@ -133,40 +171,44 @@ def Select(chrome_driver,data,submit):
     '''
     # if data['General']['hidden_xpath'] != '':
     #     print("data['General']['hidden_xpath']:",data['General']['hidden_xpath'])
-    #     element = chrome_driver.find_element_by_xpath(data['General']['hidden_xpath'])    
-    if data['General']['tagname'] != '':
-        element = chrome_driver.find_element_by_xpath(data['General']['xpath'])
-        element.click()
-        sleep(2)
-        print('Find element of xpath')
-        if ',' in data['General']['hidden_xpath'] :
-            xpaths_hidden = data['General']['hidden_xpath'].split(',')
-            tagnames = data['General']['tagname'].split(',')
-            print('xpaths_hidden',xpaths_hidden)
-            print('tagnames:',tagnames)
-        else:
-            xpaths_hidden = [data['General']['hidden_xpath']]
-            tagnames = [data['General']['tagname']]
-        for xpath_ in xpaths_hidden:
-            print('xpath_',xpath_)
-            try:
-                element_hidden = chrome_driver.find_element_by_xpath(xpath_)
-                index_tag = xpaths_hidden.index(xpath_)
-                print('index_tag:',index_tag)
-                options = element_hidden.find_elements_by_tag_name(tagnames[index_tag])
-                num = random.randint(1,len(options)-1)
-                sleep(1)
-                print(options)
-                options[num].click()
-                return  
-            except:
-                traceback.print_exc()
-    elif data['General']['hidden_xpath'] != '':
-        element = chrome_driver.find_element_by_xpath(data['General']['hidden_xpath'])        
-        print('Find element of hidden_xpath')        
+    #     element = chrome_driver.find_element_by_xpath(data['General']['hidden_xpath'])
+    if element_new != '':
+        element = element_new
     else:
-        element = chrome_driver.find_element_by_xpath(data['General']['xpath'])        
-        print('also xpath')
+        if data['General']['tagname'] != '':
+            element = chrome_driver.find_element_by_xpath(data['General']['xpath'])
+            element.click()
+            sleep(2)
+            print('Find element of xpath')
+            if ',' in data['General']['hidden_xpath'] :
+                xpaths_hidden = data['General']['hidden_xpath'].split(',')
+                tagnames = data['General']['tagname'].split(',')
+                print('xpaths_hidden',xpaths_hidden)
+                print('tagnames:',tagnames)
+            else:
+                xpaths_hidden = [data['General']['hidden_xpath']]
+                tagnames = [data['General']['tagname']]
+            for xpath_ in xpaths_hidden:
+                print('xpath_',xpath_)
+                try:
+                    element_hidden = chrome_driver.find_element_by_xpath(xpath_)
+                    index_tag = xpaths_hidden.index(xpath_)
+                    print('index_tag:',index_tag)
+                    options = element_hidden.find_elements_by_tag_name(tagnames[index_tag])
+                    num = random.randint(1,len(options)-1)
+                    sleep(1)
+                    print(options)
+                    options[num].click()
+                    return
+                except:
+                    a = traceback.print_exc()
+                    print(a)
+        elif data['General']['hidden_xpath'] != '':
+            element = chrome_driver.find_element_by_xpath(data['General']['hidden_xpath'])        
+            print('Find element of hidden_xpath')        
+        else:
+            element = chrome_driver.find_element_by_xpath(data['General']['xpath'])        
+            print('also xpath')
     s1 = Select_(element)    
     options = s1.options
     values = []
@@ -239,18 +281,21 @@ def Select(chrome_driver,data,submit):
         #     num = random.randint(0,len(data['Step_config']['select_value_list'])-1)
         #     s1.select_by_value(str(data['Step_config']['select_value_list'][num]))            
 
-def Slide(chrome_driver,data,submit):
+def Slide(chrome_driver,data,submit,element_new=''):
     brightnessSlider=chrome_driver.find_element_by_xpath(data['General']['xpath'])
     #定位到滑动块
     x_move_num = random.randint(data['slide']['x_move_min'],data['slide']['x_move_max'])
     y_move_num = random.randint(data['slide']['y_move_min'],data['slide']['y_move_max'])    
     ActionChains(chrome_driver).click_and_hold(brightnessSlider).move_by_offset(x_move_num,y_move_num).release().perform()#通过move_by_offset()移动滑块，-6表示在水平方向上往左移动6个像素，7表示在垂直方向上往上移动7个像素    
 
-def Input(chrome_driver,data,submit):
+def Input(chrome_driver,data,submit,element_new=''):
     print('submit in INput:',submit)
     # print('data:',data)
     # print('city:',submit['City'])
-    element = Click(chrome_driver,data,submit)
+    if element_new != '':
+        element = element_new
+    else:
+        element=Click(chrome_driver,data,submit,element_new)
     print('after click')
     clear_deep(element)
     print('after clear_deep')
@@ -272,33 +317,39 @@ def Input(chrome_driver,data,submit):
     element.send_keys(content)
     return submit
 
-def Click(chrome_driver,data,submit):
-    if 'class_name' in data['General']:
-        if data['General']['class_name'] != '':
-            try:
-                element = chrome_driver.find_element_by_class_name(data['General']['class_name'])
-            except:
-                pass
-            return element
+def Click(chrome_driver,data,submit,element_new=''):
+    if element_new != '':
+        element = element_new
     else:
-        WebDriverWait(chrome_driver,120).until(EC.element_to_be_clickable((By.XPATH,data['General']['xpath'])))    
-    if data['General']['hidden_xpath'] != '':
-        xpath = data['General']['hidden_xpath']
-    else:
-        if ',' in data['General']['xpath']:
-            xpaths = data['General']['xpath'].split(',')
-            num = len(xpaths)
-            num_ = random.randint(0,num)
-            xpath = xpaths[num_] 
-        else:       
-            xpath = data['General']['xpath'] 
+        if 'class_name' in data['General']:
+            if data['General']['class_name'] != '':
+                try:
+                    element = chrome_driver.find_element_by_class_name(data['General']['class_name'])
+                    element.click()
+                except:
+                    pass
+                return element
+        else:
+            WebDriverWait(chrome_driver,120).until(EC.element_to_be_clickable((By.XPATH,data['General']['xpath'])))    
+        if data['General']['hidden_xpath'] != '':
+            xpath = data['General']['hidden_xpath']
+        else:
+            if ',' in data['General']['xpath']:
+                xpaths = data['General']['xpath'].split(',')
+                num = len(xpaths)
+                num_ = random.randint(0,num-1)
+                xpath = xpaths[num_] 
+            else:       
+                xpath = data['General']['xpath'] 
+        element = chrome_driver.find_element_by_xpath(xpath)                
     try:
-        element = chrome_driver.find_element_by_xpath(xpath)
         element.click()
-    except:
-        element = chrome_driver.find_element_by_xpath(xpath)
+    except Exception as e:
+        print('Click error:',str(e))
+        # element = chrome_driver.find_element_by_xpath(xpath)
         actions = ActionChains(chrome_driver)
-        actions.move_to_element_with_offset(element,0,0).click().perform()           
+        actions.move_to_element_with_offset(element,30,-30).click().perform()  
+        print('ActionChains simulate success.........')         
     return element
 
 

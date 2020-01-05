@@ -1057,9 +1057,8 @@ def more_test():
     print(Page_flags)
 
 def test_ps():
-    import Submit_handle
-    day = Submit_handle.get_next_payday_bi_str()
-    print(day)
+    num = random.randint(0,0)
+    print(num)
 
 
 if __name__ == '__main__':

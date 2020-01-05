@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1068</width>
-    <height>575</height>
+    <height>611</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -99,7 +99,7 @@
       <x>390</x>
       <y>20</y>
       <width>651</width>
-      <height>521</height>
+      <height>551</height>
      </rect>
     </property>
     <property name="toolTip">
@@ -1081,14 +1081,14 @@
      <widget class="QTabWidget" name="tabWidget">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>110</y>
-        <width>581</width>
-        <height>361</height>
+        <x>30</x>
+        <y>100</y>
+        <width>591</width>
+        <height>411</height>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_11">
        <attribute name="title">
@@ -1469,39 +1469,6 @@
          <string>Try</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_32">
-        <property name="geometry">
-         <rect>
-          <x>60</x>
-          <y>230</y>
-          <width>91</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>11</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Xpath</string>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="lineEdit17">
-        <property name="geometry">
-         <rect>
-          <x>130</x>
-          <y>230</y>
-          <width>141</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
        <widget class="QComboBox" name="comboBox17">
         <property name="geometry">
          <rect>
@@ -1817,7 +1784,7 @@
         <property name="geometry">
          <rect>
           <x>130</x>
-          <y>200</y>
+          <y>230</y>
           <width>141</width>
           <height>20</height>
          </rect>
@@ -1829,8 +1796,8 @@
        <widget class="QLabel" name="label_45">
         <property name="geometry">
          <rect>
-          <x>60</x>
-          <y>200</y>
+          <x>30</x>
+          <y>230</y>
           <width>91</width>
           <height>20</height>
          </rect>
@@ -1846,44 +1813,11 @@
          <string>Iframe</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit25">
-        <property name="geometry">
-         <rect>
-          <x>130</x>
-          <y>260</y>
-          <width>141</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_34">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>260</y>
-          <width>111</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>11</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Hidden_Xpath</string>
-        </property>
-       </widget>
        <widget class="QLineEdit" name="lineEdit26">
         <property name="geometry">
          <rect>
           <x>130</x>
-          <y>290</y>
+          <y>340</y>
           <width>141</width>
           <height>20</height>
          </rect>
@@ -1895,8 +1829,8 @@
        <widget class="QLabel" name="label_49">
         <property name="geometry">
          <rect>
-          <x>50</x>
-          <y>290</y>
+          <x>30</x>
+          <y>340</y>
           <width>111</width>
           <height>20</height>
          </rect>
@@ -1910,39 +1844,6 @@
         </property>
         <property name="text">
          <string>tagname</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_50">
-        <property name="geometry">
-         <rect>
-          <x>290</x>
-          <y>230</y>
-          <width>101</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>11</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Class_name</string>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="lineEdit27">
-        <property name="geometry">
-         <rect>
-          <x>390</x>
-          <y>230</y>
-          <width>141</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
         </property>
        </widget>
        <widget class="QLabel" name="label_52">
@@ -1987,6 +1888,127 @@
         <item>
          <property name="text">
           <string>True</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLabel" name="label_57">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>300</y>
+          <width>101</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Elem</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit32">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>300</y>
+          <width>141</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_56">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>260</y>
+          <width>101</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Father_elem</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="comboBox31">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>300</y>
+          <width>131</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <item>
+         <property name="text">
+          <string>Xpath</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Class</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit31">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>260</y>
+          <width>141</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="comboBox30">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>260</y>
+          <width>131</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <item>
+         <property name="text">
+          <string>False</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Xpath</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Class</string>
          </property>
         </item>
        </widget>
