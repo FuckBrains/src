@@ -426,7 +426,7 @@ def web_submit(submit,chrome_driver,debug=0):
         '''
         # if len(xpaths) !=0:
         #     iframe = config_['General']['iframe']
-        step_detect(chrome_driver,configs) 
+        # step_detect(chrome_driver,configs) 
         # sleep(3)
         print('All steps ready')
         '''
@@ -435,14 +435,14 @@ def web_submit(submit,chrome_driver,debug=0):
         # if submit['Excels_dup'][0] != 'Dadao':
         #     chrome_driver.execute_script("window.stop();")            
         # else:
-        for i in range(180):
-            status = chrome_driver.execute_script("return document.readyState")
-            if status != 'complete':
-                print('document status:',status)
-                sleep(1)
-            else:
-                print('document status:',status)
-                break            
+        # for i in range(180):
+        #     status = chrome_driver.execute_script("return document.readyState")
+        #     if status != 'complete':
+        #         print('document status:',status)
+        #         sleep(1)
+        #     else:
+        #         print('document status:',status)
+        #         break            
         # wait = WebDriverWait(chrome_driver,1)
         # try:
         #     wait.until(EC.visibility_of_element_located((By.XPATH,'aaaaaaaa')))
