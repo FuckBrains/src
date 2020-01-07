@@ -342,12 +342,39 @@ def get_ssn(submit):
     ssn = chansfer_float_into_int(ssn)
     return ssn
 
+def ssn_last4(submit):
+    '''
+    last 4 of ssn
+    '''
+    ssn = get_ssn(submit)
+    ssn_ = ssn[-4:]
+    return ssn_
+
+def ssn_first_3(submit):
+    '''
+    first 3 of ssn
+    '''
+    ssn = get_ssn(submit)
+    ssn_ = ssn[0:3]
+    return ssn_
+
+def ssn_mid_2(submit):
+    '''
+    mid 2 of ssn
+    '''
+    ssn = get_ssn(submit)
+    ssn_ = ssn[3:5]
+    return ssn_
+
+
 def get_routing_number(submit=''):
     '''
     routing_number
     '''
     routing_number = submit['routing_number']
     routing_number = chansfer_float_into_int(routing_number)
+    if len(routing_number) == 8:
+        routing_number = '0' + routing_number
     return routing_number
 
 def get_account_number(submit=''):
@@ -408,6 +435,69 @@ def get_phone(submit):
         phone_ = (phone_).split('.')[0]
     return phone_
 
+def get_phone_3(submit):
+    '''
+    phone: 1234567890
+    return : 123
+
+    '''
+    phone = get_phone(submit)
+    phone_ = phone[0:3]
+    return phone_
+
+def get_phone_6(submit):
+    '''
+    phone: 1234567890
+    return : 456
+
+    '''
+    phone = get_phone(submit)
+    phone_ = phone[3:6]
+    return phone_
+
+def get_phone_10(submit):
+    '''
+    phone: 1234567890
+    return : 7890
+
+    '''
+    phone = get_phone(submit)
+    phone_ = phone[6:]
+    return phone_
+
+
+
+def get_workphone_3(submit):
+    '''
+    phone: 1234567890
+    return : 123
+
+    '''
+    phone = get_workphone(submit)
+    phone_ = phone[0:3]
+    return phone_
+
+def get_workphone_6(submit):
+    '''
+    phone: 1234567890
+    return : 456
+
+    '''
+    phone = get_workphone(submit)
+    phone_ = phone[3:6]
+    return phone_
+
+def get_workphone_10(submit):
+    '''
+    phone: 1234567890
+    return : 7890
+
+    '''
+    phone = get_workphone(submit)
+    phone_ = phone[6:]
+    return phone_
+
+
 def get_workphone(submit):
     '''
     处理电话后的.
@@ -444,7 +534,7 @@ def get_uk_phone1(phone):
         phone = phone[3:]
     return phone
 
-def get_next_payday():
+def get_next_payday_list(submit):
     '''
     [Janauary,01,1991] 
     '''
@@ -459,13 +549,25 @@ def get_next_payday():
             day_pay = 28
     else:
         day_pay = 15
+    # month = get_month_word(month)
+    date = []
+    date = [month,day_pay,year,]
+    return date
+
+def get_month_word(month):
     month_word = ['January','February','March','April','May','June','July','August','September','October','November','December']
     month_list = [i+1 for i in range(12)]
     index = month_list.index(month)
     month = month_word[index]
-    date = []
-    date = [month,day_pay,year,]
+    return month    
+
+def get_next_payday():
+    date = get_next_payday_list('')
+    month = date[0]
+    month = get_month_word(month)
+    date[0] = month
     return date
+
 
 def get_next_payday_bi_str(submit=''):
     '''
@@ -474,6 +576,23 @@ def get_next_payday_bi_str(submit=''):
     payday = get_next_payday()
     payday_ = payday[0]+' '+str(payday[1])+','+str(payday[2]) 
     return payday_   
+
+def get_next_payday_dd(submit):
+    '''
+    dd
+    '''
+    payday = get_next_payday_list('')
+    payday_dd = payday[1]
+    return payday_dd
+
+def get_next_payday_mm(submit):
+    '''
+    mm
+    '''
+    payday = get_next_payday_list('')
+    payday_mm = payday[0]
+    return payday_mm
+
 
 def makedir_pic(path):
     isExists=os.path.exists(path)

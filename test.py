@@ -1057,8 +1057,9 @@ def more_test():
     print(Page_flags)
 
 def test_ps():
-    num = random.randint(0,0)
-    print(num)
+    a = '123456789'
+    b = a[-4:]
+    print(b)
 
 
 if __name__ == '__main__':

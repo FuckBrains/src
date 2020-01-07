@@ -7,10 +7,10 @@ Input_Config ={
     'lastname'  : ['get_name_real'],
     'last_name'  : ['get_name_real'],    
     'address'   : ['apt_get'],
-    'homephone' : ['get_phone'],
-    'home_phone' : ['get_phone'],    
-    'workphone' : ['get_workphone'],
-    'work_phone' : ['get_workphone'],    
+    'homephone' : ['get_phone','get_phone_3','get_phone_6','get_phone_10'],
+    'home_phone' : ['get_phone','get_phone_3','get_phone_6','get_phone_10'],
+    'workphone' : ['get_workphone','get_workphone_3','get_workphone_6','get_workphone_10'],
+    'work_phone' : ['get_workphone','get_workphone_3','get_workphone_6','get_workphone_10'],    
     'zip'       : ['get_zip'],
     'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all'],    
     'email'     : ['select_email_type'],
@@ -19,7 +19,7 @@ Input_Config ={
     'fullname'    : ['get_fullname'],  
     'phone'     : ['get_phone_dadao'],    
     'date_of_birth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all'],    
-    'ssn'           : ['get_ssn'],
+    'ssn'           : ['get_ssn','ssn_first_3','ssn_mid_2','ssn_last4'],
     'drivers_license': ['get_drivers_license'],
     'routing_number' : ['get_routing_number'],
     'account_number' : ['get_account_number'],
@@ -27,7 +27,8 @@ Input_Config ={
 
 Select_Config ={
     'state'       : ['get_name_real'],
-    'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all'],
+    'date_of_birth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all'],
+    'pay_period':['get_next_payday_mm','get_next_payday_dd'],    
 }
 
 Generate_Config = {
