@@ -102,16 +102,20 @@ def get_action(chrome_driver,data,submit):
 def get_element(chrome_driver,data):
     father_elem = ''
     if data['General']['father_type'] != 'False':
-        #find father elem with xpath or class
-        content_father = data['General']['father_content']
-        method_father = data['General']['father_type']
-        father_elem = get_elem_part(chrome_driver,method_father,content_father)
+        if data['General']['father_content'] != '':
+            #find father elem with xpath or class
+            content_father = data['General']['father_content']
+            method_father = data['General']['father_type']
+            father_elem = get_elem_part(chrome_driver,method_father,content_father)
+            print('find father elem with xpath or class')
     if father_elem != '':
         # find child elem from father elem
         elem = father_elem
+        print('find child elem from father elem')
     else:
         # find elem without father elem
         elem = chrome_driver
+        print('find elem without father elem')
     content_child = data['General']['child_content']
     method_child = data['General']['child_type']        
     element = get_elem_part(elem,method_child,content_child)
@@ -124,10 +128,18 @@ def get_elem_part(elem,method,content):
         num_ = random.randint(0,num-1)
         content = contents[num_]
     element = ''
+    print('get_elem_part:content-->',content)
     if method == 'Xpath':
+        'by xpath'
         element = elem.find_element_by_xpath(content)
     elif method == 'Class':
+        print('by class')
         element = elem.find_element_by_class_name(content)
+    elif method == 'Tag':
+        print('by tag name')
+        elements = elem.find_elements_by_tag_name(content)
+        num = random.randint(0,len(elements)-1)
+        element = elements[num]
     else:
         pass
     return element

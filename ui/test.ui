@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1068</width>
-    <height>611</height>
+    <height>558</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -99,7 +99,7 @@
       <x>390</x>
       <y>20</y>
       <width>651</width>
-      <height>551</height>
+      <height>511</height>
      </rect>
     </property>
     <property name="toolTip">
@@ -1084,11 +1084,11 @@
         <x>30</x>
         <y>100</y>
         <width>591</width>
-        <height>411</height>
+        <height>371</height>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab_11">
        <attribute name="title">
@@ -1813,39 +1813,6 @@
          <string>Iframe</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit26">
-        <property name="geometry">
-         <rect>
-          <x>160</x>
-          <y>310</y>
-          <width>141</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_49">
-        <property name="geometry">
-         <rect>
-          <x>60</x>
-          <y>310</y>
-          <width>111</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>11</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>tagname</string>
-        </property>
-       </widget>
        <widget class="QLabel" name="label_52">
         <property name="geometry">
          <rect>
@@ -1968,6 +1935,11 @@
           <string>Class</string>
          </property>
         </item>
+        <item>
+         <property name="text">
+          <string>Tag</string>
+         </property>
+        </item>
        </widget>
        <widget class="QLineEdit" name="lineEdit31">
         <property name="geometry">
@@ -2009,6 +1981,11 @@
         <item>
          <property name="text">
           <string>Class</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Tag</string>
          </property>
         </item>
        </widget>
