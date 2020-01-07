@@ -403,7 +403,7 @@ def web_submit(submit,chrome_driver,debug=0):
         '''
         save html
         '''
-        save_html(chrome_driver,submit['Mission_Id'],page['Page'])
+        # save_html(chrome_driver,submit['Mission_Id'],page['Page'])
         '''
         get and sort page config
         '''

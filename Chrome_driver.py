@@ -148,9 +148,10 @@ def get_chrome(submit = None,pic=0):
             ua = get_ua_random(uas)
             print(ua)  
         if 'Record' in submit:
-            if submit['Record'] == 1:
-                desired_capabilities["pageLoadStrategy"] = "none" 
-                print('Record chrome')                       
+            print('Cancle record modern')
+            # if submit['Record'] == 1:
+            #     desired_capabilities["pageLoadStrategy"] = "none" 
+            #     print('Record chrome')                       
         if 'Country' in submit:
             language = get_lan_config(submit['Country'])
             options.add_argument('-lang=' +language )            

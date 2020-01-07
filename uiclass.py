@@ -2,11 +2,13 @@
 
 # Form implementation generated from reading ui file 'ui\test.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -579,11 +581,11 @@ class Ui_MainWindow(object):
         self.lineEdit18.setText("")
         self.lineEdit18.setObjectName("lineEdit18")
         self.lineEdit23 = QtWidgets.QLineEdit(self.tab_12)
-        self.lineEdit23.setGeometry(QtCore.QRect(130, 230, 141, 20))
+        self.lineEdit23.setGeometry(QtCore.QRect(160, 200, 141, 20))
         self.lineEdit23.setText("")
         self.lineEdit23.setObjectName("lineEdit23")
         self.label_45 = QtWidgets.QLabel(self.tab_12)
-        self.label_45.setGeometry(QtCore.QRect(30, 230, 91, 20))
+        self.label_45.setGeometry(QtCore.QRect(60, 200, 91, 20))
         font = QtGui.QFont()
         font.setPointSize(11)
         font.setBold(True)
@@ -591,11 +593,11 @@ class Ui_MainWindow(object):
         self.label_45.setFont(font)
         self.label_45.setObjectName("label_45")
         self.lineEdit26 = QtWidgets.QLineEdit(self.tab_12)
-        self.lineEdit26.setGeometry(QtCore.QRect(130, 340, 141, 20))
+        self.lineEdit26.setGeometry(QtCore.QRect(160, 310, 141, 20))
         self.lineEdit26.setText("")
         self.lineEdit26.setObjectName("lineEdit26")
         self.label_49 = QtWidgets.QLabel(self.tab_12)
-        self.label_49.setGeometry(QtCore.QRect(30, 340, 111, 20))
+        self.label_49.setGeometry(QtCore.QRect(60, 310, 111, 20))
         font = QtGui.QFont()
         font.setPointSize(11)
         font.setBold(True)
@@ -619,7 +621,7 @@ class Ui_MainWindow(object):
         self.comboBox29.addItem("")
         self.comboBox29.addItem("")
         self.label_57 = QtWidgets.QLabel(self.tab_12)
-        self.label_57.setGeometry(QtCore.QRect(30, 300, 101, 20))
+        self.label_57.setGeometry(QtCore.QRect(60, 270, 101, 20))
         font = QtGui.QFont()
         font.setPointSize(11)
         font.setBold(True)
@@ -627,11 +629,11 @@ class Ui_MainWindow(object):
         self.label_57.setFont(font)
         self.label_57.setObjectName("label_57")
         self.lineEdit32 = QtWidgets.QLineEdit(self.tab_12)
-        self.lineEdit32.setGeometry(QtCore.QRect(280, 300, 141, 20))
+        self.lineEdit32.setGeometry(QtCore.QRect(310, 270, 141, 20))
         self.lineEdit32.setText("")
         self.lineEdit32.setObjectName("lineEdit32")
         self.label_56 = QtWidgets.QLabel(self.tab_12)
-        self.label_56.setGeometry(QtCore.QRect(30, 260, 101, 20))
+        self.label_56.setGeometry(QtCore.QRect(60, 230, 101, 20))
         font = QtGui.QFont()
         font.setPointSize(11)
         font.setBold(True)
@@ -639,7 +641,7 @@ class Ui_MainWindow(object):
         self.label_56.setFont(font)
         self.label_56.setObjectName("label_56")
         self.comboBox31 = QtWidgets.QComboBox(self.tab_12)
-        self.comboBox31.setGeometry(QtCore.QRect(130, 300, 131, 25))
+        self.comboBox31.setGeometry(QtCore.QRect(160, 270, 131, 25))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.comboBox31.setFont(font)
@@ -647,11 +649,11 @@ class Ui_MainWindow(object):
         self.comboBox31.addItem("")
         self.comboBox31.addItem("")
         self.lineEdit31 = QtWidgets.QLineEdit(self.tab_12)
-        self.lineEdit31.setGeometry(QtCore.QRect(280, 260, 141, 20))
+        self.lineEdit31.setGeometry(QtCore.QRect(310, 230, 141, 20))
         self.lineEdit31.setText("")
         self.lineEdit31.setObjectName("lineEdit31")
         self.comboBox30 = QtWidgets.QComboBox(self.tab_12)
-        self.comboBox30.setGeometry(QtCore.QRect(130, 260, 131, 25))
+        self.comboBox30.setGeometry(QtCore.QRect(160, 230, 131, 25))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.comboBox30.setFont(font)
@@ -1452,4 +1454,3 @@ class Ui_MainWindow(object):
         self.actionDB.setText(_translate("MainWindow", "DB"))
         self.actionAdd.setText(_translate("MainWindow", "Add"))
         self.actionDelete.setText(_translate("MainWindow", "Delete"))
-
