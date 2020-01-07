@@ -699,9 +699,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         flag['General']['scroll'] = self.comboBox11.currentText() 
         flag['General']['try'] = self.comboBox16.currentText() 
         # flag['General']['xpath'] = self.lineEdit17.text()
-        flag['General']['father_type'] = self.comboBox30.text()        
+        flag['General']['father_type'] = self.comboBox30.currentText()        
         flag['General']['father_content'] = self.lineEdit31.text()
-        flag['General']['child_type'] = self.comboBox31.text()        
+        flag['General']['child_type'] = self.comboBox31.currentText()        
         flag['General']['child_content'] = self.lineEdit32.text()        
 
         # flag['General']['class_name'] = self.lineEdit27.text()        
