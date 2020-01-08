@@ -23,12 +23,14 @@ import random
 def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
-        site = 'http://www.baidu.com'
+        site = 'https://go.byoffers.net/click?pid=170&offer_id=1268'
         submit['Site'] = site
     # js = 'window.location.href="%s"'(submit['Site'])
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    
-    chrome_driver.refresh()
+    # chrome_driver.refresh()
+    chrome_driver.switch_to_frame('rsIframe')
+    chrome_driver.find_element_by_xpath('//*[@id="page1"]/button[3]').click()
     sleep(5000)
 
 
@@ -36,18 +38,18 @@ def test():
     # db.email_test()
     # date_of_birth = Submit_handle.get_auto_birthday('')         
     Mission_list = ['10023']
-    excel = 'Ukchoujiang'    
+    excel = 'Uspd'    
     Excel_name = [excel,'']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
     # [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None]
     [print(item,':',submit[excel][item]) for item in submit[excel] if item == 'homephone']  
     submit['Mission_Id'] = '10023'
-    phone = submit[excel]['homephone']
-    phone = Submit_handle.get_uk_phone1(phone)
-    print(phone)
-    # chrome_driver = Chrome_driver.get_chrome(submit)
-    # web_submit(submit,chrome_driver,1)
+    # phone = submit[excel]['homephone']
+    # phone = Submit_handle.get_uk_phone1(phone)
+    # print(phone)
+    chrome_driver = Chrome_driver.get_chrome(submit)
+    web_submit(submit,chrome_driver,1)
 
 
 if __name__=='__main__':

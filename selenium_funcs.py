@@ -263,12 +263,19 @@ def Select(chrome_driver,data,submit,element_new=''):
     if data['Step_config']['select_value'] != 'False':
         if data['Step_config']['select_func'] != 'False':
             content = eval('Submit_handle.'+data['Step_config']['select_func'])(submit[data['Step_config']['select_value']])
+            content = str(content)
+            print('Slect-->>select_func-->>content:',content)            
         else:                  
             content = submit[data['Step_config']['select_value']]
+            content = str(content)            
+            print('Slect-->>select_value-->>content:',content)            
+        print('values:',values)            
         if content in values:
-            s1.select_by_value(submit[data['Step_config']['select_value']])    
+            print('content in values')            
+            s1.select_by_value(content)    
             return      
         else:
+            print('content not in values,select random')                        
             num = random.randint(1,len(options)-1)
             s1.select_by_value(str(values[num]))
             return      

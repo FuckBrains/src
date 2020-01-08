@@ -140,7 +140,7 @@ def get_submit(Config):
             submit = db.get_luminati_submit(Config)           
             if submit == {}:
                 content = 'No data found'
-                qt.main(1,content)
+                # qt.main(1,content)
                 return None
             # print(submit)
             # return
@@ -392,12 +392,12 @@ def web_submit(submit,chrome_driver,debug=0):
         if page == None:
             content = 'Looking for flag and Timeout or bad page'
             print(content)
-            qt.main(1,content)            
+            # qt.main(1,content)            
             return
         elif page == '':
             content = 'New Page'
             writelog(chrome_driver,submit,content)
-            qt.main(1,content)
+            # qt.main(1,content)
             return
         print('Find target_page:',page['Page'])
         '''

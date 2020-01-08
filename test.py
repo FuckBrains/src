@@ -1057,9 +1057,9 @@ def more_test():
     print(Page_flags)
 
 def test_ps():
-    a = '123456789'
-    b = a[-4:]
-    print(b)
+    import Submit_handle
+    dd = Submit_handle.get_next_payday_dd('')
+    print(dd)
 
 
 if __name__ == '__main__':
