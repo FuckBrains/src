@@ -23,6 +23,7 @@ Input_Config ={
     'drivers_license': ['get_drivers_license'],
     'routing_number' : ['get_routing_number'],
     'account_number' : ['get_account_number'],
+    'net_monthly_income' : ['get_income','get_income_other']
 }
 
 Select_Config ={

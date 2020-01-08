@@ -51,7 +51,7 @@ def password_get_Nostale(submit=''):
     a = '0123456789'
     c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     d = 'abcdefghijklmnopqrstuvwxyz'
-    num = random.randint(6,12)
+    num = random.randint(8,15)
     pwd = ''
     for i in range(num):
         num_pwd = random.randint(0,3)
@@ -385,6 +385,22 @@ def get_account_number(submit=''):
     account_number = chansfer_float_into_int(account_number)
     return account_number
 
+
+def get_income(submit):
+    '''
+    20000-70000
+    20000,30000...
+    '''
+    num = random.randint(2,7)
+    num = num*10000
+    return str(num)
+
+def get_income_other(submit):
+    '''
+    0-3000
+    '''
+    num = random.randint(0,3000)
+    return str(num)
 
 def get_drivers_license(submit):
     '''
