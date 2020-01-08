@@ -368,7 +368,7 @@ def web_submit(submit,chrome_driver,debug=0):
     print('============')
     print(submit['Site'])
     chrome_driver.get(submit['Site'])
-    sleep(30)
+    sleep(15)
     print('Load finish')
     # old_page = chrome_driver.find_element_by_tag_name('html')
     # print(old_page.id)
