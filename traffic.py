@@ -47,11 +47,11 @@ def traffic_test(traffic):
     delete_port_s(traffic['port_lpm'])
 
 def main(i):
-    for i in range(1):
+    for j in range(1):
         account = get_account()
         plan_id = account['plan_id']    
         traffics = read_plans(i)
-        # print(traffics)
+        print(traffics)
         # print(len(traffics))
         ip_lpm = account['IP']
         for traffic in traffics:
@@ -103,7 +103,7 @@ def main(i):
 if __name__ == '__main__':
     paras=sys.argv
     i = int(paras[1])
-    # i = 9
+    # i = 3
     main(i)
 
 
