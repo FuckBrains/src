@@ -47,7 +47,7 @@ def traffic_test(traffic):
     delete_port_s(traffic['port_lpm'])
 
 def main(i):
-    while True:
+    for i in range(1):
         account = get_account()
         plan_id = account['plan_id']    
         traffics = read_plans(i)
