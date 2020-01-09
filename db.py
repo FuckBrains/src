@@ -210,6 +210,8 @@ def upload_pageflag(Mission_Id,flag):
     Page = flag['Page']
     Flag_xpath = flag['Flag_xpath'] 
     Flag_text = flag['Flag_text']
+    if flag['Quotes'] == 'True':
+        Flag_text = 'bbb==='+Flag_text
     Flag_iframe = flag['Iframe']    
     Status = flag['Status']
     Country = flag['Country']

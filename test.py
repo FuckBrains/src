@@ -1057,9 +1057,11 @@ def more_test():
     print(Page_flags)
 
 def test_ps():
-    import Submit_handle
-    dd = Submit_handle.get_next_payday_dd('')
-    print(dd)
+    # page['Flag_text'] = page['Flag_text'].split('bbb===')[1]                                
+    a = 'bbb===     123ssaasdd'
+    b = a.split('bbb===')[1]
+    print(b)
+
 
 
 if __name__ == '__main__':

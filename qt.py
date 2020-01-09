@@ -734,6 +734,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         flag['Iframe'] = self.lineEdit28.text()        
         flag['Status'] = self.comboBox22.currentText()
         flag['Country'] = self.comboBox5.currentText()        
+        flag['Quotes'] = self.comboBox32.currentText()        
         print(flag)
         Mission_Id = str(self.lineEdit13.text())
         try:

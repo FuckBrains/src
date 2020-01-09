@@ -143,9 +143,9 @@ def get_lpm_ip(port,url="http://lumtest.com/myip.json",Referer='',debug=0):
     # print(proxy)
     resp=session.get(url,headers=headers)
     print(headers)
-    print(resp.text)
-    print(resp.headers)
-    print(resp.status_code)
+    # print(resp.text)
+    # print(resp.headers)
+    # print(resp.status_code)
     print(type(resp.status_code))
     if resp.status_code == 502:
         print('============,502')
@@ -162,7 +162,7 @@ def get_lpm_ip(port,url="http://lumtest.com/myip.json",Referer='',debug=0):
     if debug != 0:
         print('++++++++++++')
         while True:
-            print(resp.text)
+            # print(resp.text)
             a = resp.text.find('window.location = "')
             print('window.location = .......found')
             if a == -1:
@@ -174,8 +174,8 @@ def get_lpm_ip(port,url="http://lumtest.com/myip.json",Referer='',debug=0):
                 url = (resp.text)[a+19:b]
                 print(url)
                 resp=session.get(url,headers=headers)
-            print(resp.text)
-        print(resp.headers)
+            # print(resp.text)
+        # print(resp.headers)
     # print('proxy_info...',proxy_info,'...')
     return proxy_info
 

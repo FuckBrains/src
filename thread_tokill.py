@@ -92,22 +92,22 @@ def writelog(chrome_driver,submit,content=''):
 
 def start(plans):
     print('Start func')
-    if plans[0]['sleep_flag'] == 2:
-        for num_ip in range(6):
-            try:
-                city = ip_test.ip_Test('','',country=plans[0]['Country'])
-                if  city != 'Not found':
-                    flag = 1
-                    proxy_info = ''
-                    break
-                if num_ip == 5:
-                    print('Net wrong...!!!!!!')
-                    changer.Restart()
-            except:
-                changer.Restart()     
-        for plan in plans:
-            plan['city'] = city
-            print('911 city:',city)   
+    # if plans[0]['sleep_flag'] == 2:
+    #     for num_ip in range(6):
+    #         try:
+    #             city = ip_test.ip_Test('','',country=plans[0]['Country'])
+    #             if  city != 'Not found':
+    #                 flag = 1
+    #                 proxy_info = ''
+    #                 break
+    #             if num_ip == 5:
+    #                 print('Net wrong...!!!!!!')
+    #                 changer.Restart()
+    #         except:
+    #             changer.Restart()     
+    #     for plan in plans:
+    #         plan['city'] = city
+    #         print('911 city:',city)   
     requests = threadpool.makeRequests(multi_reg, plans)
     [pool.putRequest(req) for req in requests]
     pool.wait()     
@@ -519,7 +519,9 @@ def get_page_by_flag(Page_flags,chrome_driver):
                     break
                 else:
                     sleep(1)
-            else:                                
+            else:
+                if 'bbb===' in page['Flag_text']:
+                    page['Flag_text'] = page['Flag_text'].split('bbb===')[1]                                
                 if page['Flag_text'] in chrome_driver.page_source:                
                     element = chrome_driver.find_element_by_xpath(page['Flag_xpath'])
                     # print(page,'find text:',element.text)
