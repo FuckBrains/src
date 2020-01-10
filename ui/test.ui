@@ -1088,7 +1088,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_11">
        <attribute name="title">
@@ -2042,8 +2042,8 @@
        <widget class="QPushButton" name="pushButton22">
         <property name="geometry">
          <rect>
-          <x>210</x>
-          <y>200</y>
+          <x>100</x>
+          <y>190</y>
           <width>75</width>
           <height>41</height>
          </rect>
@@ -2051,6 +2051,36 @@
         <property name="text">
          <string>Add</string>
         </property>
+       </widget>
+       <widget class="QComboBox" name="comboBox33">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>130</y>
+          <width>91</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <item>
+         <property name="text">
+          <string>Click</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Simulate</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Js</string>
+         </property>
+        </item>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_8">

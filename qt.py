@@ -719,6 +719,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         flag = {}
         flag = self.get_general_config(flag)
         flag['Step_config'] = {}
+        flag['Step_config']['click'] = self.comboBox33.currentText()
         try:
             flag = db.upload_pageconfig(flag)
             self.alert("Add click config success")
