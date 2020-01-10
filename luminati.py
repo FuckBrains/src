@@ -14,6 +14,7 @@ import Chrome_driver
 import threading
 import threadpool
 from wrapt_timeout_decorator import *
+from time import sleep
 
 def get_account():
     '''
@@ -178,6 +179,63 @@ def get_lpm_ip(port,url="http://lumtest.com/myip.json",Referer='',debug=0):
         # print(resp.headers)
     # print('proxy_info...',proxy_info,'...')
     return proxy_info
+
+
+def post_lpm(data_,port,url,headers,debug=0):
+    if debug==1:
+        print('debug==================',debug)
+    account = get_account()
+    ip = account['IP_lpm']
+    proxy = 'socks5://%s:%s'%(ip,port)
+    uas = Chrome_driver.get_ua_all()
+    ua = Chrome_driver.get_ua_random(uas) 
+        
+    session = requests.session()
+    session.proxies = {'http': proxy,
+                       'https': proxy}  
+    # print('Approaching:',url)
+    # print(proxy)
+    resp=session.get(url,headers=headers)
+    # print(resp.text)
+    print(resp.headers)
+    # print(resp.status_code)
+    print(type(resp.status_code))
+    if resp.status_code == 502:
+        print('============,502')
+        proxy_info = ''
+        return proxy_info   
+    try:
+        # print('--------------------')
+        # print(resp.text)            
+        proxy_info = json.loads(resp.text)
+        # print(proxy_info)
+    except Exception as e:
+        print(str(e))
+        proxy_info = ''
+    if debug != 0:
+        print('++++++++++++')
+        while True:
+            # print(resp.text)
+            a = resp.text.find('window.location = "')
+            print('window.location = .......found')
+            if a == -1:
+                break
+            else:
+                b = resp.text.find('"',a+22)
+                # print(a,b)
+                # print(resp.text[a:b])
+                url = (resp.text)[a+19:b]
+                print(url)
+                resp=session.get(url,headers=headers)
+            print(resp.text)
+        print(resp.headers)
+    url_ = 'https://www.getaround.com/ajax/generate-lead'
+    sleep(3)
+    resp = session.post(url_,data=data_)
+    print(resp.text)
+    # print('proxy_info...',proxy_info,'...')
+    return proxy_info
+
 
 def tz_test():
     url="http://lumtest.com/myip.json"

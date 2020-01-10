@@ -15,7 +15,7 @@ def traffic_test(traffic):
     ua = Chrome_driver.get_ua_random(uas)
     # print(ua)
     traffic['ua'] = ua    
-    click = 10000
+    click = 1
     referer = ''
     while True:    
         flag,proxy_info = ip_test(traffic['port_lpm'])
@@ -43,7 +43,10 @@ def traffic_test(traffic):
             except Exception as e:
             	print(str(e))
         else:
-            get_unique_traffic(traffic)
+            try:
+                get_unique_traffic(traffic)
+            except:
+                pass
     delete_port_s(traffic['port_lpm'])
 
 def main(i):
@@ -56,8 +59,9 @@ def main(i):
         ip_lpm = account['IP']
         for traffic in traffics:
             traffic['method'] = 1
-            # traffic['key'] = 'consumerrewards.us.com'
+            # traffic['key'] = 'getaround'
             traffic['port_lpm'] = get_port_random()
+            # traffic['Record'] = 3            
             # print('===========================')
             # print(traffic['Country'],traffic['port_lpm'])
             # luminati.add_proxy(traffic['port_lpm'],country=traffic['Country'],proxy_config_name='zone2',ip_lpm=ip_lpm)
@@ -83,27 +87,29 @@ def main(i):
 #             print(str(e))
 #     luminati.delete_port([port])  
 
-# def get_unique_traffic(traffic):
-#     traffic['traffic'] = True
-#     chrome_driver = Chrome_driver.get_chrome(traffic)
-#     chrome_driver.get(traffic['url_link'])
-#     for i in range(15):
-#         print(chrome_driver.current_url)
-#         if traffic['key'] in chrome_driver.current_url:
-#             chrome_driver.close()
-#             chrome_driver.quit()
-#         else:
-#             sleep(1)
-#     try:
-#         chrome_driver.close()
-#         chrome_driver.quit()
-#     except:
-#         pass
+def get_unique_traffic(traffic):
+    traffic['traffic'] = True
+    chrome_driver = Chrome_driver.get_chrome(traffic)
+    # traffic['url_link'] = 'https://www.moneymethods.net'
+    chrome_driver.get(traffic['url_link'])
+    for i in range(15):
+        # print(chrome_driver.current_url)
+        if traffic['key'] in chrome_driver.title:
+            # sleep(500)
+            chrome_driver.close()
+            chrome_driver.quit()
+        else:
+            sleep(1)
+    try:
+        chrome_driver.close()
+        chrome_driver.quit()
+    except:
+        pass
 
 if __name__ == '__main__':
     paras=sys.argv
     i = int(paras[1])
-    # i = 3
+    # i = 140
     main(i)
 
 
