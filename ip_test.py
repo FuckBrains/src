@@ -102,12 +102,12 @@ def ip_Test(city = None,state = 'All',country='US'):
     sleep(20)
     # return
     ip_new(city,state,country)
-    sleep(10)
-    # city,totalCount,zipcode = whoer_get(city)
-    # print(city,totalCount,zipcode)
+    sleep(20)
+    city,totalCount,zipcode = whoer_get(city)
+    print(city,totalCount,zipcode)
     # zipcode = zip_get()
-    # if totalCount == -1:
-        # city = 'Not found'
+    if totalCount == -1:
+        city = 'Not found'
     return 
        
     # path='C:/cam4/driver'
