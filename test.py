@@ -1057,11 +1057,9 @@ def more_test():
     print(Page_flags)
 
 def test_ps():
+    import ip_test
     # page['Flag_text'] = page['Flag_text'].split('bbb===')[1]                                
-    a = 'bbb===     123ssaasdd'
-    b = a.split('bbb===')[1]
-    print(b)
-
+    city = ip_test.ip_Test('','',country='AU')
 
 
 if __name__ == '__main__':
