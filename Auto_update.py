@@ -41,10 +41,14 @@ def get_code():
         try:
             chrome_driver.close()
             chrome_driver.quit()
-            sleep(5)            
-            delete_folder()
-            unfold_zip()
-            break
+            sleep(5)   
+            if flag == 1:         
+                delete_folder()
+                unfold_zip()
+                break
+            else:
+                print('update fail!!!!!!!!!!!!!!!!!!!!!!!!!')
+                break
         except Exception as e:
             print(str(e))
             continue
