@@ -95,7 +95,7 @@ def zip_get():
 # city如果是'',则从us全国获取ip,否则用指定的city去获取ip
 def ip_Test(city = None,state = 'All',country='US'):
     totalCount = -1
-    city = 'Not found'
+    # city = 'Not found'
     while True:
         R9.restart911() 
         print('restart 911 end')      
