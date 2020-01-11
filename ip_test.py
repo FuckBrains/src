@@ -95,19 +95,24 @@ def zip_get():
 # city如果是'',则从us全国获取ip,否则用指定的city去获取ip
 def ip_Test(city = None,state = 'All',country='US'):
     totalCount = -1
-    i = 0
-    flag = 0
-    R9.restart911() 
-    print('restart 911 end')      
-    sleep(20)
-    # return
-    ip_new(city,state,country)
-    sleep(20)
-    city,totalCount,zipcode = whoer_get(city)
-    print(city,totalCount,zipcode)
-    # zipcode = zip_get()
-    if totalCount == -1:
-        city = 'Not found'
+    city = 'Not found'
+    while True:
+        R9.restart911() 
+        print('restart 911 end')      
+        sleep(20)
+        # return
+        ip_new(city,state,country)
+        sleep(10)
+        for i in range(5):
+            city,totalCount,zipcode = whoer_get(city)
+            print(city,totalCount,zipcode)
+            # zipcode = zip_get()
+            if totalCount == -1:
+                city = 'Not found'
+            else:
+                break
+        if city != 'Not found':
+            break
     return 
        
     # path='C:/cam4/driver'
