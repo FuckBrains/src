@@ -1316,6 +1316,8 @@ def upload_plans(plans):
         sql_content = get_upload_sql_content(table,list_keys,list_values)
         # print(sql_content)
         sql_contents.append(sql_content)
+    print('==============================')
+    print(sql_contents)
     Execute_sql(sql_contents)    
     # update_data(table,keys,values)
 

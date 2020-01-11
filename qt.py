@@ -325,6 +325,8 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         new_offer['Mission_time'] = self.comboBox12.currentText()
         new_offer['zone'] = self.comboBox15.currentText()        
         new_offer['Record'] = self.comboBox23.currentText()                
+        new_offer['traffic_method'] = self.comboBox34.currentText()                        
+        new_offer['traffic_key'] = self.lineEdit33.text()        
         if self.comboBox13.currentText() == 'Yes':
             new_offer['Activate_status'] = 1
         else:

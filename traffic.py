@@ -36,7 +36,7 @@ def traffic_test(traffic):
     for i in range(click):
         print('Sending traffic:',i+1,'clicks for mission',traffic['Mission_Id'])
         # luminati.refresh_proxy(traffic['ip_lpm'],traffic['port_lpm'])
-        if traffic['method'] == 1:
+        if traffic['traffic_method'] == 'Crawl':
             # print('fffffffffffffffffffffffff')
             try:
                 get_lpm_ip(traffic['port_lpm'],url = traffic['url_link'],Referer = referer,debug=1)
@@ -58,7 +58,6 @@ def main(i):
         # print(len(traffics))
         ip_lpm = account['IP']
         for traffic in traffics:
-            traffic['method'] = 1
             # traffic['key'] = 'getaround'
             traffic['port_lpm'] = get_port_random()
             # traffic['Record'] = 3            
@@ -94,7 +93,7 @@ def get_unique_traffic(traffic):
     chrome_driver.get(traffic['url_link'])
     for i in range(15):
         # print(chrome_driver.current_url)
-        if traffic['key'] in chrome_driver.title:
+        if traffic['traffic_key'] in chrome_driver.title:
             # sleep(500)
             chrome_driver.close()
             chrome_driver.quit()
