@@ -15,7 +15,7 @@ def traffic_test(traffic):
     ua = Chrome_driver.get_ua_random(uas)
     # print(ua)
     traffic['ua'] = ua    
-    click = 1
+    click = 10000
     referer = ''
     while True:    
         flag,proxy_info = ip_test(traffic['port_lpm'])
