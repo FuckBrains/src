@@ -262,6 +262,7 @@ def clean_download():
 def download_status():
     path_download = get_dir()
     modules = os.listdir(path_download)
+    print(modules)
     return modules
 
 def misc_init(target_folder):

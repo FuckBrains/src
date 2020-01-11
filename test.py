@@ -1057,10 +1057,8 @@ def more_test():
     print(Page_flags)
 
 def test_ps():
-    import ip_test
-    # page['Flag_text'] = page['Flag_text'].split('bbb===')[1]                                
-    city = ip_test.ip_Test('','',country='AU')
-
+    import Chrome_driver
+    Chrome_driver.download_status()
 
 if __name__ == '__main__':
     i = 2

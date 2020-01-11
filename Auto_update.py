@@ -28,7 +28,7 @@ def get_code():
             flag = 0
             modules = Chrome_driver.download_status()
             for module in modules:
-                if 'emu_multi-src-master.zip' in module:
+                if 'emu_multi-src-master.zip' == module:
                     print('Find zip src')
                     sleep(3)
                     flag = 1
