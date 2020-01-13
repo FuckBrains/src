@@ -307,37 +307,27 @@ def reg_part_(submit):
     except:
         pass
 
-@timeout(1200)
+@timeout(600)
 def reg_part_cpl(submit):
     print('reg_part')
     global timezone 
     global using_num    
     # submit['Record'] = 0
     Module = ''    
-    if str(submit['Record']) == '0':
-        try:
-            module = 'Mission_'+str(submit['Mission_Id'])
-            Module = importlib.import_module(module)
-        except Exception as e:
-            print(str(e))
-    else:
-        Module = ''  
-    print('Module is :',Module)  
     try:
-        print('----------------====================')
         if submit['sleep_flag'] == 2:
             submit.pop('ip_lpm')
         print(submit)
-        print('===============================')
-        print('===============================')        
         chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
-        print('========')
-        if Module != '':
-            print('11111111111111')
-            print(Module)
+        Page_flags = db.get_page_flag(submit['Mission_Id'])
+        if len(Page_flags) == 0:
+            print('No Page_flags found in db,try import module from src')
+            module = 'Mission_'+str(submit['Mission_Id'])
+            Module = importlib.import_module(module)            
             chrome_driver = Module.web_submit(submit,chrome_driver=chrome_driver)
         else:
-            print('Record modern')
+            submit['Page_flags'] = Page_flags
+            print('Page_flags found,use Record modern')
             chrome_driver = web_submit(submit,chrome_driver=chrome_driver)
         print(submit)
         if submit['Excels_dup'][0] == 'Dadao':
@@ -362,7 +352,7 @@ def web_submit(submit,chrome_driver,debug=0):
     # if debug == 1:
     #     site = 'http://tracking.axad.com/aff_c?offer_id=181&aff_id=2138'
     #     submit['Site'] = site
-    Page_flags = db.get_page_flag(submit['Mission_Id'])
+    Page_flags = submit['Page_flags']
     Page_flags = [item for item in Page_flags if item['Country'] == submit['Country']]    
     print(Page_flags) 
     print('============')
@@ -374,20 +364,17 @@ def web_submit(submit,chrome_driver,debug=0):
     # print(old_page.id)
     # chrome_driver.maximize_window()    
     # chrome_driver.refresh()
-    handle = chrome_driver.current_window_handle
     flag_refresh = 0
     while True:
         '''
         turn to other page
         '''
 
-        handles=chrome_driver.window_handles   
-        for i in handles:
-            if i != handle:        
-                chrome_driver.switch_to.window(i)  
         '''
         detect page flag,if find ,continue,if not return
         '''
+        handle = chrome_driver.current_window_handle
+        submit['handle'] = handle
         page = page_detect(Page_flags,chrome_driver)
         if page == None:
             content = 'Looking for flag and Timeout or bad page'
@@ -448,7 +435,7 @@ def web_submit(submit,chrome_driver,debug=0):
         #     wait.until(EC.visibility_of_element_located((By.XPATH,'aaaaaaaa')))
         # except Exception as e:
         #     print(str(e))
-        chrome_driver.maximize_window()                
+        # chrome_driver.maximize_window()                
         print('Stop loading')         
         # chrome_driver.get('https://www.baidu.com')
         # sleep(3000)

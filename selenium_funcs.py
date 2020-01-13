@@ -41,6 +41,13 @@ def get_action(chrome_driver,data,submit):
     data['Step_config'] = json.loads(data['Step_config']) 
     # data['General'] = json.loads(data['General'])
     print(action_func)
+
+    if action_func == 'Change_page':
+        handles=chrome_driver.window_handles   
+        for i in handles:
+            if i != submit['handle']:        
+                chrome_driver.switch_to.window(i)  
+                return  submit  
     if action_func == 'Set_Status':
         db.update_plan_status(1,submit['ID']) 
         return submit

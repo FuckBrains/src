@@ -1057,8 +1057,8 @@ def more_test():
     print(Page_flags)
 
 def test_ps():
-    import Chrome_driver
-    Chrome_driver.download_status()
+    Page_flags = db.get_page_flag(10002)
+    print(Page_flags)
 
 if __name__ == '__main__':
     i = 2

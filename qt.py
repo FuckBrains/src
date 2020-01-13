@@ -324,7 +324,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         new_offer['Account'] = self.comboBox9.currentText()
         new_offer['Mission_time'] = self.comboBox12.currentText()
         new_offer['zone'] = self.comboBox15.currentText()        
-        new_offer['Record'] = self.comboBox23.currentText()                
+        # new_offer['Record'] = self.comboBox23.currentText()                
         new_offer['traffic_method'] = self.comboBox34.currentText()                        
         new_offer['traffic_key'] = self.lineEdit33.text()        
         if self.comboBox13.currentText() == 'Yes':
@@ -720,6 +720,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         '''
         flag = {}
         flag = self.get_general_config(flag)
+        flag['Action'] = 'Click'
         flag['Step_config'] = {}
         flag['Step_config']['click'] = self.comboBox33.currentText()
         try:
@@ -796,9 +797,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         inputs = text.split('\n')
         print(inputs)
         flag = {}
-        print()
         try:        
             data = self.get_general_config(flag)
+            data['Action'] = 'Select'
             data['Step_config'] = {}    
             data['Step_config']['select_index'] = self.lineEdit19.text()
             data['Step_config']['select_index_rand'] = self.comboBox18.currentText()
@@ -807,7 +808,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             data['Step_config']['select_value_range'] = ['','']
             data['Step_config']['select_value_range'][0] = self.lineEdit20.text()
             data['Step_config']['select_value_range'][1] = self.lineEdit21.text()   
-            data['Step_config']['select_value_content'] = self.textEdit.toPlainText() 
+            data['Step_config']['select_value_content'] = inputs 
             print('data',data)     
             flag_upload = db.upload_pageconfig(data)
             if flag_upload == -1:
@@ -830,7 +831,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         configs = self.Offer_config
         for item in configs:
             if 'Mission_Id' in configs[item]:
-                print(item)            
+                print(item)
                 if str(configs[item]['Mission_Id']) == str(Mission_Id):
                     if configs[item]['Excel'][0] == 'Dadao':
                         path = r'..\res\Dadao.xlsx' 
@@ -870,6 +871,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         flag = {}
         try:        
             data = self.get_general_config(flag)
+            data['Action'] = 'Input'
             data['Step_config'] = {}    
             data['Step_config']['input_key'] = self.comboBox20.currentText()
             data['Step_config']['input_generate'] = self.comboBox25.currentText()
@@ -1043,6 +1045,20 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         try:
             flag = db.upload_pageconfig(flag)
             self.alert("Add click config success")
+        except Exception as e:
+            self.alert(str(e))
+
+    @pyqtSlot()
+    def on_pushButton38_clicked(self):
+        '''
+        Recorder_Js
+        '''
+        flag = {}
+        flag = self.get_general_config(flag)
+        flag['Step_config'] = {}
+        try:
+            flag = db.upload_pageconfig(flag)
+            self.alert("Add change page success")
         except Exception as e:
             self.alert(str(e))
 

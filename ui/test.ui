@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1068</width>
-    <height>602</height>
+    <height>578</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -29,8 +29,8 @@
    <widget class="QPushButton" name="pushButton1">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>530</y>
+      <x>130</x>
+      <y>510</y>
       <width>75</width>
       <height>41</height>
      </rect>
@@ -106,7 +106,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="widget">
      <attribute name="title">
@@ -1088,7 +1088,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="tab_11">
        <attribute name="title">
@@ -1401,6 +1401,11 @@
         <item>
          <property name="text">
           <string>Alert</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Change_page</string>
          </property>
         </item>
        </widget>
@@ -2707,6 +2712,19 @@ p, li { white-space: pre-wrap; }
          <string>Alert</string>
         </property>
        </widget>
+       <widget class="QPushButton" name="pushButton38">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>280</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Change_page</string>
+        </property>
+       </widget>
       </widget>
      </widget>
      <widget class="QPushButton" name="pushButton25">
@@ -3086,7 +3104,7 @@ p, li { white-space: pre-wrap; }
       <x>20</x>
       <y>170</y>
       <width>341</width>
-      <height>351</height>
+      <height>331</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -3393,39 +3411,6 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item row="10" column="0">
-      <widget class="QLabel" name="label_46">
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Record</string>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="1">
-      <widget class="QComboBox" name="comboBox23">
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <item>
-        <property name="text">
-         <string>False</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>True</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="11" column="0">
       <widget class="QLabel" name="label_50">
        <property name="font">
         <font>
@@ -3439,7 +3424,7 @@ p, li { white-space: pre-wrap; }
        </property>
       </widget>
      </item>
-     <item row="11" column="1">
+     <item row="10" column="1">
       <widget class="QComboBox" name="comboBox34">
        <property name="font">
         <font>
@@ -3458,7 +3443,7 @@ p, li { white-space: pre-wrap; }
        </item>
       </widget>
      </item>
-     <item row="12" column="0">
+     <item row="11" column="0">
       <widget class="QLabel" name="label_32">
        <property name="font">
         <font>
@@ -3472,7 +3457,7 @@ p, li { white-space: pre-wrap; }
        </property>
       </widget>
      </item>
-     <item row="12" column="1">
+     <item row="11" column="1">
       <widget class="QLineEdit" name="lineEdit33">
        <property name="text">
         <string/>
