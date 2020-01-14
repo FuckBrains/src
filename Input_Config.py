@@ -16,6 +16,7 @@ Input_Config ={
     'email'     : ['select_email_type'],
     'cvv'          : ['cvv_get'],
     'katou'     : ['get_zip'],
+    'year'      : ['get_expiration_date'],
     'fullname'    : ['get_fullname'],  
     'phone'     : ['get_phone_dadao'],    
     'date_of_birth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all'],    

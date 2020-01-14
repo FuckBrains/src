@@ -144,8 +144,14 @@ def get_elem_part(elem,method,content):
         element = elem.find_element_by_class_name(content)
     elif method == 'Tag':
         print('by tag name')
-        elements = elem.find_elements_by_tag_name(content)
-        num = random.randint(0,len(elements)-1)
+        if ':' in content:
+            tag_content = content.split(':') 
+            content = tag_content[0]
+            num = int(tag_content[1])
+            elements = elem.find_elements_by_tag_name(content)
+        else:
+            elements = elem.find_elements_by_tag_name(content)
+            num = random.randint(0,len(elements)-1)
         element = elements[num]
     else:
         pass

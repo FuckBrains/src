@@ -453,6 +453,21 @@ def get_phone(submit):
         phone_ = (phone_).split('.')[0]
     return phone_
 
+def get_phone_fr(submit):
+    '''
+    处理电话后的.
+    '''
+    keys = ['homephone','home_phone']
+    phone = get_value(keys,submit)
+    phone_ = phone.replace('(','').replace(')','').replace('-','')
+    if '.' in phone_:
+        phone_ = (phone_).split('.')[0]
+    if phone_[0:2] == '33':
+        phone_ = phone_[2:]
+    if phone_[0] != '0':
+        phone_ = '0'+phone_
+    return phone_
+
 def get_phone_3(submit):
     '''
     phone: 1234567890
@@ -462,6 +477,22 @@ def get_phone_3(submit):
     phone = get_phone(submit)
     phone_ = phone[0:3]
     return phone_
+
+def get_expiration_date(submit):
+    '''
+    MM/YY
+    '''
+    if len(submit['month']) == 1:
+        mm = '0'+submit['month']
+    else:
+        mm = submit['month']
+    if len(submit['year']) == 2:
+        yy = submit['year']
+    else:
+        yy = submit['year'][-2:]        
+    date = mm+yy
+    return date
+
 
 def get_phone_6(submit):
     '''

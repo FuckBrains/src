@@ -268,11 +268,13 @@ def add_proxy(port_add,country='us',proxy_config_name='zone2',ip_lpm='127.0.0.1'
     for i in range(1):
         try:
             resp = requests.post(url_,data=data_,headers=headers)
+            print('adding new port to luminati success!!!!!!!!!!!!')
             # print(resp)
             # print(type(str(resp)))
             # print(str(resp))
         except Exception as e:
-            print(str(e))  
+            print(str(e)) 
+            print('add new port to luminati failed ..............') 
 
 def write_proxy_config(zone,pwd):
     data = read_proxy_config() 
@@ -445,7 +447,11 @@ def ip_test(port_lpm,state = '',country=''):
     proxy_info = ''    
     for i in range(10):
         # print('starting refresh ip...........')
-        flag_ip = refresh_proxy(ip_lpm,port_lpm)
+        try:
+            flag_ip = refresh_proxy(ip_lpm,port_lpm)
+        except:
+            flag =  -1
+            break
         sleep(3)
         if flag_ip == 0:
             # print('proxy_info',-1)
@@ -528,7 +534,11 @@ def ports_get(ip_lpm):
         # print(res.text)
     except Exception as e:
         print(str(e))
-    config_info = json.loads(res.text)
+    config_info = []
+    try:
+        config_info = json.loads(res.text)
+    except:
+        pass
     ports_used = []
     for config in config_info:
         ports_used.append(config['port'])
@@ -544,10 +554,11 @@ def test_ip():
         print('Test',i,'used',time_used_lists[i],'seconds')
 
 
-@timeout(30)
+# @timeout(30)
 def get_port_random():
+    print('getting random port')
     ports_set = db.get_ports_set()
-    # print(ports_set)
+    print(ports_set)
     account = get_account()
     ip = account['IP_lpm']        
     ports_used = ports_get(ip)
@@ -556,7 +567,7 @@ def get_port_random():
     ports_used.extend(set(ports_set))
     port_ = 24000
     ports_used.append(port_)
-    # print('ports_used:',ports_used)
+    print('ports_used:',ports_used)
     while port_ in ports_used:
         port_rand = random.randint(0,5999)
         basic_port = 24000

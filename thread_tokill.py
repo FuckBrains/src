@@ -92,22 +92,22 @@ def writelog(chrome_driver,submit,content=''):
 
 def start(plans):
     print('Start func')
-    if plans[0]['sleep_flag'] == 2:
-        for num_ip in range(6):
-            try:
-                city = ip_test.ip_Test('','',country=plans[0]['Country'])
-                if  city != 'Not found':
-                    flag = 1
-                    proxy_info = ''
-                    break
-                if num_ip == 5:
-                    print('Net wrong...!!!!!!')
-                    changer.Restart()
-            except:
-                changer.Restart()     
-        for plan in plans:
-            plan['city'] = city
-            print('911 city:',city)   
+    # if plans[0]['sleep_flag'] == 2:
+    #     for num_ip in range(6):
+    #         try:
+    #             city = ip_test.ip_Test('','',country=plans[0]['Country'])
+    #             if  city != 'Not found':
+    #                 flag = 1
+    #                 proxy_info = ''
+    #                 break
+    #             if num_ip == 5:
+    #                 print('Net wrong...!!!!!!')
+    #                 changer.Restart()
+    #         except:
+    #             changer.Restart()     
+    #     for plan in plans:
+    #         plan['city'] = city
+    #         print('911 city:',city)   
     requests = threadpool.makeRequests(multi_reg, plans)
     [pool.putRequest(req) for req in requests]
     pool.wait()     
@@ -185,8 +185,12 @@ def get_submit(Config):
             break
         elif flag == -1:
             # print('bad port,change into new')
-            luminati.delete_port_s(submit['port_lpm'])            
+            try:
+                luminati.delete_port_s(submit['port_lpm'])            
+            except:
+                pass
             port_new = luminati.get_port_random()
+            print('port_new:',port_new)
             db.update_port(submit['port_lpm'],port_new)
             Config['port_lpm'] = port_new
             # print(port_new)
@@ -414,8 +418,8 @@ def web_submit(submit,chrome_driver,debug=0):
         # if len(xpaths) !=0:
         #     iframe = config_['General']['iframe']
         # step_detect(chrome_driver,configs) 
-        # sleep(3)
-        print('All steps ready')
+        sleep(3)
+        # print('All steps ready')
         '''
         stop window if every step is ready
         '''
@@ -617,6 +621,12 @@ def step_detect(chrome_driver,configs):
         print('Step',config['Step'],' ready')
 
 def iframe_change(chrome_driver,iframes):
+    if ':' in iframes:
+        num_iframe = iframes.split(':')[1]
+        iframe = chrome_driver.find_elements_by_tag_name('iframe')[num_iframe]
+        chrome_driver.switch_to.default_content() 
+        chrome_driver.switch_to_frame(iframe)
+        return
     if iframes == '':
         return
     else:

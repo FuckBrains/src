@@ -10,7 +10,7 @@ def killpid(kill_list=[]):
         except:
             continue
         if kill_list == []:
-            kill_list = ['chrome.exe','chromedriver','Client.exe','Monitor.exe','MonitorGUI.exe','Socket.exe','CCleaner','wps','Annoucement']
+            kill_list = ['chrome.exe','chromedriver','Client.exe','Monitor.exe','MonitorGUI.exe','GuiHelper','newsocket','Socket.exe','CCleaner','wps','Annoucement']
             # kill_list = ['chrome.exe','chromedriver']        
         for key in kill_list:
             # print(key)

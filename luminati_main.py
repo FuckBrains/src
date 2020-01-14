@@ -51,7 +51,8 @@ def main(i):
     # while True:
     for j in range(1):
         try:
-            tools.killpid()
+            # tools.killpid()
+            print(']]]]')
         except Exception as e:
             print(str(e))
             pass
@@ -82,7 +83,7 @@ def main(i):
         print('All Missions finished..............')
         try:
             print('try killing pids')
-            tools.killpid()
+            # tools.killpid()
             print('kill pids finished')
         except Exception as e:
             print(str(e))
@@ -102,5 +103,5 @@ def test():
 if __name__ == '__main__':
     paras=sys.argv
     i = int(paras[1])
-    # i = 0
+    # i = 40
     main(i)
