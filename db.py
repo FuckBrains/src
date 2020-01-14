@@ -698,6 +698,7 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
     Info_dicts = {}   
     Mission_basicinfo_list = [str(Mission['BasicInfo_Id']) for Mission in Mission_dict]
     Mission_email_list = [Mission['Email_Id'] for Mission in Mission_dict]  
+    print('Total %d emails used in Misision:%d'%(len(Mission_email_list),int(Mission_list[0])))
     sql_content = 'SELECT COUNT(*) FROM Basicinfo WHERE Excel_name="%s"'%Excel_name[0]
     res = cursor.execute(sql_content)
     tt = cursor.fetchall()
@@ -729,6 +730,7 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
         res = cursor.execute('SELECT * from Email')
         desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
         Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
+        print('Total %d emails good to use'%(len(Email_dict)))
     else:
         # Excel_name[1] = {}
         Email_dict = {}            
@@ -749,6 +751,7 @@ def read_one_excel(Mission_list,Excel_name,Email_list):
                 # print('find email unique')
                 Info_dict2 = Email_dict[i]
                 break
+    print('Info_dict2',Info_dict2)
     if len(Info_dict2) != 0:
         Info_dicts['Email'] = Info_dict2
     login_out_sql(conn,cursor)

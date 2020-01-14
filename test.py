@@ -1061,7 +1061,7 @@ def test_ps():
     print(Page_flags)
 
 if __name__ == '__main__':
-    i = 2
+    i = 0
     if i == 0:
         test_flag_use()
     elif i==1:
