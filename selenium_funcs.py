@@ -137,11 +137,21 @@ def get_elem_part(elem,method,content):
     element = ''
     print('get_elem_part:content-->',content)
     if method == 'Xpath':
-        'by xpath'
+        print('by xpath')
         element = elem.find_element_by_xpath(content)
     elif method == 'Class':
         print('by class')
-        element = elem.find_element_by_class_name(content)
+        if ':' in content:
+            content_ = content.split(':')
+            num_class = int(content_[1])
+            content = content_[0]
+            elements = elem.find_elements_by_class_name(content)
+            print('total %d elems found of class %s'%(len(elements),content))
+            print('num_class:%d'%num_class)
+            element = elements[num_class]
+        else:
+            element = elem.find_element_by_class_name(content)
+            print('find elem by class %s'%content)
     elif method == 'Tag':
         print('by tag name')
         if ':' in content:

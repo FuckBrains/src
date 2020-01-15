@@ -44,6 +44,7 @@ def traffic_test(traffic):
             	print(str(e))
         else:
             try:
+                print('+++++++++++++++++++++++++++')
                 get_unique_traffic(traffic)
             except:
                 pass
