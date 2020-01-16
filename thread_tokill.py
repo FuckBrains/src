@@ -311,6 +311,7 @@ def reg_part_(submit):
     except:
         pass
 
+@timeout(600)
 def reg_part_cpl(submit):
     print('reg_part')
     global timezone 
@@ -347,7 +348,6 @@ def reg_part_cpl(submit):
     except:
         pass
 
-@timeout(600)
 def web_submit(submit,chrome_driver,debug=0):
     # predefine Mission
     # Excel_tag = 'Auto'    
@@ -369,7 +369,7 @@ def web_submit(submit,chrome_driver,debug=0):
     # chrome_driver.maximize_window()    
     # chrome_driver.refresh()
     flag_refresh = 0
-    while True:
+    for i in range(20):
         '''
         turn to other page
         '''
