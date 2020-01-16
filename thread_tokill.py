@@ -369,7 +369,8 @@ def web_submit(submit,chrome_driver,debug=0):
     # chrome_driver.maximize_window()    
     # chrome_driver.refresh()
     flag_refresh = 0
-    for i in range(20):
+    # for i in range(20):
+    while True:
         '''
         turn to other page
         '''
