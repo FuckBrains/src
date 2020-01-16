@@ -311,7 +311,6 @@ def reg_part_(submit):
     except:
         pass
 
-@timeout(600)
 def reg_part_cpl(submit):
     print('reg_part')
     global timezone 
@@ -348,6 +347,7 @@ def reg_part_cpl(submit):
     except:
         pass
 
+@timeout(600)
 def web_submit(submit,chrome_driver,debug=0):
     # predefine Mission
     # Excel_tag = 'Auto'    
