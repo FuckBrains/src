@@ -1418,6 +1418,7 @@ def get_plan_status(ID):
     return Status
 
 def update_flag_use(id_):
+    return
     sql_content = "UPDATE BasicInfo SET flag_use = 0 WHERE BasicInfo_Id = '%s'" % id_
     print(sql_content)
     Execute_sql([sql_content])
