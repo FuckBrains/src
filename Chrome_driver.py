@@ -140,7 +140,7 @@ def get_chrome(submit = None,pic=0):
         if 'traffic' in submit:
             options.add_argument('--headless')            
             # desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none" 
-            desired_capabilities["pageLoadStrategy"] = "none"            
+            # desired_capabilities["pageLoadStrategy"] = "none"            
         #     chrome_driver = webdriver.Chrome(chrome_options=chrome_options, desired_capabilities=desired_capabilities,executable_path=path_driver)            
         #     return chrome_driver
         if 'ua' in submit:

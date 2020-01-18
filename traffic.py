@@ -96,6 +96,7 @@ def get_unique_traffic(traffic):
         # print(chrome_driver.current_url)
         if traffic['traffic_key'] in chrome_driver.title:
             # sleep(500)
+            # sleep(15)
             chrome_driver.close()
             chrome_driver.quit()
         else:

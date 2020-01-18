@@ -302,9 +302,13 @@ def reg_part_(submit):
             writelog(chrome_driver,submit)  
         except:
             pass
+        return
     import Mission_11002
     print('Import Mission_11002')
-    Mission_11002.test(chrome_driver)
+    try:
+        Mission_11002.test(chrome_driver)
+    except:
+        pass
     try:
         chrome_driver.close()
         chrome_driver.quit()
