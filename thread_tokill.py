@@ -270,32 +270,33 @@ def reg_part_(submit):
     global using_num    
     # submit['Record'] = 0
     Module = ''    
-    if str(submit['Record']) == '0':
-        try:
-            module = 'Mission_'+str(submit['Mission_Id'])
-            Module = importlib.import_module(module)
-        except Exception as e:
-            print(str(e))
-    else:
-        Module = ''  
-    print('Module is :',Module)  
+    # if str(submit['Record']) == '0':
+    #     try:
+    #         module = 'Mission_'+str(submit['Mission_Id'])
+    #         Module = importlib.import_module(module)
+    #     except Exception as e:
+    #         print(str(e))
+    # else:
+    #     Module = ''  
+    # print('Module is :',Module)  
     try:
-        print('----------------====================')
         if submit['sleep_flag'] == 2:
             submit.pop('ip_lpm')
         print(submit)
-        print('===============================')
-        print('===============================')        
         chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
-        print('========')
-        if Module != '':
-            print('11111111111111')
-            print(Module)
+        Page_flags = db.get_page_flag(submit['Mission_Id'])
+        if len(Page_flags) == 0:
+            print('No Page_flags found in db,try import module from src')
+            module = 'Mission_'+str(submit['Mission_Id'])
+            Module = importlib.import_module(module)            
             chrome_driver = Module.web_submit(submit,chrome_driver=chrome_driver)
         else:
-            print('Record modern')
+            submit['Page_flags'] = Page_flags
+            print('Page_flags found,use Record modern')
             chrome_driver = web_submit(submit,chrome_driver=chrome_driver)
         print(submit)
+        if submit['Excels_dup'][0] == 'Dadao':
+            writelog(chrome_driver,submit)
     except Exception as e:
         print(str(e))
         try:
