@@ -1057,11 +1057,17 @@ def more_test():
     print(Page_flags)
 
 def test_ps():
-    Page_flags = db.get_page_flag(10002)
-    print(Page_flags)
+    # Page_flags = db.get_page_flag(10088)
+    configs = db.get_page_config(10088,1)
+    configs.sort(key=takeStep)
+    for config_ in configs:
+        print(config_)
+        config_['General'] = json.loads(config_['General'])     
+    print(configs)
+
 
 if __name__ == '__main__':
-    i = 0
+    i = 2
     if i == 0:
         test_flag_use()
     elif i==1:

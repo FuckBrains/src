@@ -202,6 +202,9 @@ def get_zip(submit):
     return zip_ 
 
 def apt_get(submit):
+    '''
+    apt
+    '''
     address = submit['address']
     if ' ' in address:
         apt = address.split(' ')[0]
@@ -264,6 +267,15 @@ def get_birthday_all(date=''):
     '''
     birthday = get_auto_birthday(date)
     birthday = str(birthday[0])+str(birthday[1])+str(birthday[2])
+    return birthday  
+
+def get_birthday_all_2(date=''):
+    '''
+    mm/dd/year
+    __/__/____
+    '''
+    birthday = get_auto_birthday(date)
+    birthday = str(birthday[0])+'/'+str(birthday[1])+'/'+str(birthday[2])
     return birthday  
 
 def get_height_info(a=''):
