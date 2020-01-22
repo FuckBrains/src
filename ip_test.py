@@ -96,7 +96,7 @@ def zip_get():
 def ip_Test(city = None,state = 'All',country='US'):
     totalCount = -1
     # city = 'Not found'
-    while True:
+    for j in range(3):
         R9.restart911() 
         print('restart 911 end')      
         sleep(20)
