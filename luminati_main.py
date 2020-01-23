@@ -60,6 +60,7 @@ def main(i):
         plan_id = account['plan_id']
         # print('Plan_id:',plan_id,',connecting sql for plan info...')
         try:
+            db.update_flag_use_all()
             plans_ = db.read_plans(plan_id)
             print(len(plans_))
             plans = []
