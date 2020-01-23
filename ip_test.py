@@ -96,7 +96,7 @@ def zip_get():
 def ip_Test(city = None,state = 'All',country='US'):
     totalCount = -1
     # city = 'Not found'
-    for j in range(3):
+    while True:
         R9.restart911() 
         print('restart 911 end')      
         sleep(20)
@@ -129,9 +129,9 @@ def ip_Test(city = None,state = 'All',country='US'):
 
 if __name__=='__main__':
     city = ''
-    # ip_Test(city)
-    city,totalCount,zipcode = whoer_get('')
-    print(city,totalCount,zipcode)
+    ip_Test(city)
+    # city,totalCount,zipcode = whoer_get('')
+    # print(city,totalCount,zipcode)
 
 
 
