@@ -1074,6 +1074,10 @@ def test_123():
         Mission_Ids[0] = alias[str(Mission_Ids[0])].replace('\n','') 
     print(Mission_Ids)  
 
+def test_124():
+    import Submit_handle
+    dateofbirth = Submit_handle.get_birthday_all()
+    print(dateofbirth)
 
 
 if __name__ == '__main__':
@@ -1081,6 +1085,6 @@ if __name__ == '__main__':
     if i == 0:
         test_flag_use()
     elif i==1:
-        test_123()
+        test_124()
     else:
         test_ps()
