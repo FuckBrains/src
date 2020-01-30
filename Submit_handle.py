@@ -228,7 +228,7 @@ def get_auto_birthday(date):
             birthday_ = xldate_as_tuple(float(date),0)
             birthday = [str(birthday_[1]),str(birthday_[2]),str(birthday_[0])]
         else:
-            birthday = [str(random.randint(1,12)),str(random.randint(1,25)) ,str(random.randint(1970,1990))]  
+            birthday = [str(random.randint(1,12)),str(random.randint(1,25)) ,str(random.randint(1970,2000))]  
     if len(str(birthday[0])) == 1:
         birthday[0] = '0'+str(birthday[0])  
     if len(str(birthday[1])) == 1:
@@ -267,6 +267,7 @@ def get_birthday_all(date=''):
     '''
     birthday = get_auto_birthday(date)
     birthday = str(birthday[0])+str(birthday[1])+str(birthday[2])
+    print('birthday:',birthday)
     return birthday  
 
 def get_birthday_all_2(date=''):
