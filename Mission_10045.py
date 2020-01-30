@@ -35,7 +35,7 @@ import random
 def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
-        site = 'https://axisempire022.afftrack.com/click?aid=275&linkid=T2626&s1=&s2=&s3=&s4=&s5='
+        site = 'http://zh.moneymethods.net/click.php?c=19&key=y045n22fs96cl78o07jqgkh3'
         print(site)
         submit['Site'] = site
     chrome_driver.get(submit['Site'])
@@ -57,7 +57,7 @@ def web_submit(submit,chrome_driver,debug=0):
     element.send_keys(date_of_birth[1])
     element.send_keys(date_of_birth[2])
     sleep(1)
-    zipcode = Submit_handle.get_zip(submit['health']['zip'])
+    zipcode = Submit_handle.get_zip(submit['health'])
     print('zipcode:',zipcode)    
     chrome_driver.find_element_by_xpath('//*[@id="form-step-one-top"]/div[4]/div/input').send_keys(zipcode)
     sleep(1)

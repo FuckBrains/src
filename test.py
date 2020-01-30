@@ -1050,7 +1050,7 @@ def test_qt_test():
     qt.test_k()
 
 def more_test():
-    Mission_Id = 11006
+    Mission_Id = 10045
     Page_flags = db.get_page_flag(Mission_Id)
     print(Page_flags)
     Page_flags = [item for item in Page_flags if item['Country'] == 'US']
@@ -1066,11 +1066,21 @@ def test_ps():
     print(configs)
 
 
+def test_123():
+    alias = db.read_alias_num()
+    print(alias)
+    Mission_Ids = [10089]
+    if str(Mission_Ids[0]) in alias:
+        Mission_Ids[0] = alias[str(Mission_Ids[0])].replace('\n','') 
+    print(Mission_Ids)  
+
+
+
 if __name__ == '__main__':
-    i = 0
+    i = 1
     if i == 0:
         test_flag_use()
     elif i==1:
-        test_account()
+        test_123()
     else:
         test_ps()

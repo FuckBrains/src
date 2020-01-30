@@ -1445,6 +1445,20 @@ def get_ports_set():
     ports_set = [plan['port_lpm'] for plan in plans]
     return ports_set    
 
+
+
+def read_alias_num():
+    Offer_configs = {}
+    with open(r'ini\alias_num.ini') as f:
+        lines = f.readlines()
+        alias = {}
+        for line in lines:
+            if ',' in line:
+                config = line.split(',')                
+                alias[str(config[0])] = str(config[1])
+    # print(Offer_configs)
+    return alias
+
 def get_luminati_submit(Config): 
     Email_list = {"hotmail.com": 1, "outlook.com": 1, "yahoo.com": 1, "aol.com": 1}
     Mission_Ids,Excels_dup = [Config['Mission_Id']],Config['Excel']
@@ -1461,7 +1475,11 @@ def get_luminati_submit(Config):
         submit['Dadao']['Mission_Id'] = Mission_Id 
         submit['Dadao']['path'] = path
         submit['Dadao']['workbook'] = workbook 
-    else:      
+    else:
+        alias = read_alias_num()
+        if str(Mission_Ids[0]) in alias:
+            Mission_Ids[0] = alias[str(Mission_Ids[0])].replace('\n','')
+            Config['Mission_Id'] = Mission_Ids[0]
         submit = read_one_excel(Mission_Ids,Excels_dup,Email_list)
     if submit == {}:
         return {}

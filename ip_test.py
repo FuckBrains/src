@@ -32,7 +32,7 @@ def ip_new(city,state = 'All',country = 'US'):
 
 
 
-def whoer_get(city =None):
+def whoer_get(city =''):
     options = webdriver.ChromeOptions()
     # options.add_argument('--incognito')
     path_driver = Chrome_driver.get_chromedriver_path()        
@@ -93,10 +93,12 @@ def zip_get():
 
 # 测试ip
 # city如果是'',则从us全国获取ip,否则用指定的city去获取ip
-def ip_Test(city = None,state = 'All',country='US'):
+def ip_Test(city = '',state = 'All',country='US'):
     totalCount = -1
     # city = 'Not found'
+    city2 = city
     while True:
+        city = city2
         R9.restart911() 
         print('restart 911 end')      
         sleep(20)
