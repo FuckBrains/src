@@ -611,6 +611,9 @@ def get_next_payday_list(submit):
             day_pay = 28
     else:
         day_pay = 15
+    if day >= 30:
+        day_pay = 15
+        month = month + 1
     # month = get_month_word(month)
     date = []
     date = [month,day_pay,year,]

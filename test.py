@@ -1075,9 +1075,9 @@ def test_123():
     print(Mission_Ids)  
 
 def test_124():
-    dir_ = r"C:\EMU\emu_chromes\10089,1"
-    id_ = dir_.split(',')[0][-5:]
-    print(id_)
+    import Submit_handle
+    payday = Submit_handle.get_next_payday()
+    print(payday)
 
 if __name__ == '__main__':
     i = 1

@@ -39,17 +39,15 @@ def web_submit(submit,chrome_driver,debug=0):
     if debug == 1:
         site = 'https://axisempire022.afftrack.com/click?aid=260&linkid=T718&s1=&s2=&s3=&s4=&s5='
         submit['Site'] = site
-    try:
-        chrome_driver.get(submit['Site'])
-    except:
-        pass
-    chrome_driver.maximize_window() 
-    chrome_driver.refresh()
-    if 'Personal Loans' not in chrome_driver.page_source:
-        print('page not found')
-        chrome_driver.close()
-        chrome_driver.quit()
-        return 0
+    chrome_driver.get(submit['Site'])
+    # chrome_driver.maximize_window() 
+    # chrome_driver.refresh()
+    print('=======================')
+    # if 'Personal Loans' not in chrome_driver.page_source:
+    #     print('page not found')
+    #     chrome_driver.close()
+    #     chrome_driver.quit()
+    #     return 0
     # click
     # page1
     # Cash needed
@@ -143,7 +141,7 @@ def web_submit(submit,chrome_driver,debug=0):
     # home adress
     chrome_driver.find_element_by_xpath('//*[@id="address"]').send_keys(submit['Uspd']['address']) 
     # zip
-    zipcode = Submit_handle.get_zip(submit['Uspd']['zip'])
+    zipcode = Submit_handle.get_zip(submit['Uspd'])
     chrome_driver.find_element_by_xpath('//*[@id="zip_code"]').send_keys(zipcode)
     sleep(3)
     # city
@@ -195,6 +193,7 @@ def web_submit(submit,chrome_driver,debug=0):
         sleep(600)
     chrome_driver.close()
     chrome_driver.quit()
+    return 
     
 def test():
     # db.email_test()

@@ -70,8 +70,8 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(1)
     # zip
     elem = '//*[@id="zip"]'
-    zip_ = submit['Dadao']['katou'].replace('\t','')
-    zip_ = Submit_handle.get_zip(zip_)
+    submit['Dadao']['katou'] = submit['Dadao']['katou'].replace('\t','')
+    zip_ = Submit_handle.get_zip(submit['Dadao'])
     chrome_driver.find_element_by_xpath(elem).send_keys(zip_)
     sleep(1)
     # card_number

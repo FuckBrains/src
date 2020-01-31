@@ -128,7 +128,7 @@ def get_chrome(submit = None,pic=0):
              # "safebrowsing.enabled": True,
              # 'profile.default_content_settings.popups': 0,
              }   
-    desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none"     
+    # desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none"     
                        
     options = webdriver.ChromeOptions()                
     if submit == None:
@@ -196,7 +196,8 @@ def get_chrome(submit = None,pic=0):
     options.add_argument("--disable-automation")
     options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])
     path_driver = get_chromedriver_path()
-    chrome_driver = webdriver.Chrome(desired_capabilities=desired_capabilities,chrome_options=options,executable_path=path_driver)
+    # chrome_driver = webdriver.Chrome(desired_capabilities=desired_capabilities,chrome_options=options,executable_path=path_driver)
+    chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)    
     # chrome_driver = webdriver.Chrome(chrome_options=options,desired_capabilities=desired_capabilities)
     chrome_driver.set_page_load_timeout(300)
     # chrome_driver.set_script_timeout(240)
