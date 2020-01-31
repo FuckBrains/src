@@ -1075,10 +1075,9 @@ def test_123():
     print(Mission_Ids)  
 
 def test_124():
-    import Submit_handle
-    dateofbirth = Submit_handle.get_birthday_all()
-    print(dateofbirth)
-
+    dir_ = r"C:\EMU\emu_chromes\10089,1"
+    id_ = dir_.split(',')[0][-5:]
+    print(id_)
 
 if __name__ == '__main__':
     i = 1

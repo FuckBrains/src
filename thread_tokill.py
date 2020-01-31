@@ -92,22 +92,22 @@ def writelog(chrome_driver,submit,content=''):
 
 def start(plans):
     print('Start func')
-    if plans[0]['sleep_flag'] == 2:
-        for num_ip in range(6):
-            try:
-                city = ip_test.ip_Test('','',country=plans[0]['Country'])
-                if  city != 'Not found':
-                    flag = 1
-                    proxy_info = ''
-                    break
-                if num_ip == 5:
-                    print('Net wrong...!!!!!!')
-                    changer.Restart()
-            except:
-                changer.Restart()     
-        for plan in plans:
-            plan['city'] = city
-            print('911 city:',city)   
+    # if plans[0]['sleep_flag'] == 2:
+    #     for num_ip in range(6):
+    #         try:
+    #             city = ip_test.ip_Test('','',country=plans[0]['Country'])
+    #             if  city != 'Not found':
+    #                 flag = 1
+    #                 proxy_info = ''
+    #                 break
+    #             if num_ip == 5:
+    #                 print('Net wrong...!!!!!!')
+    #                 changer.Restart()
+    #         except:
+    #             changer.Restart()     
+    #     for plan in plans:
+    #         plan['city'] = city
+    #         print('911 city:',city)   
     requests = threadpool.makeRequests(multi_reg, plans)
     [pool.putRequest(req) for req in requests]
     pool.wait()     
@@ -328,7 +328,8 @@ def reg_part_cpl(submit):
             submit.pop('ip_lpm')
         print(submit)
         chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
-        Page_flags = db.get_page_flag(submit['Mission_Id'])
+        Mission_Id = submit['Mission_dir'].split(',')[0][-5:]
+        Page_flags = db.get_page_flag(Mission_Id)
         if len(Page_flags) == 0:
             print('No Page_flags found in db,try import module from src')
             module = 'Mission_'+str(submit['Mission_Id'])
@@ -404,8 +405,9 @@ def web_submit(submit,chrome_driver,debug=0):
         '''
         get and sort page config
         '''
-        if flag_refresh == 0:        
-            configs = db.get_page_config(submit['Mission_Id'],page['Page'])
+        if flag_refresh == 0:     
+            Mission_Id = submit['Mission_dir'].split(',')[0][-5:]   
+            configs = db.get_page_config(Mission_Id,page['Page'])
             configs.sort(key=takeStep)
             print(configs)
             '''
@@ -511,7 +513,7 @@ def get_page_by_flag(Page_flags,chrome_driver):
             if page['Flag_xpath'] == '':
                 if page['Flag_text'] in chrome_driver.page_source:
                     chrome_driver.find_element_by_text(page['Flag_text'])
-                    print('find target page:',page['Page'],'with text')                                
+                    print('find target page:',page['Page'],'with text',page['Flag_text'])                                
                     target_page = page
                     break
                 else:

@@ -334,10 +334,7 @@ def Input(chrome_driver,data,submit,element_new=''):
     print('submit in INput:',submit)
     # print('data:',data)
     # print('city:',submit['City'])
-    if element_new != '':
-    #     element = element_new
-    # else:
-        element=Click(chrome_driver,data,submit,element_new)
+    element = Click(chrome_driver,data,submit,element_new)
     print('after click')
     clear_deep(element)
     print('after clear_deep')
@@ -356,7 +353,7 @@ def Input(chrome_driver,data,submit,element_new=''):
             content = submit[data['Step_config']['input_generate']]
     else:
         content = submit[data['Step_config']['input_content']]
-    for item in content:
+    for item in str(content):
         element.send_keys(item)
     return submit
 
