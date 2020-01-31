@@ -181,7 +181,7 @@ def scroll_and_find_up(chrome_driver,element):
     # js="var q=document.documentElement.scrollTop=-300"
     # chrome_driver.execute_script(js) 
     sleep(3)
-    return target
+    return target[0]
 
 def overlay_click(chrome_driver,element):
     js = 'arguments[0].click();'
