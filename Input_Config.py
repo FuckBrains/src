@@ -30,7 +30,7 @@ Input_Config ={
 Select_Config ={
     'state'       : ['get_name_real'],
     'date_of_birth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all'],
-    'pay_period':['get_next_payday_mm','get_next_payday_dd'],    
+    'pay_period':['get_next_payday_mm','get_next_payday_dd','get_next_payday_all'],    
 }
 
 Generate_Config = {
@@ -39,7 +39,8 @@ Generate_Config = {
     'height'      : ['get_height_ft','get_height_inch','get_height_weight'],  
     'fullname'    : ['get_fullname'], 
     'firstname' : ['get_name_real'],  
-    'next_pay_day':['get_next_payday_bi_str']   ,
+    'next_pay_day':['get_next_payday_bi_str'],
+    'income'      :['get_random_income']
 }
 
 

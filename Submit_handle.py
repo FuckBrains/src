@@ -239,6 +239,16 @@ def get_auto_birthday(date):
         birthday[2] = str(random.randint(1970,1990))
     return birthday
 
+
+def get_random_income(submit):
+    '''
+    income year
+    4000-20000
+    '''
+    income = random.randint(4,20)
+    income = income*1000
+    return income
+
 def get_birthday_mm(date=''):
     '''
     return mm
@@ -626,7 +636,7 @@ def get_month_word(month):
     month = month_word[index]
     return month    
 
-def get_next_payday():
+def get_next_payday(submit=''):
     date = get_next_payday_list('')
     month = date[0]
     month = get_month_word(month)
@@ -649,6 +659,15 @@ def get_next_payday_dd(submit):
     payday = get_next_payday_list('')
     payday_dd = payday[1]
     return payday_dd
+
+
+def get_next_payday_all(submit):
+    '''
+    mm/dd/year
+    '''
+    payday = get_next_payday_list('')
+    payday_all = str(payday[0])+'/'+str(payday[1])+'/'+str(payday[2])
+    return payday_all
 
 def get_next_payday_mm(submit):
     '''

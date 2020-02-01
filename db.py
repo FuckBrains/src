@@ -1382,17 +1382,19 @@ def unchosse_states(submit):
     states = submit['states']
     print('==========')
     print(states)
-    return
     ids = []
     for info in infos:
         if info['state'] in states:
             print(info['state'])
             ids.append(info['BasicInfo_Id']) 
+    print('Total %d infos to delete'%len(ids))
     for id_ in ids:
+        print('delete %s'%id_)
         sql_content = 'INSERT INTO Mission(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie,Status)VALUES("%s","%s","%s","%s","%s","%s","%s","%s")'%(Mission_Id,'','','',id_,'','','1')
         res = cursor.execute(sql_content)
         # response = cursor.fetchall() 
         # print(response)
+    print('delete finished..............')
     login_out_sql(conn,cursor)
     print('Login out db')
     # print(len(Mission_dict))

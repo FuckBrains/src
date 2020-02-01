@@ -331,7 +331,7 @@ def Slide(chrome_driver,data,submit,element_new=''):
     ActionChains(chrome_driver).click_and_hold(brightnessSlider).move_by_offset(x_move_num,y_move_num).release().perform()#通过move_by_offset()移动滑块，-6表示在水平方向上往左移动6个像素，7表示在垂直方向上往上移动7个像素    
 
 def Input(chrome_driver,data,submit,element_new=''):
-    print('submit in INput:',submit)
+    # print('submit in INput:',submit)
     # print('data:',data)
     # print('city:',submit['City'])
     element = Click(chrome_driver,data,submit,element_new)
