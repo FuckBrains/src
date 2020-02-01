@@ -1364,9 +1364,40 @@ def get_page_flag(Mission_Id):
     res = cursor.execute('SELECT * from Page_Flag WHERE Mission_Id="%d"'%int(Mission_Id))
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     Pages = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
+    login_out_sql(conn,cursor)
+    print('Login out db')    
     # print(len(Mission_dict))
     # print(Mission_dict)
     return Pages
+
+def unchosse_states(submit):
+    Mission_Id = submit['Mission_Id']
+    Excel_name = submit['Excel_name']
+    print('     Start reading info from sql server...')
+    account = get_account()
+    conn,cursor=login_sql(account)
+    res = cursor.execute('SELECT * from Basicinfo WHERE Excel_name="%s"'%str(Excel_name))
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    infos = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
+    states = submit['states']
+    print('==========')
+    print(states)
+    return
+    ids = []
+    for info in infos:
+        if info['state'] in states:
+            print(info['state'])
+            ids.append(info['BasicInfo_Id']) 
+    for id_ in ids:
+        sql_content = 'INSERT INTO Mission(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie,Status)VALUES("%s","%s","%s","%s","%s","%s","%s","%s")'%(Mission_Id,'','','',id_,'','','1')
+        res = cursor.execute(sql_content)
+        # response = cursor.fetchall() 
+        # print(response)
+    login_out_sql(conn,cursor)
+    print('Login out db')
+    # print(len(Mission_dict))
+    # print(Mission_dict)
+    return infos
 
 def get_page_config(Mission_Id,Page):
     print('     Start reading info from sql server...')
@@ -1375,6 +1406,8 @@ def get_page_config(Mission_Id,Page):
     res = cursor.execute('SELECT * from Page_config WHERE Mission_Id="%d" and Page="%s"'%(int(Mission_Id),str(Page)))
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     Pages = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
+    login_out_sql(conn,cursor)
+    print('Login out db')    
     # print(len(Mission_dict))
     # print(Mission_dict)
     return Pages

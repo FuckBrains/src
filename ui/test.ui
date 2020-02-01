@@ -1088,7 +1088,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="tab_11">
        <attribute name="title">
@@ -2723,6 +2723,52 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="text">
          <string>Change_page</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit30">
+        <property name="geometry">
+         <rect>
+          <x>410</x>
+          <y>40</y>
+          <width>161</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_34">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>40</y>
+          <width>131</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Unchoose States</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton39">
+        <property name="geometry">
+         <rect>
+          <x>440</x>
+          <y>80</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Yes</string>
         </property>
        </widget>
       </widget>

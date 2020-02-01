@@ -1062,6 +1062,34 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         except Exception as e:
             self.alert(str(e))
 
+    @pyqtSlot()
+    def on_pushButton39_clicked(self):
+        '''
+        Recorder_Js
+        '''
+        Mission_Id = str(self.lineEdit13.text()) 
+        states = self.lineEdit30.text().split(',')
+        submit = {}
+        submit['Mission_Id'] = Mission_Id
+        submit['states'] = states
+        configs = self.Offer_config
+        for item in configs:
+            if 'Mission_Id' in configs[item]:
+                if str(configs[item]['Mission_Id']) == str(Mission_Id):
+                        Mission_list = [100]
+                        Excel_name = configs[item]['Excel']   
+                        break     
+        print('==========')
+        if Excel_name[0] == '':
+            self.alert('No excel for this Mission')
+            return
+        submit['Excel_name'] = Excel_name[0]       
+        print('Find target excel:',submit['Excel_name'])
+        infos = db.unchosse_states(submit)
+        # print(infos)
+
+
+
 
 def test_k():
     file = r'ini\Offer_num.ini'

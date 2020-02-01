@@ -31,7 +31,7 @@ import Dadao
 
 
 
-pool = threadpool.ThreadPool(10)
+pool = threadpool.ThreadPool(5)
 timezone = ''
 using_num = 0
 
