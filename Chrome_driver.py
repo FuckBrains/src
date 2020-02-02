@@ -137,18 +137,19 @@ def get_chrome(submit = None,pic=0):
         print(ua)
         ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
     else:
-        if 'traffic' in submit:
-            options.add_argument('--headless')            
-            # desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none" 
-            # desired_capabilities["pageLoadStrategy"] = "none"            
-        #     chrome_driver = webdriver.Chrome(chrome_options=chrome_options, desired_capabilities=desired_capabilities,executable_path=path_driver)            
-        #     return chrome_driver
         if 'ua' in submit:
             ua = submit['ua']
         else:
             uas = get_ua_all()
             ua = get_ua_random(uas)
             print(ua)  
+        if 'traffic' in submit:
+            options.add_argument('user-agent=' + ua)
+            options.add_argument('--headless')            
+            # desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none" 
+            # desired_capabilities["pageLoadStrategy"] = "none"            
+            chrome_driver = webdriver.Chrome(chrome_options=chrome_options, desired_capabilities=desired_capabilities,executable_path=path_driver)            
+            return chrome_driver            
         # if 'Record' in submit:
         #     print('Cancle record modern')
         #     if submit['Record'] == 3:
@@ -187,17 +188,20 @@ def get_chrome(submit = None,pic=0):
     # 'profile.default_content_settings.popups': 0,
     # } 
     # }      
-    options.add_argument('user-agent=' + ua)
     # options.add_argument('--single-process')
     # options.add_argument('--process-per-tab') 
     # options.add_argument('–Referer=https://www.facebook.com') 
+
+    options.add_argument('user-agent=' + ua)    
     options.add_experimental_option("prefs", prefs)       
     options.add_argument('--disable-gpu')        
     options.add_argument("--disable-automation")
     options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])
+    print(options)
     path_driver = get_chromedriver_path()
     # chrome_driver = webdriver.Chrome(desired_capabilities=desired_capabilities,chrome_options=options,executable_path=path_driver)
     chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)    
+    # chrome_driver = webdriver.Chrome(executable_path=path_driver)        
     # chrome_driver = webdriver.Chrome(chrome_options=options,desired_capabilities=desired_capabilities)
     chrome_driver.set_page_load_timeout(300)
     # chrome_driver.set_script_timeout(240)
