@@ -620,7 +620,7 @@ def get_next_payday_list(submit):
         else:
             day_pay = 28
     else:
-        day_pay = 15
+        day_pay = 14
     if day >= 30:
         day_pay = 15
         month = month + 1

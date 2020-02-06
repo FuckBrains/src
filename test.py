@@ -246,12 +246,13 @@ def test_cam4():
 
 def test_write():
     # account = db.get_account()
-    plan_id = 1
+    plan_id = 4
     print('Plan_id:',plan_id,',connecting sql for plan info...')
-    plans = db.read_plans(plan_id)    
-    submit = db.get_luminati_submit(plans[0])
-    print(submit)
-    db.write_one_info([str(submit['Mission_Id'])],submit)    
+    plans = db.read_plans(plan_id) 
+    for j in range(1000):
+        submit = db.get_luminati_submit(plans[0])
+        print(submit)
+        db.write_one_info([str(submit['Mission_Id'])],submit)    
 
 def test_update():
     submit = {}
@@ -1081,10 +1082,10 @@ def test_124():
 
 
 if __name__ == '__main__':
-    i = 1
+    i = 2
     if i == 0:
         test_flag_use()
     elif i==1:
         test_124()
     else:
-        test_ps()
+        test_write()

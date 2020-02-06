@@ -908,7 +908,9 @@ def write_one_info(Mission_list,submit,Cookie = ''):
         print('==============')
         print(submit)
         print(sql_content)
-        res = cursor.execute(sql_content)    
+        res = cursor.execute(sql_content)   
+        response = cursor.fetchall()        
+        print(response) 
     login_out_sql(conn,cursor)
 
 def write_log_db(Mission_Id,traceback_,png):
@@ -1536,8 +1538,9 @@ def get_luminati_submit(Config):
     submit['Account'] = Config['Account']
     submit['Offer'] = Config['Offer']
     submit['ID'] = Config['ID']
-    # submit['city'] = Config['city']    
-    submit['sleep_flag'] = Config['sleep_flag']
+    # submit['city'] = Config['city'] 
+    if 'sleep_flag' in Config:
+        submit['sleep_flag'] = Config['sleep_flag']
     # print(submit['Site'])
     submit['Mission_dir'] = Config['Mission_dir'] 
     submit['Record'] = Config['Record']  

@@ -1076,9 +1076,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         for item in configs:
             if 'Mission_Id' in configs[item]:
                 if str(configs[item]['Mission_Id']) == str(Mission_Id):
-                        Mission_list = [100]
-                        Excel_name = configs[item]['Excel']   
-                        break     
+                    Mission_list = [100]
+                    Excel_name = configs[item]['Excel']   
+                    break     
         print('==========')
         if Excel_name[0] == '':
             self.alert('No excel for this Mission')
