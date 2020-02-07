@@ -244,15 +244,74 @@ def test_cam4():
     # except Exception  as e:
     #     print(str(e))
 
-def test_write():
+def get_uspd():
+    print('     Start reading info from sql server...')
+    account = db.get_account()
+    conn,cursor=db.login_sql(account)
+    print('     Login success')    
+    Excel_name = 'Uspd'
+    res = cursor.execute('SELECT * from BasicInfo WHERE Excel_name="%s"'%Excel_name)
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
+    return Mission_dict 
+
+pool = threadpool.ThreadPool(5)
+
+import ssn_detect as dt
+
+def test_write():     
+    import traceback
+    Mission_dict = get_uspd()
+    print('Total',len(Mission_dict),'info')
     # account = db.get_account()
-    plan_id = 4
-    print('Plan_id:',plan_id,',connecting sql for plan info...')
-    plans = db.read_plans(plan_id) 
-    for j in range(1000):
-        submit = db.get_luminati_submit(plans[0])
-        print(submit)
-        db.write_one_info([str(submit['Mission_Id'])],submit)    
+
+    length = len(Mission_dict)
+    submits = []
+    for j in range(length):
+        submit = {}
+        submit['Alliance'] = ''
+        submit['Account'] = ''
+        submit['ua'] = ''        
+        submit['num'] = j
+        print('Number',j,'sending....')
+        submit['Uspd'] = Mission_dict[j]
+        submits.append(submit)
+    print('Total',len(submits),'infos')
+        # try:
+        #     flag = dt.validate_10088_email(submit['Uspd']['email'])
+        #     print(flag)
+        #     if str(flag) not in flags:
+        #         flags[str(flag)] = 0
+        #     else:
+        #         flags[str(flag)] += 1
+        #     if flag == 3:
+        #         print('used info')
+        #         db.write_one_info([str(10088)],submit)
+        #     else:
+        #         print('good info')
+        #     print(flags)                
+        # except:
+        #     a = traceback.format_exc()
+        #     print(a)
+        #     continue
+    requests = threadpool.makeRequests(Mission_10088_test, submits)
+    [pool.putRequest(req) for req in requests]
+    pool.wait()
+
+def Mission_10088_test(submit):
+    print('Sending',submit['num'],'info')
+    try:
+        flag = dt.validate_10088_email(submit['Uspd']['email'])
+        print(flag)
+        if flag == 3:
+            print('Number',submit['num'],'is used info')
+            db.write_one_info([str(10088)],submit)
+        else:
+            print('Number',submit['num'],'is good info')
+    except:
+        pass
+        # a = traceback.format_exc()
+        # print(a)    
 
 def test_update():
     submit = {}
