@@ -1094,6 +1094,27 @@ def init():
     create_all_tables()
     upload_data()    
 
+
+def get_ssn():
+    '''
+    empty
+    ''
+    '''
+    account = get_account()
+    conn,cursor=login_sql(account)
+    Excel_name = 'Uspd_big'
+    res = cursor.execute('SELECT * from BasicInfo WHERE Excel_name = "%s" and ssn_status = "empty"'%Excel_name)
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    ssn_empty = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来    
+    print('Total %d ssn_empty get'%len(ssn_empty))
+    res = cursor.execute('SELECT * from BasicInfo WHERE Excel_name = "%s" and ssn_status = "" '%Excel_name)
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    ssn_isnull = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来    
+    print('Total %d ssn_isnull get'%len(ssn_isnull))    
+    return ssn_empty,ssn_isnull
+
+
+
 def read_rest(Mission_list,Excel_name,Email_list):
     print('     Start reading info from sql server...')
     account = get_account()

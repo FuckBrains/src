@@ -852,9 +852,9 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab_9, "")
         self.tab_10 = QtWidgets.QWidget()
         self.tab_10.setObjectName("tab_10")
-        self.pushButton1_5 = QtWidgets.QPushButton(self.tab_10)
-        self.pushButton1_5.setGeometry(QtCore.QRect(210, 180, 75, 41))
-        self.pushButton1_5.setObjectName("pushButton1_5")
+        self.pushButton40 = QtWidgets.QPushButton(self.tab_10)
+        self.pushButton40.setGeometry(QtCore.QRect(210, 180, 75, 41))
+        self.pushButton40.setObjectName("pushButton40")
         self.tabWidget.addTab(self.tab_10, "")
         self.tab_14 = QtWidgets.QWidget()
         self.tab_14.setObjectName("tab_14")
@@ -1178,7 +1178,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.Dadao.setCurrentIndex(6)
-        self.tabWidget.setCurrentIndex(7)
+        self.tabWidget.setCurrentIndex(5)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1393,7 +1393,7 @@ class Ui_MainWindow(object):
         self.label_48.setText(_translate("MainWindow", "Input generate"))
         self.comboBox25.setItemText(0, _translate("MainWindow", "False"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_9), _translate("MainWindow", "Input"))
-        self.pushButton1_5.setText(_translate("MainWindow", "Add"))
+        self.pushButton40.setText(_translate("MainWindow", "Add"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_10), _translate("MainWindow", "Slide"))
         self.pushButton37.setText(_translate("MainWindow", "Remove"))
         self.lineEdit29.setText(_translate("MainWindow", "pay_date"))

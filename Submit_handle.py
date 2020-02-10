@@ -629,6 +629,30 @@ def get_next_payday_list(submit):
     date = [month,day_pay,year,]
     return date
 
+def get_next_payday2_list(submit):
+    '''
+    [Janauary,01,1991] 
+    '''
+    import datetime
+    year = datetime.datetime.now().year
+    month = datetime.datetime.now().month
+    day = datetime.datetime.now().day
+    if day>=15:
+        if month != 2:
+            day_pay = 30
+        else:
+            day_pay = 28
+    else:
+        day_pay = 14
+    if day >= 30:
+        day_pay = 15
+        month = month + 1
+    # month = get_month_word(month)
+    date = []
+    date = [month,day_pay,year,]
+    return date
+
+
 def get_month_word(month):
     month_word = ['January','February','March','April','May','June','July','August','September','October','November','December']
     month_list = [i+1 for i in range(12)]
@@ -666,6 +690,14 @@ def get_next_payday_all(submit):
     mm/dd/year
     '''
     payday = get_next_payday_list('')
+    payday_all = str(payday[0])+'/'+str(payday[1])+'/'+str(payday[2])
+    return payday_all
+
+def get_next_payday2_all(submit):
+    '''
+    mm/dd/year
+    '''
+    payday = get_next_payday2_list('')
     payday_all = str(payday[0])+'/'+str(payday[1])+'/'+str(payday[2])
     return payday_all
 

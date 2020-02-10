@@ -43,6 +43,9 @@ def get_action(chrome_driver,data,submit):
     print(action_func)
 
     if action_func == 'Change_page':
+        pass
+
+    if action_func == 'Change_page':
         handles=chrome_driver.window_handles   
         for i in handles:
             if i != submit['handle']:        
@@ -191,6 +194,17 @@ def clear_deep(element):
     element.send_keys(Keys.CONTROL,'a')
     element.send_keys(Keys.BACK_SPACE)
 
+
+
+def Slide(chrome_driver,data,submit,element_new=''):
+    # 定位到进度条
+    # brightnessLine.get_attribute("title")#通过title属性获取当前的值
+    brightnessSlider = element_new
+    #定位到滑动块
+    move_num = random.randint(10,300)
+    print('Move',move_num)
+    ActionChains(chrome_driver).click_and_hold(brightnessSlider).move_by_offset(move_num,7).release().perform()#通过move_by_offset()移动滑块，-6表示在水平方向上往左移动6个像素，7表示在垂直方向上往上移动7个像素    
+
 def Select(chrome_driver,data,submit,element_new=''):
     '''
     select_type:
@@ -309,10 +323,13 @@ def Select(chrome_driver,data,submit,element_new=''):
         return  
     # 5. select by values set and in random
     if data['Step_config']['select_value_content'] != '':
-        contents = data['Step_config']['select_value_content'].split('\n')
-        contents = [content for content in contents if content in values]
+        if type(data['Step_config']['select_value_content']) == type([]):
+            contents = data['Step_config']['select_value_content']
+        else:
+            contents = data['Step_config']['select_value_content'].split('\n')
+            contents = [content for content in contents if content in values]
         if len(contents) != 0:
-            num = random.randint(0,len(contents))
+            num = random.randint(0,len(contents)-1)
             s1.select_by_value(str(contents[num]))   
         else:
             num = random.randint(1,len(options)-1)
@@ -322,13 +339,6 @@ def Select(chrome_driver,data,submit,element_new=''):
         # if len(data['Step_config']['select_value_list']) != 0:
         #     num = random.randint(0,len(data['Step_config']['select_value_list'])-1)
         #     s1.select_by_value(str(data['Step_config']['select_value_list'][num]))            
-
-def Slide(chrome_driver,data,submit,element_new=''):
-    brightnessSlider=chrome_driver.find_element_by_xpath(data['General']['xpath'])
-    #定位到滑动块
-    x_move_num = random.randint(data['slide']['x_move_min'],data['slide']['x_move_max'])
-    y_move_num = random.randint(data['slide']['y_move_min'],data['slide']['y_move_max'])    
-    ActionChains(chrome_driver).click_and_hold(brightnessSlider).move_by_offset(x_move_num,y_move_num).release().perform()#通过move_by_offset()移动滑块，-6表示在水平方向上往左移动6个像素，7表示在垂直方向上往上移动7个像素    
 
 def Input(chrome_driver,data,submit,element_new=''):
     # print('submit in INput:',submit)

@@ -1088,8 +1088,19 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         infos = db.unchosse_states(submit)
         # print(infos)
 
-
-
+    @pyqtSlot()
+    def on_pushButton40_clicked(self):
+        '''
+        Recorder_Js
+        '''
+        flag = {}
+        flag = self.get_general_config(flag)
+        flag['Step_config'] = {}
+        try:
+            flag = db.upload_pageconfig(flag)
+            self.alert("Add change page success")
+        except Exception as e:
+            self.alert(str(e))
 
 def test_k():
     file = r'ini\Offer_num.ini'
@@ -1103,7 +1114,6 @@ def test_k():
                 num_mission = num_[0]
                 nums.append(num_mission)
         print(nums)
-
 
 def main(i,message=''):
     up.main()
