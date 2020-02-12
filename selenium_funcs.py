@@ -61,7 +61,7 @@ def get_action(chrome_driver,data,submit):
             print('Js content:',data['Step_config']['content'])
             if data['Step_config']['content'] == 'bi_week':
                 chrome_driver.execute_script(data['Step_config']['js_remove'])
-                date = Submit_handle.get_next_payday_bi_str()
+                date = Submit_handle.get_next_payday_all()
                 js_set_value = data['Step_config']['js_set_value']+date+'"'
                 chrome_driver.execute_script(js_set_value)                   
             else:

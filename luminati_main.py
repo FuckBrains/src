@@ -51,7 +51,7 @@ def main(i):
     # while True:
     for j in range(1):
         try:
-            # tools.killpid()
+            tools.killpid()
             print(']]]]')
         except Exception as e:
             print(str(e))
