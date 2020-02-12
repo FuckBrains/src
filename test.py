@@ -1136,7 +1136,7 @@ def test_123():
 
 def test_124():
     import Submit_handle
-    payday = Submit_handle.get_next_payday2_all()
+    payday = Submit_handle.get_next_payday_all()
     print(payday)
 
 

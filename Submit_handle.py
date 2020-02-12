@@ -705,11 +705,15 @@ def get_next_payday_dd(submit):
     return payday_dd
 
 
-def get_next_payday_all(submit):
+def get_next_payday_all(submit=''):
     '''
     mm/dd/year
     '''
     payday = get_next_payday_list('')
+    if len(str(payday[0])) == 1:
+        payday[0] = '0' + str(payday[0])
+    if len(str(payday[1])) == 1:
+        payday[1] = '0' + str(payday[1])    
     payday_all = str(payday[0])+'/'+str(payday[1])+'/'+str(payday[2])
     return payday_all
 
@@ -717,7 +721,11 @@ def get_next_payday2_all(submit=''):
     '''
     mm/dd/year
     '''
-    payday = get_next_payday2_list('')
+    payday = get_next_payday2_list('')    
+    if len(str(payday[0])) == 1:
+        payday[0] = '0' + str(payday[0])
+    if len(str(payday[1])) == 1:
+        payday[1] = '0' + str(payday[1])    
     payday_all = str(payday[0])+'/'+str(payday[1])+'/'+str(payday[2])
     return payday_all
 

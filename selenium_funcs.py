@@ -54,7 +54,7 @@ def get_action(chrome_driver,data,submit):
     if action_func == 'Js':
         if 'content' not in data['Step_config']:
             chrome_driver.execute_script(data['Step_config']['js_remove'])
-            date = Submit_handle.get_next_payday_bi_str()
+            date = Submit_handle.get_next_payday_all()
             js_set_value = data['Step_config']['js_set_value']+date+'"'
             chrome_driver.execute_script(js_set_value)   
         else:
