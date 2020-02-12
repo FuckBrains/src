@@ -872,6 +872,14 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.label_54.setFont(font)
         self.label_54.setObjectName("label_54")
+        self.comboBox35 = QtWidgets.QComboBox(self.tab_14)
+        self.comboBox35.setGeometry(QtCore.QRect(250, 70, 91, 25))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.comboBox35.setFont(font)
+        self.comboBox35.setObjectName("comboBox35")
+        self.comboBox35.addItem("")
+        self.comboBox35.addItem("")
         self.tabWidget.addTab(self.tab_14, "")
         self.tab_13 = QtWidgets.QWidget()
         self.tab_13.setObjectName("tab_13")
@@ -1178,7 +1186,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.Dadao.setCurrentIndex(6)
-        self.tabWidget.setCurrentIndex(5)
+        self.tabWidget.setCurrentIndex(6)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1398,6 +1406,8 @@ class Ui_MainWindow(object):
         self.pushButton37.setText(_translate("MainWindow", "Remove"))
         self.lineEdit29.setText(_translate("MainWindow", "pay_date"))
         self.label_54.setText(_translate("MainWindow", "Elem_ID"))
+        self.comboBox35.setItemText(0, _translate("MainWindow", "Date"))
+        self.comboBox35.setItemText(1, _translate("MainWindow", "False"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_14), _translate("MainWindow", "Js"))
         self.pushButton32.setText(_translate("MainWindow", "Set_Sleep"))
         self.pushButton33.setText(_translate("MainWindow", "Set_Cookie"))

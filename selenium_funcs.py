@@ -43,9 +43,6 @@ def get_action(chrome_driver,data,submit):
     print(action_func)
 
     if action_func == 'Change_page':
-        pass
-
-    if action_func == 'Change_page':
         handles=chrome_driver.window_handles   
         for i in handles:
             if i != submit['handle']:        
@@ -55,10 +52,23 @@ def get_action(chrome_driver,data,submit):
         db.update_plan_status(1,submit['ID']) 
         return submit
     if action_func == 'Js':
-        chrome_driver.execute_script(data['Step_config']['js_remove'])
-        date = Submit_handle.get_next_payday_bi_str()
-        js_set_value = data['Step_config']['js_set_value']+date+'"'
-        chrome_driver.execute_script(js_set_value)        
+        if 'content' not in data['Step_config']:
+            chrome_driver.execute_script(data['Step_config']['js_remove'])
+            date = Submit_handle.get_next_payday_bi_str()
+            js_set_value = data['Step_config']['js_set_value']+date+'"'
+            chrome_driver.execute_script(js_set_value)   
+        else:
+            print('Js content:',data['Step_config']['content'])
+            if data['Step_config']['content'] == 'bi_week':
+                chrome_driver.execute_script(data['Step_config']['js_remove'])
+                date = Submit_handle.get_next_payday_bi_str()
+                js_set_value = data['Step_config']['js_set_value']+date+'"'
+                chrome_driver.execute_script(js_set_value)                   
+            else:
+                chrome_driver.execute_script(data['Step_config']['js_remove'])
+                date = Submit_handle.get_next_payday2_all()
+                js_set_value = data['Step_config']['js_set_value']+date+'"'
+                chrome_driver.execute_script(js_set_value)                  
         return submit  
     if action_func == 'Alert':
         dig_alert = chrome_driver.switch_to.alert

@@ -39,7 +39,7 @@ Generate_Config = {
     'height'      : ['get_height_ft','get_height_inch','get_height_weight'],  
     'fullname'    : ['get_fullname'], 
     'firstname' : ['get_name_real'],  
-    'next_pay_day':['get_next_payday_bi_str'],
+    'next_pay_day':['get_next_payday_bi_str','get_next_payday2_bi_str','get_next_payday_all','get_next_payday2_all'],
     'income'      :['get_random_income']
 }
 

@@ -1042,6 +1042,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         js_set_value = 'document.getElementById("%s").value="'%(elem_id)
         flag['Step_config']['js_remove'] = js_remove
         flag['Step_config']['js_set_value'] = js_set_value
+        flag['Step_config']['content'] = self.comboBox35.currentText()        
         try:
             flag = db.upload_pageconfig(flag)
             self.alert("Add click config success")

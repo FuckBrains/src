@@ -84,7 +84,7 @@ def main(i):
         print('All Missions finished..............')
         try:
             print('try killing pids')
-            # tools.killpid()
+            tools.killpid()
             print('kill pids finished')
         except Exception as e:
             print(str(e))

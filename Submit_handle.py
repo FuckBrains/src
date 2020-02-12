@@ -637,16 +637,20 @@ def get_next_payday2_list(submit):
     year = datetime.datetime.now().year
     month = datetime.datetime.now().month
     day = datetime.datetime.now().day
-    if day>=15:
+    if day<15:
         if month != 2:
             day_pay = 30
         else:
             day_pay = 28
     else:
         day_pay = 14
-    if day >= 30:
-        day_pay = 15
-        month = month + 1
+        if month != 12:
+            month += 1
+        else:
+            month = 1
+    # if day >= 30:
+    #     day_pay = 15
+    #     month = month + 1
     # month = get_month_word(month)
     date = []
     date = [month,day_pay,year,]
@@ -667,12 +671,28 @@ def get_next_payday(submit=''):
     date[0] = month
     return date
 
+def get_next_payday2(submit=''):
+    date = get_next_payday2_list('')
+    month = date[0]
+    month = get_month_word(month)
+    date[0] = month
+    return date
+
+
 
 def get_next_payday_bi_str(submit=''):
     '''
     Janauary 01,2020
     '''
     payday = get_next_payday()
+    payday_ = payday[0]+' '+str(payday[1])+','+str(payday[2]) 
+    return payday_   
+
+def get_next_payday2_bi_str(submit=''):
+    '''
+    Janauary 01,2020
+    '''
+    payday = get_next_payday2()
     payday_ = payday[0]+' '+str(payday[1])+','+str(payday[2]) 
     return payday_   
 
@@ -693,7 +713,7 @@ def get_next_payday_all(submit):
     payday_all = str(payday[0])+'/'+str(payday[1])+'/'+str(payday[2])
     return payday_all
 
-def get_next_payday2_all(submit):
+def get_next_payday2_all(submit=''):
     '''
     mm/dd/year
     '''

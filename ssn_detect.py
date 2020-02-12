@@ -245,6 +245,7 @@ def validate_ssn2(ssn):
     if 'No match found' in resp_text:
         print('No match found')
     else:
+        pass
 
 def main():
     for j in range(111):

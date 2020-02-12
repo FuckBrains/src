@@ -1136,12 +1136,14 @@ def test_123():
 
 def test_124():
     import Submit_handle
-    payday = Submit_handle.get_next_payday()
+    payday = Submit_handle.get_next_payday2_all()
     print(payday)
 
 
+
+
 if __name__ == '__main__':
-    i = 2
+    i = 1
     if i == 0:
         test_flag_use()
     elif i==1:
