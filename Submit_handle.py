@@ -469,7 +469,7 @@ def get_phone(submit):
     '''
     处理电话后的.
     '''
-    keys = ['homephone','home_phone']
+    keys = ['homephone','home_phone','phone']
     phone = get_value(keys,submit)
     phone_ = phone.replace('(','').replace(')','').replace('-','')
     if '.' in phone_:
@@ -480,7 +480,7 @@ def get_phone_fr(submit):
     '''
     处理电话后的.
     '''
-    keys = ['homephone','home_phone']
+    keys = ['homephone','home_phone','phone']
     phone = get_value(keys,submit)
     phone_ = phone.replace('(','').replace(')','').replace('-','')
     if '.' in phone_:
@@ -574,7 +574,7 @@ def get_workphone(submit):
     '''
     处理电话后的.
     '''
-    keys = ['workphone','work_phone']
+    keys = ['workphone','work_phone','phone']
     phone = get_value(keys,submit)
     phone_ = phone.replace('(','').replace(')','').replace('-','')
     if '.' in phone_:
