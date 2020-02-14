@@ -396,7 +396,9 @@ def get_routing_number(submit=''):
     '''
     routing_number
     '''
-    routing_number = submit['routing_number']
+    keys = ['routing_number','routing_nu']
+    routing_number = get_value(keys,submit)
+    routing_number = routing_number.replace('.0','') 
     routing_number = chansfer_float_into_int(routing_number)
     if len(routing_number) == 8:
         routing_number = '0' + routing_number
@@ -406,7 +408,9 @@ def get_account_number(submit=''):
     '''
     account_number
     '''
-    account_number = submit['account_number']
+    keys = ['account_number','account_nu']
+    account_number = get_value(keys,submit)
+    account_number = account_number.replace('.0','')     
     account_number = chansfer_float_into_int(account_number)
     return account_number
 
@@ -431,7 +435,9 @@ def get_drivers_license(submit):
     '''
     drivers_license
     '''
-    drivers_license = submit['drivers_license']
+    keys = ['drivers_license','drivers_li']
+    drivers_license = get_value(keys,submit)
+    drivers_license = drivers_license.replace('.0','')     
     drivers_license = chansfer_float_into_int(drivers_license)
     return drivers_license
 
