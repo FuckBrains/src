@@ -199,7 +199,7 @@ def Restart():
 
 if __name__=='__main__':
     # for i in range(10):
-    # OpenCCleaner()
+    OpenCCleaner()
     # sleep(5)
     run_changer()
     # sleep(5)
