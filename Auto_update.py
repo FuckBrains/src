@@ -15,9 +15,9 @@ def get_code():
     chrome_driver.find_element_by_xpath('//*[@id="userName"]').send_keys('18122710376')
     chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys('Ddf!@s345a1asd')
     sleep(2)
-    chrome_driver.find_element_by_xpath('//*[@id="container"]/div/div[3]/main/div/form/div[1]/div[3]/label/div/span/input').click()
+    chrome_driver.find_element_by_xpath('//*[@id="container"]/div[2]/main/div[2]/form/div[1]/div[3]/label/div/span/input').click()
     sleep(1)
-    chrome_driver.find_element_by_xpath('//*[@id="container"]/div/div[3]/main/div/form/div[2]/button').click()
+    chrome_driver.find_element_by_xpath('//*[@id="container"]/div[2]/main/div[2]/form/div[2]/button').click()
     sleep(1)
     for i in range(20):
         chrome_driver.refresh()
