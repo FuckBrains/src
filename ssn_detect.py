@@ -127,7 +127,7 @@ def validate_10088_email(email):
         1: not in database
     '''    
     stick = int(round(time.time() * 1000))
-    url2 = 'https://www.consumerconnecting.com/misc/?responsetype=json&action=campaignstatus&c=235361&email=%s&leadtypeid=9&mailsrc=field&callback=posting.isReturning&uts=%d&uid=5c8f7594-e795-4f00-b670-c43415d65d64'%(email,stick)
+    url2 = 'https://www.consumerconnecting.com/misc/?responsetype=json&action=campaignstatus&c=235100&email=%s&leadtypeid=9&mailsrc=field&callback=posting.isReturning&uts=%d&uid=5c8f7594-e795-4f00-b670-c43415d65d64'%(email,stick)
     # print(url)
     url = 'http://lumtest.com/myip.json'
     print('email:',email)
