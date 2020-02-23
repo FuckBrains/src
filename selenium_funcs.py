@@ -405,23 +405,18 @@ def Click(chrome_driver,data,submit,element_new=''):
     if 'click' in data['Step_config']:
         print('Click method:',data['Step_config']['click'])        
         if data['Step_config']['click'] == 'Click':
-            element.click()
+            try:
+                element.click()
+            except:
+                pass
+            return element
         elif data['Step_config']['click'] == 'Simulate':
             actions = ActionChains(chrome_driver)
             actions.move_to_element_with_offset(element,3,3).click().perform()  
+            return element
         else:
             chrome_driver.execute_script("arguments[0].click()", element)
-    try:
-        element.click()
-        # element.send_keys(Keys.ENTER)
-        print('click finish')
-    except Exception as e:
-        print('Click error:',str(e))
-        # element = chrome_driver.find_element_by_xpath(xpath)
-        actions = ActionChains(chrome_driver)
-        actions.move_to_element_with_offset(element,3,3).click().perform()  
-        # actions.click().perform() 
-        print('ActionChains simulate success.........')         
+            return element     
     return element
 
 
