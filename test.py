@@ -1139,14 +1139,46 @@ def test_124():
     payday = Submit_handle.get_next_payday_all()
     print(payday)
 
+def test_1232():
+    account = db.get_account()
+    conn,cursor=db.login_sql(account)    
+    res = cursor.execute('SELECT Basicinfo_Id from BasicInfo')
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来      
+    res = cursor.execute('SELECT Basicinfo_Id from Mission')
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Mission_dict2 = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来          
+    # print(len(Mission_dict))
+    # print(Mission_dict[0:5])
+    ids = [item['Basicinfo_Id'] for item in Mission_dict]
+    ids = list(set(ids))
+    print('Number before set1:',len(ids))    
+    ids2 = [item['Basicinfo_Id'] for item in Mission_dict2]
+    ids = ids+ids2
+    print('Number before set:',len(ids))
+    print(ids[:5])
+    ids = list(set(ids))
+    print('Number after set:',len(ids))
+    print(ids[:5])
+    return ids
 
-
+def test_1231():
+    import uuid
+    ids = test_1232()
+    for i in range(1000):
+        uuid_sin = str(uuid.uuid1())     
+        if uuid_sin in ids:
+            print('uuid found in ids')
+        else:
+            print('uuid not found in ids,this is single')            
+            break
+    print(uuid_sin)    
 
 if __name__ == '__main__':
-    i = 2
+    i = 1
     if i == 0:
         test_flag_use()
     elif i==1:
-        test_124()
+        test_1231()
     else:
         test_write()

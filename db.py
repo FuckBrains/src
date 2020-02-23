@@ -155,7 +155,13 @@ def get_data(values,create):
             if '"' in values[i]:
                 values[i] = values[i].replace('"','')
     if create != True: 
-        uuid_sin = str(uuid.uuid1())     
+        ids = uuid_set()
+        for i in range(1000):
+            uuid_sin = str(uuid.uuid1())     
+            if uuid_sin in ids:
+                pass
+            else:
+                break
         values.insert(0,uuid_sin)  
     return values  
 
@@ -430,6 +436,30 @@ conditions:
 
 return submit with same state in every excel
 '''
+
+
+def uuid_set():
+    account = get_account()
+    conn,cursor=login_sql(account)    
+    res = cursor.execute('SELECT Basicinfo_Id from BasicInfo')
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来      
+    res = cursor.execute('SELECT Basicinfo_Id from Mission')
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Mission_dict2 = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来          
+    # print(len(Mission_dict))
+    # print(Mission_dict[0:5])
+    ids = [item['Basicinfo_Id'] for item in Mission_dict]
+    ids = list(set(ids))
+    print('Number before set1:',len(ids))    
+    ids2 = [item['Basicinfo_Id'] for item in Mission_dict2]
+    ids = ids+ids2
+    print('Number before set:',len(ids))
+    print(ids[:5])
+    ids = list(set(ids))
+    print('Number after set:',len(ids))
+    print(ids[:5])
+    return ids    
 
 def read_one_info(Country,Mission_list,Email_list,Excel_names):
     print('     Start reading info from sql server...')
