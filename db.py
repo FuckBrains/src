@@ -141,7 +141,7 @@ def get_sheet(path_excel):
     sheet = workbooks.sheet_by_index(0)
     return sheet  
 
-def get_data(values,create):
+def get_data(values,create,ids):
     '''
     change values into str type.
     if create is not True,insert uuid into values on the first place
@@ -155,15 +155,15 @@ def get_data(values,create):
             if '"' in values[i]:
                 values[i] = values[i].replace('"','')
     if create != True: 
-        ids = uuid_set()
-        for i in range(1000):
+        for i in range(10000):
             uuid_sin = str(uuid.uuid1())     
             if uuid_sin in ids:
                 pass
             else:
+                ids.append(uuid_sin)
                 break
         values.insert(0,uuid_sin)  
-    return values  
+    return values,ids  
 
 def login_sql(account,create = False):
     '''
@@ -363,6 +363,7 @@ def upload_data():
         print('No excel to upload')
         return
     conn,cursor = login_sql(account)
+    ids = uuid_set()
     for path_excel in excels_path:
         # print(path_excel)
         Excel_name = ((os.path.split(path_excel))[1].split('.'))[0]
@@ -401,8 +402,8 @@ def upload_data():
         for j in range(rows):
             if j == 0:
                 continue
-            values = sheet.row_values(j) 
-            values = get_data(values,False)
+            values = sheet.row_values(j)             
+            values,ids = get_data(values,False,ids)
             if 'BasicInfo_Id' in keys:
                 values.insert(1,Excel_name)
             if len(rids) >= 1:
