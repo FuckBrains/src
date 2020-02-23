@@ -363,7 +363,7 @@ def get_ssn(submit):
     '''
     ssn
     '''
-    ssn = submit['ssn']
+    ssn = submit['ssn'].replace('-','')
     ssn = chansfer_float_into_int(ssn)
     return ssn
 
