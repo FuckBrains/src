@@ -17,11 +17,12 @@ def traffic_test(traffic):
     traffic['ua'] = ua    
     click = 10000
     referer = ''
+    i = 0
     while True:    
         flag,proxy_info = ip_test(traffic['port_lpm'])
-        print(flag,'=========================')
+        print(flag,proxy_info,'\n=========================')
         if flag == 1:
-            break
+            pass
         elif flag == -1:
             print('bad port,change into new')
             port_new = get_port_random()
@@ -31,12 +32,15 @@ def traffic_test(traffic):
             print(port_new)
             try:
                 add_proxy(port_new,country=traffic['Country'],proxy_config_name='zone2',ip_lpm=traffic['ip_lpm'])
+                continue
             except Exception as e:
                 print(str(e))
-    for i in range(click):
+                continue
+    # for i in range(click):
         print('Sending traffic:',i+1,'clicks for mission',traffic['Mission_Id'])
         # luminati.refresh_proxy(traffic['ip_lpm'],traffic['port_lpm'])
         if traffic['traffic_method'] == 'Crawl':
+            print('Crawl')
             # print('fffffffffffffffffffffffff')
             try:
                 get_lpm_ip(traffic['port_lpm'],url = traffic['url_link'],Referer = referer,debug=1)
@@ -48,6 +52,7 @@ def traffic_test(traffic):
                 get_unique_traffic(traffic)
             except:
                 pass
+        i += 1
     delete_port_s(traffic['port_lpm'])
 
 def main(i):
@@ -72,20 +77,27 @@ def main(i):
         print('finish sending traffic,sleep for 30')
         # sleep(30)
 
-# def test():
-#     port = 24058
-#     ip = '192.168.30.131'
-#     url = 'http://track.meanclick.com/im/click.php?c=19&key=uy140s20ieojce6k1i1qilwg'    
-#     click = 99999
-#     referer = ''
-#     for i in range(click):
-#         print(i)
-#         luminati.refresh_proxy(ip,port)
-#         try:
-#             luminati.get_lpm_ip(ip,port,url = url,Referer = referer,debug=1)
-#         except Exception as e:
-#             print(str(e))
-#     luminati.delete_port([port])  
+def test():
+    traffic = {}
+    traffic['port_lpm'] = 24000
+    traffic['Country'] = 'us'
+    traffic['ip_lpm'] = '192.168.89.130'
+    while True:    
+        flag,proxy_info = ip_test(traffic['port_lpm'])
+        print(flag,proxy_info,'\n=========================')
+        if flag == 1:
+            pass
+        elif flag == -1:
+            print('bad port,change into new')
+            port_new = get_port_random()
+            update_port(traffic['port_lpm'],port_new)
+            delete_port_s(traffic['port_lpm'])                
+            traffic['port_lpm'] = port_new
+            print('New port:',port_new)
+            try:
+                add_proxy(port_new,country=traffic['Country'],proxy_config_name='zone2',ip_lpm=traffic['ip_lpm'])
+            except Exception as e:
+                print(str(e))
 
 def get_unique_traffic(traffic):
     traffic['traffic'] = True
@@ -110,7 +122,8 @@ def get_unique_traffic(traffic):
 if __name__ == '__main__':
     paras=sys.argv
     i = int(paras[1])
-    # i = 140
+    # i = 9
     main(i)
+    # test()
 
 

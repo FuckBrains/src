@@ -75,7 +75,8 @@ def api_test(proxy):
         except:
             print('try',i,'time')
             pass
-    print(resp.text)                       
+    print(resp.text) 
+    session.close()                      
     headers = {
     'accept': 'application/json',
     'Origin': 'http://petstore.swagger.io',
@@ -102,24 +103,23 @@ def refresh_proxy(ip,port):
     }    
     url = 'http://%s:22999/api/refresh_sessions/%s'%(str(ip),str(port))
     flag = 0
-    for i in range(10):
+    for i in range(5):
         try:
             resp = requests.post(url,headers=headers)
             # print(resp)
             # print(type(str(resp)))
             # print(str(resp))
             resp_code = str(re.sub("\D", "", str(resp)))
-            # print(resp_code)
+            print('refresh response code:',resp_code)
             if resp_code == '204':
                 flag = 1
-            if flag == 1:
                 print('refresh proxy success')
                 break
         except Exception as e:
             print(str(e))
     return flag
 
-@timeout(30)
+# @timeout(30)
 def get_lpm_ip(port,url="http://lumtest.com/myip.json",Referer='',debug=0):
     if debug==1:
         print('debug==================',debug)
@@ -142,15 +142,21 @@ def get_lpm_ip(port,url="http://lumtest.com/myip.json",Referer='',debug=0):
                        'https': proxy}  
     # print('Approaching:',url)
     # print(proxy)
-    resp=session.get(url,headers=headers)
-    print(headers)
-    # print(resp.text)
-    # print(resp.headers)
-    # print(resp.status_code)
-    print(type(resp.status_code))
+    print('url:',url)
+    if url != 'http://lumtest.com/myip.json':
+        resp=session.get(url,headers=headers)
+        print(headers)
+        print('Response info:')
+        print(resp.text)
+        print(resp.headers)
+        print(resp.status_code)
+        print(resp.status_code)        
+    else:
+        resp=session.get(url)        
     if resp.status_code == 502:
         print('============,502')
         proxy_info = ''
+        session.close()
         return proxy_info   
     try:
         # print('--------------------')
@@ -165,10 +171,11 @@ def get_lpm_ip(port,url="http://lumtest.com/myip.json",Referer='',debug=0):
         while True:
             # print(resp.text)
             a = resp.text.find('window.location = "')
-            print('window.location = .......found')
             if a == -1:
+                print('href not found')
                 break
             else:
+                print('window.location = .......found')
                 b = resp.text.find('"',a+22)
                 # print(a,b)
                 # print(resp.text[a:b])
@@ -178,6 +185,7 @@ def get_lpm_ip(port,url="http://lumtest.com/myip.json",Referer='',debug=0):
             # print(resp.text)
         # print(resp.headers)
     # print('proxy_info...',proxy_info,'...')
+    session.close()
     return proxy_info
 
 
@@ -203,6 +211,7 @@ def post_lpm(data_,port,url,headers,debug=0):
     if resp.status_code == 502:
         print('============,502')
         proxy_info = ''
+        session.close()
         return proxy_info   
     try:
         # print('--------------------')
@@ -234,6 +243,7 @@ def post_lpm(data_,port,url,headers,debug=0):
     resp = session.post(url_,data=data_)
     print(resp.text)
     # print('proxy_info...',proxy_info,'...')
+    session.close()
     return proxy_info
 
 
@@ -460,7 +470,7 @@ def ip_test(port_lpm,state = '',country=''):
         proxy_info = ''
         try:
             proxy_info = get_lpm_ip(port_lpm)
-            print(proxy_info)
+            # print(proxy_info)
         except Exception as e:
             print(str(e))
             # print('fail to get lpm ip')
@@ -558,7 +568,7 @@ def test_ip():
 def get_port_random():
     print('getting random port')
     ports_set = db.get_ports_set()
-    print(ports_set)
+    # print(ports_set)
     account = get_account()
     ip = account['IP_lpm']        
     ports_used = ports_get(ip)
@@ -567,7 +577,7 @@ def get_port_random():
     ports_used.extend(set(ports_set))
     port_ = 24000
     ports_used.append(port_)
-    print('ports_used:',ports_used)
+    # print('ports_used:',ports_used)
     while port_ in ports_used:
         port_rand = random.randint(0,5999)
         basic_port = 24000
