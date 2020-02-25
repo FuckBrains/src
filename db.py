@@ -1590,6 +1590,7 @@ def get_luminati_submit(Config):
     submit['Account'] = Config['Account']
     submit['Offer'] = Config['Offer']
     submit['ID'] = Config['ID']
+    submit['zone'] = Config['zone']    
     # submit['city'] = Config['city'] 
     if 'sleep_flag' in Config:
         submit['sleep_flag'] = Config['sleep_flag']
