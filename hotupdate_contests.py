@@ -41,10 +41,12 @@ WHERE
 
 
 
-
-
-
 }
+
+
+'''
+SELECT * FROM basicinfo  WHERE DATE_FORMAT(Create_time,'%Y-%m-%d %H:%i:%S')>='2020-02-25 14:00:00'
+'''
 
 
 def get_contents(i):

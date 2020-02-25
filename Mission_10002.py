@@ -31,7 +31,7 @@ def web_submit(submit,chrome_driver,debug=0):
     # test
     chrome_driver.close()
     chrome_driver.quit()
-    chrome_driver = Chrome_driver.get_chrome(submit,pic=1)    
+    chrome_driver = Chrome_driver.get_chrome(submit)    
     if debug == 1:
         site = 'https://adpgtrack.com/click/5b73d90a6c42607b3b6c4322/146827/199595/subaccount'
         submit['Site'] = site
