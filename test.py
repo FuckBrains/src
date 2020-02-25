@@ -1162,6 +1162,18 @@ def test_1232():
     print(ids[:5])
     return ids
 
+def update_traffic_key():
+    Mission_Id = 10002
+    country = 'US'
+    key = 'getaround'
+    db.upload_traffic_keys(Mission_Id,country,key)    
+
+def get_traffic_key():
+    Mission_Id = 10002
+    country = 'US'
+    traffic_key = db.get_traffic_key(Mission_Id,country)    
+    print(traffic_key)
+
 def test_1231():
     import uuid
     ids = test_1232()
@@ -1202,10 +1214,12 @@ def test_1233():
 
 
 if __name__ == '__main__':
-    i = 1
+    i = 3
     if i == 0:
         test_flag_use()
     elif i==1:
         test_1233()
-    else:
+    elif i==2:
         test_write()
+    elif i == 3:
+        get_traffic_key()

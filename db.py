@@ -1623,6 +1623,10 @@ def update_accounts(BasicInfo_Id):
     sql_content = "UPDATE accounts SET flag = '%d' WHERE BasicInfo_Id = '%s'" % (1,BasicInfo_Id)
     Execute_sql([sql_content])
 
+def upload_traffic_keys(Mission_Id,country,key):
+    sql_content = 'INSERT INTO traffic_key(Mission_Id,Country,traffic_key)VALUES("%d","%s","%s")'%(int(Mission_Id),country,key)
+    Execute_sql([sql_content])
+
 def update_activate_status(submit):
     print('Uploading activate status')
     print('Mission_Id:',submit['Mission_Id'])
@@ -1641,6 +1645,20 @@ def check_mission_status(submit):
     Mission_status_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来    
     login_out_sql(conn,cursor) 
     return Mission_status_dict
+
+def get_traffic_key(Mission_Id,country):
+    sql_content = "SELECT traffic_key FROM traffic_key  WHERE Mission_id = '%d' and Country = '%s'" % (int(Mission_Id),country)
+    account = get_account()
+    print(account)
+    conn,cursor = login_sql(account)
+    res = cursor.execute(sql_content)
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    traffic_key = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来    
+    login_out_sql(conn,cursor) 
+    if len(traffic_key) == 0:
+        return ''
+    else:
+        return traffic_key[0]['traffic_key']
 
 def get_soi_email():
     sql_content = "SELECT * FROM Basicinfo WHERE Excel_name = 'soi'"

@@ -326,7 +326,14 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         new_offer['zone'] = self.comboBox15.currentText()        
         # new_offer['Record'] = self.comboBox23.currentText()                
         new_offer['traffic_method'] = self.comboBox34.currentText()                        
-        new_offer['traffic_key'] = self.lineEdit33.text()        
+        if new_offer['traffic_method'] == 'Web':
+            Mission_Id = self.lineEdit13.text()
+            country = new_offer['Country']
+            traffic_key = db.get_traffic_key(Mission_Id,country) 
+            if traffic_key == '':
+                self.alert('No web traffic_key in database')
+                return             
+            new_offer['traffic_key'] = traffic_key          
         if self.comboBox13.currentText() == 'Yes':
             new_offer['Activate_status'] = 1
         else:
@@ -1102,6 +1109,21 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             self.alert("Add change page success")
         except Exception as e:
             self.alert(str(e))
+
+    @pyqtSlot()
+    def on_pushButton41_clicked(self):
+        Mission_Id = self.lineEdit13.text()
+        country = self.comboBox5.currentText()
+        key = self.lineEdit33.text()
+        if Mission_Id == '' or country == '' or key == '':
+            self.alert('Check country,Mission_Id and key content')
+            return        
+        try:
+            flag = db.upload_traffic_keys(Mission_Id,country,key)
+            self.alert("Add traffic_key success")
+        except Exception as e:
+            self.alert(str(e))        
+
 
 def test_k():
     file = r'ini\Offer_num.ini'

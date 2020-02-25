@@ -131,6 +131,7 @@ def get_chrome(submit = None,pic=0):
     # desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none"     
                        
     options = webdriver.ChromeOptions()                
+    path_driver = get_chromedriver_path()    
     if submit == None:
         uas = get_ua_all()
         ua = get_ua_random(uas)
@@ -146,9 +147,9 @@ def get_chrome(submit = None,pic=0):
         if 'traffic' in submit:
             options.add_argument('user-agent=' + ua)
             options.add_argument('--headless')            
-            # desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none" 
-            # desired_capabilities["pageLoadStrategy"] = "none"            
-            chrome_driver = webdriver.Chrome(chrome_options=chrome_options, desired_capabilities=desired_capabilities,executable_path=path_driver)            
+            desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none" 
+            desired_capabilities["pageLoadStrategy"] = "none"            
+            chrome_driver = webdriver.Chrome(chrome_options=options, desired_capabilities=desired_capabilities,executable_path=path_driver)            
             return chrome_driver            
         # if 'Record' in submit:
         #     print('Cancle record modern')
@@ -198,7 +199,6 @@ def get_chrome(submit = None,pic=0):
     options.add_argument("--disable-automation")
     options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])
     print(options)
-    path_driver = get_chromedriver_path()
     # chrome_driver = webdriver.Chrome(desired_capabilities=desired_capabilities,chrome_options=options,executable_path=path_driver)
     chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)    
     # chrome_driver = webdriver.Chrome(executable_path=path_driver)        

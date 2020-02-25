@@ -50,8 +50,8 @@ def traffic_test(traffic):
             try:
                 print('+++++++++++++++++++++++++++')
                 get_unique_traffic(traffic)
-            except:
-                pass
+            except Exception as e:
+                print(str(e))
         i += 1
     delete_port_s(traffic['port_lpm'])
 
