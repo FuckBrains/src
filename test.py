@@ -1189,8 +1189,8 @@ def test_1231():
 def test_1233():
     account = db.get_account()
     conn,cursor=db.login_sql(account)    
-    Excel_name = 'health'
-    Mission_Id = 10002
+    Excel_name = 'Uspd'
+    Mission_Id = 10088
     '''
     id in excel
     '''

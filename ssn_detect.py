@@ -66,6 +66,33 @@ def get_headers2():
     return headers
 
 
+def validate_address():
+    headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'Origin': 'https://cashrequestonline.com',
+        'Referer': 'https://cashrequestonline.com/Home/GetStarted?RequestedAmount=1000&ZipCode=85705',
+        'Sec-Fetch-Mode': 'cors',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36'
+    }
+    url_ = 'https://www.consumerconnecting.com/LeadProcessing/CheckAddress'
+    Address='P.O Box 434'
+    ZipCode=35068  
+    data = {}
+    data['Address'] = Address
+    data['ZipCode'] = ZipCode
+    # print('preparing to add proxy config:',data)
+    data_ = parse.urlencode(data)      
+    s = requests.session()
+    resp = s.post(url_,data=data_,headers=headers)
+    # resp.encoding = 'utf-8'  # 设置编码
+    resp.encoding='UTF-8'  
+    # resp = requests.post(url_,data=data)            
+    # print(resp.apparent_encoding)
+    resp_text = resp.text
+    print(resp_text)
+
+
 
 
 def get_first_headers():
@@ -326,7 +353,6 @@ def test_email():
     print(sql_content)
 
 if __name__ == '__main__':
-    ssn = '364496'
     # print(ssn)
-    validate_ssn2(ssn)
+    validate_address()
     # test_ssn()

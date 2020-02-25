@@ -38,7 +38,7 @@ def test():
     # db.email_test()
     # date_of_birth = Submit_handle.get_auto_birthday('')         
     Mission_list = ['10002']
-    excel = 'health'  
+    excel = 'Uspd'  
     # excel = 'Uspd'  
     Excel_name = [excel,'']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
