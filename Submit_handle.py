@@ -480,6 +480,8 @@ def get_phone(submit):
     phone_ = phone.replace('(','').replace(')','').replace('-','')
     if '.' in phone_:
         phone_ = (phone_).split('.')[0]
+    if len(str(phone_)) == 9:
+        '0'+phone_
     return phone_
 
 def get_phone_fr(submit):
