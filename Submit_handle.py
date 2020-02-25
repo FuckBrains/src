@@ -481,7 +481,7 @@ def get_phone(submit):
     if '.' in phone_:
         phone_ = (phone_).split('.')[0]
     if len(str(phone_)) == 9:
-        '0'+phone_
+        phone_ = '0'+phone_
     return phone_
 
 def get_phone_fr(submit):

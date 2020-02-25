@@ -120,6 +120,15 @@ def tz_test():
     sleep(3000)
 
 def get_chrome(submit = None,pic=0):
+    print('++++++++++++++++++++++++')
+    print('++++++++++++++++++++++++')
+    print('++++++++++++++++++++++++')
+
+    print([key for key in submit])
+    print('++++++++++++++++++++++++')
+    print('++++++++++++++++++++++++')
+    print('++++++++++++++++++++++++')
+    
     path_download = get_dir()    
     prefs = {
             "download.default_directory": path_download,
