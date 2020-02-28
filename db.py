@@ -1693,7 +1693,7 @@ if __name__ == '__main__':
         init()
     except:
         pass
-    delete_old_data()
+    # delete_old_data()
     upload_data()
     # get_duplicated_mission_record()
     # plans = {'0': {'Alliance': 'Finaff', 'Offer': 'Royal Cams(Done)', 'url_link': 'http', 'Country': 'US', 'Mission_Id': '10000', 'Excel': ['', 'Email']}}

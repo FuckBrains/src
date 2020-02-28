@@ -66,7 +66,7 @@ def get_headers2():
     return headers
 
 
-def validate_address():
+def validate_address(Address='',ZipCode=''):
     headers = {
         'Accept': '*/*',
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -76,21 +76,34 @@ def validate_address():
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36'
     }
     url_ = 'https://www.consumerconnecting.com/LeadProcessing/CheckAddress'
-    Address='P.O Box 434'
-    ZipCode=35068  
+    # Address='P.O Box 434'
+    # ZipCode=35068  
+    headers['Referer'] = headers['Referer'].replace('85705',str(ZipCode))
     data = {}
     data['Address'] = Address
     data['ZipCode'] = ZipCode
     # print('preparing to add proxy config:',data)
     data_ = parse.urlencode(data)      
     s = requests.session()
-    resp = s.post(url_,data=data_,headers=headers)
+    try:
+        resp = s.post(url_,data=data_,headers=headers)
+    except:
+        return -1
     # resp.encoding = 'utf-8'  # 设置编码
     resp.encoding='UTF-8'  
     # resp = requests.post(url_,data=data)            
     # print(resp.apparent_encoding)
     resp_text = resp.text
-    print(resp_text)
+    # print(resp_text)
+    data = json.loads(resp.text)
+    flag = 0
+    if data['StatusCode'] == 200:
+        # print('address alive')
+        flag = 1
+    else:
+        # print('address fake')
+        flag = 0
+    return flag
 
 
 
@@ -109,12 +122,49 @@ def get_first_headers():
     }
     return headers
 
-def varidate_phone():
-    phone = 2489710778
-    url = 'http://apilayer.net/api/validate?access_key=1bb8e33a938a9bb0a25b904d51775710&number=%d&country_code=US&format=1'%phone
-    resp = requests.get(url)
-    print(resp.text)
-    print(str(resp))
+def validate_phone(phone):
+    # phone = 2489710778
+    url = 'http://apilayer.net/api/validate?access_key=1bb8e33a938a9bb0a25b904d51775710&number=%d&country_code=US&format=1'%int(phone)
+    try:
+        resp = requests.get(url)
+        data = json.loads(resp.text)        
+    except:
+        return -1
+    # print(resp.text)
+    # print(str(resp))
+    flag = 0
+    if data['valid'] == True:
+        # print('phone is valid')
+        flag = 1
+    else:
+        # print('phone is not valid')
+        flag = 0
+    return flag
+
+def validate_routing(routing):
+    # routing = 421051540
+    url = 'https://www.consumerconnecting.com/misc/?responsetype=json&action=validatebankaba&bankaba=%d&uts=1582817828788&uid=d127367d-6053-4c65-b60b-fb53d7008f10&callback=jQuery2230839557435128814_1582817474953&_=1582817474957'%int(routing)
+    try:
+        resp = requests.get(url)
+        # data = json.loads(resp.text)        
+    except:
+        return -1
+    # print(resp.text)
+    resp_txt = resp.text
+    resp_text = resp_txt.replace('jQuery2230839557435128814_1582817474953(','').replace(')','')
+    data = json.loads(resp_text)
+    # print(data['Result'])
+    # print(str(resp))
+    flag = 0
+    if data['Result'] == 1:
+        # print('routing is valid')
+        flag = 1
+    elif data['Result'] == 4:
+        # print('routing is not valid')
+        flag = 0
+    else:
+        print(data)
+    return flag
 
 def get_emails(file):
     # file = r'..\res\email.txt' 
@@ -134,18 +184,24 @@ def validate_email(email):
         1: email alive
         2: email not alive
     '''    
-    print('email:',email)
+    # print('email:',email)
     url = 'https://www.consumerconnecting.com/misc/?responsetype=json&action=validateemail&email=%s'%email
     resp = requests.get(url)
     # print(resp.text)
-    res = json.loads(resp.text)
-    print("res['Result']",res['Result'])
+    try:
+        res = json.loads(resp.text)
+    except:
+        return -1
+    # print("res['Result']",res['Result'])
+    flag = 0
     if res['Result'] == 1:
-        print('email alive')
+        # print('email alive')
+        flag = 1
     else:
-        print('email not exist')
+        # print('email not exist')
+        flag = 0
     # print(str(resp))  
-    return res['Result']  
+    return flag
 
 def validate_10088_email(email):
     '''
@@ -157,7 +213,7 @@ def validate_10088_email(email):
     url2 = 'https://www.consumerconnecting.com/misc/?responsetype=json&action=campaignstatus&c=235100&email=%s&leadtypeid=9&mailsrc=field&callback=posting.isReturning&uts=%d&uid=5c8f7594-e795-4f00-b670-c43415d65d64'%(email,stick)
     # print(url)
     url = 'http://lumtest.com/myip.json'
-    print('email:',email)
+    # print('email:',email)
     ip = '192.168.89.130'
     port = '25945'
     proxy = 'socks5://%s:%s'%(ip,port)    
@@ -166,19 +222,25 @@ def validate_10088_email(email):
     #                    'https': proxy}      
     # resp = session.get(url)
     # print(resp.text)
-    resp = session.get(url2)
-    print(resp.text)    
-    # resp = session.get(url)
+    try:
+        resp = session.get(url2)
     # print(resp.text)    
-    response = resp.text.replace('posting.isReturning(','').replace(')','')
-    res = json.loads(response)
-    print("res['Result']",res['Result'])
-    # if res['Result'] == 1:
-    #     print('email alive')
-    # else:
-    #     print('email not exist')
+    # resp = session.get(url)
+    # print(resp.text)   
+        response = resp.text.replace('posting.isReturning(','').replace(')','')
+        res = json.loads(response)
+    except:
+        return -1
+    # print("res['Result']",res['Result'])
+    flag = 0
+    if res['Result'] == 1:
+        # print('email alive')
+        flag = 1
+    else:
+        # print('email not exist')
+        flag = 0
     # print(str(resp))  
-    return res['Result'] 
+    return flag 
 
 def validate_ssn(ssn):
     data = {}
@@ -326,7 +388,6 @@ def test_ssn():
     [pool.putRequest(req) for req in requests]
     pool.wait()     
 
-
 def get_ssn():
     '''
     empty
@@ -352,7 +413,14 @@ def test_email():
     sql_content = "UPDATE BasicInfo SET ssn_status = '%s' and ssn_state = '%s' WHERE ssn = '%.1f'" % (ssn_status,ssn_state,float(ssn))
     print(sql_content)
 
+def test_email_10088():
+    email = 'jerry.griffin@cableone.net'    
+    validate_email(email)
+
 if __name__ == '__main__':
     # print(ssn)
-    validate_address()
+    # phone = 7602075622
+    # validate_phone(phone)
     # test_ssn()
+    routing = 421051540
+    validate_routing(routing)

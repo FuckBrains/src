@@ -21,6 +21,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import requests
+import Submit_handle as sh
+
 
 
 
@@ -244,28 +246,30 @@ def test_cam4():
     # except Exception  as e:
     #     print(str(e))
 
-def get_uspd():
+def get_uspd(excel):
     print('     Start reading info from sql server...')
     account = db.get_account()
     conn,cursor=db.login_sql(account)
     print('     Login success')    
-    Excel_name = 'Uspd'
+    Excel_name = excel
     res = cursor.execute('SELECT * from BasicInfo WHERE Excel_name="%s"'%Excel_name)
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
     return Mission_dict 
 
-pool = threadpool.ThreadPool(5)
+pool = threadpool.ThreadPool(20)
 
 import ssn_detect as dt
 
 def test_write():     
     import traceback
-    Mission_dict = get_uspd()
+    excel = 'Uspd_big'
+    Mission_dict = get_uspd(excel)
     print('Total',len(Mission_dict),'info')
     # account = db.get_account()
 
     length = len(Mission_dict)
+    # length = 100
     submits = []
     for j in range(length):
         submit = {}
@@ -273,10 +277,11 @@ def test_write():
         submit['Account'] = ''
         submit['ua'] = ''        
         submit['num'] = j
-        print('Number',j,'sending....')
-        submit['Uspd'] = Mission_dict[j]
+        # print('Number',j,'sending....')
+        submit[excel] = Mission_dict[j]
         submits.append(submit)
     print('Total',len(submits),'infos')
+    # print(submits[0])
         # try:
         #     flag = dt.validate_10088_email(submit['Uspd']['email'])
         #     print(flag)
@@ -298,20 +303,7 @@ def test_write():
     [pool.putRequest(req) for req in requests]
     pool.wait()
 
-def Mission_10088_test(submit):
-    print('Sending',submit['num'],'info')
-    try:
-        flag = dt.validate_10088_email(submit['Uspd']['email'])
-        print(flag)
-        if flag == 3:
-            print('Number',submit['num'],'is used info')
-            db.write_one_info([str(10088)],submit)
-        else:
-            print('Number',submit['num'],'is good info')
-    except:
-        pass
-        # a = traceback.format_exc()
-        # print(a)    
+
 
 def test_update():
     submit = {}
@@ -1189,7 +1181,7 @@ def test_1231():
 def test_1233():
     account = db.get_account()
     conn,cursor=db.login_sql(account)    
-    Excel_name = 'Uspd'
+    Excel_name = 'Uspd_small'
     Mission_Id = 10088
     '''
     id in excel
@@ -1212,9 +1204,56 @@ def test_1233():
     return ids
 
 
+def Mission_10088_test(submit):
+    print('Sending',submit['num'],'info')
+    excel = 'Uspd_big'
+    try:
+        # email alive
+        flag_email_alive = dt.validate_email(submit[excel]['email'])       
+    except:
+        flag_email_alive = -1
+    try:
+        # email in 10088 db
+        flag_email_indb = dt.validate_10088_email(submit[excel]['email'])
+    except:
+        flag_email_indb = -1
+    try:
+        # homephone alive
+        phone = sh.get_phone(submit[excel])
+        flag_home_phone = dt.validate_phone(phone)
+    except:
+        flag_home_phone = -1
+    try:
+        # workphone alive
+        phone = sh.get_workphone(submit[excel])        
+        flag_work_phone = dt.validate_phone(phone)
+    except:
+        flag_work_phone = -1
+    try:
+        # address alive
+        ZipCode = sh.get_zip(submit[excel])                
+        address = submit[excel]['address']
+        flag_address = dt.validate_address(address,ZipCode)
+    except:
+        flag_address = -1  
+    try:
+        # workphone alive
+        routing = sh.get_routing_number(submit[excel])        
+        flag_routing = dt.validate_routing(routing)
+    except Exception as e:
+        print(str(e))
+        flag_routing = -1         
+    sql_content = "UPDATE BasicInfo SET email_alive = '%d' , email_in_10088 = '%d' , home_phone_alive = '%d',work_phone_alive='%d',address_alive='%d',routing_alive='%d' WHERE BasicInfo_Id = '%s'" % (flag_email_alive,flag_email_indb,flag_home_phone,flag_work_phone,flag_address,flag_routing,submit[excel]['BasicInfo_Id'])
+    # sql_content = "UPDATE BasicInfo SET routing_alive = '%d'  WHERE BasicInfo_Id = '%s'" % (flag_routing,submit[excel]['BasicInfo_Id'])    
+    print(sql_content)
+    db.Execute_sql([sql_content])
+
+         
+
+
 
 if __name__ == '__main__':
-    i = 1
+    i = 2
     if i == 0:
         test_flag_use()
     elif i==1:
@@ -1222,4 +1261,4 @@ if __name__ == '__main__':
     elif i==2:
         test_write()
     elif i == 3:
-        get_traffic_key()
+        Mission_10088_test()
