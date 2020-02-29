@@ -144,15 +144,24 @@ def get_lpm_ip(port,url="http://lumtest.com/myip.json",Referer='',debug=0):
     # print(proxy)
     print('url:',url)
     if url != 'http://lumtest.com/myip.json':
-        resp=session.get(url,headers=headers)
-        print(headers)
+        try:
+            resp=session.get(url,headers=headers)
+        except Exception as e:
+            print('=====')
+            print(str(e))
+        # print(headers)
         print('Response info:')
         print(resp.text)
-        print(resp.headers)
+        # print(resp.headers)
         print(resp.status_code)
-        print(resp.status_code)        
+        # print(resp.status_code)        
     else:
-        resp=session.get(url)        
+        try:
+            resp=session.get(url)
+        except Exception as e:
+            print('=====')
+            print(str(e))  
+    print('response:',resp.status_code)      
     if resp.status_code == 502:
         print('============,502')
         proxy_info = ''
@@ -459,7 +468,8 @@ def ip_test(port_lpm,state = '',country=''):
         # print('starting refresh ip...........')
         try:
             flag_ip = refresh_proxy(ip_lpm,port_lpm)
-        except:
+        except Exception as e:
+            print(str(e))
             flag =  -1
             break
         sleep(3)
@@ -473,16 +483,16 @@ def ip_test(port_lpm,state = '',country=''):
             # print(proxy_info)
         except Exception as e:
             print(str(e))
-            # print('fail to get lpm ip')
+            print('fail to get lpm ip')
             flag = -1
             # flag_ip = refresh_proxy(ip_lpm,port_lpm)
             break
         if proxy_info == '':
-            # print('proxy_info',-1)
+            print('proxy_info',-1)
             flag = -1
             break
         if state == '':
-            # print(proxy_info)  
+            print(proxy_info)  
             flag = 1          
             break
         # print(proxy_info)
@@ -494,12 +504,12 @@ def ip_test(port_lpm,state = '',country=''):
         # flag = 1
         # break
         if state_proxy == state:
-            # print('Find target state:',state_proxy)
+            print('Find target state:',state_proxy)
             flag = 1
             break
         else:
-            # print('State of proxy:',state_proxy)
-            # print('Target state:',state)
+            print('State of proxy:',state_proxy)
+            print('Target state:',state)
             continue
     return flag,proxy_info
 
