@@ -316,7 +316,7 @@ def reg_part_(submit):
     except:
         pass
 
-@timeout(600)
+@timeout(900)
 def reg_part_cpl(submit):
     print('reg_part')
     global timezone 
@@ -473,7 +473,7 @@ def web_submit(submit,chrome_driver,debug=0):
                 iframe_change(chrome_driver,config_['General']['iframe'])
                 submit = selenium_funcs.get_action(chrome_driver,config_,submit)
                 flag_refresh = 0
-                sleep(1)
+                sleep(5)
             except Exception as e:
                 a = traceback.format_exc()
                 print(a)
