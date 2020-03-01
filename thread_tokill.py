@@ -345,7 +345,7 @@ def reg_part_cpl(submit):
             submit.pop('ip_lpm')
         print(submit)
         chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
-        # Mission_Id = submit['Mission_dir'].split(',')[0][-5:]
+        Mission_Id = submit['Mission_dir'].split(',')[0][-5:]
         same_config = read_same_config_num()
         if str(submit['Mission_Id']) in same_config:
             Mission_Id = same_config[str(submit['Mission_Id'])].replace('\n','')
