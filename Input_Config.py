@@ -30,7 +30,8 @@ Input_Config ={
 Select_Config ={
     'state'       : ['get_name_real'],
     'date_of_birth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all'],
-    'pay_period':['get_next_payday_mm','get_next_payday_dd','get_next_payday_all'],    
+    'requested_loan_amount':['get_next_payday_dd','get_next_payday_mm','get_next_payday_mm_str','get_next_payday_year','get_next_payday_all','get_next_payday_bi_str','get_next_payday2_dd','get_next_payday2_mm','get_next_payday2_mm_str','get_next_payday2_year','get_next_payday2_all','get_next_payday2_bi_str'],
+
 }
 
 Generate_Config = {
@@ -38,9 +39,21 @@ Generate_Config = {
     'pwd'         : ['password_get','password_get_Nostale'],        
     'height'      : ['get_height_ft','get_height_inch','get_height_weight'],  
     'fullname'    : ['get_fullname'], 
-    'firstname' : ['get_name_real'],  
+    'firstname'   : ['get_name_real'],  
     'next_pay_day':['get_next_payday_bi_str','get_next_payday2_bi_str','get_next_payday_all','get_next_payday2_all'],
-    'income'      :['get_random_income']
+    'income'      :['get_random_income'],
+    'nextpayday_dd'  :['get_next_payday_dd'],
+    'nextpayday2_dd'  :['get_next_payday2_dd'],
+    'nextpayday_mm'  :['get_next_payday_mm'],
+    'nextpayday2_mm'  :['get_next_payday2_mm'],
+    'nextpayday_mm_str'  :['get_next_payday_mm_str'],
+    'nextpayday2_mm_str'  :['get_next_payday2_mm_str'],
+    'nextpayday_yy'  :['get_next_payday_year'],
+    'nextpayday2_yy'  :['get_next_payday2_year'],
+    'nextpayday_all'  :['get_next_payday_all'],
+    'nextpayday2_all'  :['get_next_payday2_all'],
+    'nextpayday_bi_str'  :['get_next_payday_bi_str'],
+    'nextpayday2_bi_str'  :['get_next_payday2_bi_str'],
 }
 
 

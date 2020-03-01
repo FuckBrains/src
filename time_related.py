@@ -51,29 +51,30 @@ def Time_used(starttime,endtime):
     return time_used
 
 def update_time_system():
-    # while True:
-    # 	i = 0
-    # 	try:
-    os.system("tzutil /s \"AUS Central Standard Time\"")
-    # os.system("tzutil /l")    
-    # sleep(5)
-    # c = ntplib.NTPClient()
-    # response = c.request('pool.ntp.org')
-    # ts = response.tx_time
-    # _date = time.strftime('%m-%d-%Y',time.localtime(ts))
-    # _time = time.strftime('%X',time.localtime(ts))
-    # print(_date,_time)
-    # os.environ['TZ'] = 'Asia/Shanghai'
-    os.system("tzutil /g")        
-    # print(os.system("tzutil /l "))    		
-    # os.system('date {} && time {}'.format(_date,_time))
-    	# 	break
-    	# except Exception as e:
-    	# 	i += 1
-    	# 	if i >= 20:
-    	# 		break 
-    	# 	print('Fail to update system for',str(i),'times,try again.')
-    	# 	pass
+    while True:
+        i = 0
+        try:
+            os.system("tzutil /s \"China Standard Time\"")
+            # os.system("tzutil /l")    
+            sleep(5)
+            c = ntplib.NTPClient()
+            response = c.request('pool.ntp.org')
+            ts = response.tx_time
+            _date = time.strftime('%m-%d-%Y',time.localtime(ts))
+            _time = time.strftime('%X',time.localtime(ts))
+            print(_date,_time)
+            os.environ['TZ'] = 'Asia/Shanghai'
+            os.system("tzutil /g")        
+            # print(os.system("tzutil /l "))            
+            os.system('date {} && time {}'.format(_date,_time))
+            break
+        except Exception as e:
+            print(str(e))
+            i += 1
+            if i >= 20:
+                break 
+            print('Fail to update system for',str(i),'times,try again.')
+            pass
 
 
 

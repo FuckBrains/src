@@ -1248,9 +1248,12 @@ def Mission_10088_test(submit):
     print(sql_content)
     db.Execute_sql([sql_content])
 
+def test_nextpayday():
+    import Submit_handle
+    date = Submit_handle.get_next_payday_list('')
+    print(date)
+
          
-
-
 
 if __name__ == '__main__':
     i = 2
@@ -1261,4 +1264,4 @@ if __name__ == '__main__':
     elif i==2:
         test_write()
     elif i == 3:
-        Mission_10088_test()
+        test_nextpayday()

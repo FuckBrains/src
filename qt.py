@@ -120,8 +120,11 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         replace_links()
         account = db.get_account()
         self.vc_range = account['vc_range']
-        print(self.vc_range)        
-        for item in self.offer:
+        print(self.vc_range) 
+        # self.offer.sort()       
+        items = [item for item in self.offer]
+        items.sort(key=str.lower)
+        for item in items:
             if i >= end:
                 break
             self.comboBox1.addItem("")
@@ -167,6 +170,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         # print('========')
         item = self.comboBox1.currentText()
         if item != '':
+            self.offer[item].sort(key=str.lower)
             for offer_ in self.offer[item]:
                 if j >= len(self.offer[item]):
                     break                
@@ -439,7 +443,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         keys = []
         for item in self.Missions:
             keys.append(item)
-        keys.sort()
+        keys.sort(key=str.lower)
         print('keys of Missions')
         print(keys)
         # print(self.Missions[keys[row]])
@@ -859,6 +863,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
                 # print('Mission_Id'+str(Mission_Id)+' not in item')
                 pass
         if keys != []:
+            keys.sort(key=str.lower)
             for j in range(len(keys)):
                 self.comboBox19.addItem("")
                 self.comboBox19.setItemText(j, _translate("MainWindow", keys[j]))                    

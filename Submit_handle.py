@@ -4,6 +4,8 @@ from xlrd import xldate_as_tuple
 import requests
 import json
 import os
+import datetime
+
 # Delay, Config, Mission_conf, Email_list  = Cam4_allin.Config_read()
 
 '''
@@ -614,67 +616,99 @@ def get_uk_phone1(phone):
         phone = phone[3:]
     return phone
 
-def get_next_payday_list(submit):
-    '''
-    [Janauary,01,1991] 
-    '''
-    import datetime
-    year = datetime.datetime.now().year
-    month = datetime.datetime.now().month
-    day = datetime.datetime.now().day
-    if day>=15:
-        if month != 2:
-            day_pay = 30
-        else:
-            day_pay = 28
-    else:
-        day_pay = 14
-    if day >= 30:
-        day_pay = 15
-        month = month + 1
-    # month = get_month_word(month)
-    date = []
-    date = [month,day_pay,year,]
-    return date
 
-def get_next_payday2_list(submit):
-    '''
-    [Janauary,01,1991] 
-    '''
-    import datetime
-    year = datetime.datetime.now().year
-    month = datetime.datetime.now().month
-    day = datetime.datetime.now().day
-    if day<15:
-        if month != 2:
-            day_pay = 30
-        else:
-            day_pay = 28
-    else:
-        day_pay = 14
-        if month != 12:
-            month += 1
-        else:
-            month = 1
-        if month == 3:
-            day_pay = 16
-    # if day >= 30:
-    #     day_pay = 15
-    #     month = month + 1
-    # month = get_month_word(month)
-    date = []
-    date = [month,day_pay,year]
-    return date
-
+def get_payday_dict():
+    paydaydict = {
+    '2020':{
+    '3':['16','30'],
+    '4':['15','29'],
+    '5':['14','28']
+    }
+    }
+    return paydaydict    
 
 def get_month_word(month):
     month_word = ['January','February','March','April','May','June','July','August','September','October','November','December']
     month_list = [i+1 for i in range(12)]
     index = month_list.index(month)
     month = month_word[index]
-    return month    
+    return month     
+
+def get_next_payday_list(submit):
+    '''
+    [11,01,1991] 
+    '''
+    paydaydict = get_payday_dict()
+    year = datetime.datetime.now().year
+    month = datetime.datetime.now().month
+    day = datetime.datetime.now().day
+    day_1 = paydaydict[str(year)][str(month)][0]
+    day_2 = paydaydict[str(year)][str(month)][1]    
+    date = [0,0,0]    
+    if day < int(day_1):
+        day = day_1
+        date[0] = month
+        date[1] = day
+        date[2] = year
+    elif day >= int(day_1) and day <int(day_2):
+        day = day_2
+        date[0] = month
+        date[1] = day
+        date[2] = year
+    else:
+        if month != 12:
+            month = month + 1
+            day = paydaydict[str(year)][str(month+1)][0]
+            date[0] = month
+            date[1] = day
+            date[2] = year
+        else:
+            month = 1
+            day = paydaydict[str(year+1)]['1'][0]
+            date[0] = month
+            date[1] = day
+            date[2] = year
+    return date
+
+def get_next_payday2_list(submit):
+    '''
+    [25,01,1991] 
+    '''
+    paydaydict = get_payday_dict()    
+    date = get_next_payday_list(submit)
+    month = date[0]
+    day = date[1]
+    year = date[2]
+    date_monthly = [0,0,0] 
+    if month == 12:
+        if day == paydaydict[str(year)]['12'][0]:
+            date_monthly[0] = 12
+            date_monthly[1] = paydaydict[str(year)]['12'][1]
+            date_monthly[2] = year
+        else:
+            date_monthly[0] = 1
+            date_monthly[1] = paydaydict[str(year+1)]['1'][0]
+            date_monthly[2] = year+1
+    else:
+        if day == paydaydict[str(year)][str(month)][0]:
+            date_monthly[0] = month
+            date_monthly[1] = paydaydict[str(year)][str(month)][1]
+            date_monthly[2] = year
+        else:
+            date_monthly[0] = month + 1
+            date_monthly[1] = paydaydict[str(year)][str(month+1)][0]
+            date_monthly[2] = year
+    # if day >= 30:
+    #     day_pay = 15
+    #     month = month + 1
+    # month = get_month_word(month)
+
+    return date_monthly
 
 def get_next_payday(submit=''):
+    '''
+    [January,01,1991] 
+    '''    
     date = get_next_payday_list('')
     month = date[0]
     month = get_month_word(month)
@@ -682,29 +716,14 @@ def get_next_payday(submit=''):
     return date
 
 def get_next_payday2(submit=''):
+    '''
+    [January,01,1991] 
+    '''        
     date = get_next_payday2_list('')
     month = date[0]
     month = get_month_word(month)
     date[0] = month
     return date
-
-
-
-def get_next_payday_bi_str(submit=''):
-    '''
-    Janauary 01,2020
-    '''
-    payday = get_next_payday()
-    payday_ = payday[0]+' '+str(payday[1])+','+str(payday[2]) 
-    return payday_   
-
-def get_next_payday2_bi_str(submit=''):
-    '''
-    Janauary 01,2020
-    '''
-    payday = get_next_payday2()
-    payday_ = payday[0]+' '+str(payday[1])+','+str(payday[2]) 
-    return payday_   
 
 def get_next_payday_dd(submit):
     '''
@@ -714,6 +733,63 @@ def get_next_payday_dd(submit):
     payday_dd = payday[1]
     return payday_dd
 
+def get_next_payday2_dd(submit):
+    '''
+    dd
+    '''
+    payday = get_next_payday2_list('')
+    payday_dd = payday[1]
+    return payday_dd
+
+def get_next_payday_mm(submit):
+    '''
+    mm
+    '''
+    payday = get_next_payday_list('')
+    payday_mm = payday[0]
+    return payday_mm
+
+def get_next_payday2_mm(submit):
+    '''
+    mm
+    '''
+    payday = get_next_payday2_list('')
+    payday_mm = payday[0]
+    return payday_mm
+
+def get_next_payday_mm_str(submit):
+    '''
+    mm_str
+    '''
+    payday = get_next_payday_list('')
+    payday_mm = payday[0]
+    payday_mm = get_month_word(payday_mm)
+    return payday_mm
+
+def get_next_payday2_mm_str(submit):
+    '''
+    mm_str
+    '''
+    payday = get_next_payday2_list('')
+    payday_mm = payday[0]
+    payday_mm = get_month_word(payday_mm)
+    return payday_mm
+
+def get_next_payday_year(submit):
+    '''
+    yy
+    '''
+    payday = get_next_payday_list('')
+    payday_yy = payday[2]
+    return payday_yy
+
+def get_next_payday2_year(submit):
+    '''
+    yy
+    '''
+    payday = get_next_payday2_list('')
+    payday_yy = payday[2]
+    return payday_yy
 
 def get_next_payday_all(submit=''):
     '''
@@ -739,14 +815,21 @@ def get_next_payday2_all(submit=''):
     payday_all = str(payday[0])+'/'+str(payday[1])+'/'+str(payday[2])
     return payday_all
 
-def get_next_payday_mm(submit):
+def get_next_payday_bi_str(submit=''):
     '''
-    mm
+    Janauary 01,2020
     '''
-    payday = get_next_payday_list('')
-    payday_mm = payday[0]
-    return payday_mm
+    payday = get_next_payday()
+    payday_ = payday[0]+' '+str(payday[1])+','+str(payday[2]) 
+    return payday_   
 
+def get_next_payday2_bi_str(submit=''):
+    '''
+    Janauary 01,2020
+    '''
+    payday = get_next_payday2()
+    payday_ = payday[0]+' '+str(payday[1])+','+str(payday[2]) 
+    return payday_   
 
 def makedir_pic(path):
     isExists=os.path.exists(path)

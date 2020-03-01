@@ -1181,7 +1181,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.Dadao.setCurrentIndex(6)
-        self.tabWidget.setCurrentIndex(7)
+        self.tabWidget.setCurrentIndex(5)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
