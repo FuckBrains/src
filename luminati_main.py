@@ -51,7 +51,8 @@ def main(i):
     # while True:
     for j in range(1):
         try:
-            tools.killpid()
+            if i != 3:
+                tools.killpid()
             print(']]]]')
         except Exception as e:
             print(str(e))
@@ -84,14 +85,17 @@ def main(i):
         print('All Missions finished..............')
         try:
             print('try killing pids')
-            tools.killpid()
+            if i != 3:            
+                tools.killpid()
+            else:
+                return
             print('kill pids finished')
         except Exception as e:
             print(str(e))
             pass          
-        restart_time = random.randint(3,5)
+        restart_time = random.randint(1,5)
         print('Mission completed.........')
-        print('Sleep',restart_time,'minutes')
+        print('Sleep',restart_time*60,'minutes')
         # sleep(restart_time*60)
         changer.Restart()
         sleep(200)

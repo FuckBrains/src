@@ -127,6 +127,18 @@ def change_tz(windows_):
             sleep(10)
             print('waiting tz')
 
+def read_same_config_num():
+    Offer_configs = {}
+    with open(r'ini\same_config.ini') as f:
+        lines = f.readlines()
+        alias = {}
+        for line in lines:
+            if ',' in line:
+                config = line.split(',')                
+                alias[str(config[0])] = str(config[1])
+    # print(Offer_configs)
+    return alias
+
 def get_submit(Config):
     submit = {}
     while True:
@@ -170,7 +182,7 @@ def get_submit(Config):
             pass 
         print('refreshing ip.............') 
         flag = 0
-        if submit['sleep_flag'] != 2:
+        if submit['sleep_flag'] != 2 and submit['sleep_flag'] != 3:
             # flag,proxy_info = luminati.ip_test(submit['port_lpm'],state=submit['state_'] ,country=submit['Country'])
             flag,proxy_info = luminati.ip_test(submit['port_lpm'],state='' ,country=submit['Country'])            
             print('proxy_info:',proxy_info)
@@ -214,7 +226,7 @@ def data_handler(Config):
         return None
         # print('Reading config from sql server success')
     print('Proxy:',proxy_info)
-    if submit['sleep_flag'] != 2: 
+    if submit['sleep_flag'] == 0 or submit['sleep_flag'] == 1 : 
         submit['tz'] = db.get_cst_zone(proxy_info['geo']['tz'])
     # print("proxy_info['geo']['tz']:",proxy_info['geo']['tz'])
     # print(str(submit['Mission_Id']),'get timezone for ',submit['Country'],'is',submit['tz'])
@@ -246,15 +258,15 @@ def data_handler(Config):
     print("timezone:",timezone) 
     flag = db.get_plan_status(submit['ID'])
     if flag != 0:
-        mission_check = {}
-        try:
-            mission_check = db.check_mission_status(submit)
-        except:
-            pass
-        if len(mission_check) == 0:
-            submit['Status'] = flag
-            print('Mission: ',submit['Mission_Id'],'success,uploading db')
-            db.write_one_info([str(submit['Mission_Id'])],submit)
+        # mission_check = {}
+        # try:
+        #     mission_check = db.check_mission_status(submit)
+        # except:
+        #     pass
+        # if len(mission_check) == 0:
+        submit['Status'] = flag
+        print('Mission: ',submit['Mission_Id'],'success,uploading db')
+        db.write_one_info([str(submit['Mission_Id'])],submit)
     for item in submit:
         print(item)
         if 'BasicInfo_Id' in submit[item]:
@@ -280,14 +292,19 @@ def reg_part_(submit):
     #     Module = ''  
     # print('Module is :',Module)  
     try:
-        if submit['sleep_flag'] == 2:
+        if submit['sleep_flag'] == 2 or submit['sleep_flag'] == 3:
             submit.pop('ip_lpm')
         print(submit)
         chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
-        Page_flags = db.get_page_flag(submit['Mission_Id'])
+        same_config = read_same_config_num()
+        if str(submit['Mission_Id']) in same_config:
+            Mission_Id = same_config[str(submit['Mission_Id'])].replace('\n','')
+        else:
+            Mission_Id = str(submit['Mission_Id'])
+        Page_flags = db.get_page_flag(Mission_Id)
         if len(Page_flags) == 0:
             print('No Page_flags found in db,try import module from src')
-            module = 'Mission_'+str(submit['Mission_Id'])
+            module = 'Mission_'+str(Mission_Id)
             Module = importlib.import_module(module)            
             chrome_driver = Module.web_submit(submit,chrome_driver=chrome_driver)
         else:
@@ -324,15 +341,21 @@ def reg_part_cpl(submit):
     # submit['Record'] = 0
     Module = ''    
     try:
-        if submit['sleep_flag'] == 2:
+        if submit['sleep_flag'] == 2 or submit['sleep_flag'] == 3:
             submit.pop('ip_lpm')
         print(submit)
         chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
-        Mission_Id = submit['Mission_dir'].split(',')[0][-5:]
+        # Mission_Id = submit['Mission_dir'].split(',')[0][-5:]
+        same_config = read_same_config_num()
+        if str(submit['Mission_Id']) in same_config:
+            Mission_Id = same_config[str(submit['Mission_Id'])].replace('\n','')
+            submit['same_config'] = Mission_Id
+        else:
+            Mission_Id = str(submit['Mission_Id'])        
         Page_flags = db.get_page_flag(Mission_Id)
         if len(Page_flags) == 0:
             print('No Page_flags found in db,try import module from src')
-            module = 'Mission_'+str(submit['Mission_Id'])
+            module = 'Mission_'+str(Mission_Id)
             Module = importlib.import_module(module)            
             chrome_driver = Module.web_submit(submit,chrome_driver=chrome_driver)
         else:
@@ -406,7 +429,9 @@ def web_submit(submit,chrome_driver,debug=0):
         get and sort page config
         '''
         if flag_refresh == 0:     
-            Mission_Id = submit['Mission_dir'].split(',')[0][-5:]   
+            Mission_Id = submit['Mission_dir'].split(',')[0][-5:]  
+            if 'same_config' in submit:
+                Mission_Id = submit['same_config'] 
             configs = db.get_page_config(Mission_Id,page['Page'])
             configs.sort(key=takeStep)
             print(configs)
