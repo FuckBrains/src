@@ -1648,7 +1648,15 @@ def get_offer_config():
         offers[offer_config[2]] = offer_config[0]
     return offers
 
-
+def get_alliance_config():
+    sql_content = "SELECT * FROM Alliance_config"
+    res = Execute_sql_single([sql_content])
+    print(res)
+    alliances = {}
+    for offer_config in res[0]: 
+        if offer_config not in alliances:
+            alliances[offer_config[0]] = offer_config[0]
+    # return alliances
 
 def upload_accounts(submit):
     print('Uploading accounts')

@@ -136,11 +136,16 @@ def upload_alliance_config_db():
     # print(Offer_configs)
     db.upload_Allinace_config(Offer_configs)
 
+def get_alliance_config():
+    db.get_alliance_config() 
+    # alliances = db.get_alliance_config()    
+    # print(alliances)
 
 def main():
     # Write_Offer_config()
     # Write_Alliance_config()
-    upload_alliance_config_db()
+    # upload_alliance_config_db()
+    get_alliance_config()
 
 if __name__ == '__main__':
     main()

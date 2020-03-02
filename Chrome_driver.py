@@ -125,9 +125,9 @@ def get_chrome(submit = None,pic=0):
     # print('++++++++++++++++++++++++')
 
     # print([key for key in submit])
-    # print('++++++++++++++++++++++++')
-    # print('++++++++++++++++++++++++')
-    # print('++++++++++++++++++++++++')
+    print('++++++++++++++++++++++++')
+    print('++++++++++++++++++++++++')
+    print('++++++++++++++++++++++++')
     
     path_download = get_dir()    
     prefs = {
