@@ -358,4 +358,4 @@ def test_meituan():
 
 
 if __name__ == '__main__':
-    test_meituan()
+    get_chromedriver_path()
