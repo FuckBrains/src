@@ -1073,8 +1073,11 @@ def Execute_sql(sql_contents):
     for sql_content in sql_contents:
         # print('\n\n\n')
         # print(sql_content)
-        res = cursor.execute(sql_content)
-        response = cursor.fetchall()
+        try:
+            res = cursor.execute(sql_content)
+            response = cursor.fetchall()
+        except:
+            pass
         # print(response)
     login_out_sql(conn,cursor)
     print('Login out db')
@@ -1359,6 +1362,7 @@ def read_plans(plan_id):
     for plan in plans:
         plan['Mission_dir'] = plan['Mission_dir'].replace('//','\\')  
         plan['Excel'] = plan['Excel'].split(',')
+    print('Find plan num:',len(plans))
     return plans
 
 def upload_plans(plans):
@@ -1611,6 +1615,40 @@ def update_cookie(submit):
     print('Cookie:',submit['Cookie'])
     sql_content = "UPDATE Mission SET Cookie = '%s' WHERE Mission_id = '%s' and Email_Id = '%s'" % (pymysql.escape_string(submit['Cookie']),submit['Mission_Id'],submit['Email']['Email_Id'])
     Execute_sql([sql_content])
+
+def upload_offer_config(Offer_configs):
+    sql_contents = []
+    for Offer_name in Offer_configs:
+        Offer_config = Offer_configs[Offer_name]
+        Mission_Id = Offer_config['Mission_Id']
+        Excel = Offer_config['Excel'][0]+','+Offer_config['Excel'][1]
+        sql_content = 'INSERT INTO Offer_config(Mission_Id,Excel,Offer_name)VALUES("%s","%s","%s")'%(Mission_Id,Excel,Offer_name)      
+        sql_contents.append(sql_content)
+    # print(sql_contents)
+    # return
+    Execute_sql(sql_contents)    
+
+def upload_Allinace_config(Offer_configs):
+    sql_contents = []
+    for key in Offer_configs:
+        for Mission_Id in Offer_configs[key]:
+            Offer_config = Offer_configs[key]
+            Alliance_name = key
+            sql_content = 'INSERT INTO Alliance_config(Alliance_name,Mission_Id)VALUES("%s","%s")'%(Alliance_name,Mission_Id)      
+            sql_contents.append(sql_content)
+    # print(sql_contents)
+    Execute_sql(sql_contents)   
+
+def get_offer_config():
+    sql_content = "SELECT * FROM Offer_config"
+    res = Execute_sql_single([sql_content])
+    # print(res)
+    offers = {}
+    for offer_config in res[0]: 
+        offers[offer_config[2]] = offer_config[0]
+    return offers
+
+
 
 def upload_accounts(submit):
     print('Uploading accounts')

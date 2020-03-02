@@ -603,9 +603,12 @@ def create_plan_data(plan_id,Offer_links):
     # print('Basic_port:',basic_port) 
     path = os.path.abspath(os.path.join(os.getcwd(), ".."))
     dir_account_chrome = os.path.join(path,r'emu_chromes')
-    myname = socket.getfqdn(socket.gethostname())
-    # print(myname)
-    myaddr = socket.gethostbyname(myname)
+    try:
+        myname = socket.getfqdn(socket.gethostname())
+        # print(myname)
+        myaddr = socket.gethostbyname(myname)
+    except:
+        pass
     # print(myaddr)
     # print('Start uploading')
     num_plan = 1
@@ -623,7 +626,8 @@ def create_plan_data(plan_id,Offer_links):
         Offer_links[item]['Mission_dir'] = dir_account
         # print('dir_account:',dir_account)
         if account['IP_lpm'] == '127.0.0.1':
-            Offer_links[item]['ip_lpm'] = myaddr
+            # Offer_links[item]['ip_lpm'] = myaddr
+            pass
         else:
             Offer_links[item]['ip_lpm'] = ip_lpm  
         try:          

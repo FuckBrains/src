@@ -1,4 +1,6 @@
 import json
+import db
+
 
 def read_offer_num():
     Offer_configs = {}
@@ -108,18 +110,37 @@ def Write_Ini(file,content):
 def Write_Offer_config():
     Offer_configs = read_offer_num()
     file_Offer_config = r'ini\Offer_config.ini'
-    Write_Ini(file_Offer_config,Offer_configs)
-    change__delay_config()
+    # print(Offer_configs)
+    return Offer_configs
+    # Write_Ini(file_Offer_config,Offer_configs)
+    # change__delay_config()
 
 def Write_Alliance_config():
     Alliance_configs = Read_Alliance_num()
     file_Offer_config = r'ini\Offer.ini'
-    Write_Ini(file_Offer_config,Alliance_configs)
+    # print(Alliance_configs)
+    return Alliance_configs
+    # Write_Ini(file_Offer_config,Alliance_configs)
+
+
+def upload_config_db():
+    Offer_configs = Write_Offer_config()
+    db.upload_offer_config(Offer_configs)
+
+def upload_alliance_config_db():
+    offers = db.get_offer_config()
+    Offer_configs = Write_Alliance_config()
+    # db.upload_offer_config(Offer_configs)
+    for alliance in Offer_configs:
+        Offer_configs[alliance] = [offers[name] for name in Offer_configs[alliance]]
+    # print(Offer_configs)
+    db.upload_Allinace_config(Offer_configs)
 
 
 def main():
-    Write_Offer_config()
-    Write_Alliance_config()
+    # Write_Offer_config()
+    # Write_Alliance_config()
+    upload_alliance_config_db()
 
 if __name__ == '__main__':
     main()
