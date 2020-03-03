@@ -1658,6 +1658,26 @@ def upload_alliance(Alliance_name,Mission_Id):
     upload_Allinace_config(Offer_configs)
 
 
+def get_current_version():
+    version = 'VERSION'
+    sql_content = "SELECT * FROM Alliance_config where Alliance_name = '%s'"%version
+    res = Execute_sql_single([sql_content])
+    print('Current version:',res[0][0][1])
+    num = res[0][0][1].split('.')
+    return num    
+
+def update_version(type_=0):
+    num = get_current_version()
+    if type_ == 0:
+        num[2] = str(int(num[2])+1)
+    version_num = num[0]+'.'+num[1]+'.'+num[2]
+    print('Next version:',version_num)
+    sql_content = "UPDATE Alliance_config SET Mission_Id = '%s' WHERE Alliance_name = '%s'" % (version_num,version)
+    Execute_sql([sql_content])
+
+
+
+
 def delete_offer_config(Mission_Id):
     sql_content = "DELETE FROM Offer_config where Mission_Id = '%s'"%str(Mission_Id)
     Execute_sql([sql_content])

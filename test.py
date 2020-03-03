@@ -1253,10 +1253,11 @@ def test_nextpayday():
     date = Submit_handle.get_next_payday_list('')
     print(date)
 
-         
+def test_version_s():        
+    db.update_version()
 
 if __name__ == '__main__':
-    i = 2
+    i = 3
     if i == 0:
         test_flag_use()
     elif i==1:
@@ -1264,4 +1265,4 @@ if __name__ == '__main__':
     elif i==2:
         test_write()
     elif i == 3:
-        test_nextpayday()
+        test_version_s()
