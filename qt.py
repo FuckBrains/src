@@ -12,7 +12,7 @@ import os
 os.system(r'pyuic5 -o uiclass.py ui\test.ui')
 from uiclass import Ui_MainWindow
 from PyQt5.QtCore import pyqtSlot
-import Update_config as up
+import Update_config as upc
 import db
 import email_imap
 import Auto_update
@@ -1129,6 +1129,60 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         except Exception as e:
             self.alert(str(e))        
 
+    @pyqtSlot()
+    def on_pushButton42_clicked(self):
+        Mission_Id = self.lineEdit34.text()
+        Mission_name = self.lineEdit35.text()
+        Excel = ['','']
+        excel = self.comboBox36.currentText()
+        if excel != 'Email':
+            Excel[1] = excel
+        try:
+            db.upload_offer(Mission_name,Mission_Id,Excel)
+            self.alert("Add Offer Info success")
+        except Exception as e:
+            self.alert(str(e)) 
+
+    @pyqtSlot()
+    def on_pushButton43_clicked(self):
+        Mission_Id = self.lineEdit34.text()
+        try:
+            db.delete_offer_config(Mission_Id)
+            self.alert("DELETE Offer Info success")
+        except Exception as e:
+            self.alert(str(e))             
+
+    @pyqtSlot()
+    def on_pushButton44_clicked(self):
+        Mission_Id = self.lineEdit36.text()
+        Alliance_name = self.lineEdit37.text()
+        if Mission_Id == '' or Alliance_name == '':
+            self.alert('Mission_Id and Alliance_name needed')
+            return        
+        try:
+            db.upload_alliance(Alliance_name,Mission_Id)
+            self.alert("Add Alliance Info success")
+        except Exception as e:
+            self.alert(str(e)) 
+
+    @pyqtSlot()
+    def on_pushButton45_clicked(self):
+        Mission_Id = self.lineEdit36.text()
+        Alliance_name = self.lineEdit37.text()
+        if Mission_Id == '' or Alliance_name == '':
+            self.alert('Mission_Id and Alliance_name needed')
+            return
+        try:
+            res = db.delete_alliance_config(Alliance_name,Mission_Id)
+            print(res)
+            # if len(res[0]) == 0:
+            #     self.alert("No target Mission_Id or Alliance_name found")
+            # else:
+            self.alert("DELETE Alliance Info success")                
+        except Exception as e:
+            self.alert(str(e))   
+
+
 
 def test_k():
     file = r'ini\Offer_num.ini'
@@ -1144,8 +1198,15 @@ def test_k():
         print(nums)
 
 def main(i,message=''):
-    up.main()
-    # print('111')
+    # up.main()
+    print('Updating config...')
+    try:
+        upc.update_config()
+    except Exception as e:
+        print(str(e))
+        print('Updating config failed')
+        return
+    print('Updating config success')
     app = QtWidgets.QApplication(sys.argv)  # 创建一个QApplication，也就是你要开发的软件app
     MainWindow = QMainWindow()    # 创建一个QMainWindow，用来装载你需要的各种组件、控件
     # MainWindow.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint)

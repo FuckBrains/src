@@ -111,16 +111,16 @@ def Write_Offer_config():
     Offer_configs = read_offer_num()
     file_Offer_config = r'ini\Offer_config.ini'
     # print(Offer_configs)
-    return Offer_configs
-    # Write_Ini(file_Offer_config,Offer_configs)
+    # return Offer_configs
+    Write_Ini(file_Offer_config,Offer_configs)
     # change__delay_config()
 
 def Write_Alliance_config():
     Alliance_configs = Read_Alliance_num()
     file_Offer_config = r'ini\Offer.ini'
     # print(Alliance_configs)
-    return Alliance_configs
-    # Write_Ini(file_Offer_config,Alliance_configs)
+    # return Alliance_configs
+    Write_Ini(file_Offer_config,Alliance_configs)
 
 
 def upload_config_db():
@@ -129,7 +129,7 @@ def upload_config_db():
 
 def upload_alliance_config_db():
     offers = db.get_offer_config()
-    Offer_configs = Write_Alliance_config()
+    # Offer_configs = Write_Alliance_config()
     # db.upload_offer_config(Offer_configs)
     for alliance in Offer_configs:
         Offer_configs[alliance] = [offers[name] for name in Offer_configs[alliance]]
@@ -137,15 +137,56 @@ def upload_alliance_config_db():
     db.upload_Allinace_config(Offer_configs)
 
 def get_alliance_config():
-    db.get_alliance_config() 
-    # alliances = db.get_alliance_config()    
+    # db.get_alliance_config() 
+    alliances = db.get_alliance_config()    
     # print(alliances)
+    return alliances
+
+def download_alliance_config():
+    alliances = get_alliance_config()
+    contents = ''
+    for key in alliances:
+        contents +=  key + ',' + alliances[key] +'\n'
+    # print(contents)
+    return contents
+
+def download_offer_config():
+    res = db.get_offer_config()
+    # Offer_configs = Write_Alliance_config()
+    print(res)
+    contents = ''
+    Missoin_config = list(res[0])
+    Missoin_config = sorted(Missoin_config,key=by_mission_id)
+    # print(Missoin_config)
+    for config in Missoin_config:
+        excel_config = config[1].split(',')
+        excel = excel_config[0]+excel_config[1]
+        contents += config[0]+','+config[2]+','+excel+'\n'
+    print(contents)
+    return contents    
+
+def by_mission_id(t):
+    return int(t[0]) 
+
+def update_config():
+    alliance_config = download_alliance_config()
+    file = r'ini\Alliance_num.ini'
+    with open(file,'w') as f:
+        f.write(alliance_config)
+    offer_config = download_offer_config()
+    file = r'ini\Offer_num.ini'    
+    with open(file,'w') as f:
+        f.write(offer_config)
+    Write_Offer_config()
+    Write_Alliance_config()        
+
+
 
 def main():
     # Write_Offer_config()
     # Write_Alliance_config()
     # upload_alliance_config_db()
-    get_alliance_config()
+    upload_offer()
 
 if __name__ == '__main__':
     main()

@@ -1639,14 +1639,49 @@ def upload_Allinace_config(Offer_configs):
     # print(sql_contents)
     Execute_sql(sql_contents)   
 
+def upload_offer(Mission_name,Mission_Id,Excel):
+    # Mission_name = '123test'
+    # Mission_Id = '10200'
+    # Excel = ['','Uspd']
+    Offer_configs = {}
+    Offer_configs[Mission_name] = {}
+    Offer_configs[Mission_name]['Mission_Id'] = Mission_Id
+    Offer_configs[Mission_name]['Excel'] = Excel    
+    upload_offer_config(Offer_configs)
+
+def upload_alliance(Alliance_name,Mission_Id):
+    # Mission_name = '123test'
+    # Mission_Id = '10200'
+    # Excel = ['','Uspd']
+    Offer_configs = {}
+    Offer_configs[Alliance_name] = [str(Mission_Id)]
+    upload_Allinace_config(Offer_configs)
+
+
+def delete_offer_config(Mission_Id):
+    sql_content = "DELETE FROM Offer_config where Mission_Id = '%s'"%str(Mission_Id)
+    Execute_sql([sql_content])
+    # print(res)
+    # offers = {}
+    # for offer_config in res[0]: 
+    #     offers[offer_config[2]] = offer_config[0]
+    # return res
+
+def delete_alliance_config(Alliance_name,Mission_Id):
+    sql_content = "DELETE FROM Alliance_config where Alliance_name = '%s' and Mission_Id = '%s'"%(Alliance_name,str(Mission_Id))
+    res = Execute_sql_single([sql_content])
+    return res
+
+
+
 def get_offer_config():
     sql_content = "SELECT * FROM Offer_config"
     res = Execute_sql_single([sql_content])
     # print(res)
-    offers = {}
-    for offer_config in res[0]: 
-        offers[offer_config[2]] = offer_config[0]
-    return offers
+    # offers = {}
+    # for offer_config in res[0]: 
+    #     offers[offer_config[2]] = offer_config[0]
+    return res
 
 def get_alliance_config():
     sql_content = "SELECT * FROM Alliance_config"
@@ -1654,9 +1689,11 @@ def get_alliance_config():
     print(res)
     alliances = {}
     for offer_config in res[0]: 
-        if offer_config not in alliances:
-            alliances[offer_config[0]] = offer_config[0]
-    # return alliances
+        if offer_config[0] not in alliances:
+            alliances[offer_config[0]] = offer_config[1]
+        else:
+            alliances[offer_config[0]]+='+'+offer_config[1]
+    return alliances
 
 def upload_accounts(submit):
     print('Uploading accounts')
