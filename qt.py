@@ -1139,7 +1139,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             Excel[1] = excel
         try:
             db.upload_offer(Mission_name,Mission_Id,Excel)
-            db.update_version()
+            # db.update_version()
             self.alert("Add Offer Info success")
         except Exception as e:
             self.alert(str(e)) 
@@ -1149,7 +1149,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         Mission_Id = self.lineEdit34.text()
         try:
             db.delete_offer_config(Mission_Id)
-            db.update_version()
+            # db.update_version()
             self.alert("DELETE Offer Info success")
         except Exception as e:
             self.alert(str(e))             
@@ -1163,7 +1163,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             return        
         try:
             db.upload_alliance(Alliance_name,Mission_Id)
-            db.update_version()
+            # db.update_version()
             self.alert("Add Alliance Info success")
         except Exception as e:
             self.alert(str(e)) 
@@ -1181,7 +1181,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             # if len(res[0]) == 0:
             #     self.alert("No target Mission_Id or Alliance_name found")
             # else:
-            db.update_version()
+            # db.update_version()
             self.alert("DELETE Alliance Info success")                
         except Exception as e:
             self.alert(str(e))   
