@@ -1667,6 +1667,7 @@ def get_current_version():
     return num    
 
 def update_version(type_=0):
+    version = 'VERSION'
     num = get_current_version()
     if type_ == 0:
         num[2] = str(int(num[2])+1)
