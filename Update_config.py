@@ -185,7 +185,7 @@ def update_config():
     with open(file,'w') as f:
         f.write(offer_config)
     Write_Offer_config()
-    # Write_Alliance_config()        
+    Write_Alliance_config()        
 
 
 
