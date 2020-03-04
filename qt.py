@@ -279,6 +279,8 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.set_comboBox2()
         print(self.comboBox2.currentText())
         self.set_lineEdit13()
+        alliance_name = self.comboBox1.currentText()
+        self.lineEdit37.setText(alliance_name)
         if self.comboBox2.currentText() == '':
             return 
 
@@ -1131,8 +1133,8 @@ class Mywindow(QMainWindow,Ui_MainWindow):
 
     @pyqtSlot()
     def on_pushButton42_clicked(self):
-        Mission_Id = self.lineEdit34.text()
-        Mission_name = self.lineEdit35.text()
+        Mission_Id = self.lineEdit34.text().replace('\n','')
+        Mission_name = self.lineEdit35.text().replace('\n','')
         Excel = ['','']
         excel = self.comboBox36.currentText()
         if excel != 'Email':
@@ -1146,7 +1148,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
 
     @pyqtSlot()
     def on_pushButton43_clicked(self):
-        Mission_Id = self.lineEdit34.text()
+        Mission_Id = self.lineEdit34.text().replace('\n','')
         try:
             db.delete_offer_config(Mission_Id)
             # db.update_version()
@@ -1156,8 +1158,8 @@ class Mywindow(QMainWindow,Ui_MainWindow):
 
     @pyqtSlot()
     def on_pushButton44_clicked(self):
-        Mission_Id = self.lineEdit36.text()
-        Alliance_name = self.lineEdit37.text()
+        Mission_Id = self.lineEdit36.text().replace('\n','')
+        Alliance_name = self.lineEdit37.text().replace('\n','')
         if Mission_Id == '' or Alliance_name == '':
             self.alert('Mission_Id and Alliance_name needed')
             return        
@@ -1170,8 +1172,8 @@ class Mywindow(QMainWindow,Ui_MainWindow):
 
     @pyqtSlot()
     def on_pushButton45_clicked(self):
-        Mission_Id = self.lineEdit36.text()
-        Alliance_name = self.lineEdit37.text()
+        Mission_Id = self.lineEdit36.text().replace('\n','')
+        Alliance_name = self.lineEdit37.text().replace('\n','')
         if Mission_Id == '' or Alliance_name == '':
             self.alert('Mission_Id and Alliance_name needed')
             return

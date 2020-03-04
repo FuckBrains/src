@@ -128,7 +128,7 @@ def main():
     # modules = [module.strip('.py') for module in modules] 
     command = '..\StartGit.bat'
     os.system(command)
-    db.update_version()
+    # db.update_version()
 
 if __name__ == '__main__':
     main()

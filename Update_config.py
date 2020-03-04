@@ -1,5 +1,6 @@
 import json
 import db
+import traceback
 
 
 def read_offer_num():
@@ -12,6 +13,7 @@ def read_offer_num():
                 configs = line.replace('\n','').split(',')
                 Offer_config['Mission_Id'] = str(configs[0])
                 Offer_config['Excel'] = ['','']
+                # print('Configs:',configs)
                 if '+' in configs[2]:
                     excels = configs[2].split('+')
                     for excel in excels:
@@ -108,7 +110,12 @@ def Write_Ini(file,content):
 
 
 def Write_Offer_config():
-    Offer_configs = read_offer_num()
+    try:
+        Offer_configs = read_offer_num()
+        print(Offer_configs)
+    except Exception as e:
+        content = traceback.format_exc()  
+        print('traceback.format_exc():' ,content)          
     file_Offer_config = r'ini\Offer_config.ini'
     # print(Offer_configs)
     # return Offer_configs
@@ -178,7 +185,7 @@ def update_config():
     with open(file,'w') as f:
         f.write(offer_config)
     Write_Offer_config()
-    Write_Alliance_config()        
+    # Write_Alliance_config()        
 
 
 
