@@ -1135,6 +1135,11 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     def on_pushButton42_clicked(self):
         Mission_Id = self.lineEdit34.text().replace('\n','')
         Mission_name = self.lineEdit35.text().replace('\n','')
+        bad_alpha = ['.','"',"'"]
+        for item in bad_alpha:
+            if item in Mission_name:
+                self.alert(item+' not allowed in Offer name') 
+                return
         Excel = ['','']
         excel = self.comboBox36.currentText()
         if excel != 'Email':
@@ -1188,7 +1193,18 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         except Exception as e:
             self.alert(str(e))   
 
-
+    @pyqtSlot()
+    def on_pushButton46_clicked(self):
+        print('start init db')
+        # db.init()
+        Mission_Id = self.lineEdit13.text()
+        if Mission_Id == '':
+            self.alert('Choose Mission_Id')
+            return
+        command = '''start cmd /k "python test.py 3 %s "{$name$:$qcy$}" "'''%(str(Mission_Id))
+        os.system(command)        
+        command = '''start cmd /k "python test.pyc 3 %s "{$name$:$qcy$}" "'''%(str(Mission_Id))
+        os.system(command)  
 
 def test_k():
     file = r'ini\Offer_num.ini'

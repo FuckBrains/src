@@ -1,3 +1,4 @@
+import sys
 import selenium_funcs
 from win32api import GetFileVersionInfo, LOWORD, HIWORD 
 import time
@@ -1203,6 +1204,49 @@ def test_1233():
     print('Available Info Number for Mission_Id %d:%d'%(Mission_Id,len(ids_unique)))
     return ids
 
+def test_1244(Mission_Id):
+    account = db.get_account()
+    conn,cursor=db.login_sql(account)  
+    sql_offer = 'select * from Offer_config'
+    res = cursor.execute(sql_offer)
+    response = cursor.fetchall()    
+    # print(response)
+    Mission_configs = {}
+    for item in response:
+        Mission_configs[item[0]] = item[1]
+    # Mission_configs = sorted(Mission_configs)
+    # print(Mission_configs)
+
+    # Mission_configs = [dict([item[0],item[1]]) for item in response]    
+    # print(Mission_configs)
+
+    # sql = 'Select distinct Excel_name from BasicInfo'
+    # res = cursor.execute(sql)
+    # response = cursor.fetchall()
+    # excels = [excel[0] for excel in response]
+    Missions_num = {}
+    Excels = Mission_configs[str(Mission_Id)]
+    Excel_name = Excels.split(',')[0] 
+    sql2 = 'SELECT Basicinfo_Id from BasicInfo where Excel_name="%s"'%Excel_name
+    res = cursor.execute(sql2)    
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来      
+    ids = [item['Basicinfo_Id'] for item in Mission_dict]
+    print(len(ids),'num of infos in Excel:',Excel_name)
+    sql3 = 'SELECT Basicinfo_Id from Mission where Mission_Id="%s"'%Mission_Id
+    res = cursor.execute(sql3)    
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来      
+    ids_Mission = [item['Basicinfo_Id'] for item in Mission_dict]
+    print(len(ids_Mission),'num of infos used in Mission_Id:',Mission_Id)
+    target = [id_ for id_ in ids if id_ not in ids_Mission]
+    print(len(target),'num of infos available for Mission_Id:',Mission_Id)
+    Missions_num[Mission_Id] = len(target)
+    print(Missions_num)
+    db.login_out_sql(conn,cursor)
+    return Missions_num
+
+
 
 def Mission_10088_test(submit):
     print('Sending',submit['num'],'info')
@@ -1257,7 +1301,10 @@ def test_version_s():
     db.update_version()
 
 if __name__ == '__main__':
-    i = 3
+    paras=sys.argv
+    i = int(paras[1])
+    print(paras)
+
     if i == 0:
         test_flag_use()
     elif i==1:
@@ -1265,4 +1312,5 @@ if __name__ == '__main__':
     elif i==2:
         test_write()
     elif i == 3:
-        test_version_s()
+        Mission_Id = paras[2]
+        test_1244(Mission_Id)

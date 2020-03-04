@@ -106,22 +106,12 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="currentIndex">
-     <number>7</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="widget">
      <attribute name="title">
       <string>Mission_Info</string>
      </attribute>
-     <widget class="QTableView" name="tableView">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>591</width>
-        <height>481</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QPushButton" name="pushButton8">
       <property name="geometry">
        <rect>
@@ -1088,7 +1078,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="tab_11">
        <attribute name="title">
@@ -3179,6 +3169,19 @@ p, li { white-space: pre-wrap; }
         <string>30</string>
        </property>
       </item>
+     </widget>
+     <widget class="QPushButton" name="pushButton46">
+      <property name="geometry">
+       <rect>
+        <x>510</x>
+        <y>30</y>
+        <width>91</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Info available</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_16">

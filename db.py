@@ -1261,6 +1261,31 @@ def read_all_info():
     # print(excels,emails,Missions)
     return excels,emails,Missions
 
+def get_mission_num_available():
+    account = db.get_account()
+    conn,cursor=db.login_sql(account)    
+    Excel_name = 'Uspd_small'
+    Mission_Id = 10088
+    '''
+    id in excel
+    '''
+    res = cursor.execute('SELECT Basicinfo_Id from BasicInfo where Excel_name="%s"'%Excel_name)
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来      
+    ids = [item['Basicinfo_Id'] for item in Mission_dict]
+    ids = list(set(ids))
+    print('Info Number in excel %s:%d'%(Excel_name,len(ids)))    
+
+    res = cursor.execute('SELECT Basicinfo_Id from Mission where Mission_Id="%d"'%Mission_Id)
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Mission_dict2 = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来          
+    ids2 = [item['Basicinfo_Id'] for item in Mission_dict2]
+    ids2 = list(set(ids2))
+    print('Info Number in Mission table for Mission_Id %d:%d'%(Mission_Id,len(ids2)))    
+    ids_unique = [id_ for id_ in ids if id_ not in ids2]
+    print('Available Info Number for Mission_Id %d:%d'%(Mission_Id,len(ids_unique)))    
+
+
 def test_rest():
     Mission_list = [10005]
     Excel_name = ['','Email']
