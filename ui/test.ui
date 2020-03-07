@@ -1078,7 +1078,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_11">
        <attribute name="title">
@@ -1120,8 +1120,8 @@
        <widget class="QPushButton" name="pushButton23">
         <property name="geometry">
          <rect>
-          <x>180</x>
-          <y>210</y>
+          <x>196</x>
+          <y>230</y>
           <width>75</width>
           <height>41</height>
          </rect>
@@ -1166,8 +1166,8 @@
        <widget class="QPushButton" name="pushButton24">
         <property name="geometry">
          <rect>
-          <x>310</x>
-          <y>210</y>
+          <x>326</x>
+          <y>230</y>
           <width>75</width>
           <height>41</height>
          </rect>
@@ -1302,6 +1302,51 @@
         </property>
         <property name="text">
          <string>with &quot;</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="comboBox37">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>180</y>
+          <width>161</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <item>
+         <property name="text">
+          <string>False</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>True</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLabel" name="label_61">
+        <property name="geometry">
+         <rect>
+          <x>180</x>
+          <y>180</y>
+          <width>91</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Pic</string>
         </property>
        </widget>
       </widget>

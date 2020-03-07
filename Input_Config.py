@@ -30,7 +30,9 @@ Input_Config ={
 Select_Config ={
     'state'       : ['get_name_real'],
     'date_of_birth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all'],
-    'requested_loan_amount':['get_next_payday_dd','get_next_payday_mm','get_next_payday_mm_str','get_next_payday_year','get_next_payday_all','get_next_payday_bi_str','get_next_payday2_dd','get_next_payday2_mm','get_next_payday2_mm_str','get_next_payday2_year','get_next_payday2_all','get_next_payday2_bi_str'],
+    'requested_loan_amount':['get_next_payday_dd','get_next_payday_mm','get_next_payday_mm_str','get_next_payday_year','get_next_payday_all','get_next_payday_bi_str','get_next_payday2_dd','get_next_payday2_mm','get_next_payday2_mm_str','get_next_payday2_year','get_next_payday2_all','get_next_payday2_bi_str','get_next_payday_all_str'],
+    'pay_period':['get_next_payday_dd','get_next_payday_mm','get_next_payday_mm_str','get_next_payday_year','get_next_payday_all','get_next_payday_bi_str','get_next_payday2_dd','get_next_payday2_mm','get_next_payday2_mm_str','get_next_payday2_year','get_next_payday2_all','get_next_payday2_bi_str','get_next_payday_all_str'],
+
 
 }
 
@@ -54,6 +56,7 @@ Generate_Config = {
     'nextpayday2_all'  :['get_next_payday2_all'],
     'nextpayday_bi_str'  :['get_next_payday_bi_str'],
     'nextpayday2_bi_str'  :['get_next_payday2_bi_str'],
+    'hire_date':['hire_date'],
 }
 
 

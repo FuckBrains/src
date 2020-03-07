@@ -96,7 +96,7 @@ def api_test(proxy):
 
     # print(resp)   
 
-@timeout(30)
+# @timeout(30)
 def refresh_proxy(ip,port):
     headers = {
     'accept': 'application/json'
@@ -106,6 +106,8 @@ def refresh_proxy(ip,port):
     for i in range(5):
         try:
             resp = requests.post(url,headers=headers)
+            print('====')
+
             # print(resp)
             # print(type(str(resp)))
             # print(str(resp))
@@ -513,28 +515,56 @@ def ip_test(port_lpm,state = '',country=''):
             continue
     return flag,proxy_info
 
-def ip_test_life(j):
-    ip_lpm = '192.168.30.131'
-    port_lpm = '24031'    
-    start = datetime.datetime.utcnow()
-    refresh_proxy(ip_lpm,port_lpm)
-    proxy_info = get_lpm_ip(ip_lpm,port_lpm)
-    print(proxy_info)
-    ip_first = proxy_info['ip']
+def write_ip_info(info):
+    file = r'..\res\ip_info.txt'
+    with open(file,'w+') as f:
+        f.write(info)
+
+
+def get_ip_info(proxy_info):
+    submits = {}
+    submits['Country'] = proxy_info['country']
+    submits['ip'] = proxy_info['ip']
+    submits['asnum'] = str(proxy_info['asn']['asnum'])
+    submits['org_name'] = proxy_info['asn']['org_name']
+    submits['city'] = proxy_info['geo']['city']
+    submits['region'] = proxy_info['geo']['region']
+    submits['postal_code'] = str(proxy_info['geo']['postal_code'])
+    submits['tz'] = proxy_info['geo']['tz']
+    submits['zone'] = 'zone2'
+    return submits
+
+def upload_ip_info(submits):
+    sql_content = 'INSERT INTO ip_info(Country,ip,asnum,org_name,city,region,postal_code,tz,zone)VALUES("%s","%s","%s","%s","%s","%s","%s","%s","%s")'%(submits['Country'],submits['ip'],submits['asnum'],submits['org_name'],submits['city'],submits['region'],submits['postal_code'],submits['tz'],submits['zone'])
+    db.Execute_sql([sql_content])    
+
+# pool = threadpool.ThreadPool(5)
+
+def test_ip_infos():
+    ports = ['24270','26685','26802','27435','27483','27559','27565','28017','29005','29951']
+    requests = threadpool.makeRequests(ip_test_life, ports)
+    [pool.putRequest(req) for req in requests]
+    pool.wait()       
+
+def ip_test_life(port_lpm):
+    start = datetime.datetime.utcnow()    
+    ip_lpm = '192.168.89.130'
+    # port_lpm = '26802'        
     i = 0
     while True:
         try:
-            proxy_info = get_lpm_ip(ip_lpm,port_lpm)
-            print('detect ip ',i,'time')
-            print('proxy info:',proxy_info['ip'])
-            if ip_first != proxy_info['ip']:
-                print(proxy_info)
-                break
+            refresh_proxy(ip_lpm,port_lpm)
+            proxy_info = get_lpm_ip(port_lpm)
+            # print(proxy_info)
+            if proxy_info == '':
+                continue
+            submits = get_ip_info(proxy_info)
+            # print(submits)   
+            upload_ip_info(submits) 
+            print('Uploading num',i+1,'proxy')
             i += 1
-            sleep(5)
         except:
             i+=1
-            sleep(5)
             continue
     end = endtime = datetime.datetime.utcnow()
     time_used = time_related.Time_used(start,end)
@@ -662,5 +692,5 @@ def create_plans():
 
 
 if __name__ == '__main__':
-    delete_port('')
+    test_ip_infos()
 

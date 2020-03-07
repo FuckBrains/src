@@ -232,14 +232,38 @@ def get_auto_birthday(date):
         else:
             birthday = [str(random.randint(1,12)),str(random.randint(1,25)) ,str(random.randint(1970,2000))]  
     if len(str(birthday[0])) == 1:
-        birthday[0] = '0'+str(birthday[0])  
+        birthday[0] = '0'+str(birthday[0]) 
+    else:
+        birthday[0] = str(birthday[0])
     if len(str(birthday[1])) == 1:
         birthday[1] = '0'+str(birthday[1]) 
+    else:
+        birthday[1] = str(birthday[1])
     if len(str(birthday[2])) == 2:
         birthday[2] = '19'+birthday[2]
     if int(birthday[2]) <= 1970:
         birthday[2] = str(random.randint(1970,1990))
     return birthday
+
+
+def hire_date(submit):
+    '''
+    12/11/2019
+    '''
+    mm = random.randint(1,12)
+    day = random.randint(1,25)
+    year = random.randint(2013,2018)
+    if len(str(mm)) == 1:
+        mm = '0'+str(mm)
+    else:
+        mm = str(mm)        
+    if len(str(dd)) == 1:
+        dd = '0'+str(dd)
+    else:
+        dd = str(dd)        
+    hire_date = mm+'/'+dd+'/'+str(year)
+    return birthday
+
 
 
 def get_random_income(submit):
@@ -620,7 +644,7 @@ def get_uk_phone1(phone):
 def get_payday_dict():
     paydaydict = {
     '2020':{
-    '3':['12','26'],
+    '3':['13','26'],
     '4':['9','23'],
     '5':['7','21'],
     '6':['11','25'],
@@ -808,6 +832,18 @@ def get_next_payday_all(submit=''):
     if len(str(payday[1])) == 1:
         payday[1] = '0' + str(payday[1])    
     payday_all = str(payday[0])+'/'+str(payday[1])+'/'+str(payday[2])
+    return payday_all
+
+def get_next_payday_all_str(submit=''):
+    '''
+    2020-02-12
+    '''
+    payday = get_next_payday_list('')
+    if len(str(payday[0])) == 1:
+        payday[0] = '0' + str(payday[0])
+    if len(str(payday[1])) == 1:
+        payday[1] = '0' + str(payday[1])    
+    payday_all = str(payday[2])+'-'+str(payday[0])+'-'+str(payday[1])
     return payday_all
 
 def get_next_payday2_all(submit=''):

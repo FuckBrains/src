@@ -1246,8 +1246,6 @@ def test_1244(Mission_Id):
     db.login_out_sql(conn,cursor)
     return Missions_num
 
-
-
 def Mission_10088_test(submit):
     print('Sending',submit['num'],'info')
     excel = 'Uspd_big'
@@ -1297,20 +1295,22 @@ def test_nextpayday():
     date = Submit_handle.get_next_payday_list('')
     print(date)
 
-def test_version_s():        
-    db.update_version()
+def test_version_s():  
+    ip_test_life(10)
+
+    # db.update_version()
 
 if __name__ == '__main__':
     paras=sys.argv
     i = int(paras[1])
     print(paras)
-
+    # i = 2
     if i == 0:
         test_flag_use()
     elif i==1:
         test_1233()
     elif i==2:
-        test_write()
+        test_version_s()
     elif i == 3:
         Mission_Id = paras[2]
         test_1244(Mission_Id)

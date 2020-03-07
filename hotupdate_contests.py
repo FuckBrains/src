@@ -37,6 +37,9 @@ WHERE
  basicinfo.address = t2.address 	
 	'''
 	],
+    19 : ["ALTER TABLE Page_Flag ADD Pic int DEFAULT 20;"],
+
+
 
 
 
@@ -46,6 +49,7 @@ WHERE
 
 '''
 SELECT * FROM basicinfo  WHERE DATE_FORMAT(Create_time,'%Y-%m-%d %H:%i:%S')>='2020-02-25 14:00:00'
+# select ip,count(*) as count from ip_info group by ip having count>1;
 '''
 
 

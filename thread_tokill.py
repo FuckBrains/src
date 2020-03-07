@@ -341,24 +341,30 @@ def reg_part_cpl(submit):
     # submit['Record'] = 0
     Module = ''    
     try:
-        if submit['sleep_flag'] == 2 or submit['sleep_flag'] == 3:
-            submit.pop('ip_lpm')
-        print(submit)
-        chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
         Mission_Id = submit['Mission_dir'].split(',')[0][-5:]
         same_config = read_same_config_num()
         if str(submit['Mission_Id']) in same_config:
             Mission_Id = same_config[str(submit['Mission_Id'])].replace('\n','')
             submit['same_config'] = Mission_Id
         else:
-            Mission_Id = str(submit['Mission_Id'])        
-        Page_flags = db.get_page_flag(Mission_Id)
+            Mission_Id = str(submit['Mission_Id'])         
+        if submit['sleep_flag'] == 2 or submit['sleep_flag'] == 3:
+            submit.pop('ip_lpm')
+        print(submit)
+        Page_flags = db.get_page_flag(Mission_Id)        
+       
         if len(Page_flags) == 0:
             print('No Page_flags found in db,try import module from src')
+            chrome_driver = Chrome_driver.get_chrome(submit)
             module = 'Mission_'+str(Mission_Id)
             Module = importlib.import_module(module)            
             chrome_driver = Module.web_submit(submit,chrome_driver=chrome_driver)
         else:
+            pic = 0
+            for page in Page_flags:
+                if page['Page']=='1':
+                    pic = page['Pic'] 
+            chrome_driver = Chrome_driver.get_chrome(submit,pic=pic)
             submit['Page_flags'] = Page_flags
             print('Page_flags found,use Record modern')
             chrome_driver = web_submit(submit,chrome_driver=chrome_driver)
