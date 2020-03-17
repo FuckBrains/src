@@ -264,7 +264,7 @@ import ssn_detect as dt
 
 def test_write():     
     import traceback
-    excel = 'Uspd_big'
+    excel = 'Us_pd'
     Mission_dict = get_uspd(excel)
     print('Total',len(Mission_dict),'info')
     # account = db.get_account()
@@ -1248,7 +1248,7 @@ def test_1244(Mission_Id):
 
 def Mission_10088_test(submit):
     print('Sending',submit['num'],'info')
-    excel = 'Uspd_big'
+    excel = 'Us_pd'
     try:
         # email alive
         flag_email_alive = dt.validate_email(submit[excel]['email'])       

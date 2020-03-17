@@ -152,8 +152,9 @@ def get_data(values,create,ids):
         if type(values[i]) != b:
             values[i] = str(values[i])
         else:
-            if '"' in values[i]:
-                values[i] = values[i].replace('"','')
+            values[i] = pymysql.escape_string(values[i])
+            # if '"' in values[i]:
+                # values[i] = values[i].replace('"','')
     if create != True: 
         for i in range(10000):
             uuid_sin = str(uuid.uuid1())     

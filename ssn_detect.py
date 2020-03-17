@@ -226,7 +226,7 @@ def validate_10088_email(email):
         resp = session.get(url2)
     # print(resp.text)    
     # resp = session.get(url)
-    # print(resp.text)   
+        # print(resp.text)   
         response = resp.text.replace('posting.isReturning(','').replace(')','')
         res = json.loads(response)
     except:
