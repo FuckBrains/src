@@ -269,9 +269,9 @@ def hire_date(submit):
 def get_random_income(submit):
     '''
     income year
-    4000-20000
+    40000-90000
     '''
-    income = random.randint(4,20)
+    income = random.randint(40,90)
     income = income*1000
     return income
 

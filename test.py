@@ -1249,28 +1249,29 @@ def test_1244(Mission_Id):
 def Mission_10088_test(submit):
     print('Sending',submit['num'],'info')
     excel = 'Us_pd'
-    try:
-        # email alive
-        flag_email_alive = dt.validate_email(submit[excel]['email'])       
-    except:
-        flag_email_alive = -1
-    try:
-        # email in 10088 db
-        flag_email_indb = dt.validate_10088_email(submit[excel]['email'])
-    except:
-        flag_email_indb = -1
-    try:
-        # homephone alive
-        phone = sh.get_phone(submit[excel])
-        flag_home_phone = dt.validate_phone(phone)
-    except:
-        flag_home_phone = -1
-    try:
-        # workphone alive
-        phone = sh.get_workphone(submit[excel])        
-        flag_work_phone = dt.validate_phone(phone)
-    except:
-        flag_work_phone = -1
+    # try:
+    #     # email alive
+    #     flag_email_alive = dt.validate_email(submit[excel]['email'])       
+    # except:
+    #     flag_email_alive = -1
+    # try:
+    #     # email in 10088 db
+    #     # print(submit[excel]['email'])
+    #     flag_email_indb = dt.validate_10088_email(submit[excel]['email'])
+    # except:
+    #     flag_email_indb = -1
+    # try:
+    #     # homephone alive
+    #     phone = sh.get_phone(submit[excel])
+    #     flag_home_phone = dt.validate_phone(phone)
+    # except:
+    #     flag_home_phone = -1
+    # try:
+    #     # workphone alive
+    #     phone = sh.get_workphone(submit[excel])        
+    #     flag_work_phone = dt.validate_phone(phone)
+    # except:
+    #     flag_work_phone = -1
     try:
         # address alive
         ZipCode = sh.get_zip(submit[excel])                
@@ -1278,15 +1279,15 @@ def Mission_10088_test(submit):
         flag_address = dt.validate_address(address,ZipCode)
     except:
         flag_address = -1  
-    try:
-        # workphone alive
-        routing = sh.get_routing_number(submit[excel])        
-        flag_routing = dt.validate_routing(routing)
-    except Exception as e:
-        print(str(e))
-        flag_routing = -1         
-    sql_content = "UPDATE BasicInfo SET email_alive = '%d' , email_in_10088 = '%d' , home_phone_alive = '%d',work_phone_alive='%d',address_alive='%d',routing_alive='%d' WHERE BasicInfo_Id = '%s'" % (flag_email_alive,flag_email_indb,flag_home_phone,flag_work_phone,flag_address,flag_routing,submit[excel]['BasicInfo_Id'])
-    # sql_content = "UPDATE BasicInfo SET routing_alive = '%d'  WHERE BasicInfo_Id = '%s'" % (flag_routing,submit[excel]['BasicInfo_Id'])    
+    # try:
+    #     # workphone alive
+    #     routing = sh.get_routing_number(submit[excel])        
+    #     flag_routing = dt.validate_routing(routing)
+    # except Exception as e:
+    #     print(str(e))
+    #     flag_routing = -1         
+    # sql_content = "UPDATE BasicInfo SET email_alive = '%d' , email_in_10088 = '%d' , home_phone_alive = '%d',work_phone_alive='%d',address_alive='%d',routing_alive='%d' WHERE BasicInfo_Id = '%s'" % (flag_email_alive,flag_email_indb,flag_home_phone,flag_work_phone,flag_address,flag_routing,submit[excel]['BasicInfo_Id'])
+    sql_content = "UPDATE BasicInfo SET address_alive = '%d'  WHERE BasicInfo_Id = '%s'" % (flag_address,submit[excel]['BasicInfo_Id'])    
     print(sql_content)
     db.Execute_sql([sql_content])
 

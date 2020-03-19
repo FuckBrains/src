@@ -20,7 +20,7 @@ def get_version_number(filename):
     #print info
     ms = info['FileVersionMS']
     ls = info['FileVersionLS']
-    print('Chrome_version:',HIWORD(ms), LOWORD(ms), HIWORD(ls), LOWORD(ls))
+    # print('Chrome_version:',HIWORD(ms), LOWORD(ms), HIWORD(ls), LOWORD(ls))
     return HIWORD(ms)
 
 
@@ -35,7 +35,7 @@ def getInstallBdyAdree():
     key = winreg.OpenKeyEx(winreg.HKEY_LOCAL_MACHINE, url)
     data = winreg.QueryValueEx(key, "Path")
     path_chrome = data[0]
-    print('Chrome_path:',path_chrome)
+    # print('Chrome_path:',path_chrome)
     return path_chrome
 
 def get_ua_all():
@@ -119,15 +119,15 @@ def tz_test():
     chrome_driver.get('https://www.w3school.com.cn/tiy/t.asp?f=js_date_current')
     sleep(3000)
 
-def get_chrome(submit = None,pic=0):
+def get_chrome(submit = None,pic=0,headless=0):
     # print('++++++++++++++++++++++++')
     # print('++++++++++++++++++++++++')
     # print('++++++++++++++++++++++++')
 
     # print([key for key in submit])
-    print('++++++++++++++++++++++++')
-    print('++++++++++++++++++++++++')
-    print('++++++++++++++++++++++++')
+    # print('++++++++++++++++++++++++')
+    # print('++++++++++++++++++++++++')
+    # print('++++++++++++++++++++++++')
     
     path_download = get_dir()    
     prefs = {
@@ -143,11 +143,13 @@ def get_chrome(submit = None,pic=0):
     options.add_argument('--disable-gpu')        
     options.add_argument("--disable-automation")
     options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])                   
+    if headless != 0:
+        options.add_argument('--headless')         
     path_driver = get_chromedriver_path()    
     if submit == None:
         uas = get_ua_all()
         ua = get_ua_random(uas)
-        print(ua)
+        # print(ua)
         ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
     else:
         if 'ua' in submit:
@@ -155,7 +157,7 @@ def get_chrome(submit = None,pic=0):
         else:
             uas = get_ua_all()
             ua = get_ua_random(uas)
-            print(ua)  
+            # print(ua)  
         if 'traffic' in submit:
             options.add_argument('user-agent=' + ua)
             options.add_argument('--headless')            
@@ -183,15 +185,15 @@ def get_chrome(submit = None,pic=0):
             print('Selenium in using user-data-dir:',submit['Mission_dir'])
             # options.add_argument('--user-data-dir='+submit['Mission_dir'])
         if 'ip_lpm' in submit:
-            print('=======================')
-            print('=======================')    
-            print(submit)            
+            # print('=======================')
+            # print('=======================')    
+            # print(submit)            
             account_lpm = luminati.get_account()
             ip = account_lpm['IP_lpm']
             port = submit['port_lpm']
             proxy = 'socks5://%s:%s'%(ip,port)
             options.add_argument('--proxy-server=%s'%proxy)
-            print(proxy)            
+            # print(proxy)            
   
     # options.add_experimental_option('prefs', prefs)
     # extension_path = '../tools/extension/1.1.0_0.crx'   
@@ -209,8 +211,9 @@ def get_chrome(submit = None,pic=0):
 
     options.add_argument('user-agent=' + ua)    
     options.add_experimental_option("prefs", prefs)       
-    print(options)
+    # print(options)
     # chrome_driver = webdriver.Chrome(desired_capabilities=desired_capabilities,chrome_options=options,executable_path=path_driver)
+    # print(path_driver)
     chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)    
     # chrome_driver = webdriver.Chrome(executable_path=path_driver)        
     # chrome_driver = webdriver.Chrome(chrome_options=options,desired_capabilities=desired_capabilities)
@@ -218,9 +221,16 @@ def get_chrome(submit = None,pic=0):
     # chrome_driver.set_script_timeout(240)
     chrome_driver.implicitly_wait(20)  # 最长等待8秒  
     size = get_size()
-    print('Chrome size:',size)
+    # print('Chrome size:',size)
     chrome_driver.set_window_size(size[0],size[1])
     chrome_driver.maximize_window()  
+    chrome_driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument",{
+        "source":"""
+        Object.defineProperty(navigator,'webdriver',{
+            get: () => undefined
+        })
+        """
+        })
     sleep(2)  
     return chrome_driver
 
@@ -231,10 +241,12 @@ def get_chrome_normal(submit):
     options.add_argument('user-agent=' + ua)
     account_lpm = luminati.get_account()
     ip = account_lpm['IP_lpm']
+    print(ip)
     port = submit['port_lpm']
-    proxy = 'socks5://%s:%s'%(ip,port)
+    proxy = 'socks5://%s:%s'%(ip,str(port))
     options.add_argument('--proxy-server=%s'%proxy)    
     path_driver = get_chromedriver_path()
+    print(path_driver)
     chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)    
     return chrome_driver
 
@@ -323,14 +335,15 @@ def test():
     import luminati
     submit = {}
     submit['Mission_dir'] = r'C:\EMU\emu_chromes\10000,1'
-    submit['ip_lpm'] = '192.168.30.131'
-    submit['port_lpm'] = 24000
+    submit['ip_lpm'] = '192.168.30.130'
+    submit['port_lpm'] = 27486
     submit['Site'] = 'http://dategd.com/index.html'
     submit['Mission_Id'] = '10005'
     # luminati.refresh_proxy(submit['ip_lpm'],submit['port_lpm'])    
     chrome_driver = get_chrome_normal(submit)
-    chrome_driver.get(submit['Site']) 
-    sleep(3000)
+    return chrome_driver
+    # chrome_driver.get(submit['Site']) 
+    # sleep(3000)
 
 def test_meituan():
     url = 'https://www.google.com'

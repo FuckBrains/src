@@ -9,6 +9,7 @@ from xlutils.copy import copy
 import threadpool
 import threading
 import db
+import Chrome_driver
 
 def get_headers():
     headers = {
@@ -87,14 +88,15 @@ def validate_address(Address='',ZipCode=''):
     s = requests.session()
     try:
         resp = s.post(url_,data=data_,headers=headers)
-    except:
+    except Exception as e:
+        print(str(e))
         return -1
     # resp.encoding = 'utf-8'  # 设置编码
     resp.encoding='UTF-8'  
     # resp = requests.post(url_,data=data)            
     # print(resp.apparent_encoding)
     resp_text = resp.text
-    # print(resp_text)
+    print(resp_text)
     data = json.loads(resp.text)
     flag = 0
     if data['StatusCode'] == 200:
@@ -208,36 +210,60 @@ def validate_10088_email(email):
     Result:
         3:in database
         1: not in database
-    '''    
+    '''   
+    # email = 'karlmalfeld@hotmail.com' 
+    submit = {}
+    submit['port_lpm'] = 27486
+    # submit['ip_lpm'] = ''
+    submit['Mission_Id'] = 10000
+    url = 'https://cashrequestonline.com/Home/GetStarted'        
+    chrome_driver = Chrome_driver.get_chrome(submit,headless=1)
+    # print('+++++++++++++========')
+    chrome_driver.get(url)
+    cookies = chrome_driver.get_cookies()
+    uid = ''
+    for cookie in cookies:
+        if 'value' in cookie:
+            if 'uid' in cookie['value']:
+                uid = cookie['value'][4:]
+                break
+    if uid == '':
+        return
+    # print(cookies)
+
+    chrome_driver.close()
+    chrome_driver.quit()    
     stick = int(round(time.time() * 1000))
-    url2 = 'https://www.consumerconnecting.com/misc/?responsetype=json&action=campaignstatus&c=235100&email=%s&leadtypeid=9&mailsrc=field&callback=posting.isReturning&uts=%d&uid=5c8f7594-e795-4f00-b670-c43415d65d64'%(email,stick)
+    url2 = 'https://www.consumerconnecting.com/misc/?responsetype=json&action=campaignstatus&c=235100&email=%s&leadtypeid=9&mailsrc=field&callback=posting.isReturning&uts=%d&uid=%s'%(email,stick,uid)
     # print(url)
-    url = 'http://lumtest.com/myip.json'
     # print('email:',email)
-    ip = '192.168.89.130'
-    port = '25945'
-    proxy = 'socks5://%s:%s'%(ip,port)    
+    # ip = '192.168.89.130'
+    # port = '25945'
+    # proxy = 'socks5://%s:%s'%(ip,port)    
     session = requests.session()
     # session.proxies = {'http': proxy,
     #                    'https': proxy}      
-    # resp = session.get(url)
+    # resp = session.get(url2)
     # print(resp.text)
+    # cookies = resp.cookies
+    # print('; '.join(['='.join(item) for item in cookies.items()]))
     try:
         resp = session.get(url2)
     # print(resp.text)    
     # resp = session.get(url)
-        # print(resp.text)   
+        print(resp.text)   
         response = resp.text.replace('posting.isReturning(','').replace(')','')
         res = json.loads(response)
-    except:
+    except Exception as e:
+        print(e)
         return -1
-    # print("res['Result']",res['Result'])
+    print("res['Result']",res['Result'])
     flag = 0
     if res['Result'] == 1:
-        # print('email alive')
+        print('email not in 10088 db')
         flag = 1
     else:
-        # print('email not exist')
+        print('email in 10088 db')
         flag = 0
     # print(str(resp))  
     return flag 

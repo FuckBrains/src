@@ -504,7 +504,7 @@ def web_submit(submit,chrome_driver,debug=0):
                 iframe_change(chrome_driver,config_['General']['iframe'])
                 submit = selenium_funcs.get_action(chrome_driver,config_,submit)
                 flag_refresh = 0
-                sleep(2)
+                sleep(4)
             except Exception as e:
                 a = traceback.format_exc()
                 print(a)
