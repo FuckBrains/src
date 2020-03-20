@@ -82,7 +82,7 @@ def validate_address(Address='',ZipCode=''):
     headers['Referer'] = headers['Referer'].replace('85705',str(ZipCode))
     data = {}
     data['Address'] = Address
-    data['ZipCode'] = ZipCode
+    data['ZipCode'] = int(ZipCode)
     # print('preparing to add proxy config:',data)
     data_ = parse.urlencode(data)      
     s = requests.session()

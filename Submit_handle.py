@@ -762,6 +762,8 @@ def get_next_payday_dd(submit):
     '''
     payday = get_next_payday_list('')
     payday_dd = str(payday[1])
+    if len(payday)==1:
+        payday = '0'+payday     
     return payday_dd
 
 def get_next_payday2_dd(submit):
@@ -778,6 +780,8 @@ def get_next_payday_mm(submit):
     '''
     payday = get_next_payday_list('')
     payday_mm = str(payday[0])
+    if len(payday_mm)==1:
+        payday_mm = '0'+payday_mm    
     return payday_mm
 
 def get_next_payday2_mm(submit):
@@ -786,6 +790,8 @@ def get_next_payday2_mm(submit):
     '''
     payday = get_next_payday2_list('')
     payday_mm = str(payday[0])
+    if len(payday_mm)==1:
+        payday_mm = '0'+payday_mm
     return payday_mm
 
 def get_next_payday_mm_str(submit):

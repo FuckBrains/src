@@ -405,10 +405,9 @@ def Click(chrome_driver,data,submit,element_new=''):
     if 'click' in data['Step_config']:
         print('Click method:',data['Step_config']['click'])        
         if data['Step_config']['click'] == 'Click':
-            try:
-                element.click()
-            except:
-                pass
+            print('ready to click')
+            element.click()
+            print('after click')
             return element
         elif data['Step_config']['click'] == 'Simulate':
             actions = ActionChains(chrome_driver)

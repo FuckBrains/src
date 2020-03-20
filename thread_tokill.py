@@ -113,6 +113,7 @@ def start(plans):
     pool.wait()     
 
 def change_tz(windows_):
+    # return
     global using_num
     while True:
         if using_num == 0:
@@ -124,6 +125,7 @@ def change_tz(windows_):
             using_num += 1
             return
         else:
+            break
             sleep(10)
             print('waiting tz')
 
@@ -504,7 +506,7 @@ def web_submit(submit,chrome_driver,debug=0):
                 iframe_change(chrome_driver,config_['General']['iframe'])
                 submit = selenium_funcs.get_action(chrome_driver,config_,submit)
                 flag_refresh = 0
-                sleep(4)
+                sleep(3)
             except Exception as e:
                 a = traceback.format_exc()
                 print(a)
