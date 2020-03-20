@@ -712,7 +712,7 @@ def multi_reg(Config):
     #         time_return = random.randint(0,600)
     #         # sleep(time_return)
     # else:
-    time_cheat = random.randint(0,600)
+    time_cheat = random.randint(0,30)
     # print(Config)
     if Config['Alliance'] != 'Test':
         if Config['Mission_Id'] != '20000':
