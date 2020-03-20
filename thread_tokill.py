@@ -508,8 +508,10 @@ def web_submit(submit,chrome_driver,debug=0):
                 flag_refresh = 0
                 sleep(3)
             except Exception as e:
-                a = traceback.format_exc()
-                print(a)
+                print(str(e))
+                # a = traceback.format_exc()
+                # print(a)
+                return chrome_driver
         if flag_refresh == 1:
             print('flag_refresh = ',flag_refresh)
             continue
