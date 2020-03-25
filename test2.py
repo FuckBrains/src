@@ -144,9 +144,4 @@ def main():
     # ssn_detect.validate_address(Address,ZipCode)
 
 if __name__ == '__main__':
-    # url = 'https://whoer.net'
-    # chrome_driver = test_chrome()
-    # chrome_driver.get(url)
-    # sleep(3000)
-    employer = get_employer()
-    print(employer)
+    db.get_driver_license()

@@ -1203,8 +1203,24 @@ def get_ssn():
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     ssn_isnull = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来    
     print('Total %d ssn_isnull get'%len(ssn_isnull))    
+    login_out_sql(conn,cursor)
+
     return ssn_empty,ssn_isnull
 
+
+def get_driver_license():
+    account = get_account()
+    conn,cursor=login_sql(account)
+    sql_content = 'select drivers_license from Basicinfo where Excel_name = "Us_pd_native"'
+    cursor.execute(sql_content)
+    res = cursor.fetchall()
+    driver_licenses = [key[0] for key in res]
+    print(driver_licenses[:20])
+    print('Total %d licenses'%len(driver_licenses))
+    # for driver_license in driver_licenses:
+
+    login_out_sql(conn,cursor)
+    return driver_licenses
 
 
 def read_rest(Mission_list,Excel_name,Email_list):
