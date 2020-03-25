@@ -247,6 +247,37 @@ def check_flag(Mission_Id,flag):
     print(flag)
     return flag
 
+
+def get_employer():
+    account = get_account()
+    conn,cursor=login_sql(account)
+    cursor.execute('SELECT employer from Basicinfo WHERE Excel_name = "Us_pd_native"')
+    res = cursor.fetchall()
+    employer = [key[0] for key in res]
+    # desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    # Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
+    login_out_sql(conn,cursor)
+    # submit = dict(Info_dict,**Info_dict2)
+    num = random.randint(0,len(employer)-10)
+    employer = employer[num]
+    return employer
+
+def get_occupation():
+    account = get_account()
+    conn,cursor=login_sql(account)
+    cursor.execute('SELECT occupation from Basicinfo WHERE Excel_name = "Us_pd_native"')
+    res = cursor.fetchall()
+    occupation = [key[0] for key in res]
+    # desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    # Email_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
+    login_out_sql(conn,cursor)
+    # submit = dict(Info_dict,**Info_dict2)
+    num = random.randint(0,len(occupation)-10)
+    occupation = occupation[num]
+    return occupation
+
+
+
 def check_step(Mission_Id,flag):
     account = get_account()
     conn,cursor=login_sql(account)
@@ -367,7 +398,7 @@ def upload_data():
     conn,cursor = login_sql(account)
     ids = uuid_set()
     for path_excel in excels_path:
-        # print(path_excel)
+        print(path_excel)
         Excel_name = ((os.path.split(path_excel))[1].split('.'))[0]
         print(Excel_name)
         sheet = get_sheet(path_excel)    
@@ -1153,7 +1184,7 @@ def get_one_info():
 
 def init():
     create_all_tables()
-    upload_data()    
+    # upload_data()    
 
 
 def get_ssn():
@@ -1877,6 +1908,7 @@ if __name__ == '__main__':
     except:
         pass
     # delete_old_data()
+    print('')
     upload_data()
     # get_duplicated_mission_record()
     # plans = {'0': {'Alliance': 'Finaff', 'Offer': 'Royal Cams(Done)', 'url_link': 'http', 'Country': 'US', 'Mission_Id': '10000', 'Excel': ['', 'Email']}}

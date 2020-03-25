@@ -201,6 +201,8 @@ def get_zip(submit):
     if 'katou' not in submit:
         if len(zip_) == 4:
             zip_ = '0' + zip_
+        if len(zip_) == 3:
+            zip_ = '00' + zip_        
     return zip_ 
 
 def apt_get(submit):
@@ -244,6 +246,30 @@ def get_auto_birthday(date):
     if int(birthday[2]) <= 1970:
         birthday[2] = str(random.randint(1970,1990))
     return birthday
+
+def get_employer_info(submit):
+    '''
+    generate employer
+    '''
+    employer = ''
+    if 'employer' in submit:
+        if submit['employer'] != '':
+            employer = submit['employer']
+    if employer == '':
+        employer = db.get_employer()
+    return employer
+
+def get_occupation_info(submit):
+    '''
+    generate occupation
+    '''
+    occupation = ''
+    if 'occupation' in submit:
+        if submit['occupation'] != '':
+            occupation = submit['occupation']
+    if occupation == '':
+        occupation = db.get_occupation()
+    return occupation
 
 
 def hire_date(submit):
@@ -508,6 +534,8 @@ def get_phone(submit):
         phone_ = (phone_).split('.')[0]
     if len(str(phone_)) == 9:
         phone_ = '0'+phone_
+    if len(str(phone_)) == 8:
+        phone_ = '00'+phone_        
     return phone_
 
 def get_phone_fr(submit):
@@ -613,6 +641,10 @@ def get_workphone(submit):
     phone_ = phone.replace('(','').replace(')','').replace('-','')
     if '.' in phone_:
         phone_ = (phone_).split('.')[0]
+    if len(str(phone_)) == 9:
+        phone_ = '0'+phone_
+    if len(str(phone_)) == 8:
+        phone_ = '00'+phone_           
     return phone_
 
 

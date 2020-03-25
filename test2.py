@@ -5,7 +5,7 @@ import Chrome_driver
 from time import sleep
 import random
 from selenium import webdriver
-
+import Submit_handle
 
 def test_1():
     Mission_Id =10095
@@ -117,8 +117,18 @@ def test_chrome():
 # def test_chrome_proxy():
     
 
-
-
+def get_employer():
+    submit = {
+        'employer':'aaaa'
+    }
+    employer = Submit_handle.get_employer_info(submit)
+    return employer
+    # employer = [key[0] for key in res]
+    # print(len(employer))
+    # print('first 10')
+    # print(employer[:10])
+    # print('last time')
+    # print(employer[-10:])
 
 
 def main():
@@ -138,4 +148,5 @@ if __name__ == '__main__':
     # chrome_driver = test_chrome()
     # chrome_driver.get(url)
     # sleep(3000)
-    main()
+    employer = get_employer()
+    print(employer)

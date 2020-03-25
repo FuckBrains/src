@@ -32,7 +32,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     @pyqtSlot()
     def on_pushButton1_clicked(self):
         alliance = self.comboBox1.current_text()        
-        description = 
+        description = ''
         db.updata_alliance_description(alliance,description)
 
 
