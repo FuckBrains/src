@@ -173,7 +173,7 @@ def login_sql(account,create = False):
     return the cursor and conn
     '''
     ip = 'rm-bp100p7672g0g8z9kjo.mysql.rds.aliyuncs.com'
-    conn = pymysql.connect(host= ip,port=3306,user=account['username'],passwd=str(account['pwd']),charset='utf8mb4',use_unicode=True)
+    conn = pymysql.connect(host= account['IP'],port=3306,user=account['username'],passwd=str(account['pwd']),charset='utf8mb4',use_unicode=True)
     cursor = conn.cursor()
     try:
         cursor.execute('use %s;'%account['db_name'])
@@ -1021,6 +1021,29 @@ def read_txt_traceback(Mission_Id):
         f.write(content)
     login_out_sql(conn,cursor) 
 
+def get_alliances_info():
+    account = get_account()
+    conn,cursor=login_sql(account)    
+    sql_content = 'Select Alliance_name from alliances'
+    cursor.execute(sql_content)    
+    res = cursor.fetchall()
+    # print(res)
+    alliances = [item[0] for item in res]
+    login_out_sql(conn,cursor)
+    return alliances
+
+def updata_alliance_description(alliance,description):
+    account = get_account()
+    conn,cursor=login_sql(account)    
+    sql_content = 'Select * from alliances WHERE alliance = "%s"'%(alliance)
+    cursor.execute(sql_content)
+    res = cursor.fetchall()
+    if len(res) != 0:
+        sql_content = 'UPDATE alliances SET Description = "%s" WHERE alliance = "%s"'%(description,alliance)
+    else:
+        sql_content = 'insert into alliances(alliance,description)values("%s","%s")'%(alliance,description)
+    login_out_sql(conn,cursor)
+
 
 def updata_email_status(Email_Id,flag = 1):
     if flag == 1:
@@ -1078,7 +1101,9 @@ def Execute_sql(sql_contents):
         try:
             res = cursor.execute(sql_content)
             response = cursor.fetchall()
-        except:
+            # print(response)
+        except Exception as e:
+            print(str(e))
             pass
         # print(response)
     login_out_sql(conn,cursor)
@@ -1635,6 +1660,32 @@ def get_luminati_submit(Config):
     # print(ua)  
     submit['ua'] = ua
     return submit
+
+def upload_alliance_info(infos):
+    sql_contents = ['use emu']
+    for info in infos:
+        print(info)
+        keys_detect = ['Alliance_name','Skypes','Number of Offers','Commission Type','Minimum Payment','Payment Frequency','Payment Method','Referral Commission','Tracking Software','Tracking Link']
+        for key in keys_detect:
+            if key not in info:
+                print(key,'of info not in keys of database')
+                info[key] = ''
+        Alliance_name = info['Alliance_name']
+        print(Alliance_name)
+        Number_of_Offers = info['Number of Offers'] 
+        Commission_Type = info['Commission Type'] 
+        Minimum_Payment = info['Minimum Payment'] 
+        Payment_Frequency = info['Payment Frequency'] 
+        Payment_Method = info['Payment Method'] 
+        Referral_Commission = info['Referral Commission'] 
+        Tracking_Software = info['Tracking Software'] 
+        Tracking_Link = info['Tracking Link'] 
+        Alliance_url = info['alliance_url']
+        Skypes = info['Skypes'] 
+        sql_content = r'INSERT IGNORE INTO alliances(Alliance_name,Alliance_url,Skypes,NumberofOffers,Commission_Type,Minimum_Payment,Payment_Frequency,Payment_Method,Referral_Commission,Tracking_Software,Tracking_Link)VALUES("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")'%(Alliance_name,Alliance_url,Skypes,Number_of_Offers,Commission_Type,Minimum_Payment,Payment_Frequency,Payment_Method,Referral_Commission,Tracking_Software,Tracking_Link)
+        sql_contents.append(sql_content)
+    print(sql_contents)
+    Execute_sql(sql_contents)    
 
 def update_cookie(submit):
     print('Uploading cookie')

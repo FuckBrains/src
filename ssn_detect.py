@@ -1,3 +1,7 @@
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+
 import time
 import requests
 import json
@@ -145,17 +149,18 @@ def validate_phone(phone):
 
 def validate_routing(routing):
     # routing = 421051540
-    url = 'https://www.consumerconnecting.com/misc/?responsetype=json&action=validatebankaba&bankaba=%d&uts=1582817828788&uid=d127367d-6053-4c65-b60b-fb53d7008f10&callback=jQuery2230839557435128814_1582817474953&_=1582817474957'%int(routing)
+    url = 'http://www.consumerconnecting.com/misc/?responsetype=json&action=validatebankaba&bankaba=%d&uts=1582817828788&uid=d127367d-6053-4c65-b60b-fb53d7008f10&callback=jQuery2230839557435128814_1582817474953&_=1582817474957'%int(routing)
     try:
         resp = requests.get(url)
         # data = json.loads(resp.text)        
-    except:
+    except Exception as e:
+        print(str(e))
         return -1
-    # print(resp.text)
+    print(resp.text)
     resp_txt = resp.text
     resp_text = resp_txt.replace('jQuery2230839557435128814_1582817474953(','').replace(')','')
     data = json.loads(resp_text)
-    # print(data['Result'])
+    print(data['Result'])
     # print(str(resp))
     flag = 0
     if data['Result'] == 1:
@@ -205,7 +210,61 @@ def validate_email(email):
     # print(str(resp))  
     return flag
 
+
 def validate_10088_email(email):
+    submit = {}
+    # port = '29050'    
+    # submit['port_lpm'] = int(port)
+    # ip = '192.168.89.130'    
+    # submit['ip_lpm'] = ip
+    submit['Mission_Id'] = 10000
+    # submit['ua'] = 'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko'
+    url = 'https://cashrequestonline.com/Home/GetStarted'        
+    chrome_driver = Chrome_driver.get_chrome(None,headless=0)
+    # print('+++++++++++++========')
+    chrome_driver.get(url)  
+    print('Loading finished')
+    xpath_email = '//*[@id="Email"]'
+    xpath_button = '/html/body/div[1]/div/section/div/div/div/form/div/div[2]/div[2]/div/div/a'
+    xpath_badinfo = '/html/body/div[1]/div/section/div/div/div/form/div/div[3]/div[1]/div/div[1]/p'
+    xpath_goodinfo = '/html/body/div[1]/div/section/div/div/div/form/div/div[3]/p'
+    good_info = 'How Much Do You Need?'
+    bad_info = 'Looks like we have your email on file.'
+    if 'This site can’t be reached' in chrome_driver.page_source:
+        print('net wrong')
+        chrome_driver.close()
+        chrome_driver.quit()
+        return
+    else:
+        print('net right')
+    WebDriverWait(chrome_driver,50).until(EC.visibility_of_element_located((By.XPATH,xpath_email)))
+    print('email ready')
+    chrome_driver.find_element_by_xpath(xpath_email).send_keys(email)
+    WebDriverWait(chrome_driver,50).until(EC.visibility_of_element_located((By.XPATH,xpath_button)))
+    print('button ready')
+    time.sleep(3)    
+    chrome_driver.find_element_by_xpath(xpath_button).click()
+    flag = -1
+    for i in range(5):
+        if bad_info in chrome_driver.page_source:
+            if EC.visibility_of_element_located((By.XPATH,xpath_badinfo)):            
+                flag = 0
+                print('bad info found...')
+                break
+        try:
+            chrome_driver.find_element_by_xpath(xpath_goodinfo).click()                              
+            print('find good info')
+            flag = 1
+            break
+        except:
+            pass
+        else:
+            sleep(1)
+
+    time.sleep(3000)  
+
+
+def validate_10088_email2(email):
     '''
     Result:
         3:in database
@@ -213,40 +272,72 @@ def validate_10088_email(email):
     '''   
     # email = 'karlmalfeld@hotmail.com' 
     submit = {}
-    submit['port_lpm'] = 27486
-    # submit['ip_lpm'] = ''
+    port = '29050'    
+    submit['port_lpm'] = int(port)
+    ip = '192.168.89.130'    
+    # submit['ip_lpm'] = ip
     submit['Mission_Id'] = 10000
+    submit['ua'] = 'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko'
     url = 'https://cashrequestonline.com/Home/GetStarted'        
-    chrome_driver = Chrome_driver.get_chrome(submit,headless=1)
-    # print('+++++++++++++========')
-    chrome_driver.get(url)
-    cookies = chrome_driver.get_cookies()
-    uid = ''
-    for cookie in cookies:
-        if 'value' in cookie:
-            if 'uid' in cookie['value']:
-                uid = cookie['value'][4:]
-                break
+    # chrome_driver = Chrome_driver.get_chrome(submit,headless=0)
+    # # print('+++++++++++++========')
+    # chrome_driver.get(url)
+    # # sleep(5)
+    # cookies = chrome_driver.get_cookies()
+    # print(cookies)
+    # uid = ''
+    # for cookie in cookies:
+    #     if 'value' in cookie:
+    #         if 'uid' in cookie['value']:
+    #             uid = cookie['value'][4:]
+    #             break
+    uid = 'cdfb01b6-a06d-4a08-891b-bf2f9a11ce6d'
+    # time.sleep(3000)
+    print(uid)
     if uid == '':
         return
     # print(cookies)
-
-    chrome_driver.close()
-    chrome_driver.quit()    
+    # chrome_driver.close()
+    # chrome_driver.quit()    
     stick = int(round(time.time() * 1000))
     url2 = 'https://www.consumerconnecting.com/misc/?responsetype=json&action=campaignstatus&c=235100&email=%s&leadtypeid=9&mailsrc=field&callback=posting.isReturning&uts=%d&uid=%s'%(email,stick,uid)
     # print(url)
     # print('email:',email)
-    # ip = '192.168.89.130'
-    # port = '25945'
     # proxy = 'socks5://%s:%s'%(ip,port)    
     session = requests.session()
+    session.headers.clear()
+
+  
     # session.proxies = {'http': proxy,
     #                    'https': proxy}      
     # resp = session.get(url2)
     # print(resp.text)
     # cookies = resp.cookies
     # print('; '.join(['='.join(item) for item in cookies.items()]))
+    session.headers = {
+        'accept': '*/*',
+        'accept-encoding': 'gzip, deflate, br',
+        'accept-language': 'en-US,en;q=0.9' ,                 
+        'user-agent': submit['ua'],
+        'referer':'https://cashrequestonline.com/Home/GetStarted',
+        'sec-fetch-dest': 'script',
+        'sec-fetch-mode': 'no-cors',
+        'sec-fetch-site': 'cross-site',
+        'cookies':'nlbi_1881145=uhcVW/vOEimurek2r9bA3gAAAAC25nhZdqUfiOHeBqrsI4hF; visid_incap_1881145=x9XGTYUrSdqiHLATjveXsQx6eV4AAAAAQUIPAAAAAACP/BnyUXHAbrbs8DweoIH6; incap_ses_543_1881145=Dj5Vc7EyMxJsH9S25x+JBwx6eV4AAAAA8H4+M3stSmG13v9MCmyzGw==; ASP.NET_SessionId=yalt4ld221w2l3qel5qt1rhu; hit=uid=cdfb01b6-a06d-4a08-891b-bf2f9a11ce6d; nlbi_1881146=+UhuZg+6p0qlKPbdzkbpqwAAAACZN5PH6zQyW/JZumRhh3mR; visid_incap_1881146=bQr57YJgRYKgrwdLNDlD5Qx6eV4AAAAAQUIPAAAAAAAFQFYbZ6gHQa0D/hCEQRaZ; incap_ses_1249_1881146=LH3oINjIIFgMB1rOIFdVEQx6eV4AAAAA8iNTffy1yd1Qqw5/QC4Qtg=='  
+    }
+    cookies = {
+        'nlbi_1881145':'uhcVW/vOEimurek2r9bA3gAAAAC25nhZdqUfiOHeBqrsI4hF', 
+        'visid_incap_1881145':'x9XGTYUrSdqiHLATjveXsQx6eV4AAAAAQUIPAAAAAACP/BnyUXHAbrbs8DweoIH6',
+        'incap_ses_543_1881145':'Dj5Vc7EyMxJsH9S25x+JBwx6eV4AAAAA8H4+M3stSmG13v9MCmyzGw==',
+        'ASP.NET_SessionId':'yalt4ld221w2l3qel5qt1rhu',
+        'hit':'cdfb01b6-a06d-4a08-891b-bf2f9a11ce6d',
+        'uid':'cdfb01b6-a06d-4a08-891b-bf2f9a11ce6d', 
+        'nlbi_1881146':'+UhuZg+6p0qlKPbdzkbpqwAAAACZN5PH6zQyW/JZumRhh3mR',
+        'visid_incap_1881146':'bQr57YJgRYKgrwdLNDlD5Qx6eV4AAAAAQUIPAAAAAAAFQFYbZ6gHQa0D/hCEQRaZ',
+        'incap_ses_1249_1881146':'LH3oINjIIFgMB1rOIFdVEQx6eV4AAAAA8iNTffy1yd1Qqw5/QC4Qtg=='  
+    }
+    for key in cookies:
+        session.cookies.set(key, cookies[key])      
     try:
         resp = session.get(url2)
     # print(resp.text)    

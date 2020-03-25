@@ -7,7 +7,7 @@ sys.path.append("..")
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow , QApplication,QWidget, QMessageBox
 # from PyQt5.QtCore import pyqtSignature
-import sys
+# import sys
 import os
 os.system(r'pyuic5 -o uiclass.py ui\test.ui')
 from uiclass import Ui_MainWindow
@@ -1222,14 +1222,7 @@ def test_k():
 
 def main(i,message=''):
     # up.main()
-    print('Updating config...')
-    try:
-        upc.update_config()
-    except Exception as e:
-        print(str(e))
-        print('Updating config failed')
-        return
-    print('Updating config success')
+
     app = QtWidgets.QApplication(sys.argv)  # 创建一个QApplication，也就是你要开发的软件app
     MainWindow = QMainWindow()    # 创建一个QMainWindow，用来装载你需要的各种组件、控件
     # MainWindow.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint)
@@ -1238,6 +1231,14 @@ def main(i,message=''):
     # ui.setupUi(MainWindow)   # 执行类中的setupUi方法，方法的参数是第二步中创建的QMainWindow
     # ui.pushButton.clicked.connect(test_sig)
     if i == 0:
+        print('Updating config...')
+        try:
+            upc.update_config()
+        except Exception as e:
+            print(str(e))
+            print('Updating config failed')
+            return
+        print('Updating config success')        
         ui.show()                       # 执行QMainWindow的show()方法，显示这个QMainWindow
         sys.exit(app.exec_())
     else:

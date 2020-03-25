@@ -175,11 +175,12 @@ def get_chrome(submit = None,pic=0,headless=0):
         if 'Country' in submit:
             language = get_lan_config(submit['Country'])
             options.add_argument('-lang=' +language )            
-        if submit['Mission_Id'] == '20000':
-            print('test chrome')
-        else:
-            if pic == 0:
-                prefs["profile.managed_default_content_settings.images"] = 2
+        if 'Mission_Id' in submit:
+            if submit['Mission_Id'] == '20000':
+                print('test chrome')
+            else:
+                if pic == 0:
+                    prefs["profile.managed_default_content_settings.images"] = 2
         if 'Mission_dir' in submit:
             submit['Mission_dir'] = submit['Mission_dir'].replace('//','\\') 
             print('Selenium in using user-data-dir:',submit['Mission_dir'])
@@ -194,7 +195,9 @@ def get_chrome(submit = None,pic=0,headless=0):
             proxy = 'socks5://%s:%s'%(ip,port)
             options.add_argument('--proxy-server=%s'%proxy)
             # print(proxy)            
-  
+        if 'oxylab' in submit:
+            entry = ('http://customer-%s-cc-%s-sesstime-30:%s@pr.oxylabs.io:7777' %
+                    (username, country, password))            
     # options.add_experimental_option('prefs', prefs)
     # extension_path = '../tools/extension/1.1.0_0.crx'   
     # options.add_extension(extension_path) 
@@ -247,6 +250,7 @@ def get_chrome_normal(submit):
     options.add_argument('--proxy-server=%s'%proxy)    
     path_driver = get_chromedriver_path()
     print(path_driver)
+    # proxy = r'http://customer-%s-cc-%s-sesstime-30:%s@pr.oxylabs.io:7777' %(username, country, password))    
     chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)    
     return chrome_driver
 
