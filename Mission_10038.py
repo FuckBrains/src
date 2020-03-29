@@ -24,7 +24,7 @@ import random
 def web_submit(submit,chrome_driver,debug=0):
     # test
     if debug == 1:
-        site = 'http://economic-life.com/'
+        site = 'https://personalloans.com/'
         submit['Site'] = site
     chrome_driver.get(submit['Site'])
     chrome_driver.maximize_window()    

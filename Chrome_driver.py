@@ -194,10 +194,20 @@ def get_chrome(submit = None,pic=0,headless=0):
             port = submit['port_lpm']
             proxy = 'socks5://%s:%s'%(ip,port)
             options.add_argument('--proxy-server=%s'%proxy)
-            # print(proxy)            
-        if 'oxylab' in submit:
-            entry = ('http://customer-%s-cc-%s-sesstime-30:%s@pr.oxylabs.io:7777' %
-                    (username, country, password))            
+            # print(proxy) 
+        # wire_options = ''           
+        # if 'oxylab' in submit:
+        #     username = 'r782992280'
+        #     password = 'nV3nqFtt9S'    
+        #     country = submit['oxylab']            
+        #     entry = 'customer-%s-cc-%s-sesstime-30:%s@pr.oxylabs.io:7777' %(username, country, password)
+        #     wire_options = {
+        #         'proxy': {
+        #             'http': 'http://'+entry,
+        #             'https': 'https://'+entry,
+        #             'no_proxy': 'localhost,127.0.0.1,dev_server:8080'
+        #         }
+        #     }            
     # options.add_experimental_option('prefs', prefs)
     # extension_path = '../tools/extension/1.1.0_0.crx'   
     # options.add_extension(extension_path) 
@@ -217,7 +227,11 @@ def get_chrome(submit = None,pic=0,headless=0):
     # print(options)
     # chrome_driver = webdriver.Chrome(desired_capabilities=desired_capabilities,chrome_options=options,executable_path=path_driver)
     # print(path_driver)
+    
+    # if wire_options == '':
     chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)    
+    # else:
+    #     chrome_driver = webdriver.Chrome(executable_path=path_driver,seleniumwire_options=options)            
     # chrome_driver = webdriver.Chrome(executable_path=path_driver)        
     # chrome_driver = webdriver.Chrome(chrome_options=options,desired_capabilities=desired_capabilities)
     chrome_driver.set_page_load_timeout(300)
@@ -250,7 +264,7 @@ def get_chrome_normal(submit):
     options.add_argument('--proxy-server=%s'%proxy)    
     path_driver = get_chromedriver_path()
     print(path_driver)
-    # proxy = r'http://customer-%s-cc-%s-sesstime-30:%s@pr.oxylabs.io:7777' %(username, country, password))    
+    # proxy = r'http://customer-%s-cc-%s-sesstime-30:%s@  :7777' %(username, country, password))    
     chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)    
     return chrome_driver
 

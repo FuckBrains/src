@@ -7,6 +7,7 @@ import re
 import time
 import zipfile
 from selenium import webdriver
+from time import sleep
 
 # Chrome代理模板插件(https://github.com/RobinDev/Selenium-Chrome-HTTP-Private-Proxy)目录
 CHROME_PROXY_HELPER_DIR = 'Chrome-proxy-helper'
@@ -46,7 +47,35 @@ def get_chrome_proxy_extension(proxy):
         raise Exception('Invalid proxy format. Should be username:password@ip:port')
 
 
-if __name__ == '__main__':
+def time_check():
+    import urllib.request
+    import random
+    username = 'r782992280'
+    password = 'nV3nqFtt9S' 
+    country = 'DE'
+    city = 'munich'
+    session = random.random()
+    entry = ('http://customer-%s-cc-%s-city-%s-sessid-%s-sesstime-30:%s@pr.oxylabs.io:7777' %
+        (username, country, city, str(session),password))
+    # entry = ('http://customer-%s:%s@pr.oxylabs.io:7777' %
+    #     (username,password))    
+    query = urllib.request.ProxyHandler({
+        'http': entry,
+        'https': entry,
+    })
+    i = 0
+    while True:
+        print(i)
+        execute = urllib.request.build_opener(query)
+        try:
+            print(execute.open('https://ipinfo.io').read())    
+        except Exception as e:
+            print(str(e))
+        i += 1
+        sleep(3)
+
+
+def test():
     # 测试
     options = webdriver.ChromeOptions()
     # 添加一个自定义的代理插件（配置特定的代理，含用户名密码认证）
@@ -63,4 +92,7 @@ if __name__ == '__main__':
     driver.get('https://ipinfo.io')
     print(driver.page_source)
     time.sleep(60)
-    driver.quit()
+    driver.quit()    
+
+if __name__ == '__main__':
+    time_check()
