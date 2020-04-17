@@ -260,8 +260,32 @@ def compile_test():
     print(modules)
     [Compile.rename_file(module) for module in modules]    
 
+def test12():
+    Mission_Id = 10123
+    db.read_pic(Mission_Id)    
+
+def test13():
+    account = db.get_account()
+    # print(account)
+    conn,cursor = db.login_sql(account)
+    sql_content = 'DELETE FROM Log LIMIT 100;'
+
+    for i in range(70):
+        # print('\n\n\n')
+        # print(sql_content)
+
+        try:
+            res = cursor.execute(sql_content)
+            # response = cursor.fetchall()
+            # print(response)
+        except Exception as e:
+            print(str(e))
+            pass
+        # print(response)
+    db.login_out_sql(conn,cursor)    
+
 if __name__ == '__main__':
-    compile_test()    
+    test13()    
 
     
 

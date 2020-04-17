@@ -493,6 +493,8 @@ def uuid_set():
     ids = list(set(ids))
     print('Number after set:',len(ids))
     print(ids[:5])
+    login_out_sql(conn,cursor) 
+
     return ids    
 
 def read_one_info(Country,Mission_list,Email_list,Excel_names):
@@ -944,6 +946,8 @@ def get_unique_soi_email(Mission,Email_list=[]):
     print('===============',unique_soi)
     if len(unique_soi) == 0:
         print('No unique_soi email found...............')
+    login_out_sql(conn,cursor) 
+
     return unique_soi      
 
 def write_one_info(Mission_list,submit,Cookie = ''):
@@ -1009,7 +1013,8 @@ def read_pic(Mission_Id):
     [os.remove(file) for file in modules_path]
 
     account = get_account()
-    conn,cursor=login_sql(account)    
+    conn,cursor=login_sql(account)   
+    print('===') 
     sql_content = 'SELECT Create_time,png FROM Log WHERE Mission_Id="%s"'%str(Mission_Id)
     # res = cursor.execute(sql_content)  
     res = cursor.execute(sql_content)  
@@ -1333,6 +1338,7 @@ def read_all_info():
     #         email[Mission['Mission_Id']] += 1
     # print(emails)    
     # print(excels,emails,Missions)
+    login_out_sql(conn,cursor) 
     return excels,emails,Missions
 
 def get_mission_num_available():
@@ -1357,7 +1363,9 @@ def get_mission_num_available():
     ids2 = list(set(ids2))
     print('Info Number in Mission table for Mission_Id %d:%d'%(Mission_Id,len(ids2)))    
     ids_unique = [id_ for id_ in ids if id_ not in ids2]
-    print('Available Info Number for Mission_Id %d:%d'%(Mission_Id,len(ids_unique)))    
+    print('Available Info Number for Mission_Id %d:%d'%(Mission_Id,len(ids_unique)))  
+    login_out_sql(conn,cursor) 
+
 
 
 def test_rest():
@@ -1497,6 +1505,7 @@ def get_cookie(Config=None):
     Mission_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
     # print(len(Mission_dict))
     # print(Mission_dict)
+    login_out_sql(conn,cursor)     
     return Mission_dict
 
 def get_cehuoaccount(submit):
@@ -1512,6 +1521,7 @@ def get_cehuoaccount(submit):
     # print(len(Mission_dict))
     # print(Mission_dict)
     update_accounts(account['BasicInfo_Id'])
+    login_out_sql(conn,cursor)     
     return account    
 
 def get_page_flag(Mission_Id):
@@ -1635,6 +1645,7 @@ def get_ports_set():
     plans = [plan for plan in plans if int(plan['Plan_Id'])>=vc_range[0] and int(plan['Plan_Id'])<=vc_range[1]]
     # print(len(plans))    
     ports_set = [plan['port_lpm'] for plan in plans]
+    login_out_sql(conn,cursor)     
     return ports_set    
 
 
@@ -1810,7 +1821,7 @@ def update_version(type_=0):
     file = r'ini\\VERSION.ini'
     with open(file,'w') as f:
         f.write(version_num)    
-    
+
 
 def change_version():
     num_db = db.get_current_version()
