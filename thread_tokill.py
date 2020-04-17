@@ -380,11 +380,11 @@ def reg_part_cpl(submit):
             writelog(chrome_driver,submit)  
         except:
             pass
-    try:
-        chrome_driver.close()
-        chrome_driver.quit()
-    except:
-        pass
+    # try:
+    #     chrome_driver.close()
+    #     chrome_driver.quit()
+    # except:
+    #     pass
 
 def web_submit(submit,chrome_driver,debug=0):
     # predefine Mission
@@ -516,8 +516,6 @@ def web_submit(submit,chrome_driver,debug=0):
                     writelog(chrome_driver,submit)  
                 except:
                     pass                
-                # a = traceback.format_exc()
-                # print(a)
                 return chrome_driver
         if flag_refresh == 1:
             print('flag_refresh = ',flag_refresh)
