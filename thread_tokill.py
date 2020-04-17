@@ -229,7 +229,8 @@ def data_handler(Config):
         return None
         # print('Reading config from sql server success')
     print('Proxy:',proxy_info)
-    if submit['sleep_flag'] == 0 or submit['sleep_flag'] == 1 : 
+    lum_list = [0,1,4]
+    if submit['sleep_flag'] in lum_list: 
         submit['tz'] = db.get_cst_zone(proxy_info['geo']['tz'])
     # print("proxy_info['geo']['tz']:",proxy_info['geo']['tz'])
     # print(str(submit['Mission_Id']),'get timezone for ',submit['Country'],'is',submit['tz'])
@@ -380,11 +381,12 @@ def reg_part_cpl(submit):
             writelog(chrome_driver,submit)  
         except:
             pass
-    # try:
-    #     chrome_driver.close()
-    #     chrome_driver.quit()
-    # except:
-    #     pass
+    if submit['sleep_flag'] != 4:
+        try:
+            chrome_driver.close()
+            chrome_driver.quit()
+        except:
+            pass
 
 def web_submit(submit,chrome_driver,debug=0):
     # predefine Mission
