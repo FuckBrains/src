@@ -127,6 +127,8 @@ def main(i):
         print('Mission completed.........')
         print('Sleep',restart_time*60,'minutes')
         # sleep(restart_time*60)
+        if i == 4:
+            return
         changer.Restart()
         sleep(200)
 
