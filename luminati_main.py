@@ -114,6 +114,7 @@ def main(i):
         tk.start(plans)
         print('All Missions finished..............')
         if i == 4:
+            sleep(3000)
             return        
         try:
             print('try killing pids')
