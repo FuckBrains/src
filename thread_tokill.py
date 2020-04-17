@@ -494,6 +494,7 @@ def web_submit(submit,chrome_driver,debug=0):
         '''
         # flag_refresh = 0
         for config_ in configs:
+            step_detect(chrome_driver,[config_])
             try:
                 if config_['Action'] == 'Set_Refresh':
                     if flag_refresh == 0:
@@ -509,6 +510,10 @@ def web_submit(submit,chrome_driver,debug=0):
                 sleep(3)
             except Exception as e:
                 print(str(e))
+                try:
+                    writelog(chrome_driver,submit)  
+                except:
+                    pass                
                 # a = traceback.format_exc()
                 # print(a)
                 return chrome_driver
@@ -660,7 +665,7 @@ def step_detect(chrome_driver,configs):
     # selenium_funcs.scroll_and_find_up(chrome_driver,xpaths[-1])
     for config in configs_detect:
         iframe_change(chrome_driver,config['General']['iframe'])
-        WebDriverWait(chrome_driver,120).until(EC.visibility_of_element_located((By.XPATH,config['General']['xpath'])))
+        WebDriverWait(chrome_driver,30).until(EC.visibility_of_element_located((By.XPATH,config['General']['xpath'])))
         print('Step',config['Step'],' ready')
 
 def iframe_change(chrome_driver,iframes):
