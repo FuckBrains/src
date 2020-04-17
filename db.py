@@ -1807,7 +1807,14 @@ def update_version(type_=0):
     print('Next version:',version_num)
     sql_content = "UPDATE VERSION SET version = '%s'" % (version_num)
     Execute_sql([sql_content])
+    file = r'ini\\VERSION.ini'
+    with open(file,'w') as f:
+        f.write(version_num)    
+    
 
+def change_version():
+    num_db = db.get_current_version()
+    num_db = str.join('.',num_db)    
 
 
 

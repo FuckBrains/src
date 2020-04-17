@@ -44,7 +44,10 @@ def get_folder_files(folder_name):
     return modules_path
 
 
+
 def main():
+    db.update_version()
+    
     # get all file abs path in dir'__pycache__'/
     modules_path = get_modules()
     print(modules_path)
@@ -129,7 +132,6 @@ def main():
         src_file = os.path.join(ui,filename)
         copyfile(file,src_file)  
 
-    db.update_version()
     # [copyfile(file,src) for file in modules_path]
     print('Compile finished.........')
     # modules = [module.strip('.py') for module in modules] 
