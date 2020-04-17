@@ -219,8 +219,17 @@ def main():
     driver.get('https://httpbin.org/ip')
     sleep(3000)
 
+def test_email_10088():
+    import ssn_detect as dt
+    email = '123@hotmail.com'
+    dt.validate_10088_email3(email)
+
+def version_test():
+    num = db.get_current_version()
+    print(num)
+
 if __name__ == '__main__':
-    main()    
+    version_test()    
 
     
 

@@ -222,7 +222,7 @@ def upload_pageflag(Mission_Id,flag):
     Flag_iframe = flag['Iframe']    
     Status = flag['Status']
     Country = flag['Country']
-    Pic = flag['Pic']
+    Pic = 0
     # flag_check = check_flag(Mission_Id,flag)
     # if flag_check == False:
     #     return -1    
@@ -1785,21 +1785,27 @@ def upload_alliance(Alliance_name,Mission_Id):
 
 
 def get_current_version():
-    version = 'VERSION'
-    sql_content = "SELECT * FROM Alliance_config where Alliance_name = '%s'"%version
+    sql_content = "SELECT * FROM VERSION"
     res = Execute_sql_single([sql_content])
-    print('Current version:',res[0][0][1])
-    num = res[0][0][1].split('.')
+    # print(res)
+    # print('Current version:',res[0][0][0])
+    num = res[0][0][0].split('.')
     return num    
 
 def update_version(type_=0):
-    version = 'VERSION'
+    '''
+    type_:
+        0--1.0.0-->1.0.1
+        1--1.0.0-->1.1.0
+    '''
     num = get_current_version()
     if type_ == 0:
         num[2] = str(int(num[2])+1)
+    else:
+        num[1] = str(int(num[1])+1)
     version_num = num[0]+'.'+num[1]+'.'+num[2]
     print('Next version:',version_num)
-    sql_content = "UPDATE Alliance_config SET Mission_Id = '%s' WHERE Alliance_name = '%s'" % (version_num,version)
+    sql_content = "UPDATE VERSION SET version = '%s'" % (version_num)
     Execute_sql([sql_content])
 
 

@@ -47,8 +47,28 @@ flag:
 #     module_name = importlib.import_module(module)
 #     return module_name
 
+def check_version():
+    num_db = db.get_current_version()
+    num_db = str.join('.',num_db)
+    file = r'ini\\VERSION.ini'
+    with open(file) as f:
+        num_native = f.readline()
+    print('db version:%s'%num_db)
+    print('native version:%s'%num_native)
+    flag = False
+    if num_native == num_db:
+        flag = True
+    # print(flag)
+    return flag
+
+
 def main(i):
     # while True:
+    flag = check_version()
+    if flag == False:
+        command = '''start cmd /k "python Auto_update.pyc 1"{$name$:$qcy$}" "'''
+        os.system(command)
+        return
     for j in range(1):
         try:
             if i != 3:
@@ -101,12 +121,10 @@ def main(i):
         sleep(200)
 
 def test():
-    print(Delay)
-    print(pool)
-    print(Config)
+    check_version()
 
 if __name__ == '__main__':
-    paras=sys.argv
-    i = int(paras[1])
-    # i = 40
-    main(i)
+    # paras=sys.argv
+    # i = int(paras[1])
+    # main(i)
+    test()

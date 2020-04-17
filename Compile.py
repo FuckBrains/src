@@ -122,7 +122,7 @@ def main():
         src_file = os.path.join(ui,filename)
         copyfile(file,src_file)  
 
-
+    db.update_version()
     # [copyfile(file,src) for file in modules_path]
     print('Compile finished.........')
     # modules = [module.strip('.py') for module in modules] 

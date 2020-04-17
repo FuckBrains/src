@@ -263,6 +263,29 @@ def validate_10088_email(email):
 
     time.sleep(3000)  
 
+def validate_10088_email3(email):
+    url = 'http://www.consumerconnecting.com/misc/?responsetype=json&action=validateemail&email=email=%s'%email        
+    headers = {
+    'Host': 'www.consumerconnecting.com',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:73.0) Gecko/20100101 Firefox/73.0',
+    'Accept': 'application/json, text/javascript, */*; q=0.01',
+    'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Origin': 'https://cashrequestonline.com',
+    'Connection': 'keep-alive',
+    'Referer': 'https://cashrequestonline.com/GetStarted?PhoneHome=407-536-669&SSN=1172&PhoneHome=407-536-669&SSN=1172',
+    'Pragma': 'no-cache',
+    'Cache-Control': 'no-cache'
+    }
+    response = requests.get(url=url,headers=headers)
+    print(response.status_code)  # 打印状态码
+    print(response.url)         # 打印请求url
+    print(response.headers)       # 打印头信息
+    print(response.cookies)       # 打印cookie信息
+    print(response.text)   #以文本形式打印网页源码
+    print(response.content)  #以字节流形式打印
+
+
 
 def validate_10088_email2(email):
     '''
