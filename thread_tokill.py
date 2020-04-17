@@ -78,7 +78,8 @@ def writelog(chrome_driver,submit,content=''):
         with open(pic,'rb') as f:
             png = f.read()
         Mission_Id = submit['Mission_Id']
-
+        if 'badstep' in submit:
+            content+='\n'+submit['badstep']
         db.write_log_db(Mission_Id,content,png)
         # file_ = r'..\log\log.txt'
         # content = str(datetime.datetime.now())
@@ -511,6 +512,7 @@ def web_submit(submit,chrome_driver,debug=0):
             except Exception as e:
                 print(str(e))
                 try:
+                    submit['badstep'] = json.dumps(config_)
                     writelog(chrome_driver,submit)  
                 except:
                     pass                
