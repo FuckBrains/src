@@ -382,6 +382,7 @@ def reg_part_cpl(submit):
         except:
             pass
     if submit['sleep_flag'] != 4:
+        print('try to close chrome')
         try:
             chrome_driver.close()
             chrome_driver.quit()
