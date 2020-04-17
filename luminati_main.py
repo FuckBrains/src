@@ -61,11 +61,21 @@ def check_version():
     # print(flag)
     return flag
 
+def change_update_file():
+    files = os.listdir('.')
+    print(files)
+    if 'Auto_update2.pyc' in files:
+        # print(modules)
+        file = os.path.join(os.getcwd(),'Auto_update.pyc')
+        file2 = os.path.join(os.getcwd(),'Auto_update2.pyc')
+        os.remove(file)
+        os.rename(file2,file)
 
 def main(i):
     # while True:
     flag = check_version()
     if flag == False:
+        change_update_file()
         command = '''start cmd /k "python Auto_update.pyc 1"{$name$:$qcy$}" "'''
         os.system(command)
         return
@@ -124,7 +134,7 @@ def test():
     check_version()
 
 if __name__ == '__main__':
-    # paras=sys.argv
-    # i = int(paras[1])
-    # main(i)
-    test()
+    paras=sys.argv
+    i = int(paras[1])
+    main(i)
+    # test()

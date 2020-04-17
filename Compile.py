@@ -11,6 +11,8 @@ def rename_file(file):
     file = os.path.join(path,file)
     new_file = new_file[0]+'.'+new_file[2]
     new_file = os.path.join(path,new_file)
+    if 'Auto_update' in new_file:
+        new_file.replace('Auto_update','Auto_update2')
     os.rename(file,new_file)
 
 def get_modules():

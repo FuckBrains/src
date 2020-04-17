@@ -5,6 +5,7 @@ import zipfile
 import os
 import shutil
 from shutil import copyfile
+import Changer_windows_info as changer
 
 
 def get_code():
@@ -95,6 +96,12 @@ def unfold_zip():
             print(str(e))
             print('copyfolder wrong:.........',file_folder)
 
+def change_version():
+    file = r'ini\\VERSION.ini'
+    num_db = db.get_current_version()
+    num_db = str.join('.',num_db)    
+    with open(file,'w') as f:
+        f.write(num_db)
 
 
 
@@ -153,6 +160,8 @@ def delete_folder():
 def main():
     tools.killpid()
     get_code()
+    change_version()
+    changer.Restart()
 
 
 def test():

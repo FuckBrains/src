@@ -225,8 +225,15 @@ def test_email_10088():
     dt.validate_10088_email3(email)
 
 def version_test():
-    num = db.get_current_version()
-    print(num)
+    files = os.listdir('.')
+    print(files)
+    if 'Auto_update2.pyc' in files:
+        # print(modules)
+        file = os.path.join(os.getcwd(),'Auto_update.pyc')
+        file2 = os.path.join(os.getcwd(),'Auto_update2.pyc')
+        os.remove(file)
+        os.rename(file2,file)
+    # modules_path = [os.path.join(path,file) for file in modules]    
 
 if __name__ == '__main__':
     version_test()    
