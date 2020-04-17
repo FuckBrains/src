@@ -235,8 +235,33 @@ def version_test():
         os.rename(file2,file)
     # modules_path = [os.path.join(path,file) for file in modules]    
 
+def compile_test():
+    import Compile
+    modules_path = Compile.get_modules()
+    print(modules_path)
+
+    # delete them all
+    [os.remove(file) for file in modules_path]
+    sleep(1)
+
+    # compile the src dir
+    os.system('python -m compileall')
+    sleep(2)
+
+    # get all compiled file abs path in dir'__pycache__'/    
+    modules_path = Compile.get_modules()    
+    # remove mission files
+    [os.remove(file) for file in modules_path if 'Mission' in file]
+    sleep(1)
+
+    # get all file names in dir '__pycache__'/
+    modules = os.listdir('__pycache__/')
+    # rename all these files so that they can run everywhere
+    print(modules)
+    [Compile.rename_file(module) for module in modules]    
+
 if __name__ == '__main__':
-    version_test()    
+    compile_test()    
 
     
 
