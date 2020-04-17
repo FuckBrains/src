@@ -6,6 +6,7 @@ import os
 import shutil
 from shutil import copyfile
 import Changer_windows_info as changer
+import db
 
 
 def get_code():
