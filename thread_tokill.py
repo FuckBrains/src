@@ -388,6 +388,8 @@ def reg_part_cpl(submit):
             chrome_driver.quit()
         except:
             pass
+    else:
+        sleep(3000)
 
 def web_submit(submit,chrome_driver,debug=0):
     # predefine Mission
