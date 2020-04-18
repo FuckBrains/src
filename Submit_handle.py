@@ -282,7 +282,8 @@ def hire_date(submit):
     if len(str(mm)) == 1:
         mm = '0'+str(mm)
     else:
-        mm = str(mm)        
+        mm = str(mm)  
+    dd = mm      
     if len(str(dd)) == 1:
         dd = '0'+str(dd)
     else:
@@ -325,7 +326,7 @@ def get_birthday_year(date=''):
 def get_birthday_all(date=''):
     '''
     mm,dd,year
-    __/__/____
+    05021997
     '''
     birthday = get_auto_birthday(date)
     birthday = str(birthday[0])+str(birthday[1])+str(birthday[2])
@@ -335,7 +336,7 @@ def get_birthday_all(date=''):
 def get_birthday_all_2(date=''):
     '''
     mm/dd/year
-    __/__/____
+    05/02/1997
     '''
     birthday = get_auto_birthday(date)
     birthday = str(birthday[0])+'/'+str(birthday[1])+'/'+str(birthday[2])
