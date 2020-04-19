@@ -19,14 +19,14 @@ Input_Config ={
     'year'      : ['get_expiration_date'],
     'fullname'    : ['get_fullname'],  
     'phone'     : ['get_phone_dadao'],    
-    'date_of_birth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all'],    
+    'date_of_birth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all','get_birthday_all_2'],    
     'ssn'           : ['get_ssn','ssn_first_3','ssn_mid_2','ssn_last4'],
     'drivers_license': ['get_drivers_license'],
     'routing_number' : ['get_routing_number'],
     'account_number' : ['get_account_number'],
     'net_monthly_income' : ['get_income','get_income_other'],
     'employer':['get_employer_info'],
-    'occupation':['get_occupation_info'],    
+    'occupation':['get_occupation_info'],  
 }
 
 Select_Config ={
@@ -39,7 +39,7 @@ Select_Config ={
 }
 
 Generate_Config = {
-    'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all'],    
+    'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all','get_birthday_all_2'],    
     'pwd'         : ['password_get','password_get_Nostale'],        
     'height'      : ['get_height_ft','get_height_inch','get_height_weight'],  
     'fullname'    : ['get_fullname'], 
@@ -59,6 +59,7 @@ Generate_Config = {
     'nextpayday_bi_str'  :['get_next_payday_bi_str'],
     'nextpayday2_bi_str'  :['get_next_payday2_bi_str'],
     'hire_date':['hire_date'],
+    'year_at_residence_gen':['get_year_atresidence']
 }
 
 

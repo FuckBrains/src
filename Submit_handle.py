@@ -302,6 +302,14 @@ def get_random_income(submit):
     income = income*1000
     return income
 
+def get_year_atresidence(submit):
+    '''
+    1-7
+    '''
+    year = random.randint(1,7)
+    return year
+
+
 def get_birthday_mm(date=''):
     '''
     return mm
