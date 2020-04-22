@@ -73,7 +73,12 @@ def change_update_file():
 
 def main(i):
     # while True:
-    flag = check_version()
+    try:
+        flag = check_version()
+    except Exception as e:
+        print(str(e))
+        print('get db failed,restart........')
+        changer.Restart()          
     if flag == False:
         change_update_file()
         command = '''start cmd /k "python Auto_update.pyc 1"{$name$:$qcy$}" "'''
