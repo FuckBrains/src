@@ -295,9 +295,9 @@ def validate_10088_email2(email):
     '''   
     # email = 'karlmalfeld@hotmail.com' 
     submit = {}
-    port = '29050'    
-    submit['port_lpm'] = int(port)
-    ip = '192.168.89.130'    
+    # port = '29050'    
+    # submit['port_lpm'] = int(port)
+    # ip = '192.168.89.130'    
     # submit['ip_lpm'] = ip
     submit['Mission_Id'] = 10000
     submit['ua'] = 'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko'
@@ -337,30 +337,30 @@ def validate_10088_email2(email):
     # print(resp.text)
     # cookies = resp.cookies
     # print('; '.join(['='.join(item) for item in cookies.items()]))
-    session.headers = {
-        'accept': '*/*',
-        'accept-encoding': 'gzip, deflate, br',
-        'accept-language': 'en-US,en;q=0.9' ,                 
-        'user-agent': submit['ua'],
-        'referer':'https://cashrequestonline.com/Home/GetStarted',
-        'sec-fetch-dest': 'script',
-        'sec-fetch-mode': 'no-cors',
-        'sec-fetch-site': 'cross-site',
-        'cookies':'nlbi_1881145=uhcVW/vOEimurek2r9bA3gAAAAC25nhZdqUfiOHeBqrsI4hF; visid_incap_1881145=x9XGTYUrSdqiHLATjveXsQx6eV4AAAAAQUIPAAAAAACP/BnyUXHAbrbs8DweoIH6; incap_ses_543_1881145=Dj5Vc7EyMxJsH9S25x+JBwx6eV4AAAAA8H4+M3stSmG13v9MCmyzGw==; ASP.NET_SessionId=yalt4ld221w2l3qel5qt1rhu; hit=uid=cdfb01b6-a06d-4a08-891b-bf2f9a11ce6d; nlbi_1881146=+UhuZg+6p0qlKPbdzkbpqwAAAACZN5PH6zQyW/JZumRhh3mR; visid_incap_1881146=bQr57YJgRYKgrwdLNDlD5Qx6eV4AAAAAQUIPAAAAAAAFQFYbZ6gHQa0D/hCEQRaZ; incap_ses_1249_1881146=LH3oINjIIFgMB1rOIFdVEQx6eV4AAAAA8iNTffy1yd1Qqw5/QC4Qtg=='  
-    }
-    cookies = {
-        'nlbi_1881145':'uhcVW/vOEimurek2r9bA3gAAAAC25nhZdqUfiOHeBqrsI4hF', 
-        'visid_incap_1881145':'x9XGTYUrSdqiHLATjveXsQx6eV4AAAAAQUIPAAAAAACP/BnyUXHAbrbs8DweoIH6',
-        'incap_ses_543_1881145':'Dj5Vc7EyMxJsH9S25x+JBwx6eV4AAAAA8H4+M3stSmG13v9MCmyzGw==',
-        'ASP.NET_SessionId':'yalt4ld221w2l3qel5qt1rhu',
-        'hit':'cdfb01b6-a06d-4a08-891b-bf2f9a11ce6d',
-        'uid':'cdfb01b6-a06d-4a08-891b-bf2f9a11ce6d', 
-        'nlbi_1881146':'+UhuZg+6p0qlKPbdzkbpqwAAAACZN5PH6zQyW/JZumRhh3mR',
-        'visid_incap_1881146':'bQr57YJgRYKgrwdLNDlD5Qx6eV4AAAAAQUIPAAAAAAAFQFYbZ6gHQa0D/hCEQRaZ',
-        'incap_ses_1249_1881146':'LH3oINjIIFgMB1rOIFdVEQx6eV4AAAAA8iNTffy1yd1Qqw5/QC4Qtg=='  
-    }
-    for key in cookies:
-        session.cookies.set(key, cookies[key])      
+    # session.headers = {
+    #     'accept': '*/*',
+    #     'accept-encoding': 'gzip, deflate, br',
+    #     'accept-language': 'en-US,en;q=0.9' ,                 
+    #     'user-agent': submit['ua'],
+    #     'referer':'https://cashrequestonline.com/Home/GetStarted',
+    #     'sec-fetch-dest': 'script',
+    #     'sec-fetch-mode': 'no-cors',
+    #     'sec-fetch-site': 'cross-site',
+    #     'cookies':'nlbi_1881145=uhcVW/vOEimurek2r9bA3gAAAAC25nhZdqUfiOHeBqrsI4hF; visid_incap_1881145=x9XGTYUrSdqiHLATjveXsQx6eV4AAAAAQUIPAAAAAACP/BnyUXHAbrbs8DweoIH6; incap_ses_543_1881145=Dj5Vc7EyMxJsH9S25x+JBwx6eV4AAAAA8H4+M3stSmG13v9MCmyzGw==; ASP.NET_SessionId=yalt4ld221w2l3qel5qt1rhu; hit=uid=cdfb01b6-a06d-4a08-891b-bf2f9a11ce6d; nlbi_1881146=+UhuZg+6p0qlKPbdzkbpqwAAAACZN5PH6zQyW/JZumRhh3mR; visid_incap_1881146=bQr57YJgRYKgrwdLNDlD5Qx6eV4AAAAAQUIPAAAAAAAFQFYbZ6gHQa0D/hCEQRaZ; incap_ses_1249_1881146=LH3oINjIIFgMB1rOIFdVEQx6eV4AAAAA8iNTffy1yd1Qqw5/QC4Qtg=='  
+    # }
+    # cookies = {
+    #     'nlbi_1881145':'uhcVW/vOEimurek2r9bA3gAAAAC25nhZdqUfiOHeBqrsI4hF', 
+    #     'visid_incap_1881145':'x9XGTYUrSdqiHLATjveXsQx6eV4AAAAAQUIPAAAAAACP/BnyUXHAbrbs8DweoIH6',
+    #     'incap_ses_543_1881145':'Dj5Vc7EyMxJsH9S25x+JBwx6eV4AAAAA8H4+M3stSmG13v9MCmyzGw==',
+    #     'ASP.NET_SessionId':'yalt4ld221w2l3qel5qt1rhu',
+    #     'hit':'cdfb01b6-a06d-4a08-891b-bf2f9a11ce6d',
+    #     'uid':'cdfb01b6-a06d-4a08-891b-bf2f9a11ce6d', 
+    #     'nlbi_1881146':'+UhuZg+6p0qlKPbdzkbpqwAAAACZN5PH6zQyW/JZumRhh3mR',
+    #     'visid_incap_1881146':'bQr57YJgRYKgrwdLNDlD5Qx6eV4AAAAAQUIPAAAAAAAFQFYbZ6gHQa0D/hCEQRaZ',
+    #     'incap_ses_1249_1881146':'LH3oINjIIFgMB1rOIFdVEQx6eV4AAAAA8iNTffy1yd1Qqw5/QC4Qtg=='  
+    # }
+    # for key in cookies:
+    #     session.cookies.set(key, cookies[key])      
     try:
         resp = session.get(url2)
     # print(resp.text)    

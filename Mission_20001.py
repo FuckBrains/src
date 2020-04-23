@@ -39,7 +39,7 @@ def test():
     # date_of_birth = Submit_handle.get_auto_birthday('')         
     Mission_list = ['10002']
     excel = 'Us_pd_native'  
-    # excel = 'Uspd'  
+    excel2 = 'Uspd'  
     Excel_name = [excel,'']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
@@ -55,5 +55,5 @@ def test():
 
 
 if __name__=='__main__':
-    for i in range(20):
+    for i in range(1):
         test()
