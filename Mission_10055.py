@@ -35,7 +35,7 @@ import random
 def web_submit(submit,chrome_driver,debug=0):
     # test
     # Excel_10054 = 'Data2000'
-    Excel_10054 = 'Uspd'    
+    Excel_10054 = 'Us_pd_native2'    
     if debug == 1:
         site = 'https://axisempire022.afftrack.com/click?aid=260&linkid=T718&s1=&s2=&s3=&s4=&s5='
         submit['Site'] = site
@@ -85,11 +85,11 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(3)
     # page2
     # firstname
-    chrome_driver.find_element_by_xpath('//*[@id="fname"]').send_keys(submit['Uspd']['first_name'])
+    chrome_driver.find_element_by_xpath('//*[@id="fname"]').send_keys(submit[Excel_10054]['first_name'])
     # lastname
-    chrome_driver.find_element_by_xpath('//*[@id="lname"]').send_keys(submit['Uspd']['last_name'])
+    chrome_driver.find_element_by_xpath('//*[@id="lname"]').send_keys(submit[Excel_10054]['last_name'])
     # birthday
-    date_of_birth = Submit_handle.get_auto_birthday(submit['Uspd']['date_of_birth'])
+    date_of_birth = Submit_handle.get_auto_birthday(submit[Excel_10054]['date_of_birth'])
     for key in date_of_birth[0]:
         chrome_driver.find_element_by_xpath('//*[@id="dob"]').send_keys(key)
     for key in date_of_birth[1]:
@@ -104,12 +104,12 @@ def web_submit(submit,chrome_driver,debug=0):
     # employ
     chrome_driver.find_element_by_xpath('//*[@id="emp_status_toggle"]/label[1]').click()
     # name of employer
-    chrome_driver.find_element_by_xpath('//*[@id="emp"]').send_keys(submit['Uspd']['employer'])
+    chrome_driver.find_element_by_xpath('//*[@id="emp"]').send_keys(submit[Excel_10054]['employer'])
     # occupation
     sleep(2)
-    chrome_driver.find_element_by_xpath('//*[@id="emp_title"]').send_keys(submit['Uspd']['occupation'])
+    chrome_driver.find_element_by_xpath('//*[@id="emp_title"]').send_keys(submit[Excel_10054]['occupation'])
     # work phone number
-    chrome_driver.find_element_by_xpath('//*[@id="emp_phone"]').send_keys(submit['Uspd']['work_phone'])
+    chrome_driver.find_element_by_xpath('//*[@id="emp_phone"]').send_keys(submit[Excel_10054]['work_phone'])
     sleep(2)
     # time of work
     index_timeofwork = random.randint(1,9)
@@ -135,18 +135,18 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(3)
     # page3
     # email
-    chrome_driver.find_element_by_xpath('//*[@id="email"]').send_keys(submit['Uspd']['email'])
+    chrome_driver.find_element_by_xpath('//*[@id="email"]').send_keys(submit[Excel_10054]['email'])
     #  phone
-    chrome_driver.find_element_by_xpath('//*[@id="home_phone"]').send_keys(submit['Uspd']['home_phone'])
+    chrome_driver.find_element_by_xpath('//*[@id="home_phone"]').send_keys(submit[Excel_10054]['home_phone'])
     # home adress
-    chrome_driver.find_element_by_xpath('//*[@id="address"]').send_keys(submit['Uspd']['address']) 
+    chrome_driver.find_element_by_xpath('//*[@id="address"]').send_keys(submit[Excel_10054]['address']) 
     # zip
-    zipcode = Submit_handle.get_zip(submit['Uspd'])
+    zipcode = Submit_handle.get_zip(submit[Excel_10054])
     chrome_driver.find_element_by_xpath('//*[@id="zip_code"]').send_keys(zipcode)
     sleep(3)
     # city
     chrome_driver.find_element_by_xpath('//*[@id="city"]').clear()
-    chrome_driver.find_element_by_xpath('//*[@id="city"]').send_keys(submit['Uspd']['city'])
+    chrome_driver.find_element_by_xpath('//*[@id="city"]').send_keys(submit[Excel_10054]['city'])
     # timeofwork
     index_timeofwork = random.randint(1,7)
     js="$('#res_year > option:nth-child(10)').removeAttr('selected')"
@@ -157,26 +157,26 @@ def web_submit(submit,chrome_driver,debug=0):
     # own home 
     chrome_driver.find_element_by_xpath('//*[@id="rent_own_toggle"]/label[2]').click()
     # drivers_license
-    drivers_license = submit['Uspd']['drivers_license'].split('.')[0]
+    drivers_license = submit[Excel_10054]['drivers_license'].split('.')[0]
     chrome_driver.find_element_by_xpath('//*[@id="license"]').send_keys(drivers_license)
     sleep(1)    
     # drivers_license state
-    license_state = submit['Uspd']['drivers_license_state']
+    license_state = submit[Excel_10054]['drivers_license_state']
     s1 = Select(chrome_driver.find_element_by_xpath('//*[@id="lic_state"]'))
     s1.select_by_value(str(license_state))
     # ssn
-    ssn = submit['Uspd']['ssn'].split('.')[0]
+    ssn = submit[Excel_10054]['ssn'].split('.')[0]
     chrome_driver.find_element_by_xpath('//*[@id="ssn"]').send_keys(ssn)
     # bank name
     element_ = '//*[@id="bank_name"]'
     element = selenium_funcs.scroll_and_find_up(chrome_driver,element_)
     sleep(2)
-    element.send_keys(submit['Uspd']['bank_name'])
+    element.send_keys(submit[Excel_10054]['bank_name'])
     # routing number
-    routing_number = submit['Uspd']['routing_number'].split('.')[0]
+    routing_number = submit[Excel_10054]['routing_number'].split('.')[0]
     chrome_driver.find_element_by_xpath('//*[@id="bank_routing"]').send_keys(routing_number)
     # account number
-    account_number = submit['Uspd']['account_number'].split('.')[0]
+    account_number = submit[Excel_10054]['account_number'].split('.')[0]
     chrome_driver.find_element_by_xpath('//*[@id="bank_accnt"]').send_keys(account_number)
     sleep(2)
     db.update_plan_status(1,submit['ID'])    
@@ -198,7 +198,7 @@ def web_submit(submit,chrome_driver,debug=0):
 def test():
     # db.email_test()
     Mission_list = ['10009']
-    excel = 'Uspd'
+    excel = Excel_10054
     Excel_name = [excel,'']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)

@@ -284,8 +284,13 @@ def test13():
         # print(response)
     db.login_out_sql(conn,cursor)    
 
+def test14():
+    import Submit_handle
+    date_ = Submit_handle.get_next_payday_bi_str()
+    print(date_)
+
 if __name__ == '__main__':
-    test13()    
+    test14()    
 
     
 
