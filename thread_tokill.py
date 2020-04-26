@@ -500,7 +500,10 @@ def web_submit(submit,chrome_driver,debug=0):
         '''
         # flag_refresh = 0
         for config_ in configs:
-            step_detect(chrome_driver,[config_])
+            try:
+                step_detect(chrome_driver,[config_])
+            except:
+                pass
             try:
                 if config_['Action'] == 'Set_Refresh':
                     if flag_refresh == 0:
