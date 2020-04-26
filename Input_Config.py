@@ -59,7 +59,8 @@ Generate_Config = {
     'nextpayday_bi_str'  :['get_next_payday_bi_str'],
     'nextpayday2_bi_str'  :['get_next_payday2_bi_str'],
     'hire_date':['hire_date'],
-    'year_at_residence_gen':['get_year_atresidence']
+    'year_at_residence_gen':['get_year_atresidence'],
+    'monthly_payment':['monthly_payment'],
 }
 
 

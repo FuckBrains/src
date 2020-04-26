@@ -921,6 +921,15 @@ def get_next_payday2_bi_str(submit=''):
     payday_ = payday[0]+' '+str(payday[1])+','+str(payday[2]) 
     return payday_   
 
+
+def monthly_payment(submit=''):
+    '''
+    0-3999
+    '''
+    payment = random.randint(0,30)*100
+    return payment
+
+
 def makedir_pic(path):
     isExists=os.path.exists(path)
     if isExists:
@@ -939,5 +948,5 @@ def select_email_type(email):
 
 
 if __name__ == '__main__':
-    birthday = get_auto_birthday('')
+    birthday = monthly_payment('')
     print(birthday)

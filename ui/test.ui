@@ -106,7 +106,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>7</number>
     </property>
     <widget class="QWidget" name="widget">
      <attribute name="title">
@@ -3342,6 +3342,11 @@ p, li { white-space: pre-wrap; }
           <pointsize>12</pointsize>
          </font>
         </property>
+        <item>
+         <property name="text">
+          <string>Us_pd_native2</string>
+         </property>
+        </item>
         <item>
          <property name="text">
           <string>Uspd</string>
