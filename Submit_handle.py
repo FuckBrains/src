@@ -542,9 +542,10 @@ def get_phone(submit):
     if '.' in phone_:
         phone_ = (phone_).split('.')[0]
     if len(str(phone_)) == 9:
-        phone_ = '0'+phone_
+        num = random.randint(0,9)
+        phone_ = phone_+str(num)
     if len(str(phone_)) == 8:
-        phone_ = '00'+phone_        
+        phone_ = phone_+str(num)+str(num)        
     return phone_
 
 def get_phone_fr(submit):
