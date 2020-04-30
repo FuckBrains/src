@@ -541,8 +541,8 @@ def get_phone(submit):
     phone_ = phone.replace('(','').replace(')','').replace('-','')
     if '.' in phone_:
         phone_ = (phone_).split('.')[0]
+    num = random.randint(0,9)        
     if len(str(phone_)) == 9:
-        num = random.randint(0,9)
         phone_ = phone_+str(num)
     if len(str(phone_)) == 8:
         phone_ = phone_+str(num)+str(num)        
@@ -651,10 +651,11 @@ def get_workphone(submit):
     phone_ = phone.replace('(','').replace(')','').replace('-','')
     if '.' in phone_:
         phone_ = (phone_).split('.')[0]
+    num = random.randint(0,9)
     if len(str(phone_)) == 9:
-        phone_ = '0'+phone_
+        phone_ = phone_+str(num)
     if len(str(phone_)) == 8:
-        phone_ = '00'+phone_           
+        phone_ = phone_+str(num)+str(num)           
     return phone_
 
 
