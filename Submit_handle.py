@@ -426,6 +426,9 @@ def get_ssn(submit):
     '''
     ssn = submit['ssn'].replace('-','')
     ssn = chansfer_float_into_int(ssn)
+    num = random.randint(0,9)
+    if len(ssn) == 8:
+        ssn += str(num)
     return ssn
 
 def ssn_last4(submit):

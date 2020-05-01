@@ -126,9 +126,9 @@ def change_tz(windows_):
             using_num += 1
             return
         else:
+            # sleep(30)            
             break
-            sleep(10)
-            print('waiting tz')
+            # print('waiting tz')
 
 def read_same_config_num():
     Offer_configs = {}
