@@ -1015,7 +1015,7 @@ def read_pic(Mission_Id):
     account = get_account()
     conn,cursor=login_sql(account)   
     print('===') 
-    sql_content = 'SELECT Create_time,png FROM Log WHERE Mission_Id="%s"'%str(Mission_Id)
+    sql_content = 'SELECT Create_time,png FROM Log WHERE Mission_Id="%s" limit 30'%str(Mission_Id)
     # res = cursor.execute(sql_content)  
     res = cursor.execute(sql_content)  
     print(res)

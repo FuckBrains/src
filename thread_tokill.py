@@ -108,7 +108,9 @@ def start(plans):
                 changer.Restart()     
         for plan in plans:
             plan['city'] = city
-            print('911 city:',city)   
+            print('911 city:',city) 
+    for i in range(len(plans)):
+        plans[i]['count'] = i
     requests = threadpool.makeRequests(multi_reg, plans)
     [pool.putRequest(req) for req in requests]
     pool.wait()     
@@ -126,7 +128,7 @@ def change_tz(windows_):
             using_num += 1
             return
         else:
-            sleep(15)            
+            # sleep(15)            
             break
             # print('waiting tz')
 
@@ -726,6 +728,10 @@ def multi_reg(Config):
     #         # sleep(time_return)
     # else:
     time_cheat = random.randint(0,30)
+    if Config['count']<5:
+        sleep(Config['count']*5)
+    else:
+        sleep(Config['count']*30)
     # print(Config)
     if Config['Alliance'] != 'Test':
         if Config['Mission_Id'] != '20000':
