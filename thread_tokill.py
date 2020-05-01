@@ -126,7 +126,7 @@ def change_tz(windows_):
             using_num += 1
             return
         else:
-            # sleep(30)            
+            sleep(15)            
             break
             # print('waiting tz')
 
