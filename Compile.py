@@ -45,13 +45,16 @@ def get_folder_files(folder_name):
 
 def clean_info():
     file_alliance = r'.\ini\Alliance_num.ini'
-    file_offer = r'.\ini\Offer_config.ini'    
+    file_offer_config = r'.\ini\Offer_config.ini'    
     content = r'{}'
+    file_offer = r'.\ini\Offer.ini'    
+
     with open(file_alliance,'w') as f:
         f.write(content)
     with open(file_offer,'w') as f:
         f.write(content)
-
+    with open(file_offer_config,'w') as f:
+        f.write(content)
 
 
 def main():
