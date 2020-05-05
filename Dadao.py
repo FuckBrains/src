@@ -201,7 +201,28 @@ def reg_part(plan):
         submit['row'] = i
         write_status(path,workbook,submit,'badname')          
 
+def check_version():
+    num_db = db.get_current_version()
+    num_db = str.join('.',num_db)
+    file = r'ini\\VERSION.ini'
+    with open(file) as f:
+        num_native = f.readline()
+    print('db version:%s'%num_db)
+    print('native version:%s'%num_native)
+    flag = False
+    if num_native == num_db:
+        flag = True
+    # print(flag)
+    return flag
+
+
 def main():
+    try:
+        flag = check_version()
+    except Exception as e:
+        print(str(e))
+        print('get db failed,restart........')
+        changer.Restart()     
     # while True:
     for i in range(1):
         try:
