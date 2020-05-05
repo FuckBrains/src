@@ -251,16 +251,17 @@ def get_chrome(submit = None,pic=0,headless=0):
     sleep(2)  
     return chrome_driver
 
-def get_chrome_normal(submit):
+def get_chrome_normal(submit=''):
     uas = get_ua_all()
     ua = get_ua_random(uas)
     options = webdriver.ChromeOptions()
     options.add_argument('user-agent=' + ua)
     account_lpm = luminati.get_account()
-    ip = account_lpm['IP_lpm']
+    # ip = account_lpm['IP_lpm']
+    ip = '51.15.13.163'
     print(ip)
-    port = submit['port_lpm']
-    proxy = 'socks5://%s:%s'%(ip,str(port))
+    port = 2380
+    proxy = 'http://%s:%s'%(ip,str(port))
     options.add_argument('--proxy-server=%s'%proxy)    
     path_driver = get_chromedriver_path()
     print(path_driver)
@@ -387,6 +388,11 @@ def test_meituan():
     sleep(3000)
 
 
+def test2():
+    chrome_driver = get_chrome_normal()
+    chrome_driver.get('https://whoer.net')
+    sleep(3000)
+
 
 if __name__ == '__main__':
-    get_chromedriver_path()
+    test2()

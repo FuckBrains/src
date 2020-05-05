@@ -617,10 +617,10 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         i = self.comboBox6.currentText()  
         if i == '':
             i = 1      
-        self.set_table2()
-        self.lineEdit_5.setText(self.accounts[int(i)-1]['name_roboform'])
-        self.lineEdit_6.setText(self.accounts[int(i)-1]['pwd_roboform'])
-        self.lineEdit_7.setText(self.accounts[int(i)-1]['Country'])
+        # self.set_table2()
+        # self.lineEdit_5.setText(self.accounts[int(i)-1]['name_roboform'])
+        # self.lineEdit_6.setText(self.accounts[int(i)-1]['pwd_roboform'])
+        # self.lineEdit_7.setText(self.accounts[int(i)-1]['Country'])
 
     @pyqtSlot()
     def on_pushButton15_clicked(self):
