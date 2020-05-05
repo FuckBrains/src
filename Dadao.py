@@ -223,6 +223,11 @@ def main():
         print(str(e))
         print('get db failed,restart........')
         changer.Restart()     
+    if flag == False:
+        change_update_file()
+        command = '''start cmd /k "python Auto_update.pyc 1"{$name$:$qcy$}" "'''
+        os.system(command)
+        return        
     # while True:
     for i in range(1):
         try:
