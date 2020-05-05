@@ -43,9 +43,19 @@ def get_folder_files(folder_name):
     modules_path = [os.path.join(path,file) for file in modules]
     return modules_path
 
+def clean_info():
+    file_alliance = r'.\ini\Alliance_num.ini'
+    file_offer = r'.\ini\Offer_config.ini'    
+    content = r'{}'
+    with open(file_alliance,'w') as f:
+        f.write(content)
+    with open(file_offer,'w') as f:
+        f.write(content)
+
 
 
 def main():
+    clean_info()
     db.update_version()
     
     # get all file abs path in dir'__pycache__'/
