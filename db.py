@@ -113,7 +113,7 @@ def write_json_test(file,content):
         # content += '\n'
         f.write(content)
 
-def get_account():
+def get_account(ali = 0):
     '''
     get account for sql db,read a config file in res folder
     eg:submit = {'password':...}
@@ -129,7 +129,12 @@ def get_account():
             submit = json.loads(js)
             submits.append(submit)
             # print(submit)
-    return submits[-1]
+    submit = submits[-1]
+    if ali == 1:
+        submit['IP'] = 'rm-bp100p7672g0g8z9kjo.mysql.rds.aliyuncs.com'
+        submit["username"] = "emu3man_win"
+        submit["pwd"] = "sAz6x4SD8dF1"
+    return submit
 
 def get_sheet(path_excel):
     '''
@@ -1145,8 +1150,8 @@ def Execute_sql(sql_contents):
     login_out_sql(conn,cursor)
     print('Login out db')
 
-def Execute_sql_single(sql_contents):
-    account = get_account()
+def Execute_sql_single(sql_contents,ali=0):
+    account = get_account(ali)
     # print(account)
     responses = []
     conn,cursor = login_sql(account)
@@ -1797,7 +1802,7 @@ def upload_alliance(Alliance_name,Mission_Id):
 
 def get_current_version():
     sql_content = "SELECT * FROM VERSION"
-    res = Execute_sql_single([sql_content])
+    res = Execute_sql_single([sql_content],1)
     # print(res)
     # print('Current version:',res[0][0][0])
     num = res[0][0][0].split('.')
