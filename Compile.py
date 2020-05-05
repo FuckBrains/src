@@ -64,7 +64,7 @@ def main():
 
     # delete them all
     [os.remove(file) for file in modules_path]
-    sleep(1)
+    sleep(2)
 
     # compile the src dir
     os.system('python -m compileall')
