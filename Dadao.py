@@ -215,6 +215,16 @@ def check_version():
     # print(flag)
     return flag
 
+def change_update_file():
+    files = os.listdir('.')
+    print(files)
+    if 'Auto_update2.pyc' in files:
+        # print(modules)
+        file = os.path.join(os.getcwd(),'Auto_update.pyc')
+        file2 = os.path.join(os.getcwd(),'Auto_update2.pyc')
+        os.remove(file)
+        os.rename(file2,file)
+
 
 def main():
     try:
