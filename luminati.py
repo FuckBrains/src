@@ -675,10 +675,10 @@ def create_plan_data(plan_id,Offer_links):
                 Offer_links[item]['Record'] = 0
             else:
                 Offer_links[item]['Record'] = 1
-        try:
-            add_proxy(Offer_links[item]['port_lpm'],country=Offer_links[item]['Country'],proxy_config_name= proxy_zone,ip_lpm=ip_lpm)
-        except:
-            pass
+        # try:
+        #     add_proxy(Offer_links[item]['port_lpm'],country=Offer_links[item]['Country'],proxy_config_name= proxy_zone,ip_lpm=ip_lpm)
+        # except:
+        #     pass
         Offer_links[item]['Plan_Id'] = plan_id
         Configs.append(Config)
     # print('Uploading finished')
