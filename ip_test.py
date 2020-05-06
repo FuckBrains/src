@@ -34,7 +34,7 @@ def ip_new(city,state = 'All',country = 'US'):
 
 def whoer_get(city =''):
     # options.add_argument('--incognito')
-    chrome_driver = Chrome_driver.get_chrome()        
+    chrome_driver = Chrome_driver.get_chrome(time_out=120)        
     print('https://whoer.net')
     chrome_driver.get('https://whoer.net')
     i = 0

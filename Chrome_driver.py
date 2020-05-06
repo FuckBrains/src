@@ -119,7 +119,7 @@ def tz_test():
     chrome_driver.get('https://www.w3school.com.cn/tiy/t.asp?f=js_date_current')
     sleep(3000)
 
-def get_chrome(submit = None,pic=0,headless=0):
+def get_chrome(submit = None,pic=0,headless=0,time_out=300):
     # print('++++++++++++++++++++++++')
     # print('++++++++++++++++++++++++')
     # print('++++++++++++++++++++++++')
@@ -234,7 +234,7 @@ def get_chrome(submit = None,pic=0,headless=0):
     #     chrome_driver = webdriver.Chrome(executable_path=path_driver,seleniumwire_options=options)            
     # chrome_driver = webdriver.Chrome(executable_path=path_driver)        
     # chrome_driver = webdriver.Chrome(chrome_options=options,desired_capabilities=desired_capabilities)
-    chrome_driver.set_page_load_timeout(300)
+    chrome_driver.set_page_load_timeout(time_out)
     # chrome_driver.set_script_timeout(240)
     chrome_driver.implicitly_wait(20)  # 最长等待8秒  
     size = get_size()
