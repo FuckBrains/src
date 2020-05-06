@@ -1154,7 +1154,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         Excel = ['','']
         excel = self.comboBox36.currentText()
         if excel != 'Email':
-            Excel[1] = excel
+            Excel[0] = excel
+        else:
+            Excel[1] = excel            
         try:
             db.upload_offer(Mission_name,Mission_Id,Excel)
             # db.update_version()
