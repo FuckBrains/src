@@ -537,7 +537,7 @@ def web_submit(submit,chrome_driver,debug=0):
             db.update_plan_status(2,submit['ID'])
             return chrome_driver
         if 'Fail' in page['Status']:
-            db.update_plan_status(1,submit['ID'])
+            db.update_plan_status(3,submit['ID'])
             return chrome_driver         
         flag_page_chane = page_change(chrome_driver,page)
         if flag_page_chane == 1:

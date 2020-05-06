@@ -131,7 +131,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             self.Dadao.setTabEnabled(4,False)
             self.Dadao.setTabEnabled(5,False)
             self.Dadao.setTabEnabled(6,False)
-            self.Dadao.setTabEnabled(7,False)   
+            # self.Dadao.setTabEnabled(7,False)   
         self.Dadao.setStyleSheet("QTabBar::tab:disabled {width: 0; color: transparent;}");         
         for item in items:
             if i >= end:
@@ -568,6 +568,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.file_Offer_link = r'..\res\Offer_link.ini'
         self.offer_link = Read_Ini(self.file_Offer_link)
         # print(Offer_links)
+        print('=======')
         try:
             plans = luminati.create_plan_data(plan_id,self.offer_link)
         except Exception as e:
@@ -590,7 +591,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         print('read plan finished')
         ports = [plan['port_lpm'] for plan in plans]
         print('start delete ports')
-        luminati.delete_port(ports)
+        # luminati.delete_port(ports)
         db.clean_table(plan_id)
 
     @pyqtSlot()

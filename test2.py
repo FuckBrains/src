@@ -289,8 +289,16 @@ def test14():
     date_ = Submit_handle.get_next_payday_bi_str()
     print(date_)
 
+def test15():
+    import datetime
+    starttime = datetime.datetime.utcnow() 
+    time_now = str(starttime).split('.')[0].replace(' ','').replace(':','')     
+    print(time_now)
+
+
+
 if __name__ == '__main__':
-    test14()    
+    test15()    
 
     
 

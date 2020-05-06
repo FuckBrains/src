@@ -14,6 +14,18 @@ import traceback
 import os
 import json
 import thread_tokill
+import sys
+import threadpool
+import threading
+import datetime
+
+
+
+
+
+write_flag = 0
+pool = threadpool.ThreadPool(5)
+
 
 def makedir_account(path):
     isExists=os.path.exists(path)
@@ -26,11 +38,16 @@ def writelog(chrome_driver,submit):
         '''
         writelog and
         '''
+
         path = r'..\log'        
         makedir_account(path)        
         path_ = r'..\log\pics'        
         makedir_account(path_)
-        pic_name = str(submit['Mission_Id'])+'_'+str(random.randint(0,100000))+'.png'
+        path_ = os.path.join(path_,str(submit['Mission_Id']))
+        makedir_account(path_)  
+        starttime = datetime.datetime.utcnow() 
+        time_now = str(starttime).split('.')[0].replace(' ','').replace(':','')          
+        pic_name = time_now+'.png'
         pic = os.path.join(path_,pic_name)
         print(pic)
         try:
@@ -43,6 +60,7 @@ def writelog(chrome_driver,submit):
         Mission_Id = submit['Mission_Id']
         traceback_ = traceback.format_exc()
         db.write_log_db(Mission_Id,traceback_,png)
+        # write_flag = 0
 
 def get_excel(path):
     path_excel = path
@@ -63,7 +81,7 @@ def get_one_data(sheet,Mission_Id,Country=''):
             continue
         values = sheet.row_values(i)
         submit = dict(zip(keys,values))
-        print(submit) 
+        # print(submit) 
         if Country != '': 
             if submit['Country'] != Country:
                 continue
@@ -73,9 +91,9 @@ def get_one_data(sheet,Mission_Id,Country=''):
             submit[key_] = str(submit[key_]).replace('\t','').replace(' ','')
         firstname = submit['firstname'].replace('\t','').replace(' ','')
         lastname = submit['lastname'].replace('\t','').replace(' ','') 
-        print(submit[key])
-        print(firstname)
-        print(lastname)        
+        # print(submit[key])
+        # print(firstname)
+        # print(lastname)        
         if submit[key] == '':
             if len(firstname) == 0:
                 submit['row'] = i
@@ -108,12 +126,11 @@ def get_one_data(sheet,Mission_Id,Country=''):
                 break
             else:
                 badname.append(i)
-    print('submit find:',submit)
+    # print('submit find:',submit)
     return submit_
 
-def change_ip(submit):
-    country = submit['Country']
-    for i in range(3):
+def change_ip(country):
+    for i in range(5):
         try:
             ip_test.ip_Test('',state = '',country=country )
             return
@@ -124,22 +141,29 @@ def change_ip(submit):
             pass
     changer.restart()
 
+def change_ip_dadao():
+    import urllib.request
+    opener = urllib.request.build_opener(urllib.request.ProxyHandler({'socks5':'socks5://51.15.13.163:2380'}))
+            # {'http':'http://192.168.30.131:24001'}))
+    # url_test = 'http://lumtest.com/myip.json'
+    # url_test = 'http://www.google.com'
+    res = str(opener.open('http://lumtest.com/myip.json').read(),encoding = "utf-8")
+    # res = json.loads(res)
+    print(res)
+
 def write_status(path,workbook,submit,content):
     book2 = copy(workbook)
     sheet2 = book2.get_sheet(0) 
-    col = int(str(submit['Mission_Id'])[-1])+12
+    col = int(str(submit['Mission_Id'])[-3:])+12
     print(col)
-    sheet2.write(submit['row'],col,content)
+    sheet2.write(submit['Dadao']['row'],col,content)
     book2.save(path)
+    # write_flag = 0
 
 def mission(plans):
-    for plan in plans:
-        try:
-            reg_part(plan)
-        except Exception as e:
-            a = traceback.format_exc()
-            print(a)
-            print('timeout')            
+    requests = threadpool.makeRequests(reg_part, plans)
+    [pool.putRequest(req) for req in requests]
+    pool.wait()       
 
 def get_write_content(submit):
     submit_ = {}
@@ -155,51 +179,91 @@ def get_write_content(submit):
 # @timeout(600)
 def reg_part(plan):
     path = r'..\res\Dadao.xlsx'
+    global write_flag
+    while True:
+        if write_flag != 0:
+            sleep(3)
+        else:
+            write_flag = 1
+            break      
     sheet,workbook = get_excel(path)    
-    submit = get_one_data(sheet,plan['Mission_Id'])
-    submit['status'] = 'using'
+    submit_ = get_one_data(sheet,plan['Mission_Id'])
+    if submit_ == {}:
+        print('no data found')
+        write_flag = 0
+        return
+    submit = {}
+    submit['Dadao'] = submit_
     submit['Site'] = plan['url_link']
     submit['Mission_Id'] = plan['Mission_Id']
+    submit['count'] = plan['count']
+    submit['Mission_dir'] = plan['Mission_dir']
+    submit['Excels_dup'] = ['Dadao','']
+    submit['Country'] = plan['Country']
     print('reg_part')
-    write_status(path,workbook,submit,'using')
-    module = 'Mission_'+str(plan['Mission_Id'])
-    Module = ''
+    write_status(path,workbook,submit,'0')
+    write_flag = 0
+    # module = 'Mission_'+str(plan['Mission_Id'])
+    # Module = ''
+    # try:
+    #     Module = importlib.import_module(module)
+    # except:
+    #     pass
     try:
-        Module = importlib.import_module(module)
-    except:
-        pass
-    try:
-        change_ip(submit)
-        print('----------------====================')
-        chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
-        print('========')
-        if Module != '':
-            submit = Module.web_submit(submit,chrome_driver=chrome_driver)
+        Page_flags = db.get_page_flag(submit['Mission_Id'])  
+        print(Page_flags)      
+        if len(Page_flags) == 0:
+            print('No Page_flags found in db')
+            return
         else:
-            thread_tokill.web_submit(submit,chrome_driver,debug=0)
-        # if submit['status'] == 'No sign':
+            chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
+            submit['Page_flags'] = Page_flags
+            print('Page_flags found,use Record modern')
+        thread_tokill.web_submit(submit,chrome_driver,debug=0)
         writelog(chrome_driver,submit)
         # print(submit)
     except Exception as e:
-        # traceback.format_exc()
+        print(str(e))
+        a = traceback.format_exc()
+        print(a)
         try: 
             writelog(chrome_driver,submit)
             print('==========++++')
         except Exception as e:
             print(str(e))
             # traceback.format_exc()
-    # content = get_write_content(submit)
-    content = json.dumps(submit)
-    write_status(path,workbook,submit,content)
+    print('misission finished')
+    # content = json.dumps(submit)
+    status = db.get_plan_status(plan['ID'])    
+    while True:
+        if write_flag != 0:
+            print('threading ',submit['count'],'Global ',write_flag)
+            sleep(3)
+        else:
+            write_flag = 1
+            break          
+    sheet,workbook = get_excel(path) 
+    if str(status) == '0':
+        status = ''    
+    write_status(path,workbook,submit,str(status))
+    write_flag = 0
+    print('write status finished')
     try:
         chrome_driver.close()
         chrome_driver.quit()
     except:
         pass
-    submit['status'] = 'badname'
-    for i in submit['badname']:
+    for i in submit['Dadao']['badname']:
         submit['row'] = i
+        while True:
+            if write_flag != 0:
+                sleep(3)
+            else:
+                write_flag = 1
+                break          
+        sheet,workbook = get_excel(path)     
         write_status(path,workbook,submit,'badname')          
+        write_flag = 0        
 
 def check_version():
     num_db = db.get_current_version()
@@ -225,8 +289,7 @@ def change_update_file():
         os.remove(file)
         os.rename(file2,file)
 
-
-def main():
+def main(num):
     try:
         flag = check_version()
     except Exception as e:
@@ -240,16 +303,15 @@ def main():
         return        
     # while True:
     for i in range(1):
-        try:
-            tools.killpid()
-        except Exception as e:
-            print(str(e))
-            pass
+
         account = db.get_account()
         plan_id = account['plan_id']
         # print('Plan_id:',plan_id,',connecting sql for plan info...')
         try:
+            db.update_flag_use_all()
             plans = db.read_plans(plan_id)
+            for k in range(len(plans)):
+                plans[k]['count'] = k
             # print(len(plans_))
             # print(plans)
             # print(len(plans))
@@ -261,11 +323,19 @@ def main():
             print('No plan for this computer!!!!!!')
             return
         # print(plans)
+        if num == 0:
+            try:
+                tools.killpid()
+            except Exception as e:
+                print(str(e))
+            change_ip(plans[0]['Country'])            
+
         mission(plans)
         print('All Missions finished..............')
         try:
             print('try killing pids')
-            tools.killpid()
+            # tools.killpid()
+            return
             print('kill pids finished')
         except Exception as e:
             print(str(e))
@@ -285,7 +355,6 @@ def test():
         row = sheet.nrows        
         submit = get_one_data(sheet,11000)
         return
-        submit['status'] = 'using'
         submit['Mission_Id'] = 11000    
         write_status(path,workbook,submit)
         print(submit['firstname'],submit['lastname'])
@@ -301,8 +370,6 @@ def test():
                 return            
 
 if __name__ == '__main__':
-    i = 0
-    if i == 0:
-        main()
-    else:
-        test()
+    paras=sys.argv
+    i = int(paras[1])
+    main(i)
