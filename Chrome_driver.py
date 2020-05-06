@@ -261,7 +261,7 @@ def get_chrome_normal(submit=''):
     ip = '51.15.13.163'
     print(ip)
     port = 2380
-    proxy = 'http://%s:%s'%(ip,str(port))
+    proxy = 'socks5://%s:%s'%(ip,str(port))
     options.add_argument('--proxy-server=%s'%proxy)    
     path_driver = get_chromedriver_path()
     print(path_driver)
