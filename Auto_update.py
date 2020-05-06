@@ -29,8 +29,11 @@ def get_code():
         for i in range(100):
             flag = 0
             modules = Chrome_driver.download_status()
+            names = ['emu_multi-src-master.zip','emu_multi-src-src-master.zip']
+            module_name = ''
             for module in modules:
-                if 'emu_multi-src-master.zip' == module:
+                if module in names:
+                    module_name = module
                     print('Find zip src')
                     sleep(3)
                     flag = 1
@@ -46,7 +49,7 @@ def get_code():
             sleep(5)   
             if flag == 1:         
                 delete_folder()
-                unfold_zip()
+                unfold_zip(module_name)
                 break
             else:
                 print('update fail!!!!!!!!!!!!!!!!!!!!!!!!!')
@@ -55,9 +58,9 @@ def get_code():
             print(str(e))
             continue
 
-def unfold_zip():
+def unfold_zip(module):
     path_download = Chrome_driver.get_dir()
-    module = 'emu_multi-src-master.zip'
+    # module = 'emu_multi-src-master.zip'
     zipfile_name = os.path.join(path_download,module)
     print(zipfile_name)
     zFile = zipfile.ZipFile(zipfile_name, "r")
