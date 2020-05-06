@@ -1227,7 +1227,6 @@ def main(i,message=''):
     MainWindow = QMainWindow()    # 创建一个QMainWindow，用来装载你需要的各种组件、控件
     # MainWindow.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint)
     # MainWindow.setFixedSize(MainWindow.width(), MainWindow.height());  
-    ui = Mywindow(MainWindow)                          # ui是你创建的ui类的实例化对象
     # ui.setupUi(MainWindow)   # 执行类中的setupUi方法，方法的参数是第二步中创建的QMainWindow
     # ui.pushButton.clicked.connect(test_sig)
     if i == 0:
@@ -1239,9 +1238,11 @@ def main(i,message=''):
             print('Updating config failed')
             return
         print('Updating config success')        
+        ui = Mywindow(MainWindow)                          # ui是你创建的ui类的实例化对象        
         ui.show()                       # 执行QMainWindow的show()方法，显示这个QMainWindow
         sys.exit(app.exec_())
     else:
+        ui = Mywindow(MainWindow)                          # ui是你创建的ui类的实例化对象
         if message != '':
             message += '\n'*30+' '*100
             ui.alert(message)
