@@ -434,7 +434,7 @@ def web_submit(submit,chrome_driver,debug=0):
         elif page == '':
             content = 'New Page'
             writelog(chrome_driver,submit,content)
-            # qt.main(1,content)
+            qt.main(1,content)
             return
         print('Find target_page:',page['Page'])
         '''
