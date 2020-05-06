@@ -124,6 +124,15 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         # self.offer.sort()       
         items = [item for item in self.offer]
         items.sort(key=str.lower)
+        master = get_verication()        
+        if master != 10086:
+            print('find master:',master)
+            self.Dadao.setTabEnabled(0,False)
+            self.Dadao.setTabEnabled(4,False)
+            self.Dadao.setTabEnabled(5,False)
+            self.Dadao.setTabEnabled(6,False)
+            self.Dadao.setTabEnabled(7,False)   
+        self.Dadao.setStyleSheet("QTabBar::tab:disabled {width: 0; color: transparent;}");         
         for item in items:
             if i >= end:
                 break
@@ -139,6 +148,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.accounts = Alliance_login.Get_roboform_account()
         self.set_comboBox6()
         self.set_comboBox5()
+        print('------')
         # reply = QMessageBox.information(self,
         #           "消息框标题", 
         #           "这是一条消息。", 
@@ -1220,35 +1230,6 @@ def test_k():
                 nums.append(num_mission)
         print(nums)
 
-def main(i,message=''):
-    # up.main()
-
-    app = QtWidgets.QApplication(sys.argv)  # 创建一个QApplication，也就是你要开发的软件app
-    MainWindow = QMainWindow()    # 创建一个QMainWindow，用来装载你需要的各种组件、控件
-    # MainWindow.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint)
-    # MainWindow.setFixedSize(MainWindow.width(), MainWindow.height());  
-    # ui.setupUi(MainWindow)   # 执行类中的setupUi方法，方法的参数是第二步中创建的QMainWindow
-    # ui.pushButton.clicked.connect(test_sig)
-    if i == 0:
-        print('Updating config...')
-        try:
-            upc.update_config()
-        except Exception as e:
-            print(str(e))
-            print('Updating config failed')
-            return
-        print('Updating config success')        
-        ui = Mywindow(MainWindow)                          # ui是你创建的ui类的实例化对象        
-        ui.show()                       # 执行QMainWindow的show()方法，显示这个QMainWindow
-        sys.exit(app.exec_())
-    else:
-        ui = Mywindow(MainWindow)                          # ui是你创建的ui类的实例化对象
-        if message != '':
-            message += '\n'*30+' '*100
-            ui.alert(message)
-            ui.show()                       # 执行QMainWindow的show()方法，显示这个QMainWindow
-        sys.exit(app.exec_())
-
 def change__delay_config(up,down,threads):
     try:
         up = int(up)
@@ -1275,7 +1256,48 @@ def change__delay_config(up,down,threads):
     Offer_config['Email_list']['aol.com'] = 1
     Write_Ini(file_Offer_config,Offer_config)
 
+def get_verication():
+    paras=sys.argv
+    i = int(paras[1])
+    print('master:',i)
+    return i    
+
+
+def main(i,message=''):
+    # up.main()
+
+    app = QtWidgets.QApplication(sys.argv)  # 创建一个QApplication，也就是你要开发的软件app
+    MainWindow = QMainWindow()    # 创建一个QMainWindow，用来装载你需要的各种组件、控件
+    # MainWindow.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint)
+    # MainWindow.setFixedSize(MainWindow.width(), MainWindow.height());  
+    # ui.setupUi(MainWindow)   # 执行类中的setupUi方法，方法的参数是第二步中创建的QMainWindow
+    # ui.pushButton.clicked.connect(test_sig)
+    if i == 0:
+        print('Updating config...')
+        try:
+            upc.update_config()
+        except Exception as e:
+            print(str(e))
+            print('Updating config failed')
+            return
+        print('Updating config success')        
+        ui = Mywindow(MainWindow)                          # ui是你创建的ui类的实例化对象        
+        print('========+++')
+        ui.show()                       # 执行QMainWindow的show()方法，显示这个QMainWindow
+        sys.exit(app.exec_())
+    else:
+        ui = Mywindow(MainWindow)                          # ui是你创建的ui类的实例化对象
+        if message != '':
+            message += '\n'*30+' '*100
+            ui.alert(message)
+            ui.show()                       # 执行QMainWindow的show()方法，显示这个QMainWindow
+        sys.exit(app.exec_())
+
+
+
 if __name__ == '__main__':
+    # paras=sys.argv
+    # i = int(paras[1])
     i = 0
     # message = 'test'+'\n'*30+' '*100
     message = ''

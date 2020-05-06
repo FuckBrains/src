@@ -48,6 +48,7 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.lineEdit_2, 0, 1, 1, 1)
         self.Dadao = QtWidgets.QTabWidget(self.centralwidget)
         self.Dadao.setGeometry(QtCore.QRect(390, 20, 671, 511))
+        self.Dadao.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.Dadao.setObjectName("Dadao")
         self.widget = QtWidgets.QWidget()
         self.widget.setObjectName("widget")
@@ -1287,7 +1288,7 @@ class Ui_MainWindow(object):
         self.actionDelete.setObjectName("actionDelete")
 
         self.retranslateUi(MainWindow)
-        self.Dadao.setCurrentIndex(3)
+        self.Dadao.setCurrentIndex(2)
         self.tabWidget.setCurrentIndex(0)
         self.tabWidget_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
