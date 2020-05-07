@@ -27,9 +27,9 @@ def write_cookie(cookie,country):
         f.write(cookie)
 
 def get_action(chrome_driver,data,submit):
-    # print('Keys in submit:',len(submit))
+    print('Keys in submit:',submit)
     for key in submit:
-        # print(key)
+        print(key)
         if key == 'Dadao':
             key_excel = key
             break
