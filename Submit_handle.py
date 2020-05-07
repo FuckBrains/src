@@ -934,6 +934,13 @@ def monthly_payment(submit=''):
     payment = random.randint(0,30)*100
     return payment
 
+def get_state_byzip(submit=''):
+    '''
+    find state by zip
+    '''
+    state = db.get_state_byzip(submit['katou'])
+    return state
+
 
 def makedir_pic(path):
     isExists=os.path.exists(path)

@@ -1586,6 +1586,20 @@ def get_page_config(Mission_Id,Page):
     # print(Mission_dict)
     return Pages
 
+def get_state_byzip(zip_):
+    print('     Start reading info from sql server...')
+    account = get_account(1)
+    conn,cursor=login_sql(account)
+    res = cursor.execute('SELECT * from BasicInfo WHERE zip="%s" limit 1'%(str(zip_)))
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    statedict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
+    print('statedict:',statedict)
+    login_out_sql(conn,cursor)
+    print('Login out db')    
+    # print(len(Mission_dict))
+    # print(Mission_dict)
+    return statedict[0]['state']
+
 def add_key_db(sql_content):
     sql_content = "ALTER TABLE Mission ADD Alliance_basic DEFAULT '' AFTER BasicInfo_Id"
     Execute_sql([sql_content])

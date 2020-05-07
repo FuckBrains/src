@@ -295,10 +295,13 @@ def test15():
     time_now = str(starttime).split('.')[0].replace(' ','').replace(':','')     
     print(time_now)
 
-
+def test16():
+    zip_= '95370.0'
+    state = db.get_state_byzip(zip_)
+    print(state)
 
 if __name__ == '__main__':
-    test15()    
+    test16()    
 
     
 
