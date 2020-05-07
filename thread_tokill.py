@@ -702,7 +702,8 @@ def iframe_change(chrome_driver,iframes):
         iframes = iframes.split(',')
     chrome_driver.switch_to.default_content() 
     for iframe in iframes:
-        chrome_driver.switch_to_frame(iframe)
+        if iframe != '':
+            chrome_driver.switch_to_frame(iframe)
 
 def save_html(chrome_driver,Mission_Id,page):
     print('Title',chrome_driver.title)

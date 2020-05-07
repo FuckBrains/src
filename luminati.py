@@ -633,14 +633,13 @@ def create_plan_data(plan_id,Offer_links):
     # print('Basic_port:',basic_port) 
     path = os.path.abspath(os.path.join(os.getcwd(), ".."))
     dir_account_chrome = os.path.join(path,r'emu_chromes')
-    try:
-        myname = socket.getfqdn(socket.gethostname())
-        # print(myname)
-        myaddr = socket.gethostbyname(myname)
-    except:
-        pass
+    # try:
+    #     myname = socket.getfqdn(socket.gethostname())
+    #     # print(myname)
+    #     myaddr = socket.gethostbyname(myname)
+    # except:
+    #     pass
     # print(myaddr)
-    # print('Start uploading')
     num_plan = 1
     for item in Offer_links:
         print(' uploading plan %d'%num_plan)
@@ -681,7 +680,7 @@ def create_plan_data(plan_id,Offer_links):
         #     pass
         Offer_links[item]['Plan_Id'] = plan_id
         Configs.append(Config)
-    # print('Uploading finished')
+    print('returning Offer_links finished')
     return Offer_links    
 
 def create_plans():

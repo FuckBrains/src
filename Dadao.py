@@ -193,6 +193,7 @@ def reg_part(plan):
         write_flag = 0
         return
     submit = {}
+    submit['ID'] = plan['ID']
     submit['Dadao'] = submit_
     submit['Site'] = plan['url_link']
     submit['Mission_Id'] = plan['Mission_Id']
