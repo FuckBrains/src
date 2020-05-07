@@ -335,8 +335,8 @@ def main(num):
         print('All Missions finished..............')
         try:
             print('try killing pids')
-            # tools.killpid()
-            return
+            tools.killpid()
+            # return
             print('kill pids finished')
         except Exception as e:
             print(str(e))
