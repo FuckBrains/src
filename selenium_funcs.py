@@ -28,14 +28,15 @@ def write_cookie(cookie,country):
 
 def get_action(chrome_driver,data,submit):
     print('Keys in submit:',submit)
-    for key in submit:
-        print(key)
-        if key == 'Dadao':
-            key_excel = key
-            break
-        if 'BasicInfo_Id' in submit[key]:
-            key_excel = key
-            break
+    if 'Dadao' in submit:
+        key_excel = 'Dadao'
+    else:
+        for key in submit:
+            # print(key)
+            if type(submit[key]) == type({}):
+                if 'BasicInfo_Id' in submit[key]:
+                    key_excel = key
+                    break
     print(data)
     action_func = data['Action']
     data['Step_config'] = json.loads(data['Step_config']) 
