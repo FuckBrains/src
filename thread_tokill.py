@@ -665,7 +665,7 @@ def step_detect(chrome_driver,configs):
     # xpaths = []
     configs_detect = []
     for config in configs:
-        if config['Action'] in ['Click','Select','Input','Slide']:
+        if config['Action'] in ['Click','Select','Input','Slide','Set_Sleep']:
             if 'detect' not in config['General']:
                 configs_detect.append(config)
             else:
