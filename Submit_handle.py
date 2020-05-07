@@ -94,6 +94,10 @@ def cvv_get(submit=''):
     return cvv
 
 def get_pwd_real(submit=''):
+    '''
+    leecode123#!!@#$%^&
+    pwd1
+    '''
     with open(r'ini\pwd.ini','r') as f:
         lines  = f.readlines()
         pwds = []
@@ -117,6 +121,10 @@ def get_pwd_real(submit=''):
     return pwd
 
 def get_pwd_real2(submit=''):
+    '''
+    leecode123
+    pwd1
+    '''
     with open(r'ini\pwd.ini','r') as f:
         lines  = f.readlines()
         pwds = []
@@ -131,6 +139,56 @@ def get_pwd_real2(submit=''):
         if len(pwd)>=8:
             break
     return pwd
+
+def get_pwd_real3(submit=''):
+    '''
+    leecode123#!!@#$%^&
+    pwd2
+    '''
+    with open(r'ini\pwd2.ini','r') as f:
+        lines  = f.readlines()
+        pwds = []
+        for line in lines:
+            if line.strip(' ') == '':
+                continue
+            pwd = line.strip('\n')
+            pwds.append(pwd)
+    while True:
+        num = random.randint(0,len(pwds)-1)
+        pwd = pwds[num]
+        if len(pwd)>=8:
+            break
+    b = '!@#$%^&'
+    b_insert = random.randint(0,len(b)-1)
+    rate = random.randint(0,2)
+    if rate == 1:
+        print(rate)
+        insert_num = random.randint(1,6)
+        pwd = pwd[0:insert_num]+b[b_insert]+pwd[insert_num:]
+    return pwd
+
+def get_pwd_real4(submit=''):
+    '''
+    leecode123
+    pwd2
+    '''
+    with open(r'ini\pwd2.ini','r') as f:
+        lines  = f.readlines()
+        pwds = []
+        for line in lines:
+            if line.strip(' ') == '':
+                continue
+            pwd = line.strip('\n')
+            pwds.append(pwd)
+    while True:
+        num = random.randint(0,len(pwds)-1)
+        pwd = pwds[num]
+        if len(pwd)>=8:
+            break
+    return pwd
+
+
+
 
 def get_name_real(name=''):
     '''
@@ -932,6 +990,13 @@ def monthly_payment(submit=''):
     0-3999
     '''
     payment = random.randint(0,30)*100
+    return payment
+
+def rent_payment(submit=''):
+    '''
+    1000-10000
+    '''
+    payment = random.randint(100,1000)*10
     return payment
 
 def get_state_byzip(submit=''):

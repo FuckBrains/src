@@ -40,7 +40,7 @@ Select_Config ={
 
 Generate_Config = {
     'dateofbirth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all','get_birthday_all_2'],    
-    'pwd'         : ['password_get','password_get_Nostale'],        
+    'pwd'         : ['password_get','password_get_Nostale','get_pwd_real','get_pwd_real2','get_pwd_real3','get_pwd_real4'],        
     'height'      : ['get_height_ft','get_height_inch','get_height_weight'],  
     'fullname'    : ['get_fullname'], 
     'firstname'   : ['get_name_real'],  
@@ -60,7 +60,7 @@ Generate_Config = {
     'nextpayday2_bi_str'  :['get_next_payday2_bi_str'],
     'hire_date':['hire_date'],
     'year_at_residence_gen':['get_year_atresidence'],
-    'monthly_payment':['monthly_payment'],
+    'monthly_payment':['monthly_payment','rent_payment'],
 }
 
 
