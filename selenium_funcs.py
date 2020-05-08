@@ -310,7 +310,7 @@ def Select(chrome_driver,data,submit,element_new=''):
         # use random if values not in values in page
     if data['Step_config']['select_value'] != 'False':
         if data['Step_config']['select_func'] != 'False':
-            content = eval('Submit_handle.'+data['Step_config']['select_func'])(submit[data['Step_config']['select_value']])
+            content = eval('Submit_handle.'+data['Step_config']['select_func'])(submit)
             content = str(content)
             print('Slect-->>select_func-->>content:',content)            
         else:                  

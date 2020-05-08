@@ -187,10 +187,7 @@ def get_pwd_real4(submit=''):
             break
     return pwd
 
-
-
-
-def get_name_real(name=''):
+def get_name_real(submit=''):
     '''
     直接从真实用户名文件里获取
     '''
@@ -276,10 +273,14 @@ def apt_get(submit):
         apt = random.randint(30,300)
     return int(apt)
 
-def get_auto_birthday(date):
+def get_auto_birthday(submit):
     '''
     return MM/DD/Year 
     '''
+    if 'date_of_birth' in submit:
+        date = submit['date_of_birth']
+    else:
+        date = ''
     if '/' in date:
         birthday = date.split('/')
     elif '-' in date:
@@ -329,7 +330,6 @@ def get_occupation_info(submit):
         occupation = db.get_occupation()
     return occupation
 
-
 def hire_date(submit):
     '''
     12/11/2019
@@ -349,8 +349,6 @@ def hire_date(submit):
     hire_date = mm+'/'+dd+'/'+str(year)
     return hire_date
 
-
-
 def get_random_income(submit):
     '''
     income year
@@ -367,48 +365,47 @@ def get_year_atresidence(submit):
     year = random.randint(1,7)
     return year
 
-
-def get_birthday_mm(date=''):
+def get_birthday_mm(submit=''):
     '''
     return mm
     '''
-    birthday = get_auto_birthday(date)
+    birthday = get_auto_birthday(submit)
     return birthday[0]
 
-def get_birthday_dd(date=''):
+def get_birthday_dd(submit=''):
     '''
     return dd
     '''    
-    birthday = get_auto_birthday(date)
+    birthday = get_auto_birthday(submit)
     return birthday[1]
 
-def get_birthday_year(date=''):
+def get_birthday_year(submit=''):
     '''
     return year
     '''    
-    birthday = get_auto_birthday(date)
+    birthday = get_auto_birthday(submit)
     return birthday[2]
 
-def get_birthday_all(date=''):
+def get_birthday_all(submit=''):
     '''
     mm,dd,year
     05021997
     '''
-    birthday = get_auto_birthday(date)
+    birthday = get_auto_birthday(submit)
     birthday = str(birthday[0])+str(birthday[1])+str(birthday[2])
     print('birthday:',birthday)
     return birthday  
 
-def get_birthday_all_2(date=''):
+def get_birthday_all_2(submit=''):
     '''
     mm/dd/year
     05/02/1997
     '''
-    birthday = get_auto_birthday(date)
+    birthday = get_auto_birthday(submit)
     birthday = str(birthday[0])+'/'+str(birthday[1])+'/'+str(birthday[2])
     return birthday  
 
-def get_height_info(a=''):
+def get_height_info(submit=''):
     '''
     num_info = [ft,in,weight]
     '''
@@ -421,27 +418,26 @@ def get_height_info(a=''):
     num_info['Weight'] = num_weight
     return num_info
 
-def get_height_ft(a=''):
+def get_height_ft(submit=''):
     '''
     ft
     '''
     num_info = get_height_info()
     return num_info['Height_FT']
 
-def get_height_inch(a=''):
+def get_height_inch(submit=''):
     '''
     inch
     '''
     num_info = get_height_info()
     return num_info['Height_Inch']
 
-def get_height_weight(a=''):
+def get_height_weight(submit=''):
     '''
     weight
     '''
     num_info = get_height_info()
     return num_info['Weight']
-
 
 def get_city_by_zip(zip_):
     url = 'https://tools.usps.com/tools/app/ziplookup/cityByZip'
@@ -513,7 +509,6 @@ def ssn_mid_2(submit):
     ssn_ = ssn[3:5]
     return ssn_
 
-
 def get_routing_number(submit=''):
     '''
     routing_number
@@ -535,7 +530,6 @@ def get_account_number(submit=''):
     account_number = account_number.replace('.0','')     
     account_number = chansfer_float_into_int(account_number)
     return account_number
-
 
 def get_income(submit):
     '''
@@ -649,7 +643,6 @@ def get_expiration_date(submit):
     date = mm+yy
     return date
 
-
 def get_phone_6(submit):
     '''
     phone: 1234567890
@@ -669,8 +662,6 @@ def get_phone_10(submit):
     phone = get_phone(submit)
     phone_ = phone[6:]
     return phone_
-
-
 
 def get_workphone_3(submit):
     '''
@@ -702,7 +693,6 @@ def get_workphone_10(submit):
     phone_ = phone[6:]
     return phone_
 
-
 def get_workphone(submit):
     '''
     处理电话后的.
@@ -718,7 +708,6 @@ def get_workphone(submit):
     if len(str(phone_)) == 8:
         phone_ = phone_+str(num)+str(num)           
     return phone_
-
 
 def get_phone_dadao(submit):
     '''
@@ -743,7 +732,6 @@ def get_uk_phone1(phone):
     elif phone[0:3] == '+44':
         phone = phone[3:]
     return phone
-
 
 def get_payday_dict():
     paydaydict = {
@@ -772,11 +760,12 @@ def get_month_word(month):
     month = month_word[index]
     return month     
 
-def month_change(submit):
+def month_change(submit=''):
     '''
-    9.0 -- 09
+    9.0 --> 09
     '''
-    month = str(submit['month']).split('.')[0]
+    month = submit['month']
+    month = str(month).split('.')[0]
     if len(month) == 1:
         month = '0'+ month
     return month
@@ -1027,11 +1016,11 @@ def rent_payment(submit=''):
     payment = random.randint(100,1000)*10
     return payment
 
-def get_state_byzip(submit=''):
+def get_state_byzip(zip_=''):
     '''
     find state by zip
     '''
-    state = db.get_state_byzip(submit['katou'])
+    state = db.get_state_byzip(zip_)
     return state
 
 
