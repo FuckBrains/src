@@ -562,7 +562,7 @@ def get_page_by_flag(Page_flags,chrome_driver):
                     continue
             if page['Flag_xpath'] == '':
                 if page['Flag_text'] in chrome_driver.page_source:
-                    chrome_driver.find_element_by_text(page['Flag_text'])
+                    chrome_driver.find_element_by_link_text(page['Flag_text'])
                     print('find target page:',page['Page'],'with text',page['Flag_text'])                                
                     target_page = page
                     break
@@ -585,11 +585,11 @@ def get_page_by_flag(Page_flags,chrome_driver):
                         print('find target page:',page['Page'],'with xpath and text')
                         target_page = page
                         break
-                    else:
-                        chrome_driver.find_element_by_text(text_all)
-                        print('find target page:',page['Page'],'with text')                
-                        target_page = page
-                        break  
+                    # else:
+                    #     chrome_driver.find_element_by_link_text(text_all)
+                    #     print('find target page:',page['Page'],'with text')                
+                    #     target_page = page
+                    #     break  
                 else:
                     sleep(1)             
         except Exception as e:
