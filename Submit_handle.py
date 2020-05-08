@@ -279,6 +279,8 @@ def get_auto_birthday(submit):
     '''
     if 'date_of_birth' in submit:
         date = submit['date_of_birth']
+        if date == None:
+            date = ''
     else:
         date = ''
     if '/' in date:
