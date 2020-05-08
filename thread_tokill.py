@@ -644,6 +644,7 @@ def page_change(chrome_driver,page):
     try:
         element = chrome_driver.find_element_by_xpath(page['Flag_xpath'])
     except:
+        print('page changed')        
         return 1
     for i in range(60): 
         if '@@@@' in page['Flag_text']:
@@ -671,10 +672,12 @@ def page_change(chrome_driver,page):
                     print("%s still in chrome_driver.page_source,page not changed"%text)            
                     sleep(2)
                 else:
+                    flag = 1
                     print("page['Flag_text'] not visibile in page,page changed!!!!!!!!!!!")                
                     break
             except Exception as e:
-                print("page['Flag_text'] not visibile in page,page changed!!!!!!!!!!!")                
+                flag = 1
+                print("element not attached in page,page changed!!!!!!!!!!!")                
                 break                
             # else:
             #     print("page['Flag_text'] not displayed in page,page changed!!!!!!!!!!!")                
