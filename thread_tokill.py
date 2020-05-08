@@ -580,7 +580,8 @@ def get_page_by_flag(Page_flags,chrome_driver):
                 if text_short in chrome_driver.page_source:                
                     element = chrome_driver.find_element_by_xpath(page['Flag_xpath'])
                     # print(page,'find text:',element.text)
-                    if EC.text_to_be_present_in_element(element,text_all):
+                    if element.text == text_all:
+                    # if EC.text_to_be_present_in_element(element,text_all):
                         print('find target page:',page['Page'],'with xpath and text')
                         target_page = page
                         break
