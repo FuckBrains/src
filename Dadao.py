@@ -336,6 +336,7 @@ def main(num):
         try:
             print('try killing pids')
             # tools.killpid()
+            sleep(5000)
             return
             print('kill pids finished')
         except Exception as e:
