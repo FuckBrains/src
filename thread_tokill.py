@@ -641,7 +641,10 @@ def page_detect(Page_flags,chrome_driver):
 def page_change(chrome_driver,page):
     print('Detecting page if changed or changing....')
     flag = 0
-    element = chrome_driver.find_element_by_xpath(page['Flag_xpath'])
+    try:
+        element = chrome_driver.find_element_by_xpath(page['Flag_xpath'])
+    except:
+        return 1
     for i in range(60): 
         if '@@@@' in page['Flag_text']:
             text_short = page['Flag_text'].split('@@@@')[0] 
