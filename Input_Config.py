@@ -35,7 +35,8 @@ Select_Config ={
     'requested_loan_amount':['get_next_payday_dd','get_next_payday_mm','get_next_payday_mm_str','get_next_payday_year','get_next_payday_all','get_next_payday_bi_str','get_next_payday2_dd','get_next_payday2_mm','get_next_payday2_mm_str','get_next_payday2_year','get_next_payday2_all','get_next_payday2_bi_str','get_next_payday_all_str'],
     'pay_period':['get_next_payday_dd','get_next_payday_mm','get_next_payday_mm_str','get_next_payday_year','get_next_payday_all','get_next_payday_bi_str','get_next_payday2_dd','get_next_payday2_mm','get_next_payday2_mm_str','get_next_payday2_year','get_next_payday2_all','get_next_payday2_bi_str','get_next_payday_all_str'],
     'katou':['get_state_byzip'],
-
+    'month':['month_change'],
+    'year':['year_change','year_change_short'],
 }
 
 Generate_Config = {

@@ -763,11 +763,39 @@ def get_payday_dict():
     return paydaydict    
 
 def get_month_word(month):
+    '''
+    January
+    '''
     month_word = ['January','February','March','April','May','June','July','August','September','October','November','December']
     month_list = [i+1 for i in range(12)]
     index = month_list.index(month)
     month = month_word[index]
     return month     
+
+def month_change(submit):
+    '''
+    9.0 -- 09
+    '''
+    month = str(submit['month']).split('.')[0]
+    if len(month) == 1:
+        month = '0'+ month
+    return month
+
+def year_change(submit):
+    '''
+    2020,2019
+    '''
+    year = str(submit['year']).split('.')[0]
+    return year
+
+def year_change_short(submit):
+    '''
+    98,97
+    '''
+    year = str(submit['year']).split('.')[0]
+    if len(year) == 4:
+        year = year[2:]
+    return year
 
 def get_next_payday_list(submit):
     '''
