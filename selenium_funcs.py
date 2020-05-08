@@ -152,7 +152,16 @@ def get_elem_part(elem,method,content):
     print('get_elem_part:content-->',content)
     if method == 'Xpath':
         print('by xpath')
-        element = elem.find_element_by_xpath(content)
+        if ':' in content:
+            content_ = content.split(':')
+            num_xpath = int(content_[1])
+            content = content_[0]
+            elements = elem.find_elements_by_xpath(content)
+            print('total %d elems found of class %s'%(len(elements),content))
+            print('num_class:%d'%num_xpath)
+            element = elements[num_xpath]            
+        else:            
+            element = elem.find_element_by_xpath(content)
     elif method == 'Class':
         print('by class')
         if ':' in content:
