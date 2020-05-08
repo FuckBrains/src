@@ -573,7 +573,7 @@ def get_page_by_flag(Page_flags,chrome_driver):
                     page['Flag_text'] = page['Flag_text'].split('bbb===')[1]  
                 if '@@@@' in page['Flag_text']:
                     text_short = page['Flag_text'].split('@@@@')[0]
-                    text_all = page['Flag_text'].replace('@@@@','')  
+                    text_all = page['Flag_text'].split('@@@@')[1]
                 else:
                     text_short = page['Flag_text']
                     text_all = page['Flag_text']
