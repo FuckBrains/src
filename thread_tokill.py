@@ -644,15 +644,24 @@ def page_change(chrome_driver,page):
     for i in range(60): 
         if '@@@@' in page['Flag_text']:
             text_short = page['Flag_text'].split('@@@@')[0] 
+            text_all = page['Flag_text'].split('@@@@')[1]             
         else:
             text_short = page['Flag_text'] 
+            text_all = page['Flag_text']             
         if text_short not in chrome_driver.page_source:
             flag = 1
             print("page['Flag_text'] not in chrome_driver.page_source,page changed!!!!!!!!!!!")
             break            
-        else:
-            print("page['Flag_text'] still in chrome_driver.page_source,page not changed")            
-            sleep(1)
+        else:            
+            element = chrome_driver.find_element_by_xpath(page['Flag_xpath'])
+            # print(page,'find text:',element.text)
+            if EC.text_to_be_present_in_element(element,text_all):            
+                print("page['Flag_text'] still in chrome_driver.page_source,page not changed")            
+                sleep(2)
+            else:
+                print("page['Flag_text'] not visibile in page,page changed!!!!!!!!!!!")                
+                break
+
         # try:    
         #     chrome_driver.find_element_by_xpath(page['Flag_xpath'])   
         #     # print(element.text)
