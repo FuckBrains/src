@@ -314,15 +314,26 @@ def test17():
     # print(element.text)
     # if text in chrome_driver.page_source:                
         # print(page,'find text:',element.text)
-    if EC.text_to_be_present_in_element(element,xpath):
-        print('find target page:',1,'with xpath and text')
-        # target_page = page
-    else:
-        chrome_driver.find_element_by_text(xpath)
-        print('find target page:',1,'with text')                
-            # target_page = page
-    # else:
-        # print('text not in page_source')
+    xpath2 = '//*[@id="plate-content"]/div[2]/div[2]/button'
+    element2 = chrome_driver.find_element_by_xpath(xpath2)
+    element2.click()
+    # print(page,'find text:',element.text)
+    while True:
+        # element2 = chrome_driver.find_element_by_xpath(xpath2)
+        try:
+            if element.text == text:
+            # if EC.text_to_be_present_in_element(element,text):
+                print("%s still in chrome_driver.page_source,page not changed"%text)            
+                sleep(2)
+            else:
+                print("page['Flag_text'] not visibile in page,page changed!!!!!!!!!!!")                
+                break
+        except Exception as e:
+            print("page['Flag_text'] not visibile in page,page changed!!!!!!!!!!!")                
+            break
+
+
+
     sleep(1000)
 
 

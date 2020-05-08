@@ -641,6 +641,7 @@ def page_detect(Page_flags,chrome_driver):
 def page_change(chrome_driver,page):
     print('Detecting page if changed or changing....')
     flag = 0
+    element = chrome_driver.find_element_by_xpath(page['Flag_xpath'])
     for i in range(60): 
         if '@@@@' in page['Flag_text']:
             text_short = page['Flag_text'].split('@@@@')[0] 
@@ -653,14 +654,29 @@ def page_change(chrome_driver,page):
             print("page['Flag_text'] not in chrome_driver.page_source,page changed!!!!!!!!!!!")
             break            
         else:            
-            element = chrome_driver.find_element_by_xpath(page['Flag_xpath'])
             # print(page,'find text:',element.text)
-            if EC.text_to_be_present_in_element(element,text_all):            
-                print("page['Flag_text'] still in chrome_driver.page_source,page not changed")            
-                sleep(2)
-            else:
+            # if element.is_displayed():
+            # if element.text == text_all:
+            #     print("%s still in chrome_driver.page_source,page not changed"%text_all)            
+            #     sleep(2)
+            # else:
+            #     print("page['Flag_text'] not visibile in page,page changed!!!!!!!!!!!")                
+            #     break
+            try:
+                if element.text == text:
+                # if EC.text_to_be_present_in_element(element,text):
+                    print("%s still in chrome_driver.page_source,page not changed"%text)            
+                    sleep(2)
+                else:
+                    print("page['Flag_text'] not visibile in page,page changed!!!!!!!!!!!")                
+                    break
+            except Exception as e:
                 print("page['Flag_text'] not visibile in page,page changed!!!!!!!!!!!")                
-                break
+                break                
+            # else:
+            #     print("page['Flag_text'] not displayed in page,page changed!!!!!!!!!!!")                
+            #     break
+
 
         # try:    
         #     chrome_driver.find_element_by_xpath(page['Flag_xpath'])   
