@@ -249,11 +249,11 @@ def reg_part(plan):
     write_status(path,workbook,submit,str(status))
     write_flag = 0
     print('write status finished')
-    try:
-        chrome_driver.close()
-        chrome_driver.quit()
-    except:
-        pass
+    # try:
+    #     chrome_driver.close()
+    #     chrome_driver.quit()
+    # except:
+    #     pass
     for i in submit['Dadao']['badname']:
         submit['row'] = i
         while True:
@@ -335,8 +335,8 @@ def main(num):
         print('All Missions finished..............')
         try:
             print('try killing pids')
-            tools.killpid()
-            # return
+            # tools.killpid()
+            return
             print('kill pids finished')
         except Exception as e:
             print(str(e))

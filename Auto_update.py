@@ -10,7 +10,7 @@ import db
 
 
 def get_code():
-    chrome_driver = Chrome_driver.get_chrome()
+    chrome_driver = Chrome_driver.get_chrome(headless=1)
     url_back = r'https://emu_multi.coding.net/signin?redirect=%2Fuser'
     url_code = r'https://emu_multi.coding.net/p/src/git/archive/master'
     chrome_driver.get(url_back)
