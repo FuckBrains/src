@@ -570,16 +570,22 @@ def get_page_by_flag(Page_flags,chrome_driver):
                     sleep(1)
             else:
                 if 'bbb===' in page['Flag_text']:
-                    page['Flag_text'] = page['Flag_text'].split('bbb===')[1]                                
-                if page['Flag_text'] in chrome_driver.page_source:                
+                    page['Flag_text'] = page['Flag_text'].split('bbb===')[1]  
+                if '@@@@' in page['Flag_text']:
+                    text_short = page['Flag_text'].split('@@@@')[0]
+                    text_all = page['Flag_text'].replace('@@@@','')  
+                else:
+                    text_short = page['Flag_text']
+                    text_all = page['Flag_text']
+                if text_short in chrome_driver.page_source:                
                     element = chrome_driver.find_element_by_xpath(page['Flag_xpath'])
                     # print(page,'find text:',element.text)
-                    if EC.text_to_be_present_in_element(element,page['Flag_text']):
+                    if EC.text_to_be_present_in_element(element,text_all):
                         print('find target page:',page['Page'],'with xpath and text')
                         target_page = page
                         break
                     else:
-                        chrome_driver.find_element_by_text(page['Flag_text'])
+                        chrome_driver.find_element_by_text(text_all)
                         print('find target page:',page['Page'],'with text')                
                         target_page = page
                         break  
@@ -636,7 +642,11 @@ def page_change(chrome_driver,page):
     print('Detecting page if changed or changing....')
     flag = 0
     for i in range(60): 
-        if page['Flag_text'] not in chrome_driver.page_source:
+        if '@@@@' in page['Flag_text']:
+            text_short = page['Flag_text'].split('@@@@')[0] 
+        else:
+            text_short = page['Flag_text'] 
+        if text_short not in chrome_driver.page_source:
             flag = 1
             print("page['Flag_text'] not in chrome_driver.page_source,page changed!!!!!!!!!!!")
             break            

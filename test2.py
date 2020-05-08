@@ -300,8 +300,41 @@ def test16():
     state = db.get_state_byzip(zip_)
     print(state)
 
+def test17():
+    import Chrome_driver
+    from selenium.webdriver.support import expected_conditions as EC
+    url = 'https://healthinsurance.net/hi_wizard/?token=191046011-QwVV9kxT_XLPVN2czFoszebaou87yzqHoCMMs1TfxY8znCDwe1Tq2jqYsvi5kwgg#health/Cover_Spouse'
+    chrome_driver = Chrome_driver.get_chrome()
+    chrome_driver.get(url)
+    xpath = '//*[@id="plate-content"]/div[1]'
+    element = chrome_driver.find_element_by_xpath(xpath)
+    text = 'Are you looking to include your spouse in your Health Insurance plan?'
+    # print(element.getText())    
+    # print(element.innerHTML)
+    # print(element.text)
+    # if text in chrome_driver.page_source:                
+        # print(page,'find text:',element.text)
+    if EC.text_to_be_present_in_element(element,xpath):
+        print('find target page:',1,'with xpath and text')
+        # target_page = page
+    else:
+        chrome_driver.find_element_by_text(xpath)
+        print('find target page:',1,'with text')                
+            # target_page = page
+    # else:
+        # print('text not in page_source')
+    sleep(1000)
+
+
+
+
+
+
+
+
+
 if __name__ == '__main__':
-    test16()    
+    test17()    
 
     
 
