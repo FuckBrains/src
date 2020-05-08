@@ -68,13 +68,13 @@ def writelog(chrome_driver,submit,content=''):
             print('traceback.format_exc():' ,content)  
             if content == '':
                 content = 'NO traceback'        
-        if submit['Excels_dup'][0] == 'Dadao':
-            status = db.get_plan_status(submit['ID'])
-            path = submit['Dadao']['path']
-            sheet,workbook = Dadao.get_excel(path)   
-            content = 'Mission Status:'+str(status)+'\n'+'traceback:\n    '+content        
-            Dadao.write_status(path,workbook,submit['Dadao'],content)            
-            return            
+        # if submit['Excels_dup'][0] == 'Dadao':
+        #     status = db.get_plan_status(submit['ID'])
+        #     path = submit['Dadao']['path']
+        #     sheet,workbook = Dadao.get_excel(path)   
+        #     content = 'Mission Status:'+str(status)+'\n'+'traceback:\n    '+content        
+        #     Dadao.write_status(path,workbook,submit['Dadao'],content)            
+        #     return            
         with open(pic,'rb') as f:
             png = f.read()
         Mission_Id = submit['Mission_Id']
@@ -318,8 +318,8 @@ def reg_part_(submit):
             print('Page_flags found,use Record modern')
             chrome_driver = web_submit(submit,chrome_driver=chrome_driver)
         print(submit)
-        if submit['Excels_dup'][0] == 'Dadao':
-            writelog(chrome_driver,submit)
+        # if submit['Excels_dup'][0] == 'Dadao':
+        #     writelog(chrome_driver,submit)
     except Exception as e:
         print(str(e))
         try:
@@ -375,8 +375,8 @@ def reg_part_cpl(submit):
             print('Page_flags found,use Record modern')
             chrome_driver = web_submit(submit,chrome_driver=chrome_driver)
         print(submit)
-        if submit['Excels_dup'][0] == 'Dadao':
-            writelog(chrome_driver,submit)
+        # if submit['Excels_dup'][0] == 'Dadao':
+        #     writelog(chrome_driver,submit)
     except Exception as e:
         print(str(e))
         try:
@@ -433,7 +433,7 @@ def web_submit(submit,chrome_driver,debug=0):
             return
         elif page == '':
             content = 'New Page'
-            writelog(chrome_driver,submit,content)
+            # writelog(chrome_driver,submit,content)
             qt.main(1,content)
             return
         print('Find target_page:',page['Page'])

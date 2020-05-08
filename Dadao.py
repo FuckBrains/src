@@ -195,6 +195,7 @@ def reg_part(plan):
     submit = {}
     submit['ID'] = plan['ID']
     submit['Dadao'] = submit_
+    submit['Dadao']['path'] = path
     submit['Site'] = plan['url_link']
     submit['Mission_Id'] = plan['Mission_Id']
     submit['count'] = plan['count']
