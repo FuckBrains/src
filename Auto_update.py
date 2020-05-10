@@ -9,10 +9,26 @@ import Changer_windows_info as changer
 import db
 from os.path import join, getsize
 
+def get_updateinfo():
+    sql_content = "select * from update_config;"
+    account = db.get_account(1)
+    # print(account)
+    conn,cursor = db.login_sql(account)
+    # for sql_content in sql_contents:
+        # print('\n\n\n')
+        # print(sql_content)
+    res = cursor.execute(sql_content)
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    update_config = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
+    print(update_config[0])
+    db.login_out_sql(conn,cursor)    
+    return update_config
+
+
 def get_code():
     for i in range(10):
         try:
-            update_config = db.get_updateinfo()
+            update_config = get_updateinfo()
             break
         except:
             pass

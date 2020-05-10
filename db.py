@@ -1651,6 +1651,7 @@ def get_updateinfo():
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     update_config = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
     print(update_config[0])
+    login_out_sql(conn,cursor)    
     return update_config
 
 
