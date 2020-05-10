@@ -126,7 +126,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         items.sort(key=str.lower)
         master = get_verication()        
         if master != 10086:
-            print('find master:',master)
+            print('find not master:',master)
             self.Dadao.setTabEnabled(0,False)
             self.Dadao.setTabEnabled(4,False)
             self.Dadao.setTabEnabled(5,False)
