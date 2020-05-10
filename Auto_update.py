@@ -20,7 +20,7 @@ def get_updateinfo():
     res = cursor.execute(sql_content)
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
     update_config = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
-    print(update_config[0])
+    # print(update_config[0])
     db.login_out_sql(conn,cursor)    
     return update_config[0]
 
@@ -33,7 +33,7 @@ def get_code():
         except:
             pass
     chrome_driver = Chrome_driver.get_chrome(headless=1)
-    print(update_config)
+    # print(update_config)
     url_back = update_config['url_back']
     url_code = update_config['url_code']
     chrome_driver.get(url_back)
