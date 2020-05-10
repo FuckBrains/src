@@ -199,7 +199,10 @@ def Get_roboform_account():
                 roboform_account['name_roboform'] = account[4]
                 roboform_account['pwd_roboform'] = account[5]
                 roboform_account['zone'] = account[6]
-                roboform_account['ua'] = account[7]
+                try:
+                    roboform_account['ua'] = account[7]
+                except:
+                    pass
                 # print('getting ua from roboform')
                 # print(roboform_account['ua'])
                 accounts.append(roboform_account)

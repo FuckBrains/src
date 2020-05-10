@@ -7,19 +7,25 @@ import shutil
 from shutil import copyfile
 import Changer_windows_info as changer
 import db
-
+from os.path import join, getsize
 
 def get_code():
+    for i in range(10):
+        try:
+            update_config = db.get_updateinfo()
+            break
+        except:
+            pass
     chrome_driver = Chrome_driver.get_chrome(headless=1)
-    url_back = r'https://emu_multi.coding.net/signin?redirect=%2Fuser'
-    url_code = r'https://emu_multi.coding.net/p/src/git/archive/master'
+    url_back = update_config['url_back']
+    url_code = update_config['url_code']
     chrome_driver.get(url_back)
-    chrome_driver.find_element_by_xpath('//*[@id="userName"]').send_keys('18122710376')
-    chrome_driver.find_element_by_xpath('//*[@id="password"]').send_keys('Ddf!@s345a1asd')
+    chrome_driver.find_element_by_xpath(update_config['xpath_username']).send_keys('18122710376')
+    chrome_driver.find_element_by_xpath(update_config['xpath_pwd']).send_keys('Ddf!@s345a1asd')
     sleep(2)
-    chrome_driver.find_element_by_xpath('//*[@id="container"]/div[2]/main/div[2]/form/div[1]/div[3]/label/div/span/input').click()
+    chrome_driver.find_element_by_xpath(update_config['xpath_checkbox']).click()
     sleep(1)
-    chrome_driver.find_element_by_xpath('//*[@id="container"]/div[2]/main/div[2]/form/div[2]/button').click()
+    chrome_driver.find_element_by_xpath(update_config['xpath_button']).click()
     sleep(1)
     for i in range(20):
         chrome_driver.refresh()
@@ -29,7 +35,8 @@ def get_code():
         for i in range(100):
             flag = 0
             modules = Chrome_driver.download_status()
-            names = ['emu_multi-src-master.zip','emu_multi-src-src-master.zip']
+            names = update_config['zipname'].split(',')
+            names = [name+'.zip' for name in names]
             module_name = ''
             for module in modules:
                 if module in names:
@@ -47,7 +54,10 @@ def get_code():
             chrome_driver.close()
             chrome_driver.quit()
             sleep(5)   
-            if flag == 1:         
+            if flag == 1: 
+                flag_zip = test_zip(module)        
+                if flag_zip == 0:
+                    continue
                 delete_folder()
                 unfold_zip(module_name)
                 break
@@ -58,17 +68,35 @@ def get_code():
             print(str(e))
             continue
 
+
+def test_zip(module):    
+    path_download = Chrome_driver.get_dir()
+    print(path_download)
+    # module = 'emu_multi-src-master.zip'
+    zipfile_name = os.path.join(path_download,module)
+    size = getsize(zipfile_name)/1024/1024    
+    print('The zipfile size:',size,'M')
+    flag = 0
+    if size>25:
+        print('size ok')
+        zFile = zipfile.ZipFile(zipfile_name, "r")
+        #ZipFile.namelist(): 获取ZIP文档内所有文件的名称列表
+        for fileM in zFile.namelist(): 
+            try:
+                zFile.extract(fileM, path_download)
+                flag = 1        
+            except:
+                flag = 0
+        zFile.close()
+        print('zipfile open ok,not bad zip......................')        
+    else:
+        print('size not ok, bad zip')
+    return flag
+
 def unfold_zip(module):
     path_download = Chrome_driver.get_dir()
     # module = 'emu_multi-src-master.zip'
-    zipfile_name = os.path.join(path_download,module)
-    print(zipfile_name)
-    zFile = zipfile.ZipFile(zipfile_name, "r")
-    #ZipFile.namelist(): 获取ZIP文档内所有文件的名称列表
-    for fileM in zFile.namelist(): 
-        zFile.extract(fileM, path_download)
-    zFile.close()
-    print('zipfile ok,not bad zip......................')
+
     files_unzip = os.listdir(path_download)
     for file in files_unzip:
         if 'src' in file and '.zip' not in file:

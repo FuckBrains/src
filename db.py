@@ -1156,6 +1156,7 @@ def Execute_sql_single(sql_contents,ali=0):
     responses = []
     conn,cursor = login_sql(account)
     for sql_content in sql_contents:
+        print(sql_content)
         res = cursor.execute(sql_content)
         print(res)
         response = cursor.fetchall()
@@ -1637,6 +1638,22 @@ def get_plan_status(ID):
     print('Status:',Status)
     login_out_sql(conn,cursor)
     return Status
+
+def get_updateinfo():
+    sql_content = "select * from update_config;"
+    account = get_account(1)
+    # print(account)
+    conn,cursor = login_sql(account)
+    # for sql_content in sql_contents:
+        # print('\n\n\n')
+        # print(sql_content)
+    res = cursor.execute(sql_content)
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    update_config = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
+    print(update_config[0])
+    return update_config
+
+
 
 def update_flag_use(id_):
     return

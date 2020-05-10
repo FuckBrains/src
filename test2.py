@@ -339,13 +339,27 @@ def test17():
 
 
 
+def test18():
+    import Auto_update    
+    modules = Chrome_driver.download_status()
+    names = ['emu_multi-src-master.zip','emu_multi-src-src-master.zip']
+    module_name = ''
+    for module in modules:
+        if module in names:
+            module_name = module
+            print('Find zip src')
+            sleep(3)
+            flag = 1
+            break
+        else:
+            pass
+    Auto_update.test_zip(module_name)
 
-
-
-
+def test19():
+    db.get_updateinfo()
 
 if __name__ == '__main__':
-    test17()    
+    test19()    
 
     
 
