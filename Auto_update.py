@@ -22,7 +22,7 @@ def get_updateinfo():
     update_config = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
     print(update_config[0])
     db.login_out_sql(conn,cursor)    
-    return update_config
+    return update_config[0]
 
 
 def get_code():
@@ -33,6 +33,7 @@ def get_code():
         except:
             pass
     chrome_driver = Chrome_driver.get_chrome()
+    print(update_config)
     url_back = update_config['url_back']
     url_code = update_config['url_code']
     chrome_driver.get(url_back)
