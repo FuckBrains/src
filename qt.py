@@ -145,8 +145,8 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.set_comboBox3()
         self.set_comboBox4()
         self.setWindowTitle('EMU_MultiMission')
-        self.accounts = Alliance_login.Get_roboform_account()
-        self.set_comboBox6()
+        # self.accounts = Alliance_login.Get_roboform_account()
+        # self.set_comboBox6()
         self.set_comboBox5()
         print('------')
         # reply = QMessageBox.information(self,
