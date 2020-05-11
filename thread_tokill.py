@@ -429,7 +429,7 @@ def web_submit(submit,chrome_driver,debug=0):
         if page == None:
             content = 'Looking for flag and Timeout or bad page'
             print(content)
-            qt.main(1,content)            
+            # qt.main(1,content)            
             return
         elif page == '':
             content = 'New Page'
