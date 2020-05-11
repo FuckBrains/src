@@ -360,8 +360,17 @@ def test19():
     info = Auto_update.get_updateinfo()
     print(info)
 
+def test20():
+    submit = {}
+    submit['work_phone'] = '123456789'
+    import Submit_handle
+    phone = Submit_handle.get_workphone_unique(submit)
+    print(phone)
+
+
+
 if __name__ == '__main__':
-    test19()    
+    test20()    
 
     
 

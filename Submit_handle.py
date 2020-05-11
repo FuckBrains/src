@@ -711,6 +711,21 @@ def get_workphone(submit):
         phone_ = phone_+str(num)+str(num)           
     return phone_
 
+def get_workphone_unique(submit):
+    '''
+    homephone:123456789
+    workphone:123456789-->123456780
+    '''
+    workphone = get_workphone(submit)
+    for i in range(10):
+        num = random.randint(0,9)
+        if num == workphone[-1]:
+            continue
+        workphone = workphone[:-1]+str(num) 
+        break
+    return workphone
+
+
 def get_phone_dadao(submit):
     '''
     123-123-12345
