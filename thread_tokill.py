@@ -239,6 +239,8 @@ def data_handler(Config):
     # print("timezone:",timezone)
     # print("using_num:",using_num) 
         print('submit[tz]:',submit['tz'])  
+        if len(submit['tz']) == 0:
+            submit['tz'] = [{'windows':'West Pacific Standard Time'}]
         if submit['tz'][0]['windows'] != timezone:
             change_tz(submit['tz'][0]['windows'])
             timezone = submit['tz'][0]['windows']
