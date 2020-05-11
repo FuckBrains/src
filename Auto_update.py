@@ -10,6 +10,7 @@ import db
 from os.path import join, getsize
 
 def get_updateinfo():
+    print('======get_updateinfo')
     sql_content = "select * from update_config;"
     account = db.get_account(1)
     # print(account)

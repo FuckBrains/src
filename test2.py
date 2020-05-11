@@ -356,7 +356,9 @@ def test18():
     Auto_update.test_zip(module_name)
 
 def test19():
-    db.get_updateinfo()
+    import Auto_update
+    info = Auto_update.get_updateinfo()
+    print(info)
 
 if __name__ == '__main__':
     test19()    
