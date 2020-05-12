@@ -367,10 +367,12 @@ def test20():
     phone = Submit_handle.get_workphone_unique(submit)
     print(phone)
 
-
+def test21():
+    a = 150/50
+    print(int(a))
 
 if __name__ == '__main__':
-    test20()    
+    test21()    
 
     
 

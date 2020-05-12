@@ -118,9 +118,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         end = len(self.offer)
         # text = 'Already in config links\n'
         replace_links()
-        account = db.get_account()
-        self.vc_range = account['vc_range']
-        print(self.vc_range) 
+        self.set_qt_config()
         # self.offer.sort()       
         items = [item for item in self.offer]
         items.sort(key=str.lower)
@@ -154,6 +152,22 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         #           "这是一条消息。", 
         #           QMessageBox.Yes | QMessageBox.No)
         # self.resize(500,300)   
+
+    def set_qt_config(self):
+        account = db.get_account()
+        print(account)
+        self.vc_range = account['vc_range']        
+        print(self.vc_range) 
+        index_vc_range = int((self.vc_range)[1])/50
+        self.comboBox38.setCurrentIndex(int(index_vc_range)-1)
+        self.lineEdit38.setText(str(account['plan_id']))
+        self.lineEdit39.setText(account['IP'])
+        self.lineEdit40.setText(account['username'])
+        self.lineEdit41.setText(account['pwd'])
+        lpm_path = r'..\res\lpm_config.txt'
+        lpm_config = Read_Ini(lpm_path)
+        print(lpm_config)
+        self.lineEdit42.setText(lpm_config['IP_lpm'])
   
     def set_comboBox6(self):
         _translate = QtCore.QCoreApplication.translate    
@@ -1220,6 +1234,29 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         os.system(command)        
         command = '''start cmd /k "python test.pyc 3 %s "{$name$:$qcy$}" "'''%(str(Mission_Id))
         os.system(command)  
+
+    @pyqtSlot()
+    def on_pushButton47_clicked(self):
+        db_config_path = r'..\res\db_config.txt'
+        db_config = Read_Ini(db_config_path)        
+        print(db_config)
+        db_config['vc_range'] = self.comboBox38.currentText().split('-')
+        db_config['vc_range'] = [int(item) for item in db_config['vc_range']]
+        db_config['plan_id'] = int(self.lineEdit38.text())
+        db_config['IP'] = self.lineEdit39.text()
+        db_config['username'] = self.lineEdit40.text()
+        db_config['pwd'] = self.lineEdit41.text()
+        Write_Ini(db_config_path,db_config)
+        print(db_config)
+        self.alert('Change QT config success')
+
+    @pyqtSlot()
+    def on_pushButton48_clicked(self):
+        lpm_config_path = r'..\res\lpm_config.txt'        
+        lpm_config = {}
+        lpm_config['IP_lpm'] = self.lineEdit42.text()
+        Write_Ini(lpm_config_path,lpm_config)
+        self.alert('Change LPM config success')
 
 def test_k():
     file = r'ini\Offer_num.ini'
