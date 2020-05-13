@@ -432,12 +432,12 @@ def web_submit(submit,chrome_driver,debug=0):
             content = 'Looking for flag and Timeout or bad page'
             print(content)
             # qt.main(1,content)            
-            return
+            return chrome_driver
         elif page == '':
             content = 'New Page'
             # writelog(chrome_driver,submit,content)
             # qt.main(1,content)
-            return
+            return chrome_driver
         print('Find target_page:',page['Page'])
         '''
         save html
@@ -541,8 +541,8 @@ def web_submit(submit,chrome_driver,debug=0):
         if 'Fail' in page['Status']:
             db.update_plan_status(3,submit['ID'])
             return chrome_driver         
-        flag_page_chane = page_change(chrome_driver,page)
-        if flag_page_chane == 1:
+        flag_page_change = page_change(chrome_driver,page)
+        if flag_page_change == 1:
             pass
         else:
             return chrome_driver
@@ -588,7 +588,9 @@ def get_page_by_flag(Page_flags,chrome_driver):
                         target_page = page
                         break
                     else:
-                        print("element text not equal to what's in db:",element.text)
+                        print("element text not equal to what's in db:")
+                        print(element.text)
+                        print(text_all)
                     #     chrome_driver.find_element_by_link_text(text_all)
                     #     print('find target page:',page['Page'],'with text')                
                     #     target_page = page
