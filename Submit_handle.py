@@ -379,6 +379,8 @@ def get_birthday_dd(submit=''):
     return dd
     '''    
     birthday = get_auto_birthday(submit)
+    if birthday[1][0] == '0':
+        birthday[1] = birthday[1][1]
     return birthday[1]
 
 def get_birthday_year(submit=''):
