@@ -63,12 +63,14 @@ def check_version():
 
 def change_update_file():
     files = os.listdir('.')
-    print(files)
+    # print(files)
     if 'Auto_update2.pyc' in files:
         # print(modules)
+        print('Auto_update2.pyc found,change into Auto_update.pyc')
         file = os.path.join(os.getcwd(),'Auto_update.pyc')
         file2 = os.path.join(os.getcwd(),'Auto_update2.pyc')
-        os.remove(file)
+        if 'Auto_update.pyc' in files:
+            os.remove(file)
         os.rename(file2,file)
 
 def main(i):

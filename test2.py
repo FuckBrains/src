@@ -368,8 +368,9 @@ def test20():
     print(phone)
 
 def test21():
-    a = 150/50
-    print(int(a))
+    import luminati_main
+
+    luminati_main.change_update_file()
 
 if __name__ == '__main__':
     test21()    
