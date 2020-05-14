@@ -582,15 +582,15 @@ def get_page_by_flag(Page_flags,chrome_driver):
                     text_all = page['Flag_text']
                 if text_short in chrome_driver.page_source:                
                     element = chrome_driver.find_element_by_xpath(page['Flag_xpath'])
-                    print(page,'find text:',element.innerText)
-                    if element.innerText == text_all:
+                    print(page,'find text:',element.attribute('innerText'))
+                    if element.attribute('innerText') == text_all:
                     # if EC.text_to_be_present_in_element(element,text_all):
                         print('find target page:',page['Page'],'with xpath and text')
                         target_page = page
                         break
                     else:
                         print("element text not equal to what's in db:")
-                        print(element.innerText)
+                        print(element.attribute('innerText'))
                         print(text_all)
                     #     chrome_driver.find_element_by_link_text(text_all)
                     #     print('find target page:',page['Page'],'with text')                
