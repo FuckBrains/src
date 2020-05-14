@@ -580,24 +580,24 @@ def get_page_by_flag(Page_flags,chrome_driver):
                 else:
                     text_short = page['Flag_text']
                     text_all = page['Flag_text']
-                if text_short in chrome_driver.page_source:                
-                    element = chrome_driver.find_element_by_xpath(page['Flag_xpath'])
-                    print(page,'find text:',element.get_attribute('innerText'))
-                    if element.get_attribute('innerText') == text_all:
-                    # if EC.text_to_be_present_in_element(element,text_all):
-                        print('find target page:',page['Page'],'with xpath and text')
-                        target_page = page
-                        break
-                    else:
-                        print("element text not equal to what's in db:")
-                        print(element.get_attribute('innerText'))
-                        print(text_all)
+                # if text_short in chrome_driver.page_source:                
+                element = chrome_driver.find_element_by_xpath(page['Flag_xpath'])
+                print(page,'find xpath for:',element.get_attribute('innerText').lower())
+                if element.get_attribute('innerText').lower() == text_all.lower():
+                # if EC.text_to_be_present_in_element(element,text_all):
+                    print('find target page:',page['Page'],'with xpath and text')
+                    target_page = page
+                    break
+                else:
+                    print("element text not equal to what's in db:")
+                    print(element.get_attribute('innerText').lower())
+                    print(text_all.lower())
                     #     chrome_driver.find_element_by_link_text(text_all)
                     #     print('find target page:',page['Page'],'with text')                
                     #     target_page = page
                     #     break  
-                else:
-                    sleep(1)             
+                # else:
+                #     sleep(1)             
         except Exception as e:
             print(str(e))
     return target_page
