@@ -385,7 +385,8 @@ def reg_part_cpl(submit):
             writelog(chrome_driver,submit)  
         except:
             pass
-    if submit['sleep_flag'] != 4:
+    close_list = [3,4]
+    if submit['sleep_flag'] not in close_list:
         print('try to close chrome')
         try:
             chrome_driver.close()
