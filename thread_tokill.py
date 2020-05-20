@@ -722,6 +722,7 @@ def step_detect(chrome_driver,configs):
                     configs_detect.append(config)
     # selenium_funcs.scroll_and_find_up(chrome_driver,xpaths[-1])
     for config in configs_detect:
+        print('Detecting config:',config)
         iframe_change(chrome_driver,config['General']['iframe'])
         WebDriverWait(chrome_driver,50).until(EC.visibility_of_element_located((By.XPATH,config['General']['child_content'])))
         print('Step',config['Step'],' ready')

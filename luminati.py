@@ -324,7 +324,7 @@ def read_proxy_config():
     data = json.loads(proxy_details)
     return data
 
-pool = threadpool.ThreadPool(50)
+pool = threadpool.ThreadPool(150)
 
 # @timeout(30)
 def delete_port(ports=''):
