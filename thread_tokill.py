@@ -565,7 +565,7 @@ def get_page_by_flag(Page_flags,chrome_driver):
                     continue
             if page['Flag_xpath'] == '':
                 if page['Flag_text'] in chrome_driver.page_source:
-                    chrome_driver.find_element_by_link_text(page['Flag_text'])
+                    # chrome_driver.find_element_by_link_text(page['Flag_text'])
                     print('find target page:',page['Page'],'with text',page['Flag_text'])                                
                     target_page = page
                     break
@@ -605,14 +605,14 @@ def get_page_by_flag(Page_flags,chrome_driver):
 def page_detect(Page_flags,chrome_driver):
     page = None
     for i in range(60):
-        for i in range(60):
-            status = chrome_driver.execute_script("return document.readyState")
-            if status != 'complete':
-                print('document status:',status)
-                sleep(1)
-            else:
-                print('document status:',status)
-                break
+        # for i in range(60):
+        #     status = chrome_driver.execute_script("return document.readyState")
+        #     if status != 'complete':
+        #         print('document status:',status)
+        #         sleep(1)
+        #     else:
+        #         print('document status:',status)
+        #         break
         page = get_page_by_flag(Page_flags,chrome_driver)
         if page == None:
             print('Page Flag Not Found,',i+1)
@@ -648,6 +648,10 @@ def page_detect(Page_flags,chrome_driver):
 def page_change(chrome_driver,page):
     print('Detecting page if changed or changing....')
     flag = 0
+    if page['Flag_xpath'] == '':
+        if page['Flag_text'] not in chrome_driver.page_source:
+            print('page changed')
+            return 1
     try:
         element = chrome_driver.find_element_by_xpath(page['Flag_xpath'])
     except:
