@@ -372,6 +372,20 @@ def test21():
 
     luminati_main.change_update_file()
 
+def test_22(submit):
+    url = 'https://weibo.com/u/5818390567/home?wvr=5&sudaref=graph.qq.com'
+    chrome_driver = Chrome_driver.get_chrome() 
+    chrome_driver.get(url)
+    xpath_name = '//*[@id="loginname"]'
+    xpath_pwd = '//*[@id="pl_login_form"]/div/div[3]/div[2]/div/input'
+    xpath_captcha = '//*[@id="pl_login_form"]/div/div[3]/div[3]/div/input'
+
+    name = submit['name']
+    pwd = submit['pwd']
+    # code
+    # chrome_driver.find_element_by_xpath()
+
+
 if __name__ == '__main__':
     test21()    
 
