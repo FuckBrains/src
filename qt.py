@@ -142,6 +142,8 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         self.set_text_all_links()
         self.set_comboBox3()
         self.set_comboBox4()
+        self.zones = self.get_zone()
+        self.set_comboBox15()
         self.setWindowTitle('EMU_MultiMission')
         # self.accounts = Alliance_login.Get_roboform_account()
         # self.set_comboBox6()
@@ -238,6 +240,18 @@ class Mywindow(QMainWindow,Ui_MainWindow):
                 break                
             self.comboBox4.addItem("")
             self.comboBox4.setItemText(j, _translate("MainWindow", str(int(item)+1)))            
+            j+=1
+
+    def set_comboBox15(self):
+        _translate = QtCore.QCoreApplication.translate      
+        j = 0
+        # print('set_comboBox4')
+        self.comboBox15.clear()
+        for item in self.zones:
+            if j >= len(self.zones):
+                break                
+            self.comboBox15.addItem("")
+            self.comboBox15.setItemText(j, _translate("MainWindow", item.replace('\n','')))            
             j+=1
 
     def set_comboBox21(self):
@@ -337,6 +351,21 @@ class Mywindow(QMainWindow,Ui_MainWindow):
             # offer['Email_list'] = Email_list
             rest = db.read_rest(offer)        
 
+
+    def get_zone(self):
+        file = '..\\res\\zone.ini'
+        if os.path.exists(file):
+            with open(file,mode='r',encoding='utf-8') as ff:
+                zones = ff.readlines()
+        else:
+            with open(file, mode='w', encoding='utf-8') as ff:
+                print("文件创建成功！")
+                return []
+        zones_all = []
+        for zone in zones:
+            if zone.replace('\n','') != '':
+                zones_all.append(zone)
+        return zones_all
 
     @pyqtSlot()
     def on_pushButton1_clicked(self):
@@ -1257,6 +1286,20 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         lpm_config['IP_lpm'] = self.lineEdit42.text()
         Write_Ini(lpm_config_path,lpm_config)
         self.alert('Change LPM config success')
+
+    @pyqtSlot()
+    def on_pushButton49_clicked(self):
+        file = r'..\res\zone.ini'        
+        zone_configs_part = self.lineEdit43.text()
+        self.zones.append(zone_configs_part)
+        content = ''
+        for zone_config in self.zones:
+            content += zone_config.replace('\n','')+'\n'
+        with open(file,'w') as f:
+            # content += '\n'
+            f.write(content)
+        self.set_comboBox15()
+        self.alert('Change zone config success')
 
 def test_k():
     file = r'ini\Offer_num.ini'
