@@ -1410,7 +1410,7 @@ class Ui_MainWindow(object):
         self.actionDelete.setObjectName("actionDelete")
 
         self.retranslateUi(MainWindow)
-        self.Dadao.setCurrentIndex(3)
+        self.Dadao.setCurrentIndex(7)
         self.tabWidget_3.setCurrentIndex(2)
         self.tabWidget.setCurrentIndex(0)
         self.tabWidget_2.setCurrentIndex(1)

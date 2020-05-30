@@ -126,7 +126,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         if master != 10086:
             print('find not master:',master)
             self.Dadao.setTabEnabled(0,False)
-            self.Dadao.setTabEnabled(4,False)
+            self.Dadao.setTabEnabled(7,False)
             self.Dadao.setTabEnabled(5,False)
             self.Dadao.setTabEnabled(6,False)
             # self.Dadao.setTabEnabled(7,False)   
