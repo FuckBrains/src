@@ -191,10 +191,12 @@ def get_submit(Config):
             # flag,proxy_info = luminati.ip_test(submit['port_lpm'],state=submit['state_'] ,country=submit['Country'])
             flag,proxy_info = luminati.ip_test(submit['port_lpm'],state='' ,country=submit['Country'])            
             print('proxy_info:',proxy_info)
+            submit['ip_record'] = proxy_info['ip']
         else:
             city = ''
             proxy_info = {}
-            flag = 1        
+            flag = 1  
+            submit['ip_record'] = ''      
 
         # changing IP
         print(flag,'=========================')

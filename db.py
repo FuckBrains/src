@@ -958,7 +958,7 @@ def get_unique_soi_email(Mission,Email_list=[]):
 def write_one_info(Mission_list,submit,Cookie = ''):
     Email_Id = ''
     BasicInfo_Id = '' 
-    account = get_account()
+    account = get_account(1)
     conn,cursor=login_sql(account)  
     for item in submit:
         if item == 'Email':
@@ -971,13 +971,14 @@ def write_one_info(Mission_list,submit,Cookie = ''):
     Alliance = str(submit['Alliance'])
     Account = str(submit['Account'])
     ua = submit['ua']
+    IP = submit['ip_record']    
     if 'Status' not in submit:
         Status = str(0)
     else:
         Status = submit['Status']
     # print('+++++++++++++++++++++++++')
     for Mission_Id in Mission_list:
-        sql_content = 'INSERT INTO Mission(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie,Status)VALUES("%s","%s","%s","%s","%s","%s","%s","%s")'%(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie,Status)
+        sql_content = 'INSERT INTO Mission(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie,Status,IP)VALUES("%s","%s","%s","%s","%s","%s","%s","%s","%s")'%(Mission_Id,Alliance,Account,Email_Id,BasicInfo_Id,ua,Cookie,Status,IP)
         print('==============')
         # print(submit)
         # print(sql_content)
