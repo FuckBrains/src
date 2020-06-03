@@ -40,7 +40,7 @@ def getInstallBdyAdree():
 
 def get_ua_all():
     uas = []
-    with open(r'../res/ua.txt') as f:
+    with open(r'ini\ua.txt') as f:
         lines = f.readlines()
         for line in lines:
             if line.strip('\n') != '':
