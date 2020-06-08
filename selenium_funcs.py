@@ -31,12 +31,15 @@ def get_action(chrome_driver,data,submit):
     if 'Dadao' in submit:
         key_excel = 'Dadao'
     else:
-        for key in submit:
-            # print(key)
-            if type(submit[key]) == type({}):
-                if 'BasicInfo_Id' in submit[key]:
-                    key_excel = key
-                    break
+        if 'Email' in submit:
+            key_excel = 'Excel'
+        else:            
+            for key in submit:
+                # print(key)
+                if type(submit[key]) == type({}):
+                    if 'BasicInfo_Id' in submit[key]:
+                        key_excel = key
+                        break
     print(data)
     action_func = data['Action']
     data['Step_config'] = json.loads(data['Step_config']) 
