@@ -424,6 +424,7 @@ def web_submit(submit,chrome_driver,debug=0):
     # chrome_driver.refresh()
     flag_refresh = 0
     # for i in range(20):
+    page_done = []
     while True:
         '''
         turn to other page
@@ -446,6 +447,8 @@ def web_submit(submit,chrome_driver,debug=0):
             # qt.main(1,content)
             return chrome_driver
         print('Find target_page:',page['Page'])
+        if page['Page'] in page_done:
+            return chrome_driver
         '''
         save html
         '''
@@ -536,6 +539,7 @@ def web_submit(submit,chrome_driver,debug=0):
                 except:
                     pass                
                 return chrome_driver
+        page_done.append(page['Page'])
         if flag_refresh == 1:
             print('flag_refresh = ',flag_refresh)
             continue
