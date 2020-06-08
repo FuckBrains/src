@@ -591,6 +591,16 @@ def get_value(keys,submit):
                 value = submit[key]
     return value
 
+
+def get_courses(submit):
+    '''
+    generate a random course
+    '''
+    courses = ['GRAPHIC DESIGN','DIGITAL MARKETING','PHOTOGRAPHY','SPORTS AND EXERCISE NUTRITION','FINANCIAL TRADING AND INVESTMENT','NUTRITION','PHOTOSHOP','SOCIAL MEDIA MARKETING','CRYPTOCURRENCY','LEADERSHIP & MANAGEMENT','MOBILE APP DEVELOPMENT','ADOBE LIGHTROOM','FITNESS & WEIGHT LOSS','ENGLISH FOR BEGINNERS','VIRAL MARKETING','WEB DEVELOPMENT','WEB DESIGN','GUITAR','PERSONAL BEAUTY']
+    num = random.randint(0,len(courses)-1)
+    course = courses[num]
+    return course
+
 def get_phone(submit):
     '''
     处理电话后的.

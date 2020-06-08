@@ -385,9 +385,22 @@ def test_22(submit):
     # code
     # chrome_driver.find_element_by_xpath()
 
+def test22():
+    import Submit_handle
+    for i in range(1000):
+        course = Submit_handle.get_courses(1)
+        print(course)
+
+
+def test23():
+    import traffic as tf
+    tf.main(i)
+
+
+
 
 if __name__ == '__main__':
-    test21()    
+    test22()    
 
     
 

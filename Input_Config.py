@@ -62,6 +62,7 @@ Generate_Config = {
     'hire_date':['hire_date'],
     'year_at_residence_gen':['get_year_atresidence'],
     'monthly_payment':['monthly_payment','rent_payment'],
+    'course':['get_courses']
 }
 
 
