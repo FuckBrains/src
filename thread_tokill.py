@@ -526,6 +526,7 @@ def web_submit(submit,chrome_driver,debug=0):
                         flag_refresh = 1
                         break                        
                     else:
+                        page_done.append(page['Page'])
                         continue
                 iframe_change(chrome_driver,config_['General']['iframe'])
                 submit = selenium_funcs.get_action(chrome_driver,config_,submit)
@@ -539,10 +540,11 @@ def web_submit(submit,chrome_driver,debug=0):
                 except:
                     pass                
                 return chrome_driver
-        page_done.append(page['Page'])
         if flag_refresh == 1:
             print('flag_refresh = ',flag_refresh)
             continue
+        else:
+            page_done.append(page['Page'])
         '''
         check page flag status,if changed,continue
         '''
