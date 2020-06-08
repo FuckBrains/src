@@ -32,7 +32,7 @@ def get_action(chrome_driver,data,submit):
         key_excel = 'Dadao'
     else:
         if 'Email' in submit:
-            key_excel = 'Excel'
+            key_excel = 'Email'
         else:            
             for key in submit:
                 # print(key)
