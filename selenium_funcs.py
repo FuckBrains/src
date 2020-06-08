@@ -385,7 +385,7 @@ def Input(chrome_driver,data,submit,element_new=''):
         else:
             content = submit[data['Step_config']['input_generate']]
     else:
-        content = submit[data['Step_config']['input_content']]
+        content = data['Step_config']['input_content']
     for item in str(content):
         element.send_keys(item)
     return submit
