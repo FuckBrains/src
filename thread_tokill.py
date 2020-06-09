@@ -31,7 +31,7 @@ import Dadao
 
 
 
-pool = threadpool.ThreadPool(10)
+pool = threadpool.ThreadPool(7)
 timezone = ''
 using_num = 0
 
@@ -282,9 +282,10 @@ def data_handler(Config):
         db.write_one_info([str(submit['Mission_Id'])],submit)
     for item in submit:
         print(item)
-        if 'BasicInfo_Id' in submit[item]:
-            db.update_flag_use(submit[item]['BasicInfo_Id'])
-            break
+        if type(submit[item]) == type({}):
+            if 'BasicInfo_Id' in submit[item]:
+                db.update_flag_use(submit[item]['BasicInfo_Id'])
+                break
     print('Mission_Id:',submit['Mission_Id'],'finished') 
     return 1       
 

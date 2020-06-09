@@ -173,6 +173,63 @@ def validate_routing(routing):
         print(data)
     return flag
 
+def     s~  validate_routing_123(routing):
+    # routing = 421051540
+    url = 'https://www.123cashnow.com/longform/validateroutingnumber'
+    headers = {
+        # 'Accept': '*/*',
+        # 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        # 'Origin': 'https://cashrequestonline.com',
+        # 'Referer': 'https://cashrequestonline.com/Home/GetStarted?RequestedAmount=1000&ZipCode=85705',
+        # 'Sec-Fetch-Mode': 'cors',
+'accept': 'application/json, text/javascript, */*; q=0.01',
+'accept-encoding': 'gzip, deflate, br',
+'accept-language': 'en-US,en;q=0.9',
+'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+'cookie': 'PHPSESSID=ctlfvlc53mems2mrc6qk2h4gl6; ad=10222ce57df8c1ba4acd1e6f6bd182; campaign=; confpage=; site=123cashnow.com; source=1039-3392; affp=WjBt0c; action_tracking_id=1591712215404476000; leadtoro-_zldp=gn2ewDEDzKOiQl99yzfFgWkVed2erD0MyFKvqHENjItkA89K3yF8lS6uFTOdlRJzodoRkLyJC2Y%3D; leadtoro-_zldt=836fe2fc-4f74-499a-a2d0-b69035a3db4a; _ga=GA1.2.828820731.1591712221; _gid=GA1.2.279749699.1591712221; isiframeenabled=true; _lr_uf_-conhio=f359f8ba-087d-4467-ba78-cb826c99b63c; _lr_tabs_-conhio%2F123cashnow={%22sessionID%22:0%2C%22recordingID%22:%224-963859ec-7d0c-4c28-a4b3-8f324fb4ece0%22%2C%22lastActivity%22:%222020-06-09T14:17:58.929Z%22}; 6bdfac53cbfb648b7ebe7a1fe1b93f4d=%7B%22v%22%3A%225.5%22%2C%22a%22%3A2459678624%2C%22b%22%3A%224399b000f71eb53c1b2cb1191970c2ec%22%2C%22c%22%3A1591712281043%2C%22d%22%3A%2290975adc0caa4142da0b98eecda00352%22%2C%22e%22%3A%22%22%7D; _lr_hb_-conhio%2F123cashnow={%22heartbeat%22:%222020-06-09T14:19:58.845Z%22}',
+'origin': 'https://www.123cashnow.com',
+'referer': 'https://www.123cashnow.com/longform',
+'sec-fetch-dest': 'empty',
+'sec-fetch-mode': 'cors',
+'sec-fetch-site': 'same-origin',
+'user-agent': 'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+'x-requested-with': 'XMLHttpRequest'
+}
+    # url_ = 'https://www.consumerconnecting.com/LeadProcessing/CheckAddress'
+    # Address='P.O Box 434'
+    # ZipCode=35068  
+    # headers['Referer'] = headers['Referer'].replace('85705',str(ZipCode))
+    data = {}
+    data['routing_number'] = str(routing['routing_number']).replace('.0','')
+    # print('preparing to add proxy config:',data)
+    data_ = parse.urlencode(data)      
+    s = requests.session()
+    flag = -1
+    try:
+        resp = s.post(url,data=data_,headers=headers)
+        # resp = s.post(url,data=data_)        
+        resp.encoding='UTF-8'  
+        # resp = requests.post(url_,data=data)            
+        # print(resp.apparent_encoding)
+        resp_text = resp.text
+        print(resp_text)
+        if resp_text == 'false':
+            flag = 0
+        elif resp_text == 'true':
+            flag = 1   
+        else:
+            flag = 2
+    except Exception as e:
+        print(str(e))
+        flag =  -1
+    # resp.encoding = 'utf-8'  # 设置编码
+    sql_content = "UPDATE BasicInfo SET routing_alive = '%d' WHERE Basicinfo_Id = '%s'" % (flag,routing['BasicInfo_Id'])
+    # print(sql_content)    
+    db.Execute_sql([sql_content])
+    return 
+
+
+
 def get_emails(file):
     # file = r'..\res\email.txt' 
     emails = []
@@ -517,7 +574,6 @@ def test():
     print(flags)
 
 
-pool = threadpool.ThreadPool(20)
 def test_ssn():
     file = r'..\res\ssn.txt' 
     ssns = get_emails(file)
@@ -527,6 +583,16 @@ def test_ssn():
     requests = threadpool.makeRequests(validate_ssn, ssns)
     [pool.putRequest(req) for req in requests]
     pool.wait()     
+
+pool = threadpool.ThreadPool(100)
+def test_routing_123():
+    excel = 'Us_pd_native2'
+    routing = db.get_routing(excel) 
+    # print(routing[0:10])
+    # return  
+    requests = threadpool.makeRequests(validate_routing_123, routing[380:])
+    [pool.putRequest(req) for req in requests]
+    pool.wait()         
 
 def get_ssn():
     '''
@@ -558,9 +624,4 @@ def test_email_10088():
     validate_email(email)
 
 if __name__ == '__main__':
-    # print(ssn)
-    # phone = 7602075622
-    # validate_phone(phone)
-    # test_ssn()
-    routing = 421051540
-    validate_routing(routing)
+    test_routing_123()
