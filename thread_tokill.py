@@ -415,6 +415,7 @@ def web_submit(submit,chrome_driver,debug=0):
     Page_flags = [item for item in Page_flags if item['Country'] == submit['Country']]    
     print(Page_flags) 
     print('============')
+
     print(submit['Site'])
     chrome_driver.get(submit['Site'])
     sleep(5)
@@ -531,9 +532,11 @@ def web_submit(submit,chrome_driver,debug=0):
                         continue
                 iframe_change(chrome_driver,config_['General']['iframe'])
                 submit = selenium_funcs.get_action(chrome_driver,config_,submit)
+                page_done.append(page['Page'])
                 flag_refresh = 0
                 sleep(3)
             except Exception as e:
+                page_done.append(page['Page'])
                 print(str(e))
                 try:
                     submit['badstep'] = json.dumps(config_)

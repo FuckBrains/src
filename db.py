@@ -1168,7 +1168,7 @@ def Execute_sql_single(sql_contents,ali=0):
     for sql_content in sql_contents:
         print(sql_content)
         res = cursor.execute(sql_content)
-        print(res)
+        # print(res)
         response = cursor.fetchall()
         responses.append(response)
     # desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可

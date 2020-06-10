@@ -430,10 +430,22 @@ def test24():
         sql_contents.append(sql_content)
     db.Execute_sql([sql_content])
 
+def test25():
+    sql_content = "SELECT * FROM mission WHERE TO_DAYS( NOW( ) ) - TO_DAYS(Create_time) <= 2;"
+    res = db.Execute_sql_single([sql_content])
+    print(len(res))
+    # print(res[0][0:3])
+    mission_dict = {}
+    for res_content in res[0]:
+        if str(res_content[0]) not in mission_dict:
+            mission_dict[str(res_content[0])] = 1
+        else:
+            mission_dict[str(res_content[0])] += 1
+    print(mission_dict)
 
 
 if __name__ == '__main__':
-    test24()    
+    test25()    
 
     
 
