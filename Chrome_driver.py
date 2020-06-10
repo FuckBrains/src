@@ -181,10 +181,10 @@ def get_chrome(submit = None,pic=0,headless=0,time_out=300):
             else:
                 if pic == 0:
                     prefs["profile.managed_default_content_settings.images"] = 2
-        if 'Mission_dir' in submit:
+        if 'Mission_dir_flag' in submit:
             submit['Mission_dir'] = submit['Mission_dir'].replace('//','\\') 
             print('Selenium in using user-data-dir:',submit['Mission_dir'])
-            # options.add_argument('--user-data-dir='+submit['Mission_dir'])
+            options.add_argument('--user-data-dir='+submit['Mission_dir'])
         if 'ip_lpm' in submit:
             # print('=======================')
             # print('=======================')    

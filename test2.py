@@ -443,9 +443,35 @@ def test25():
             mission_dict[str(res_content[0])] += 1
     print(mission_dict)
 
+def makedir_state(path=r'D:\\'):
+    isExists=os.path.exists(path)
+    if isExists:
+        return
+    else:
+        os.makedirs(path)
+
+def test26():
+    import Chrome_driver
+    submit = {}
+    submit['Mission_dir_flag'] = 1
+    submit['Mission_dir'] = r'c:\\EMU\\test'
+    makedir_state(submit['Mission_dir'])
+    # chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
+    # url = 'https://www.123cashnow.com'
+    # url = 'https://www.baidu.com'
+    # chrome_driver.get(url)
+    chrome_driver.delete_all_cookies()        
+#     chrome_driver.close()
+#     chrome_driver.quit()
+    url2 = 'http://gm.ad3game.com/click.php?c=38&key=29tdur732878n465zf3p8ym0'
+
+    # submit['port_lpm'] = 24000
+    # submit['ip_lpm'] = '192.168.0.1'
+    chrome_driver = Chrome_driver.get_chrome(submit,pic=1)    
+    chrome_driver.get(url2)
 
 if __name__ == '__main__':
-    test25()    
+    test26()    
 
     
 
