@@ -391,7 +391,7 @@ def reg_part_cpl(submit):
             writelog(chrome_driver,submit)  
         except:
             pass
-    chrome_driver.delete_all_cookies()
+    # chrome_driver.delete_all_cookies()
     close_list = [3,4]
     if submit['sleep_flag'] not in close_list:
         print('try to close chrome')

@@ -173,7 +173,7 @@ def validate_routing(routing):
         print(data)
     return flag
 
-def     s~  validate_routing_123(routing):
+def validate_routing_123(routing):
     # routing = 421051540
     url = 'https://www.123cashnow.com/longform/validateroutingnumber'
     headers = {
@@ -586,11 +586,11 @@ def test_ssn():
 
 pool = threadpool.ThreadPool(100)
 def test_routing_123():
-    excel = 'Us_pd_native2'
+    excel = 'Us_pd_native3'
     routing = db.get_routing(excel) 
     # print(routing[0:10])
     # return  
-    requests = threadpool.makeRequests(validate_routing_123, routing[380:])
+    requests = threadpool.makeRequests(validate_routing_123, routing)
     [pool.putRequest(req) for req in requests]
     pool.wait()         
 
