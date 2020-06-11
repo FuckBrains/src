@@ -45,7 +45,7 @@ def get_code():
     sleep(1)
     chrome_driver.find_element_by_xpath(update_config['xpath_button']).click()
     sleep(1)
-    for i in range(20):
+    for j in range(20):
         chrome_driver.refresh()
         Chrome_driver.clean_download()        
         chrome_driver.get(url_code)

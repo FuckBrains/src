@@ -15,7 +15,7 @@ import datetime
 import os
 import threadpool
 import threading
-import qt
+# import qt
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -172,7 +172,11 @@ def get_submit(Config):
             return None
         if submit['Excels_dup'][1] != '':
             print('testing email.........')
-            flag_email = imap_test.Email_emu_getlink(submit['Email'])
+            flag_email = 0
+            try:
+                flag_email = imap_test.Email_emu_getlink(submit['Email'])
+            except:
+                continue
             if flag_email == 0:
                 # print('Bad email:',submit['Email']['Email_emu'])
                 db.updata_email_status(submit['Email']['Email_Id'],0)
@@ -620,7 +624,7 @@ def get_page_by_flag(Page_flags,chrome_driver):
 
 def page_detect(Page_flags,chrome_driver):
     page = None
-    for i in range(60):
+    for i in range(20):
         # for i in range(60):
         #     status = chrome_driver.execute_script("return document.readyState")
         #     if status != 'complete':
