@@ -222,7 +222,7 @@ def get_submit(Config):
             try:
                 # proxy_config_name_list = ['jia1','jia2'] 
                 # num_proxy = random.randint(0,1)
-                luminati.add_proxy(port_new,country=submit['Country'],proxy_config_name=submit['zone'],ip_lpm=submit['ip_lpm'])
+                luminati.add_proxy(port_new,country=submit['Country'],proxy_config_name=submit['zone'],ip_lpm=submit['ip_lpm'],Mission_Id=submit['Mission_Id'])
             except Exception as e:
                 print(str(e))
             continue

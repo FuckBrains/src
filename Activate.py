@@ -97,7 +97,7 @@ def multi_activate(submit):
     account = db.get_account()
     submit['ip_lpm'] = account['IP']
     submit['port_lpm'] = luminati.get_port_random()
-    luminati.add_proxy(submit['port_lpm'],country=submit['Country'],proxy_config_name='zone2',ip_lpm=submit['ip_lpm'])
+    luminati.add_proxy(submit['port_lpm'],country=submit['Country'],proxy_config_name='zone2',ip_lpm=submit['ip_lpm'],Mission_Id=submit['Mission_Id'])
     module = 'Mission_'+str(submit['Mission_Id'])
     Module = import_Module(module)
     print(module)

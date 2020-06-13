@@ -288,13 +288,25 @@ def tz_test():
 
 
 @timeout(30)
-def add_proxy(port_add,country='us',proxy_config_name='zone2',ip_lpm='127.0.0.1'):
+def add_proxy(port_add,country='us',proxy_config_name='zone2',ip_lpm='127.0.0.1',Mission_Id='10002'):
     account = get_account()
-    ip_lpm = account['IP_lpm']    
+    ip_lpm = account['IP_lpm']  
+    blacklist = read_blacklist()  
     data = {}
     data_proxy_config = read_proxy_config()
     data_proxy_config[proxy_config_name]['country'] = country
     data_proxy_config[proxy_config_name]['port'] = port_add
+    data_proxy_config[proxy_config_name]['rules'] = data_proxy_config['jia10']
+    if Mission_Id in blacklist:
+        # {'type':mission[1],'url_key':mission[2]}
+        if blacklist[Mission_Id]['type'] != '':
+            data_proxy_config[proxy_config_name]['rules'][0]['url'] = data_proxy_config[proxy_config_name]['rules'][0]['url'].replace(')',blacklist[Mission_Id]['type']+')')
+        if blacklist[Mission_Id]['url_key'] != '':
+            data_proxy_config[proxy_config_name]['rules'][1]['url'] = blacklist[Mission_Id]['url_key']
+        else:
+            data_proxy_config[proxy_config_name]['rules'].pop(1)
+    else:
+        data_proxy_config[proxy_config_name]['rules'].pop(1)
     data['proxy'] = data_proxy_config[proxy_config_name]
     # print('preparing to add proxy config:',data)
     data_ = json.dumps(data)
@@ -342,6 +354,19 @@ def read_proxy_config():
             # print(proxy_details)
     data = json.loads(proxy_details)
     return data
+
+def read_blacklist():
+    blacklist = {}
+    with open(r'ini\blacklist.ini','r') as f:
+        # content += '\n'
+        lines = f.readlines()
+        for line in lines:
+            mission = line.strip('\n').split(',')   
+            blacklist[mission[0]] = {'type':mission[1],'url_key':mission[2]}
+            # print(proxy_details)
+    return blacklist
+
+
 
 pool = threadpool.ThreadPool(150)
 

@@ -542,9 +542,19 @@ def test30():
     num = chrome_driver.execute_script(js)
     print(num)
 
+def test31():
+    import luminati
+    data_proxy_config = luminati.read_proxy_config()
+    # for key in data_proxy_config['jia10']['rules']:
+    #     print(key,':',data_proxy_config['jia10']['rules'][key]) 
+        # for item in 
+    print(data_proxy_config['jia10']['rules'][1])
+
+    # [{"action": {"null_response": true},"action_type": "null_response","trigger_type": "url","url": "\\.(mp3|jpg|jpeg|png|mp4|gif|ico|google|zoho)"},{"action": {"null_response": true},"action_type": "null_response","trigger_type": "url","url": "lr-ingest.io|testimonialtree.com"}],    
+
 
 if __name__ == '__main__':
-    test30()
+    test31()
 
     
 
