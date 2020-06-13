@@ -37,15 +37,20 @@ def get_code():
     # print(update_config)
     url_back = update_config['url_back']
     url_code = update_config['url_code']
-    chrome_driver.get(url_back)
-    chrome_driver.find_element_by_xpath(update_config['xpath_username']).send_keys('18122710376')
-    chrome_driver.find_element_by_xpath(update_config['xpath_pwd']).send_keys('Ddf!@s345a1asd')
-    sleep(2)
-    chrome_driver.find_element_by_xpath(update_config['xpath_checkbox']).click()
-    sleep(1)
-    chrome_driver.find_element_by_xpath(update_config['xpath_button']).click()
-    sleep(1)
-    for j in range(20):
+
+    for j in range(10):
+        try:
+            chrome_driver.get(url_back)
+            chrome_driver.find_element_by_xpath(update_config['xpath_username']).send_keys('18122710376')
+            chrome_driver.find_element_by_xpath(update_config['xpath_pwd']).send_keys('Ddf!@s345a1asd')
+            sleep(2)
+            chrome_driver.find_element_by_xpath(update_config['xpath_checkbox']).click()
+            sleep(1)
+            chrome_driver.find_element_by_xpath(update_config['xpath_button']).click()
+            sleep(1)  
+        except Exception as e:
+            print(str(e))
+            continue      
         chrome_driver.refresh()
         Chrome_driver.clean_download()        
         chrome_driver.get(url_code)
@@ -62,29 +67,27 @@ def get_code():
                     print('Find zip src')
                     sleep(3)
                     flag = 1
+                    chrome_driver.close()
+                    chrome_driver.quit()                    
                     break
                 else:
                     sleep(2)
             if flag == 1:
                 break
             # sleep(1)
-        try:
-            chrome_driver.close()
-            chrome_driver.quit()
-            sleep(5)   
-            if flag == 1: 
-                flag_zip = test_zip(module)        
-                if flag_zip == 0:
-                    continue
-                delete_folder()
-                unfold_zip(module_name)
-                break
-            else:
-                print('update fail!!!!!!!!!!!!!!!!!!!!!!!!!')
-                break
-        except Exception as e:
-            print(str(e))
-            continue
+    if flag != 1:        
+        chrome_driver.close()
+        chrome_driver.quit()  
+    return flag
+
+def file_copy(flag):
+    flag_zip = test_zip(module)        
+    if flag_zip == 0:
+        return -1
+    delete_folder()
+    unfold_zip(module_name)
+    return 1
+
 
 
 def test_zip(module):    
@@ -209,9 +212,15 @@ def delete_folder():
 
 def main():
     tools.killpid()
-    get_code()
-    change_version()
-    changer.Restart()
+    flag = get_code()
+    if flag == 1:
+        flag_update = file_copy(flag)
+    else:
+        print('Update failed!!!!!!!!')
+        return
+    if flag_update == 1:
+        change_version()
+        changer.Restart()
 
 
 def test():
