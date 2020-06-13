@@ -104,11 +104,12 @@ def get_action(chrome_driver,data,submit):
     # sleep(1)
     # print("data['General']['scroll']",data['General']['scroll'])   
     element = ''
-    if 'father_type' in data['General']:
-        element = get_element(chrome_driver,data)
-        print('Element get before action_func:',element)
+
     if data['General']['try'] == 'True':
         try:
+            if 'father_type' in data['General']:
+                element = get_element(chrome_driver,data)
+                print('Element get before action_func:',element)            
             if action_func == 'Input':
                 submit[key_excel] = eval(action_func)(chrome_driver,data,submit[key_excel],element)
             else:
@@ -117,6 +118,9 @@ def get_action(chrome_driver,data,submit):
             a = traceback_ = traceback.format_exc()
             print(a)
     else:
+        if 'father_type' in data['General']:
+            element = get_element(chrome_driver,data)
+            print('Element get before action_func:',element)        
         if action_func == 'Input':
             submit[key_excel] = eval(action_func)(chrome_driver,data,submit[key_excel],element)
         else:

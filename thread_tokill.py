@@ -429,6 +429,7 @@ def web_submit(submit,chrome_driver,debug=0):
 
     print(submit['Site'])
     chrome_driver.get(submit['Site'])
+    # chrome_driver.refresh()
     if submit['sleep_flag'] == 5:
         chrome_driver.delete_all_cookies()
         for k,v in submit['cookies_lpm'].items():
