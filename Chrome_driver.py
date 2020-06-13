@@ -23,6 +23,12 @@ def get_version_number(filename):
     # print('Chrome_version:',HIWORD(ms), LOWORD(ms), HIWORD(ls), LOWORD(ls))
     return HIWORD(ms)
 
+def get_chrome_remote():
+    options = webdriver.ChromeOptions()
+    options.debugger_address = "127.0.0.1:9222"
+    path_driver = get_chromedriver_path()    
+    chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)    
+    return chrome_driver
 
 def get_chromedriver_path():
     path = getInstallBdyAdree()
@@ -120,10 +126,10 @@ def tz_test():
     sleep(3000)
 
 def get_chrome(submit = None,pic=0,headless=0,time_out=300):
-    # print('++++++++++++++++++++++++')
-    # print('++++++++++++++++++++++++')
-    # print('++++++++++++++++++++++++')
-
+    print('++++++++++++++++++++++++')
+    print('++++++++++++++++++++++++')
+    print('++++++++++++++++++++++++')
+    print('Chrome_driver file version : 1.0')
     # print([key for key in submit])
     # print('++++++++++++++++++++++++')
     # print('++++++++++++++++++++++++')
@@ -142,6 +148,7 @@ def get_chrome(submit = None,pic=0,headless=0,time_out=300):
     options = webdriver.ChromeOptions() 
     options.add_argument('--disable-gpu')        
     options.add_argument("--disable-automation")
+    # options.add_argument('--ignore-certificate-errors') 
     options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])                   
     if headless != 0:
         options.add_argument('--headless')         
@@ -158,15 +165,7 @@ def get_chrome(submit = None,pic=0,headless=0,time_out=300):
             uas = get_ua_all()
             ua = get_ua_random(uas)
             # print(ua)  
-        if 'traffic' in submit:
-            options.add_argument('user-agent=' + ua)
-            options.add_argument('--headless')            
-            # prefs["profile.managed_default_content_settings.images"] = 2                        
-            options.add_experimental_option("prefs", prefs)       
-            desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none" 
-            desired_capabilities["pageLoadStrategy"] = "none"            
-            chrome_driver = webdriver.Chrome(chrome_options=options, desired_capabilities=desired_capabilities,executable_path=path_driver)            
-            return chrome_driver            
+         
         # if 'Record' in submit:
         #     print('Cancle record modern')
         #     if submit['Record'] == 3:
@@ -175,12 +174,14 @@ def get_chrome(submit = None,pic=0,headless=0,time_out=300):
         if 'Country' in submit:
             language = get_lan_config(submit['Country'])
             options.add_argument('-lang=' +language )            
-        if 'Mission_Id' in submit:
-            if submit['Mission_Id'] == '20000':
-                print('test chrome')
-            else:
-                if pic == 0:
-                    prefs["profile.managed_default_content_settings.images"] = 2
+        # if 'Mission_Id' in submit:
+        #     if submit['Mission_Id'] == '20000':
+        #         print('test chrome')
+        #     else:
+        #         if pic == 0:
+        #             prefs["profile.managed_default_content_settings.images"] = 2
+        #             prefs["permissions.default.stylesheet"] = 2
+        #             print('No pic or css')
         if 'Mission_dir_flag' in submit:
             submit['Mission_dir'] = submit['Mission_dir'].replace('//','\\') 
             print('Selenium in using user-data-dir:',submit['Mission_dir'])
@@ -194,6 +195,15 @@ def get_chrome(submit = None,pic=0,headless=0,time_out=300):
             port = submit['port_lpm']
             proxy = 'socks5://%s:%s'%(ip,port)
             options.add_argument('--proxy-server=%s'%proxy)
+        if 'traffic' in submit:
+            options.add_argument('user-agent=' + ua)
+            # options.add_argument('--headless')            
+            prefs["profile.managed_default_content_settings.images"] = 2                        
+            options.add_experimental_option("prefs", prefs)       
+            desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none" 
+            desired_capabilities["pageLoadStrategy"] = "none"            
+            chrome_driver = webdriver.Chrome(chrome_options=options, desired_capabilities=desired_capabilities,executable_path=path_driver)            
+            return chrome_driver               
             # print(proxy) 
         # wire_options = ''           
         # if 'oxylab' in submit:
@@ -251,6 +261,38 @@ def get_chrome(submit = None,pic=0,headless=0,time_out=300):
     sleep(2)  
     return chrome_driver
 
+def get_chrome_test(submit):
+    path_download = get_dir()  
+    account_lpm = luminati.get_account()
+    ip = account_lpm['IP_lpm']
+    port = submit['port_lpm']
+    PROXY = '%s:%s'%(ip,port)    
+    # PROXY = "proxy_host:proxy:port"    
+    options = webdriver.ChromeOptions()
+    desired_capabilities = options.to_capabilities()
+    desired_capabilities['proxy'] = {
+        "httpProxy": PROXY,
+        "ftpProxy": PROXY,
+        "sslProxy": PROXY,
+        "noProxy": None,
+        "proxyType": "MANUAL",
+        "class": "org.openqa.selenium.Proxy",
+        "autodetect": False
+    }
+    path_driver = get_chromedriver_path()                                        
+    chrome_driver = webdriver.Chrome(desired_capabilities = desired_capabilities,executable_path=path_driver)
+    time_out = 300
+    chrome_driver.set_page_load_timeout(time_out)
+    # chrome_driver.set_script_timeout(240)
+    chrome_driver.implicitly_wait(20)  # 最长等待8秒      
+    # desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none"     
+    # options.add_argument('--disable-gpu')        
+    # options.add_argument("--disable-automation")
+    # options.add_argument('--ignore-certificate-errors') 
+    # options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])                   
+    return chrome_driver    
+
+
 def get_chrome_normal(submit=''):
     uas = get_ua_all()
     ua = get_ua_random(uas)
@@ -261,7 +303,7 @@ def get_chrome_normal(submit=''):
     ip = '51.15.13.163'
     print(ip)
     port = 2380
-    proxy = 'socks5://%s:%s'%(ip,str(port))
+    proxy = 'https://%s:%s'%(ip,str(port))
     options.add_argument('--proxy-server=%s'%proxy)    
     path_driver = get_chromedriver_path()
     print(path_driver)

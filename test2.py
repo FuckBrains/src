@@ -1,8 +1,12 @@
+import requests
+import json
 import db
 # import test
 # import ssn_detect
 import Chrome_driver
 from time import sleep
+# import urllib2
+import re
 # import random
 # from selenium import webdriver
 # import Submit_handle
@@ -452,26 +456,95 @@ def makedir_state(path=r'D:\\'):
 
 def test26():
     import Chrome_driver
+    import json
+    import re
     submit = {}
-    submit['Mission_dir_flag'] = 1
-    submit['Mission_dir'] = r'c:\\EMU\\test'
-    makedir_state(submit['Mission_dir'])
-    # chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
-    url = 'https://www.123cashnow.com'
+    # submit['Mission_dir_flag'] = 1
+    submit['Mission_Id'] = 10002
+    # submit['Mission_dir'] = r'c:\\EMU\\test'
+    # makedir_state(submit['Mission_dir'])
+    submit['port_lpm'] = 24002
+    submit['ip_lpm'] = '192.168.0.1' 
+    submit['traffic'] = 1
+    # chrome_driver = Chrome_driver.get_chrome_test(submit)
+    url = 'http://aleadstrack.go2cloud.org/aff_c?offer_id=142&aff_id=1629'
+    # url = 'http://zh.moneymethods.net/click.php?c=55&key=q67c1kcvg42g19r5w83690tg'
+    chrome_driver = Chrome_driver.get_chrome(submit,pic=0)        
+
     # url = 'https://www.baidu.com'
-    # chrome_driver.get(url)
+    chrome_driver.get(url)
+    for i in range(60):
+        if 'https://www.123cashnow.com/' in chrome_driver.current_url:
+            break
+        else:
+            sleep(1)
+    cookies = chrome_driver.get_cookies()
+    print(type(cookies))
+    cookie_str = json.dumps(cookies)  
+    print(cookie_str)
+    chrome_driver.close()
+    chrome_driver.quit()    
+    return  
     chrome_driver.delete_all_cookies()        
-#     chrome_driver.close()
-#     chrome_driver.quit()
     url2 = 'http://gm.ad3game.com/click.php?c=38&key=29tdur732878n465zf3p8ym0'
 
-    submit['port_lpm'] = 24000
-    submit['ip_lpm'] = '192.168.0.1'
+
     chrome_driver = Chrome_driver.get_chrome(submit,pic=1)    
     chrome_driver.get(url2)
 
+
+
+def test27():
+    import requests
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36 OPR/63.0.3368.107'
+    }
+    s = requests.session()
+    url = 'http://zh.moneymethods.net/click.php?c=55&key=q67c1kcvg42g19r5w83690tg'
+    res = s.get(url,headers=headers)
+    sleep(10)
+    cookies = res.cookies.get_dict()
+    print(cookies)
+    s.close()
+
+def test28():
+    cookies = json.loads(submit['Cookie'])
+    for cookie in cookies:
+        if 'expiry' in cookie:
+            cookie['expiry'] = int(cookie['expiry']) 
+        chrome_driver.add_cookie(cookie)    
+    chrome_driver.get('http://stripchat.com')
+
+def test29():
+    import luminati
+    url = 'http://aleadstrack.go2cloud.org/aff_c?offer_id=142&aff_id=1629'
+    port =24002
+    luminati.get_lpm_cookie(port,url)
+
+
+def test30():
+    chrome_driver = Chrome_driver.get_chrome_remote() 
+    # js = 'return navigator;'
+    js = '''
+    var myArray=new Array();
+    var i = 0;
+    for (prop in navigator)
+    {
+        myArray[i] = prop;
+        i = i+1;
+    # document.write("属性 '" + prop + "' 为 " + navigator[prop]);
+    };
+    return myArray;
+    '''
+    # print(js)
+    # js = "return console.log('user changed navigator.userAgent,real one:',navigator.plugins)"
+    chrome_driver.get('https://www.baidu.com')
+    num = chrome_driver.execute_script(js)
+    print(num)
+
+
 if __name__ == '__main__':
-    test26()    
+    test30()
 
     
 

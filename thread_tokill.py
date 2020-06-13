@@ -382,7 +382,13 @@ def reg_part_cpl(submit):
             for page in Page_flags:
                 if page['Page']=='1':
                     pic = page['Pic'] 
-            chrome_driver = Chrome_driver.get_chrome(submit,pic=pic)
+            if submit['sleep_flag'] == 5:
+                cookies = luminati.get_lpm_cookie(submit['port_lpm'],submit['Site'],submit['ua'])
+                if len(cookies) == 0:
+                    return 
+                submit['cookies_lpm'] = cookies
+                submit.pop('ip_lpm')
+            chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
             submit['Page_flags'] = Page_flags
             print('Page_flags found,use Record modern')
             chrome_driver = web_submit(submit,chrome_driver=chrome_driver)
@@ -422,6 +428,18 @@ def web_submit(submit,chrome_driver,debug=0):
 
     print(submit['Site'])
     chrome_driver.get(submit['Site'])
+    if submit['sleep_flag'] == 5:
+        chrome_driver.delete_all_cookies()
+        for k,v in submit['cookies_lpm'].items():
+            # 第一种添加格式
+            chrome_driver.add_cookie({"name":k,"value":v})
+            # 第二种添加格式
+            # brows.add_cookie({"domain": ".tyrz.gd.gov.cn", "name": k, "value": v, "path": "/"})
+        chrome_driver.get(submit['Site'])
+        cookies = chrome_driver.get_cookies()
+        print(type(cookies))
+        cookie_str = json.dumps(cookies)  
+        print(cookie_str)       
     sleep(5)
     print('Load finish')
     # old_page = chrome_driver.find_element_by_tag_name('html')

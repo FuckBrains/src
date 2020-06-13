@@ -86,9 +86,9 @@ def main(i):
         command = '''start cmd /k "python Auto_update.pyc 1"{$name$:$qcy$}" "'''
         os.system(command)
         return
-    for j in range(1):
+    for j in range(99000):
         try:
-            if i != 3:
+            if i != 3 and i != 5:
                 tools.killpid()
             print(']]]]')
         except Exception as e:
@@ -124,11 +124,11 @@ def main(i):
             sleep(3000)
             return        
         try:
-            print('try killing pids')
-            if i != 3:            
+            if i != 3 and i != 5:            
+                print('try killing pids')
                 tools.killpid()
             else:
-                return
+                continue
             print('kill pids finished')
         except Exception as e:
             print(str(e))

@@ -200,6 +200,25 @@ def get_lpm_ip(port,url="http://lumtest.com/myip.json",Referer='',debug=0):
     return proxy_info
 
 
+def get_lpm_cookie(port,url,ua):
+    account = get_account()
+    ip = account['IP_lpm']
+    proxy = 'socks5://%s:%s'%(ip,port)  
+    headers = {
+        'User-Agent': ua
+    }
+    session = requests.session()
+    session.proxies = {'http': proxy,
+                       'https': proxy}  
+    res = session.get(url,headers=headers)
+    # print(res.headers)
+    # print(res.text)
+    cookies = requests.utils.dict_from_cookiejar(res.cookies)
+    print(cookies)
+    session.close()
+    return cookies
+
+
 def post_lpm(data_,port,url,headers,debug=0):
     if debug==1:
         print('debug==================',debug)
