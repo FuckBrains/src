@@ -544,11 +544,30 @@ def test30():
 
 def test31():
     import luminati
-    data_proxy_config = luminati.read_proxy_config()
+    blacklist = luminati.read_blacklist()
+    # print(blacklist)
     # for key in data_proxy_config['jia10']['rules']:
     #     print(key,':',data_proxy_config['jia10']['rules'][key]) 
         # for item in 
-    print(data_proxy_config['jia10']['rules'][1])
+    proxy_config_name = 'jia10'
+    Mission_Id = '10002'
+    data = {}
+    data_proxy_config = luminati.read_proxy_config()
+    data_proxy_config[proxy_config_name]['rules'] = data_proxy_config['jia10']['rules']
+    # print(data_proxy_config)
+    if str(Mission_Id) in blacklist:
+        # {'type':mission[1],'url_key':mission[2]}
+        if blacklist[Mission_Id]['type'] != '':
+            print(data_proxy_config[proxy_config_name]['rules'])
+            data_proxy_config[proxy_config_name]['rules'][0]['url'] = data_proxy_config[proxy_config_name]['rules'][0]['url'].replace(')',blacklist[Mission_Id]['type']+')')
+        if blacklist[Mission_Id]['url_key'] != '':
+            data_proxy_config[proxy_config_name]['rules'][1]['url'] = blacklist[Mission_Id]['url_key']
+        else:
+            data_proxy_config[proxy_config_name]['rules'].pop(1)
+    else:
+        data_proxy_config[proxy_config_name]['rules'].pop(1)
+    data['proxy'] = data_proxy_config[proxy_config_name]
+    print('preparing to add proxy config:',data_proxy_config[proxy_config_name])    
 
     # [{"action": {"null_response": true},"action_type": "null_response","trigger_type": "url","url": "\\.(mp3|jpg|jpeg|png|mp4|gif|ico|google|zoho)"},{"action": {"null_response": true},"action_type": "null_response","trigger_type": "url","url": "lr-ingest.io|testimonialtree.com"}],    
 

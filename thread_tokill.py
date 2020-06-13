@@ -217,6 +217,7 @@ def get_submit(Config):
             port_new = luminati.get_port_random()
             print('port_new:',port_new)
             db.update_port(submit['ID'],port_new)
+            print('update port success')
             Config['port_lpm'] = port_new
             # print(port_new)
             try:
@@ -224,7 +225,8 @@ def get_submit(Config):
                 # num_proxy = random.randint(0,1)
                 luminati.add_proxy(port_new,country=submit['Country'],proxy_config_name=submit['zone'],ip_lpm=submit['ip_lpm'],Mission_Id=submit['Mission_Id'])
             except Exception as e:
-                print(str(e))
+                a = traceback.format_exc()
+                print(a)
             continue
         else:
             continue
