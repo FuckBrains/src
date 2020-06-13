@@ -68,7 +68,12 @@ def get_code():
                     sleep(3)
                     flag = 1
                     chrome_driver.close()
-                    chrome_driver.quit()                    
+                    chrome_driver.quit()  
+                    flag_zip = test_zip(module)        
+                    if flag_zip == 0:
+                        return -1
+                    delete_folder()
+                    unfold_zip(module_name)                                      
                     break
                 else:
                     sleep(2)
@@ -83,9 +88,9 @@ def get_code():
     return flag
 
 def file_copy(flag):
-    # flag_zip = test_zip(module)        
-    # if flag_zip == 0:
-    #     return -1
+    flag_zip = test_zip(module)        
+    if flag_zip == 0:
+        return -1
     delete_folder()
     unfold_zip(module_name)
     return 1
@@ -216,7 +221,8 @@ def main():
     tools.killpid()
     flag = get_code()
     if flag == 1:
-        flag_update = file_copy(flag)
+        print('Update success')
+        # flag_update = file_copy(flag)
     else:
         print('Update failed!!!!!!!!')
         return
