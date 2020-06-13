@@ -81,9 +81,9 @@ def get_code():
     return flag
 
 def file_copy(flag):
-    flag_zip = test_zip(module)        
-    if flag_zip == 0:
-        return -1
+    # flag_zip = test_zip(module)        
+    # if flag_zip == 0:
+    #     return -1
     delete_folder()
     unfold_zip(module_name)
     return 1
