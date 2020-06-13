@@ -253,11 +253,10 @@ def get_zip(submit):
     elif 'katou' in submit:
         zip_ = submit['katou']
     zip_ = zip_.split('.')[0]
-    if 'katou' not in submit:
-        if len(zip_) == 4:
-            zip_ = '0' + zip_
-        if len(zip_) == 3:
-            zip_ = '00' + zip_        
+    if len(zip_) == 4:
+        zip_ = '0' + zip_
+    if len(zip_) == 3:
+        zip_ = '00' + zip_        
     return zip_ 
 
 def apt_get(submit):
