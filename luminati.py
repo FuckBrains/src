@@ -681,7 +681,8 @@ def create_plan_data(plan_id,Offer_links):
         # try:          
         #     Offer_links[item]['port_lpm'] = get_port_random()  
         # except:
-        Offer_links[item]['port_lpm'] = 39000
+        port_gen = random.randint(40000,50000)
+        Offer_links[item]['port_lpm'] = port_gen
         # print('Start adding proxy port:',Offer_links[item]['port_lpm'])
         if 'zone' in Offer_links[item]:
             proxy_zone = Offer_links[item]['zone']
