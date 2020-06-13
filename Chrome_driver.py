@@ -129,7 +129,7 @@ def get_chrome(submit = None,pic=0,headless=0,time_out=300):
     print('++++++++++++++++++++++++')
     print('++++++++++++++++++++++++')
     print('++++++++++++++++++++++++')
-    print('Chrome_driver file version : 1.1')
+    print('Chrome_driver file version : 1.2')
     # print([key for key in submit])
     # print('++++++++++++++++++++++++')
     # print('++++++++++++++++++++++++')
