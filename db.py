@@ -1623,8 +1623,8 @@ def update_key():
     sql_content = "UPDATE Plans SET Plan_Id = 1 WHERE Mission_id = '%s'" % ('10000')
     Execute_sql([sql_content])
 
-def update_port(port_old,port_new):
-    sql_content = "UPDATE Plans SET port_lpm = '%s' WHERE port_lpm = '%s'" % (port_new,port_old)
+def update_port(ID,port_new):
+    sql_content = "UPDATE Plans SET port_lpm = '%s' WHERE ID = '%s'" % (port_new,int(ID))
     Execute_sql([sql_content])
 
 def update_plan_status(Status,ID):

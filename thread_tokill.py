@@ -204,7 +204,6 @@ def get_submit(Config):
             proxy_info = {}
             flag = 1  
             submit['ip_record'] = ''      
-
         # changing IP
         print(flag,'=========================')
         if flag == 1:
@@ -217,7 +216,7 @@ def get_submit(Config):
                 pass
             port_new = luminati.get_port_random()
             print('port_new:',port_new)
-            db.update_port(submit['port_lpm'],port_new)
+            db.update_port(submit['ID'],port_new)
             Config['port_lpm'] = port_new
             # print(port_new)
             try:
