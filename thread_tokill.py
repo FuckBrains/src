@@ -383,6 +383,7 @@ def reg_part_cpl(submit):
                 if page['Page']=='1':
                     pic = page['Pic'] 
             if submit['sleep_flag'] == 5:
+                print('Modern 5:finding cookie for this session')
                 cookies = luminati.get_lpm_cookie(submit['port_lpm'],submit['Site'],submit['ua'])
                 if len(cookies) == 0:
                     return 
