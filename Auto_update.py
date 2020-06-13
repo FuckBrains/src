@@ -74,6 +74,8 @@ def get_code():
                     sleep(2)
             if flag == 1:
                 break
+        if flag == 1:
+            break                
             # sleep(1)
     if flag != 1:        
         chrome_driver.close()

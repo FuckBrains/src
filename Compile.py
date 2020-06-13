@@ -85,7 +85,7 @@ def main():
     [rename_file(module) for module in modules]
     sleep(2)
 
-    # move file in cash into Coding
+    # move file in cash into Coding\
     src = r'C:\Coding\src'
     driver = r'C:\Coding\src\driver'
     ini = r'C:\Coding\src\ini'
