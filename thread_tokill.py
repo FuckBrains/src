@@ -645,7 +645,7 @@ def get_page_by_flag(Page_flags,chrome_driver):
 
 def page_detect(Page_flags,chrome_driver):
     page = None
-    for i in range(20):
+    for i in range(10):
         # for i in range(60):
         #     status = chrome_driver.execute_script("return document.readyState")
         #     if status != 'complete':
@@ -666,7 +666,18 @@ def page_detect(Page_flags,chrome_driver):
         wrong_pages = ['Webpage not available','This page isn’t working','ERR_TIMED_OUT','ERR_CONNECTION_RESET']
         flag_wrong_page = 0
         if status == 'complete':
-            sleep(10)
+            # sleep(10)a
+            for wrong_page in wrong_pages:
+                if wrong_page in chrome_driver.page_source :
+                    print('wrong_page:',wrong_page)
+                    flag_wrong_page = 1
+                    break
+            if flag_wrong_page != 0:
+                if i <= 1:
+                    chrome_driver.refresh()
+                    continue
+                page = None
+                break                          
             page = get_page_by_flag(Page_flags,chrome_driver)
             if page == None:
                 print('Page Flag Not Found,',i+1)
