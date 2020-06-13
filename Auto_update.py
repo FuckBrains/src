@@ -8,6 +8,7 @@ from shutil import copyfile
 import Changer_windows_info as changer
 import db
 from os.path import join, getsize
+import luminati
 
 def get_updateinfo():
     print('======get_updateinfo')
@@ -24,7 +25,6 @@ def get_updateinfo():
     # print(update_config[0])
     db.login_out_sql(conn,cursor)    
     return update_config[0]
-
 
 def get_code():
     for i in range(10):
@@ -94,8 +94,6 @@ def file_copy(flag):
     delete_folder()
     unfold_zip(module_name)
     return 1
-
-
 
 def test_zip(module):    
     path_download = Chrome_driver.get_dir()
@@ -215,7 +213,13 @@ def delete_folder():
     # [os.rmdir(folder) for folder in modules_folder if 'driver' not in folder]
     [os.rmdir(folder) for folder in modules_folder]
 
-
+def clean_ports():
+    account = db.get_account()
+    plan_id = account['plan_id']
+    plans = db.read_plans(plan_id)
+    print('read plan finished')
+    ports = [plan['port_lpm'] for plan in plans]    
+    luminati.delete_port(ports)
 
 def main():
     tools.killpid()
@@ -228,6 +232,7 @@ def main():
         return
     if flag == 1:
         change_version()
+        clean_ports()
         changer.Restart()
 
 

@@ -571,9 +571,13 @@ def test31():
 
     # [{"action": {"null_response": true},"action_type": "null_response","trigger_type": "url","url": "\\.(mp3|jpg|jpeg|png|mp4|gif|ico|google|zoho)"},{"action": {"null_response": true},"action_type": "null_response","trigger_type": "url","url": "lr-ingest.io|testimonialtree.com"}],    
 
+def test32():
+    import Auto_update
+    Auto_update.clean_ports()
+
 
 if __name__ == '__main__':
-    test31()
+    test32()
 
     
 

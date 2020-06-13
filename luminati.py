@@ -304,11 +304,7 @@ def add_proxy(port_add,country='us',proxy_config_name='zone2',ip_lpm='127.0.0.1'
         if blacklist[Mission_Id]['type'] != '':
             data_proxy_config[proxy_config_name]['rules'][0]['url'] = data_proxy_config[proxy_config_name]['rules'][0]['url'].replace(')',blacklist[Mission_Id]['type']+')')
         if blacklist[Mission_Id]['url_key'] != '':
-            data_proxy_config[proxy_config_name]['rules'][1]['url'] = blacklist[Mission_Id]['url_key']
-        else:
-            data_proxy_config[proxy_config_name]['rules'].pop(1)
-    else:
-        data_proxy_config[proxy_config_name]['rules'].pop(1)
+            data_proxy_config[proxy_config_name]['rules'][1]['url'] += blacklist[Mission_Id]['url_key']
     data['proxy'] = data_proxy_config[proxy_config_name]
     print('preparing to add proxy config:',data)
     data_ = json.dumps(data)
