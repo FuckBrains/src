@@ -226,7 +226,7 @@ def main():
     else:
         print('Update failed!!!!!!!!')
         return
-    if flag_update == 1:
+    if flag == 1:
         change_version()
         changer.Restart()
 
