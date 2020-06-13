@@ -210,10 +210,15 @@ def get_submit(Config):
             break
         elif flag == -1:
             # print('bad port,change into new')
-            try:
-                luminati.delete_port_s(submit['port_lpm'])            
-            except:
-                pass
+            for i in range(5):
+                try:
+                    flag_delete = luminati.delete_port_s(submit['port_lpm']) 
+                    if flag_delete == 1:
+                        break           
+                    else:
+                        continue
+                except:
+                   pass
             port_new = luminati.get_port_random()
             print('port_new:',port_new)
             db.update_port(submit['ID'],port_new)

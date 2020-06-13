@@ -575,9 +575,31 @@ def test32():
     import Auto_update
     Auto_update.clean_ports()
 
+def test33():
+    import luminati
+    port = 24855
+    for i in range(3):
+        try:
+            luminati.delete_port_s(port)            
+        except:
+            pass
+        # port_new = luminati.get_port_random()
+        # print('port_new:',port_new)
+        # db.update_port(4965,port_new)
+        # print('update port success')
+        # # print(port_new)
+        # try:
+        #     # proxy_config_name_list = ['jia1','jia2'] 
+        #     # num_proxy = random.randint(0,1)
+        #     luminati.add_proxy(port_new,country='us',proxy_config_name='jia10',ip_lpm='192.168.188.141',Mission_Id='10104')
+        # except Exception as e:
+        #     a = traceback.format_exc()
+        #     print(a)    
+        # port = port_new
+
 
 if __name__ == '__main__':
-    test32()
+    test33()
 
     
 

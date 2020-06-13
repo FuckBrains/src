@@ -400,18 +400,22 @@ def delete_port_s(port_delete):
     data = json.dumps(data)
     # print(data)
     resp = ''
+    flag=0
     try:
         # print('start delete post sending')
         resp = requests.delete(url_,data=data,headers=headers)
     except Exception as e:
         print(str(e))
-    # print(resp)
+    # print(resp.text)
     # print(type(str(resp)))
     # print(str(resp))
     if '204' in str(resp):
         print('delete success:',port_delete)
+        flag=1
     else:
         print('delete failed ,try again')
+        flag=0
+    return flag
 
 
 
