@@ -623,11 +623,15 @@ def test36():
     #     f.write(content)
     # return
     import ssn_detect as st
+    import Submit_handle as sb
 
     sql_contents = []
-    for rout in routing[0:10]:
+    submit = {}
+    for rout in routing[0:100]:
         # flag = st.validate_routing_123(rout[1])
-        flag = st.validate_routing_10104(rout['routing_number'])
+        submit['routing_number'] = rout['routing_number']
+        routing = sb.get_routing_number_verify(submit)
+        # print(rout,routing_number)
         continue
         # sql_content = "UPDATE BasicInfo SET routing_alive = '%d' WHERE Basicinfo_Id = '%s'" % (flag,rout[0])
         sql_content = "UPDATE BasicInfo SET routing_alive = '%d' WHERE Basicinfo_Id = '%s'" % (flag,rout['BasicInfo_Id'])
@@ -641,8 +645,10 @@ def test35():
     routing = '751929126'
     ssn_detect.validate_routing_10104(routing)    
 
+
+
 if __name__ == '__main__':
-    test35()
+    test36()
 
     
 

@@ -395,7 +395,10 @@ def reg_part_cpl(submit):
                     return 
                 submit['cookies_lpm'] = cookies
                 submit.pop('ip_lpm')
-            chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
+            if submit['zone'] == 'jia10':
+                chrome_driver = Chrome_driver.get_chrome(submit,pic=1)
+            else:
+                chrome_driver = Chrome_driver.get_chrome(submit,pic=0)                
             submit['Page_flags'] = Page_flags
             print('Page_flags found,use Record modern')
             chrome_driver = web_submit(submit,chrome_driver=chrome_driver)

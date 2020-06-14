@@ -514,6 +514,21 @@ def ssn_mid_2(submit):
 
 def get_routing_number(submit=''):
     '''
+    verify routing    
+    routing_number  999999999
+    '''
+    keys = ['routing_number','routing_nu']
+    routing_number = get_value(keys,submit)
+    routing_number = routing_number.replace('.0','') 
+    routing_number = chansfer_float_into_int(routing_number)
+    if len(routing_number) == 8:
+        routing_number = '0' + routing_number
+    if len(routing_number) >9:
+        routing_number = routing_number[0:9]                
+    return routing_number
+
+def get_routing_number_verify(submit=''):
+    '''
     routing_number
     '''
     keys = ['routing_number','routing_nu']
@@ -522,7 +537,49 @@ def get_routing_number(submit=''):
     routing_number = chansfer_float_into_int(routing_number)
     if len(routing_number) == 8:
         routing_number = '0' + routing_number
-    return routing_number
+    if len(routing_number) >9:
+        routing_number = routing_number[0:9]        
+    s = routing_verify(str(routing_number))
+    routing_number_verify = ''
+    if s!= 1:
+        for i in range(10000):
+            num_routing = random.randint(100000000,999999999)
+            s = routing_verify(str(num_routing))
+            if s == 1:
+                routing_number_verify = str(num_routing)
+                print('bad routing_number:',routing_number,'---get new one:',routing_number_verify)
+                break
+    else:
+        routing_number_verify = str(routing_number)
+        print('good routing number:',routing_number_verify)
+    return routing_number_verify    
+
+def routing_verify(s):
+    '''
+    verify routing
+    '''
+    s = str(s)
+    if len(s) == 8:
+        s = '0' + s
+    if len(s) >9:
+        s = s[0:9]     
+    if len(s) <8:
+        return 0
+    n = 0
+    for i in range(9):
+        # print(i,(int(s[i])+10),(int(s[i+1])+10),(int(s[i+2])+10))
+        n+=(int(s[i])+10)*3+(int(s[i+1])+10)*7+(int(s[i+2])+10)
+        i+=3
+        if i+3 >9:
+            break
+    # print(n)
+    if n!= 0 and n%10==0:
+        print('good routing:',s)
+        return 1
+    else:
+        # print('bad routing')
+        return 0
+
 
 def get_account_number(submit=''):
     '''
