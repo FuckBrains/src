@@ -560,11 +560,15 @@ def web_submit(submit,chrome_driver,debug=0):
                     else:
                         page_done.append(page['Page'])
                         continue
+                flag_ready = wait_for_ready(chrome_driver)
+                if flag_ready != 1:
+                    print('Timeout ,"window.stop();"')
+                    chrome_driver.execute_script("window.stop();")                    
                 iframe_change(chrome_driver,config_['General']['iframe'])
                 submit = selenium_funcs.get_action(chrome_driver,config_,submit)
                 page_done.append(page['Page'])
                 flag_refresh = 0
-                sleep(3)
+                sleep(2)
             except Exception as e:
                 page_done.append(page['Page'])
                 print(str(e))
@@ -648,17 +652,26 @@ def get_page_by_flag(Page_flags,chrome_driver):
             print(str(e))
     return target_page
 
+def wait_for_ready(chrome_driver):
+    flag = 0
+    for i in range(120):
+        status = chrome_driver.execute_script("return document.readyState")
+        if status != 'complete':
+            print('document status:',status)
+            sleep(1)
+        else:
+            flag = 1
+            print('document status:',status)
+            break    
+    return flag
+
 def page_detect(Page_flags,chrome_driver):
     page = None
-    for i in range(3):
-        for i in range(60):
-            status = chrome_driver.execute_script("return document.readyState")
-            if status != 'complete':
-                print('document status:',status)
-                sleep(1)
-            else:
-                print('document status:',status)
-                break
+    for i in range(5):
+        flag = wait_for_ready(chrome_driver)
+        if flag != 1:
+            print('Timeout ,"window.stop();"')
+            chrome_driver.execute_script("window.stop();")
         # page = get_page_by_flag(Page_flags,chrome_driver)
         # if page == None:
         #     print('Page Flag Not Found,',i+1)
@@ -666,6 +679,8 @@ def page_detect(Page_flags,chrome_driver):
         # else:
         #     print('Page Flag Found')            
         #     break
+        if 'Attackers might be trying to steal your information from' in chrome_driver.page_source:
+            return None        
         status = chrome_driver.execute_script("return document.readyState")
         print('document status:',status)
         wrong_pages = ['Webpage not available','This page isn’t working','ERR_TIMED_OUT','ERR_CONNECTION_RESET']
@@ -679,7 +694,15 @@ def page_detect(Page_flags,chrome_driver):
                     break
             if flag_wrong_page != 0:
                 if i <= 1:
-                    chrome_driver.refresh()
+                    print('i <=1',i)
+                    if 'Attackers might be trying to steal your information from' in chrome_driver.page_source:
+                        return None
+                    #     chrome_driver.find_element_by_xpath('//*[@id="details-button"]').click()
+                    #     sleep(2)
+                    #     chrome_driver.find_element_by_xpath('//*[@id="proceed-link"]').click()
+                    else:
+                        chrome_driver.refresh()
+                        print('after refreshing page')
                     continue
                 page = None
                 break                          
