@@ -682,8 +682,8 @@ def page_detect(Page_flags,chrome_driver):
         # else:
         #     print('Page Flag Found')            
         #     break
-        if 'Attackers might be trying to steal your information from' in chrome_driver.page_source:
-            return None        
+        # if 'Attackers might be trying to steal your information from' in chrome_driver.page_source:
+        #     return None        
         status = chrome_driver.execute_script("return document.readyState")
         print('document status:',status)
         wrong_pages = ['Webpage not available','This page isn’t working','ERR_TIMED_OUT','ERR_CONNECTION_RESET']
@@ -696,16 +696,16 @@ def page_detect(Page_flags,chrome_driver):
                     flag_wrong_page = 1
                     break
             if flag_wrong_page != 0:
-                if i <= 1:
-                    print('i <=1',i)
-                    if 'Attackers might be trying to steal your information from' in chrome_driver.page_source:
-                        return None
+                if i <= 2:
+                    print('i <=2',i)
+                    # if 'Attackers might be trying to steal your information from' in chrome_driver.page_source:
+                    #     return None
                     #     chrome_driver.find_element_by_xpath('//*[@id="details-button"]').click()
                     #     sleep(2)
                     #     chrome_driver.find_element_by_xpath('//*[@id="proceed-link"]').click()
-                    else:
-                        chrome_driver.refresh()
-                        print('after refreshing page')
+                    # else:
+                    chrome_driver.refresh()
+                    print('after refreshing page')
                     continue
                 page = None
                 break                          
