@@ -368,10 +368,21 @@ def get_year_atresidence(submit):
 
 def get_birthday_mm(submit=''):
     '''
-    return mm
+    return mm 04
     '''
     birthday = get_auto_birthday(submit)
     return birthday[0]
+
+def get_birthday_mm_one(submit=''):
+    '''
+    return mm 4,5,6
+    '''
+    birthday = get_auto_birthday(submit)
+    if len(birthday[0]) == 2:
+        if birthday[0][0] == '0':
+            birthday[0] = birthday[0][1]
+    return birthday[0]
+
 
 def get_birthday_dd(submit=''):
     '''
