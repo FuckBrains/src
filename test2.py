@@ -602,8 +602,47 @@ def test34():
     day = sb.get_next_payday_mm_signum('')
     print(day)
 
+
+def test36():
+    import db
+    excel = 'Us_pd_native2'
+    tx = r'..\\res\routings.txt'
+    # with open(tx) as f:
+    #     lines = f.readlines()
+    # routing = []
+    # for line in lines:
+    #     rout = line.split('----')
+    #     rout[1] = rout[1].replace('\n','')
+    #     routing.append(rout)
+    routing = db.get_routing(excel)
+    # print(routing)
+    # content = ''
+    # for rout in routing:
+    #     content+=rout['BasicInfo_Id']+'----'+rout['routing_number']+'\n'
+    # with open(r'..\\res\routings.txt','w') as f:
+    #     f.write(content)
+    # return
+    import ssn_detect as st
+
+    sql_contents = []
+    for rout in routing[0:10]:
+        # flag = st.validate_routing_123(rout[1])
+        flag = st.validate_routing_10104(rout['routing_number'])
+        continue
+        # sql_content = "UPDATE BasicInfo SET routing_alive = '%d' WHERE Basicinfo_Id = '%s'" % (flag,rout[0])
+        sql_content = "UPDATE BasicInfo SET routing_alive = '%d' WHERE Basicinfo_Id = '%s'" % (flag,rout['BasicInfo_Id'])
+
+        # print(sql_content)
+        sql_contents.append(sql_content)
+    # db.Execute_sql([sql_content])
+
+def test35():
+    import ssn_detect
+    routing = '751929126'
+    ssn_detect.validate_routing_10104(routing)    
+
 if __name__ == '__main__':
-    test34()
+    test35()
 
     
 

@@ -173,6 +173,30 @@ def validate_routing(routing):
         print(data)
     return flag
 
+def validate_routing_10104(routing):
+    # routing = 421051540
+    url = 'https://gazelleloans.com/api/bank/?routing=%s'%routing
+    try:
+        resp = requests.get(url)
+        # data = json.loads(resp.text)        
+    except Exception as e:
+        print(str(e))
+        return -1
+    print(resp.text)
+
+    # # print(str(resp))
+    # flag = 0
+    # if data['Result'] == 1:
+    #     # print('routing is valid')
+    #     flag = 1
+    # elif data['Result'] == 4:
+    #     # print('routing is not valid')
+    #     flag = 0
+    # else:
+    #     print(data)
+    # return flag    
+
+
 def validate_routing_123(routing):
     # routing = 421051540
     url = 'https://www.123cashnow.com/longform/validateroutingnumber'
