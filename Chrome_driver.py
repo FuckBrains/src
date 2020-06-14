@@ -129,7 +129,7 @@ def get_chrome(submit = None,pic=0,headless=0,time_out=300):
     print('++++++++++++++++++++++++')
     print('++++++++++++++++++++++++')
     print('++++++++++++++++++++++++')
-    print('Chrome_driver file version : 1.2')
+    print('Chrome_driver file version : 1.3')
     # print([key for key in submit])
     # print('++++++++++++++++++++++++')
     # print('++++++++++++++++++++++++')
@@ -148,7 +148,7 @@ def get_chrome(submit = None,pic=0,headless=0,time_out=300):
     options = webdriver.ChromeOptions() 
     options.add_argument('--disable-gpu')        
     options.add_argument("--disable-automation")
-    # options.add_argument('--ignore-certificate-errors') 
+    options.add_argument('--ignore-certificate-errors') 
     options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])                   
     if headless != 0:
         options.add_argument('--headless')         
