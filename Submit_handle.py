@@ -925,12 +925,20 @@ def get_next_payday2_dd(submit):
 
 def get_next_payday_mm(submit):
     '''
-    mm
+    mm--06
     '''
     payday = get_next_payday_list('')
     payday_mm = str(payday[0])
     if len(payday_mm)==1:
         payday_mm = '0'+payday_mm    
+    return payday_mm
+
+def get_next_payday_mm_signum(submit):
+    '''
+    mm-6
+    '''
+    payday = get_next_payday_list('')
+    payday_mm = str(payday[0])   
     return payday_mm
 
 def get_next_payday2_mm(submit):

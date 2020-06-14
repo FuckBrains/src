@@ -597,9 +597,13 @@ def test33():
         #     print(a)    
         # port = port_new
 
+def test34():
+    import Submit_handle as sb
+    day = sb.get_next_payday_mm_signum('')
+    print(day)
 
 if __name__ == '__main__':
-    test33()
+    test34()
 
     
 
