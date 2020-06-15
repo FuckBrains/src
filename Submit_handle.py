@@ -1108,9 +1108,9 @@ def get_next_payday2_bi_str(submit=''):
 
 def monthly_payment(submit=''):
     '''
-    0-3999
+    1000-3999
     '''
-    payment = random.randint(0,30)*100
+    payment = random.randint(100,300)*10
     return payment
 
 def rent_payment(submit=''):
