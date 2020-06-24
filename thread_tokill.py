@@ -551,6 +551,7 @@ def web_submit(submit,chrome_driver,debug=0):
         for config_ in configs:
             try:
                 step_detect(chrome_driver,[config_])
+                sleep(1)
             except:
                 pass
             try:

@@ -1115,9 +1115,9 @@ def monthly_payment(submit=''):
 
 def rent_payment(submit=''):
     '''
-    1000-10000
+    2000-3000
     '''
-    payment = random.randint(100,1000)*10
+    payment = random.randint(200,300)*10
     return payment
 
 def get_state_byzip(zip_=''):
