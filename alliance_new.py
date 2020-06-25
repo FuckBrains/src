@@ -96,9 +96,10 @@ def read_country_config():
     return accounts
 
 def main():
+    config = read_country_config()
+    countrys = get_all_country()
+    keys = list(countrys.keys())    
     while True:
-        countrys = get_all_country()
-        keys = list(countrys.keys())
         for i in range(len(keys)):
             print(i+1,':',keys[i])
         for j in range(1000):
@@ -107,10 +108,9 @@ def main():
                 print('please choose right country number')
                 continue
             country = keys[int(country_number)-1]
-            config = read_country_config()
             # nums = config['us'].keys()
             if country in config:
-                nums = list(config[country].keys())
+                nums = list(config[country.upper()].keys())
                 print('accounts in %s:'%country)
                 [print(num) for num in nums]
                 country_num = input('please choose account number:\n') 
@@ -120,17 +120,20 @@ def main():
                     break
             else:
                 print(country,'not in Account.ini,please choose again')
-
+        ua = config[country.upper()][str(country_num)]['ua']
         submit = {}
         submit['Country'] = country
-        submit['ua'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+        submit['ua'] = ua
         submit['Mission_dir'] = country+str(country_num)
         print(submit)
         chrome_driver = get_chrome(submit)
         a = input('next')
-        chrome_driver.close()
-        chrome_driver.quit()
-        # sleep(1000)    
+        try:
+            # chrome_driver.close()
+            chrome_driver.quit()
+            # sleep(1000)   
+        except:
+            pass 
 
 
 def test():
