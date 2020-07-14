@@ -33,7 +33,7 @@ def get_code():
             break
         except:
             pass
-    chrome_driver = Chrome_driver.get_chrome(headless=1)
+    chrome_driver = Chrome_driver.get_chrome()
     # print(update_config)
     url_back = update_config['url_back']
     url_code = update_config['url_code']
