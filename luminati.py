@@ -287,7 +287,7 @@ def tz_test():
     print(tz)
 
 
-@timeout(30)
+# @timeout(30)
 def add_proxy(port_add,country='us',proxy_config_name='zone2',ip_lpm='127.0.0.1',Mission_Id='10002'):
     Mission_Id = str(Mission_Id)
     account = get_account()

@@ -9,6 +9,8 @@ from time import sleep
 import re
 import threadpool
 import threading  
+import Submit_handle as st
+
 # import random
 # from selenium import webdriver
 # import Submit_handle
@@ -667,6 +669,42 @@ def test38():
     [pool.putRequest(req) for req in requests]
     pool.wait()     
 
+def test39():
+    import datetime
+    now = datetime.datetime.now()
+    t = now.strftime('%c')   
+    print(t)
+    error = 'traffic error'
+    plan_id  = '3'
+    content = '''
+    Error time: %s
+    plan_id:%s
+    Mission_id:10000,10001
+    Error:      Sending traffic errot,luminati can't open port,need check 
+    '''%(str(t),plan_id)
+    print(content)
+
+
+def test40():
+    import luminati
+    config = luminati.read_proxy_config()
+    print(config)
+
+def test41():
+    submit = {}
+    submit['email'] = 'asd@gmx.de'
+    submit['name'] = 'F?rster Heinz'
+    submit['dateofbirth'] = '02.03.1995'
+    email = st.get_email(submit)
+    print(email)
+
+def test42():
+    submit = {}
+    submit['id_number'] = '4810690468<<D<<9602120<2702124<<<<<<<8'
+    id_number = st.get_id_number(submit)
+    print(id_number)
+
+
 if __name__ == '__main__':
-    test38()
+    test42()
 

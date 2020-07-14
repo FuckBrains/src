@@ -5,6 +5,9 @@ import threadpool
 from db import update_port,get_account,read_plans
 from time import sleep
 import Chrome_driver
+import emaillink
+import random
+import datetime
 
 
 
@@ -14,34 +17,47 @@ def traffic_test(traffic):
     uas = Chrome_driver.get_ua_all()
     ua = Chrome_driver.get_ua_random(uas)
     # print(ua)
-    traffic['ua'] = ua    
-    click = 30
+    traffic['ua'] = ua   
+
+    click = random.randint(24,40)
     referer = ''
     i = 0
     proxy_error_count = 0
-    while True:   
-        if proxy_error_count>=5:
-            print('proxy_error_count max 5 time,check luminati')  
-            break
-        flag,proxy_info = ip_test(traffic['port_lpm'])
-        print(flag,proxy_info,'\n=========================')
-        if flag == 1:
-            pass
-        elif flag == -1:
-            print('bad port,change into new')
-            port_new = get_port_random()
-            update_port(traffic['port_lpm'],port_new)
-            delete_port_s(traffic['port_lpm'])                
-            traffic['port_lpm'] = port_new
-            print(port_new)
-            try:
-                add_proxy(port_new,country=traffic['Country'],proxy_config_name='zone2',ip_lpm=traffic['ip_lpm'])
-                continue
-            except Exception as e:
-                proxy_error_count+=1
-                print(str(e))
-                continue
     for i in range(click):
+        proxy_flag = 0
+        while True:
+            if proxy_error_count>=5:
+                print('proxy_error_count max 5 time,check luminati')  
+                break
+            flag,proxy_info = ip_test(traffic['port_lpm'])
+            print(flag,proxy_info,'\n=========================')
+            if flag == 1:
+                proxy_flag = 1
+                break
+            elif flag == -1:
+                print('bad port,change into new')
+                port_new = get_port_random()
+                update_port(traffic['port_lpm'],port_new)
+                delete_port_s(traffic['port_lpm'])                
+                traffic['port_lpm'] = port_new
+                print(port_new)
+                try:
+                    add_proxy(port_new,country=traffic['Country'],proxy_config_name='zone2',ip_lpm=traffic['ip_lpm'])
+                except Exception as e:
+                    proxy_error_count+=1
+                    print(str(e))
+        if proxy_flag == 0:
+            print('proxy error!!!!!!!!!!!!!!!!!!!!')
+            now=datetime.datetime.now()
+            t = now.strftime('%c')            
+            content = '''
+            Error time: %s
+            plan_id:%s
+            Mission_id:10000,10001
+            Error:      Sending traffic errot,luminati can't open port,need check 
+            '''%(str(t),traffic['Plan_Id'])
+            emaillink.email_alert(content)            
+            return
         print('Sending traffic:',i+1,'clicks for mission',traffic['Mission_Id'])
         # luminati.refresh_proxy(traffic['ip_lpm'],traffic['port_lpm'])
         if traffic['traffic_method'] == 'Crawl':
@@ -58,14 +74,13 @@ def traffic_test(traffic):
             except Exception as e:
                 print(str(e))
         i += 1
-    delete_port_s(traffic['port_lpm'])
+    # delete_port_s(traffic['port_lpm'])
 
 def main(i):
     for j in range(111):
         account = get_account()
         plan_id = account['plan_id']    
         traffics = read_plans(i)
-        print(traffics)
         # print(len(traffics))
         ip_lpm = account['IP']
         for traffic in traffics:
@@ -81,6 +96,7 @@ def main(i):
         pool.wait() 
         print('finish sending traffic,sleep for 30')
         # sleep(30)
+        # return
 
 def test():
     traffic = {}
@@ -109,13 +125,15 @@ def get_unique_traffic(traffic):
     chrome_driver = Chrome_driver.get_chrome(traffic)
     # traffic['url_link'] = 'https://www.moneymethods.net'
     chrome_driver.get(traffic['url_link'])
+    flag_traffic = 0
     for i in range(15):
-        print(chrome_driver.current_url)
+        print(chrome_driver.title,'----',traffic['traffic_key'])
         if traffic['traffic_key'] in chrome_driver.title:
             # sleep(500)
             sleep(5)
             chrome_driver.close()
             chrome_driver.quit()
+            break
         else:
             sleep(1)
     try:

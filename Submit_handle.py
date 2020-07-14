@@ -703,6 +703,63 @@ def get_phone_plus1(submit):
     return phone_
 
 
+def get_firstname(submit):
+    '''
+    su lee--->su
+    '''
+    firstname = submit['name'].split(' ')[0]
+    return firstname
+
+def get_lastname(submit):
+    '''
+    su lee--->lee
+    '''    
+    lastname = submit['name'].split(' ')[1]
+    return lastname
+
+def get_email(submit):
+    '''
+    su lee--->su.lee@gmx.com
+    @outlook.de
+    @hotmail.de
+    @web.de
+    '''    
+    if submit['email'] != '':
+        return submit['email']
+    end_list = ['@gmx.com','@outlook.de','@hotmail.de','@web.de','@mobile.de'] 
+    num = random.randint(0,4)
+    end = end_list[num]
+    names = submit['name'].split(' ')
+    name_num = random.randint(0,3)
+    if name_num == 0:
+        name = names[0]+'.'+names[1]
+    elif name_num == 1:
+        name = names[0]+names[1]+submit['dateofbirth'].split('.')[2][2:]
+    elif name_num==2:
+        name = names[0]+names[1][0].upper()+submit['dateofbirth'].split('.')[2][2:]
+    else:
+        name = names[0]+names[1]+submit['dateofbirth'].split('.')[2]
+    email = name+end
+    return email
+
+
+def get_phone_de(submit):
+    '''
+    (0 95 69) 12 78
+    '''
+    phone = submit['phone'].replace('(','').replace(')','').replace(' ','')
+    return phone
+
+
+def get_id_number(submit):
+    '''
+    4810690468<<D<<9602120<2702124<<<<<<<8    
+    -->4810690468
+    '''
+    id_ = submit['id_number'].split('<<')[0]
+    return id_ 
+
+
 def get_phone_fr(submit):
     '''
     处理电话后的.

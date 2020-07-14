@@ -1493,7 +1493,8 @@ def upload_plans(plans):
     print(plans)
     sql_contents = []
     for item in plans:
-        plans[item]['url_link'] = pymysql.escape_string(plans[item]['url_link'])+'<config>Banner page unique flag</config>'
+        if plans[item]['url_link'][:4] != 'http':
+            plans[item]['url_link'] = pymysql.escape_string(plans[item]['url_link'])+'<config>Banner page unique flag</config>'
         list_keys , list_values =list(plans[item].keys()), list(plans[item].values()) 
         for i in range(len(list_values)):
             if type(list_values[i]) == type([]):

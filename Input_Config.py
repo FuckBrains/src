@@ -7,7 +7,7 @@ Input_Config ={
     'lastname'  : ['get_name_real'],
     'last_name'  : ['get_name_real'],    
     'address'   : ['apt_get'],
-    'homephone' : ['get_phone','get_phone_3','get_phone_6','get_phone_10'],
+    'homephone' : ['get_phone','get_phone_plus1','get_phone_3','get_phone_6','get_phone_10'],
     'home_phone' : ['get_phone','get_phone_3','get_phone_6','get_phone_10'],
     'workphone' : ['get_workphone','get_workphone_3','get_workphone_6','get_workphone_10','get_workphone_unique'],
     'work_phone' : ['get_workphone','get_workphone_3','get_workphone_6','get_workphone_10','get_workphone_unique'],    
@@ -18,7 +18,7 @@ Input_Config ={
     'katou'     : ['get_zip'],
     'year'      : ['get_expiration_date'],
     'fullname'    : ['get_fullname'],  
-    'phone'     : ['get_phone_dadao'],    
+    'phone'     : ['get_phone_dadao','get_phone_de'],    
     'date_of_birth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all','get_birthday_all_2'],    
     'ssn'           : ['get_ssn','ssn_first_3','ssn_mid_2','ssn_last4'],
     'drivers_license': ['get_drivers_license'],
@@ -27,6 +27,9 @@ Input_Config ={
     'net_monthly_income' : ['get_income','get_income_other'],
     'employer':['get_employer_info'],
     'occupation':['get_occupation_info'],  
+    'name':['get_firstname','get_lastname'],
+    'email':['get_email'],
+    'id_number':['get_id_number']
 }
 
 Select_Config ={
@@ -62,7 +65,8 @@ Generate_Config = {
     'hire_date':['hire_date'],
     'year_at_residence_gen':['get_year_atresidence'],
     'monthly_payment':['monthly_payment','rent_payment'],
-    'course':['get_courses']
+    'course':['get_courses'],
+    'email':['get_email'],
 }
 
 
