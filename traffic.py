@@ -8,17 +8,21 @@ import Chrome_driver
 
 
 
-pool = threadpool.ThreadPool(50)
+pool = threadpool.ThreadPool(30)
 
 def traffic_test(traffic):
     uas = Chrome_driver.get_ua_all()
     ua = Chrome_driver.get_ua_random(uas)
     # print(ua)
     traffic['ua'] = ua    
-    click = 10000
+    click = 30
     referer = ''
     i = 0
-    while True:    
+    proxy_error_count = 0
+    while True:   
+        if proxy_error_count>=5:
+            print('proxy_error_count max 5 time,check luminati')  
+            break
         flag,proxy_info = ip_test(traffic['port_lpm'])
         print(flag,proxy_info,'\n=========================')
         if flag == 1:
@@ -34,9 +38,10 @@ def traffic_test(traffic):
                 add_proxy(port_new,country=traffic['Country'],proxy_config_name='zone2',ip_lpm=traffic['ip_lpm'])
                 continue
             except Exception as e:
+                proxy_error_count+=1
                 print(str(e))
                 continue
-    # for i in range(click):
+    for i in range(click):
         print('Sending traffic:',i+1,'clicks for mission',traffic['Mission_Id'])
         # luminati.refresh_proxy(traffic['ip_lpm'],traffic['port_lpm'])
         if traffic['traffic_method'] == 'Crawl':

@@ -437,7 +437,14 @@ def web_submit(submit,chrome_driver,debug=0):
     print('============')
 
     print(submit['Site'])
-    chrome_driver.get(submit['Site'])
+    if '/>' in submit['Site']:
+    # html =html_1.replace('"','\\"').replace("'","\\'") 
+        js = 'document.writeln("'+submit['Site']+'");'
+        print(js)
+        chrome_driver.execute_script(js)
+    # return
+    else:
+        chrome_driver.get(submit['Site'])
     # chrome_driver.refresh()
     if submit['sleep_flag'] == 5:
         chrome_driver.delete_all_cookies()

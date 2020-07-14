@@ -239,6 +239,10 @@ def get_chrome(submit = None,pic=0,headless=0,time_out=300):
     # print(path_driver)
     
     # if wire_options == '':
+    # options.add_argument('–no-startup-window')
+    # options.add_argument('–mute-audio')
+    # options.add_argument('Referer=https://www.facebook.com')
+
     chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)    
     # else:
     #     chrome_driver = webdriver.Chrome(executable_path=path_driver,seleniumwire_options=options)            
@@ -291,7 +295,6 @@ def get_chrome_test(submit):
     # options.add_argument('--ignore-certificate-errors') 
     # options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])                   
     return chrome_driver    
-
 
 def get_chrome_normal(submit=''):
     uas = get_ua_all()
@@ -429,10 +432,9 @@ def test_meituan():
     #     print(str(e))    
     sleep(3000)
 
-
 def test2():
-    chrome_driver = get_chrome_normal()
-    chrome_driver.get('https://whoer.net')
+    chrome_driver = get_chrome()
+    chrome_driver.get('https://www.smartloan.com')
     sleep(3000)
 
 

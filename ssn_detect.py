@@ -252,8 +252,6 @@ def validate_routing_123(routing):
     db.Execute_sql([sql_content])
     return 
 
-
-
 def get_emails(file):
     # file = r'..\res\email.txt' 
     emails = []
@@ -290,7 +288,6 @@ def validate_email(email):
         flag = 0
     # print(str(resp))  
     return flag
-
 
 def validate_10088_email(email):
     submit = {}
@@ -365,8 +362,6 @@ def validate_10088_email3(email):
     print(response.cookies)       # 打印cookie信息
     print(response.text)   #以文本形式打印网页源码
     print(response.content)  #以字节流形式打印
-
-
 
 def validate_10088_email2(email):
     '''

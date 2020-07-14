@@ -7,6 +7,8 @@ import Chrome_driver
 from time import sleep
 # import urllib2
 import re
+import threadpool
+import threading  
 # import random
 # from selenium import webdriver
 # import Submit_handle
@@ -645,38 +647,26 @@ def test35():
     routing = '751929126'
     ssn_detect.validate_routing_10104(routing)    
 
+def test37():
+    import emaillink
+    content = '''
+    Error time: 03/07/2020 4:36pm
+    plan_id:3
+    Mission_id:10000,10001
+    Error:      Sending traffic errot,luminati can't open port,need check 
+    '''
+    emaillink.email_alert(content)
 
+pool = threadpool.ThreadPool(10)
+
+def test38():
+  
+    import de_gen
+    plans = [i for i in range(19,500)]
+    requests = threadpool.makeRequests(de_gen.main, plans)
+    [pool.putRequest(req) for req in requests]
+    pool.wait()     
 
 if __name__ == '__main__':
-    test36()
+    test38()
 
-    
-
-# def get_employer():
-#     submit = {
-#         'employer':'aaaa'
-#     }
-#     employer = Submit_handle.get_employer_info(submit)
-#     return employer
-#     # employer = [key[0] for key in res]
-#     # print(len(employer))
-#     # print('first 10')
-#     # print(employer[:10])
-#     # print('last time')
-#     # print(employer[-10:])
-
-
-# def main():
-#     # test_10088()
-#     # test.test_write()
-#     email = 'ricdevin@yahoo.com'
-#     # email=''
-#     # ssn_detect.validate_10088_email(email)
-#     routing = '2857880817'
-#     ssn_detect.validate_routing(routing)
-#     # Address = '237 BURNING TREE DRIVE'
-#     # ZipCode = 95119
-#     # ssn_detect.validate_address(Address,ZipCode)
-
-# if __name__ == '__main__':
-#     test_chrome_proxy()

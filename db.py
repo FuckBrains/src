@@ -1490,8 +1490,10 @@ def read_plans(plan_id):
 
 def upload_plans(plans):
     table = 'Plans'
+    print(plans)
     sql_contents = []
     for item in plans:
+        plans[item]['url_link'] = pymysql.escape_string(plans[item]['url_link'])+'<config>Banner page unique flag</config>'
         list_keys , list_values =list(plans[item].keys()), list(plans[item].values()) 
         for i in range(len(list_values)):
             if type(list_values[i]) == type([]):
@@ -1745,7 +1747,7 @@ def get_luminati_submit(Config):
             submit['state_'] = ''
     submit['Mission_Id'] = Config['Mission_Id']
     submit['Country'] = Config['Country']
-    submit['Site'] = Config['url_link']
+    submit['Site'] = pymysql.escape_string(Config['url_link'])
     submit['Excels_dup'] = Excels_dup
     submit['Alliance'] = Config['Alliance']
     submit['Account'] = Config['Account']
@@ -1987,6 +1989,29 @@ def get_cst_zone(tzid):
     Mission_status_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来    
     login_out_sql(conn,cursor) 
     return Mission_status_dict    
+
+def gen_uuid(num):
+    uuids = []
+    for i in range(num):
+        uuid_sin = str(uuid.uuid1())     
+        uuids.append(uuid_sin)
+    # print(len(uuids))
+    # print(len(set(uuids)))
+    return uuids
+
+def deinfo_combine():
+    sql_contents = []
+    uuid_sin = str(uuid.uuid1())
+    sql_content = "SELECT windows,tzid FROM Basicinfo WHERE Excel_name = 'tz' and tzid like '%s';"%('%'+tzid+'%')
+    account = get_account()
+    conn,cursor = login_sql(account)
+    res = cursor.execute(sql_content)
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Mission_status_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来    
+    login_out_sql(conn,cursor) 
+    return 1 
+
+
 
 if __name__ == '__main__':
     print('test')

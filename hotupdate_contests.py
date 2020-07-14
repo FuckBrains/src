@@ -53,6 +53,12 @@ SELECT * FROM basicinfo  WHERE DATE_FORMAT(Create_time,'%Y-%m-%d %H:%i:%S')>='20
 '''
 
 
+'''
+update basicinfo as a, basicinfo as b set a.routing_number=b.account_number, a.account_number=b.routing_number where a.Excel_name='Us_pd_native3' AND a.BasicInfo_Id=b.BasicInfo_Id;
+'''
+
+
+
 def get_contents(i):
 	return hotupdate_content[i]
 

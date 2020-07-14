@@ -1189,8 +1189,8 @@ class Mywindow(QMainWindow,Ui_MainWindow):
 
     @pyqtSlot()
     def on_pushButton42_clicked(self):
-        Mission_Id = self.lineEdit34.text().replace('\n','')
-        Mission_name = self.lineEdit35.text().replace('\n','')
+        Mission_Id = self.lineEdit34.text().replace('\n','').strip()
+        Mission_name = self.lineEdit35.text().replace('\n','').strip()
         bad_alpha = ['.','"',"'"]
         for item in bad_alpha:
             if item in Mission_name:
@@ -1198,6 +1198,9 @@ class Mywindow(QMainWindow,Ui_MainWindow):
                 return
         Excel = ['','']
         excel = self.comboBox36.currentText()
+        excel_2 = self.lineEdit50.text().replace('\n','').strip()
+        if excel_2 != '':
+            excel = excel_2
         if excel != 'Email':
             Excel[0] = excel
         else:
@@ -1349,7 +1352,7 @@ def get_verication():
 
 def main(i,message=''):
     # up.main()
-
+    import traceback
     app = QtWidgets.QApplication(sys.argv)  # 创建一个QApplication，也就是你要开发的软件app
     MainWindow = QMainWindow()    # 创建一个QMainWindow，用来装载你需要的各种组件、控件
     # MainWindow.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint)
@@ -1361,7 +1364,8 @@ def main(i,message=''):
         try:
             upc.update_config()
         except Exception as e:
-            print(str(e))
+            content = traceback.format_exc()  
+            print('traceback.format_exc():' ,content)  
             print('Updating config failed')
             return
         print('Updating config success')        

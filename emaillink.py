@@ -16,17 +16,14 @@ def test_re():
         pass
 
 
-def main():
+def main(content):
     '''提供邮件收取、发送功能'''
     # print(EmailUtil.getLink('thomas_land@163.com', 'shouquanma1',('请验证您的会员资格',),r'.*?(https://lifepointspanel.com/doi-by-email/account\?domain.*?)\".*?'))
-    # EmailUtil.sendEmail("测试发送 <BerthaThomasFZ@aol.com>", 'SUw9UgLh',
-    #                       ["测试接收1 <47029316@qq.com>", "测试接收2 <285765981@qq.com>"],
-    #                       "标题", "内容")
+    EmailUtil.sendEmail("测试发送 <2507461149@qq.com>", 'rrbrpqkfrhgyebgc',["测试接收1 <792992280@qq.com>", "测试接收2 <792992280@qq.com>"],
+                          "标题", content)
     # EmailUtil.sendEmail("测试发送 <lid0lv72@21cn.com>", 'Dhu4368969',
     #                                           ["测试接收1 <lid0lv72@21cn.com>"],
     #                                           "标题", "内容")
-    pass    
-
 
 
 @timeout(120)
@@ -35,6 +32,14 @@ def get_email(email,pwd,title = ('title',),pattern=r'http',findAll=False,debug=0
     site = EmailUtil.getLink(email,pwd,title,pattern,findAll,debug) 
     return  site
 
+def email_alert(content):
+    EmailUtil.sendEmail("测试发送 <2507461149@qq.com>", 'rrbrpqkfrhgyebgc',["测试接收1 <2507461149@qq.com>", "测试接收2 <792992280@qq.com>"],
+                          "Luminati error", content)
+
 if __name__=='__main__':
-    get_email()
+    # email = '792992280@qq.com'
+    # pwd = 'Jack123son'
+    # title = ('test',)
+    # get_email()
+    main()
 

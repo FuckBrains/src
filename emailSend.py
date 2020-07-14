@@ -104,8 +104,8 @@ class EmailSend(object):
             return False
 
 if __name__ == '__main__':
-    print(EmailSend().sendEmail("测试发送 <47029316@qq.com>",'rvueixdphgjdbjeb',["测试接收1 <47029316@qq.com>","测试接收2 <285765981@qq.com>"],
-                             "标题","内容"))
+    print(EmailSend().sendEmail("测试发送 <2507461149@qq.com>",'luminati error',["测试接收1 <782992280@qq.com>","测试接收2 <2507461149@qq.com>"],
+                             "标题","luminati error"))
 
     '''
     GnkuirBpdwhud@outlook.com	bY7HX9Y9Qkii

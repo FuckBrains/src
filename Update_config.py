@@ -65,6 +65,7 @@ def Read_Alliance_num():
         alliances = {}
         for line in lines:
             if ',' in line:
+                print(line)
                 alliance = []
                 configs = line.replace('\n','').split(',')
                 if '+' in configs[1]:
@@ -76,6 +77,8 @@ def Read_Alliance_num():
                         except Exception as e:
                             print(str(e))
                 else:
+                    if configs[1] not in Mission_offer:
+                        continue
                     offer_name = Mission_offer[configs[1]]
                     alliance.append(offer_name)                    
                 alliances[configs[0]] = alliance
