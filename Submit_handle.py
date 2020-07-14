@@ -684,6 +684,25 @@ def get_phone(submit):
         phone_ = phone_+str(num)+str(num)        
     return phone_
 
+def get_phone_plus1(submit):
+    '''
+    处理电话后的.
+    '''
+    keys = ['homephone','home_phone','phone']
+    phone = get_value(keys,submit)
+    phone_ = phone.replace('(','').replace(')','').replace('-','')
+    if '.' in phone_:
+        phone_ = (phone_).split('.')[0]
+    num = random.randint(0,9)        
+    if len(str(phone_)) == 9:
+        phone_ = phone_+str(num)
+    if len(str(phone_)) == 8:
+        phone_ = phone_+str(num)+str(num)   
+    if phone_[0] != '1':
+        phone_ = '1'+phone_     
+    return phone_
+
+
 def get_phone_fr(submit):
     '''
     处理电话后的.
