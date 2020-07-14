@@ -47,7 +47,7 @@ def get_code():
             chrome_driver.find_element_by_name(update_config['xpath_checkbox']).click()
             # chrome_driver.find_element_by_xpath(update_config['xpath_checkbox']).click()
             sleep(1)
-            chrome_driver.find_element_by_xpath(update_config['xpath_button']).click()
+            chrome_driver.find_element_by_tag_name(update_config['xpath_button']).click()
             sleep(1)  
         except Exception as e:
             print(str(e))
