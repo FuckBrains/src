@@ -103,10 +103,15 @@ def get_action(chrome_driver,data,submit):
     if data['General']['scroll'] == 'True':
         try:
             print('ready to scroll and find element')
-            scroll_and_find(chrome_driver,data['General']['xpath'])    
-        except:
-            pass
-    # sleep(1)
+            js="var q=document.documentElement.scrollTop=10000"
+            chrome_driver.execute_script(js)             
+            print('scroll success')
+            # scroll_and_find(chrome_driver,data['General']['xpath'])    
+        except Exception as e:
+            print('scroll failed')
+            print(str(e))
+    sleep(1)
+    print('====================')
     # print("data['General']['scroll']",data['General']['scroll'])   
     element = ''
 
