@@ -100,12 +100,17 @@ def get_action(chrome_driver,data,submit):
     # if data['General']['iframe'] != '':
     #     chrome_driver.switch_to_frame(data['General']['iframe'])
     # print("data['General']['iframe']",data['General']['iframe'])
-    # scroll_and_find_up(chrome_driver,data['General']['xpath'])    
+    if data['General']['scroll'] == 'True':
+        try:
+            scroll_and_find(chrome_driver,data['General']['xpath'])    
+        except:
+            pass
     # sleep(1)
     # print("data['General']['scroll']",data['General']['scroll'])   
     element = ''
 
     if data['General']['try'] == 'True':
+
         try:
             if 'father_type' in data['General']:
                 element = get_element(chrome_driver,data)
