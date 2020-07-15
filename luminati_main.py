@@ -48,7 +48,7 @@ flag:
 #     return module_name
 
 def check_version():
-    num_db = db.get_current_version(1)
+    num_db = db.get_current_version()
     num_db = str.join('.',num_db)
     file = r'ini\\VERSION.ini'
     with open(file) as f:
