@@ -102,6 +102,7 @@ def get_action(chrome_driver,data,submit):
     # print("data['General']['iframe']",data['General']['iframe'])
     if data['General']['scroll'] == 'True':
         try:
+            print('ready to scroll and find element')
             scroll_and_find(chrome_driver,data['General']['xpath'])    
         except:
             pass
@@ -205,6 +206,7 @@ def get_elem_part(elem,method,content):
 def scroll_and_find(chrome_driver,element):
     js="var q=document.documentElement.scrollTop=10000"
     chrome_driver.execute_script(js)     
+    print('go down 10000 meters')
     target = chrome_driver.find_element_by_xpath(element) 
     chrome_driver.execute_script("arguments[0].scrollIntoView();", target)
     js="var q=document.documentElement.scrollTop=-150"
