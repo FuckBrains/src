@@ -872,7 +872,7 @@ def multi_reg(Config):
     #         time_return = random.randint(0,600)
     #         # sleep(time_return)
     # else:
-    time_cheat = random.randint(0,30)
+    time_cheat = random.randint(0,15)
     if Config['count']<5:
         sleep(Config['count']*5)
     else:
@@ -881,7 +881,7 @@ def multi_reg(Config):
     if Config['Alliance'] != 'Test':
         if Config['Mission_Id'] != '20000':
             if Config['sleep_flag'] == 1:
-                print('Sleep for random time:',time_cheat,'-------------')
+                print('Sleep for random time:',time_cheat*60,'-------------')
                 sleep(time_cheat)
     else:
         print('test...........')

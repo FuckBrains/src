@@ -24,6 +24,7 @@ def traffic_test(traffic):
     i = 0
     proxy_error_count = 0
     for i in range(click):
+        sleep(10)
         proxy_flag = 0
         while True:
             if proxy_error_count>=5:
@@ -73,8 +74,8 @@ def traffic_test(traffic):
                 get_unique_traffic(traffic)
             except Exception as e:
                 print(str(e))
-        i += 1
-    # delete_port_s(traffic['port_lpm'])
+        # i += 1
+    delete_port_s(traffic['port_lpm'])
 
 def main(i):
     for j in range(111):
@@ -95,7 +96,7 @@ def main(i):
         [pool.putRequest(req) for req in requests]
         pool.wait() 
         print('finish sending traffic,sleep for 30')
-        # sleep(30)
+        sleep(300)
         # return
 
 def test():
