@@ -100,16 +100,7 @@ def get_action(chrome_driver,data,submit):
     # if data['General']['iframe'] != '':
     #     chrome_driver.switch_to_frame(data['General']['iframe'])
     # print("data['General']['iframe']",data['General']['iframe'])
-    if data['General']['scroll'] == 'True':
-        try:
-            print('ready to scroll and find element')
-            js="var q=document.documentElement.scrollTop=10000"
-            chrome_driver.execute_script(js)             
-            print('scroll success')
-            scroll_and_find(chrome_driver,data['General']['xpath'])    
-        except Exception as e:
-            print('scroll failed')
-            print(str(e))
+
     sleep(1)
     print('====================')
     # print("data['General']['scroll']",data['General']['scroll'])   
@@ -120,7 +111,22 @@ def get_action(chrome_driver,data,submit):
         try:
             if 'father_type' in data['General']:
                 element = get_element(chrome_driver,data)
-                print('Element get before action_func:',element)            
+                print('Element get before action_func:',element)   
+            if data['General']['scroll'] == 'True':
+                try:
+                    print('ready to scroll and find element')
+                    # js="var q=document.documentElement.scrollTop=10000"
+                    # chrome_driver.execute_script(js)             
+                    # print('scroll success')
+                    # sleep(3)
+                    # js="var q=document.documentElement.scrollTop=-10000"
+                    # chrome_driver.execute_script(js)     
+                    # sleep(3)  
+                    scroll_and_find(chrome_driver,element)       
+                except Exception as e:
+                    print('scroll failed')
+                    scroll_and_move(chrome_driver)            
+                    print(str(e))                         
             if action_func == 'Input':
                 submit[key_excel] = eval(action_func)(chrome_driver,data,submit[key_excel],element)
             else:
@@ -131,7 +137,22 @@ def get_action(chrome_driver,data,submit):
     else:
         if 'father_type' in data['General']:
             element = get_element(chrome_driver,data)
-            print('Element get before action_func:',element)        
+            print('Element get before action_func:',element) 
+        if data['General']['scroll'] == 'True':
+            try:
+                print('ready to scroll and find element')
+                # js="var q=document.documentElement.scrollTop=10000"
+                # chrome_driver.execute_script(js)             
+                # print('scroll success')
+                # sleep(3)
+                # js="var q=document.documentElement.scrollTop=-10000"
+                # chrome_driver.execute_script(js)     
+                # sleep(3)  
+                scroll_and_find(chrome_driver,element)        
+            except Exception as e:
+                print('scroll failed')
+                scroll_and_move(chrome_driver)            
+                print(str(e))                   
         if action_func == 'Input':
             submit[key_excel] = eval(action_func)(chrome_driver,data,submit[key_excel],element)
         else:
@@ -208,16 +229,35 @@ def get_elem_part(elem,method,content):
         pass
     return element
 
-def scroll_and_find(chrome_driver,element):
+def scroll_and_find(chrome_driver,target):
     # js="var q=document.documentElement.scrollTop=10000"
     # chrome_driver.execute_script(js)     
     # print('go down 10000 meters')
-    target = chrome_driver.find_element_by_xpath(element) 
+    # target = chrome_driver.find_element_by_xpath(element) 
     chrome_driver.execute_script("arguments[0].scrollIntoView();", target)
-    js="var q=document.documentElement.scrollTop=-150"
-    chrome_driver.execute_script(js) 
+    print('find target to move finished')
+    # js="var q=document.documentElement.scrollTop=-50"
+    # chrome_driver.execute_script(js) 
     sleep(3)
     return target
+
+
+def scroll_action(chrome_driver,element):
+    ActionChains(chrome_driver).move_to_element(element).perform()  
+    sleep(2)  
+
+def scroll_and_move(chrome_driver,num=300):
+    # js="var q=document.documentElement.scrollTop=10000"
+    # chrome_driver.execute_script(js)     
+    # print('go down 10000 meters')
+    # target = chrome_driver.find_element_by_xpath(element) 
+    # chrome_driver.execute_script("arguments[0].scrollIntoView();", target)
+    print('find target to move in scroll and move ')
+    js="var q=document.documentElement.scrollTop=%s"%str(num)
+    chrome_driver.execute_script(js) 
+    sleep(3)
+    return 
+
 
 def scroll_and_find_up(chrome_driver,element):
     target = chrome_driver.find_elements_by_xpath(element) 

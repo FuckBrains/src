@@ -37,16 +37,18 @@ def web_submit(submit,chrome_driver,debug=0):
 def test():
     # db.email_test()
     # date_of_birth = Submit_handle.get_auto_birthday('')         
-    Mission_list = ['10002']
-    excel = 'Us_pd_native'  
+    Mission_list = ['10000']
+    excel = 'de_basic'  
     excel2 = 'Uspd'  
     Excel_name = [excel,'']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
     print(submit)
-    [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None]
+    [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None and  submit[excel][item]!='']
     # [print(item,':',submit[excel][item]) for item in submit[excel]]  
     submit['Mission_Id'] = '10002'
+    id_ = Submit_handle.get_id_number(submit[excel])
+    print(id_)
     # phone = submit[excel]['homephone']
     # phone = Submit_handle.get_uk_phone1(phone)
     # print(phone)
