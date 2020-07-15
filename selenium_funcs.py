@@ -200,7 +200,7 @@ def get_elem_part(elem,method,content):
 def scroll_and_find(chrome_driver,element):
     target = chrome_driver.find_element_by_xpath(element) 
     chrome_driver.execute_script("arguments[0].scrollIntoView();", target)
-    js="var q=document.documentElement.scrollTop=-300"
+    js="var q=document.documentElement.scrollTop=-150"
     chrome_driver.execute_script(js) 
     sleep(3)
     return target
