@@ -106,7 +106,7 @@ def get_action(chrome_driver,data,submit):
             js="var q=document.documentElement.scrollTop=10000"
             chrome_driver.execute_script(js)             
             print('scroll success')
-            # scroll_and_find(chrome_driver,data['General']['xpath'])    
+            scroll_and_find(chrome_driver,data['General']['xpath'])    
         except Exception as e:
             print('scroll failed')
             print(str(e))
@@ -209,9 +209,9 @@ def get_elem_part(elem,method,content):
     return element
 
 def scroll_and_find(chrome_driver,element):
-    js="var q=document.documentElement.scrollTop=10000"
-    chrome_driver.execute_script(js)     
-    print('go down 10000 meters')
+    # js="var q=document.documentElement.scrollTop=10000"
+    # chrome_driver.execute_script(js)     
+    # print('go down 10000 meters')
     target = chrome_driver.find_element_by_xpath(element) 
     chrome_driver.execute_script("arguments[0].scrollIntoView();", target)
     js="var q=document.documentElement.scrollTop=-150"
