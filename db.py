@@ -1142,8 +1142,8 @@ def get_upload_sql_content(table,keys=None,values=None):
     sql_content = a.format(*values)
     return sql_content    
 
-def Execute_sql(sql_contents):
-    account = get_account()
+def Execute_sql(sql_contents,i=0):
+    account = get_account(i)
     # print(account)
     conn,cursor = login_sql(account)
     for sql_content in sql_contents:
@@ -1867,7 +1867,7 @@ def update_version(type_=0):
     version_num = num[0]+'.'+num[1]+'.'+num[2]
     print('Next version:',version_num)
     sql_content = "UPDATE VERSION SET version = '%s'" % (version_num)
-    Execute_sql([sql_content])
+    Execute_sql([sql_content],1)
     file = r'ini\\VERSION.ini'
     with open(file,'w') as f:
         f.write(version_num)    
