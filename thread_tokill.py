@@ -882,7 +882,7 @@ def multi_reg(Config):
         if Config['Mission_Id'] != '20000':
             if Config['sleep_flag'] == 1:
                 print('Sleep for random time:',time_cheat*60,'-------------')
-                sleep(time_cheat)
+                sleep(time_cheat*60)
     else:
         print('test...........')
     flag = data_handler(Config)

@@ -105,9 +105,7 @@ def get_action(chrome_driver,data,submit):
     print('====================')
     # print("data['General']['scroll']",data['General']['scroll'])   
     element = ''
-
     if data['General']['try'] == 'True':
-
         try:
             if 'father_type' in data['General']:
                 element = get_element(chrome_driver,data)
@@ -122,7 +120,11 @@ def get_action(chrome_driver,data,submit):
                     # js="var q=document.documentElement.scrollTop=-10000"
                     # chrome_driver.execute_script(js)     
                     # sleep(3)  
-                    scroll_and_find(chrome_driver,element)       
+                    if 'top' in  data['General']:
+                        top = data['General']['scroll']
+                    else:
+                        top = 'true'
+                    scroll_and_find(chrome_driver,element,top)       
                 except Exception as e:
                     print('scroll failed')
                     scroll_and_move(chrome_driver)            
@@ -137,7 +139,7 @@ def get_action(chrome_driver,data,submit):
     else:
         if 'father_type' in data['General']:
             element = get_element(chrome_driver,data)
-            print('Element get before action_func:',element) 
+            print('Element get before action_func:',element)   
         if data['General']['scroll'] == 'True':
             try:
                 print('ready to scroll and find element')
@@ -148,11 +150,15 @@ def get_action(chrome_driver,data,submit):
                 # js="var q=document.documentElement.scrollTop=-10000"
                 # chrome_driver.execute_script(js)     
                 # sleep(3)  
-                scroll_and_find(chrome_driver,element)        
+                if 'top' in  data['General']:
+                    top = data['General']['scroll']
+                else:
+                    top = 'true'
+                scroll_and_find(chrome_driver,element,top)       
             except Exception as e:
                 print('scroll failed')
                 scroll_and_move(chrome_driver)            
-                print(str(e))                   
+                print(str(e))    
         if action_func == 'Input':
             submit[key_excel] = eval(action_func)(chrome_driver,data,submit[key_excel],element)
         else:
@@ -229,12 +235,12 @@ def get_elem_part(elem,method,content):
         pass
     return element
 
-def scroll_and_find(chrome_driver,target):
+def scroll_and_find(chrome_driver,target,top='true'):
     # js="var q=document.documentElement.scrollTop=10000"
     # chrome_driver.execute_script(js)     
     # print('go down 10000 meters')
     # target = chrome_driver.find_element_by_xpath(element) 
-    chrome_driver.execute_script("arguments[0].scrollIntoView();", target)
+    chrome_driver.execute_script("arguments[0].scrollIntoView(%s);"%top, target)
     print('find target to move finished')
     # js="var q=document.documentElement.scrollTop=-50"
     # chrome_driver.execute_script(js) 
@@ -423,6 +429,10 @@ def Input(chrome_driver,data,submit,element_new=''):
     # print('city:',submit['City'])
     element = Click(chrome_driver,data,submit,element_new)
     print('after click')
+    # if 'input_clear' in  data['Step_config']:
+    #     if data['Step_config']['input_clear'] == 'True':
+    #         clear_deep(element)
+    # else:
     clear_deep(element)
     print('after clear_deep')
     if data['Step_config']['input_key'] != 'False':
@@ -446,16 +456,21 @@ def Input(chrome_driver,data,submit,element_new=''):
         print(data['Step_config']['input_key'])
         element.send_keys(content)
     if 'input_method' in data['Step_config']:
-        if data['Step_config']['input_method'] == 'Js':
+        if data['Step_config']['input_method'] == 'Js_value':
             js =  "arguments[0].value='" + content + "';"
             chrome_driver.execute_script(js, element)
             return submit
         elif data['Step_config']['input_method'] == 'together':
             element.send_keys(content)
             return submit
+        elif data['Step_config']['input_method'] == 'Js_innertext':
+            js =  "arguments[0].innerText='" + content + "';"
+            chrome_driver.execute_script(js, element)
+            return submit            
         else:
             for item in str(content):
-                element.send_keys(item)            
+                element.send_keys(item)  
+            return submit        
     for item in str(content):
         # if item in '0123456789':
         #     item = int(item)

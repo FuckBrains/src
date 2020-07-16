@@ -34,21 +34,51 @@ def web_submit(submit,chrome_driver,debug=0):
     sleep(5000)
 
 
+def pwd_gen():
+    result = []
+    length = random.randint(9,15)
+    for i in range(0, length):
+      if i % 4 == 0:
+          result.append(random.choice('1234567890'))
+      if i % 4 == 1:
+          result.append(random.choice('abcdefghijklmnisabella.wiedemann1997@outlook.deopqrstuvwxyz'))
+      if i % 4 == 2:
+          result.append(random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ'))
+      if i % 4 == 3:
+          result.append(random.choice('!$%()+,-.:;>?@[]`{}'))
+    random.shuffle(result)
+    pwd = "".join(result)
+    return pwd    
+
+
 def test():
     # db.email_test()
-    # date_of_birth = Submit_handle.get_auto_birthday('')         
+    # date_of_birth = Submit_handle.get_auto_birthday('')  
+    import luminati
+    ip = '192.168.188.243'
+    port = '24365'
+    luminati.refresh_proxy(ip,port)       
     Mission_list = ['10000']
     excel = 'de_basic'  
     excel2 = 'Uspd'  
     Excel_name = [excel,'']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
+
     submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
-    print(submit)
-    [print(item,':',submit[excel][item]) for item in submit[excel] if submit[excel][item]!=None and  submit[excel][item]!='']
+    blacklist = [' ','(',')','-']
+    for key in blacklist:
+        submit[excel]['phone'] = submit[excel]['phone'].replace(key,'')    
+    submit[excel]['email'] = Submit_handle.get_email(submit[excel])
+    submit[excel]['pwd'] = pwd_gen()   
+    key_list = ['name','phone','email','dateofbirth','zipcode','city','street','building','bank','account','iban','blz','bic','pwd','id_number','expire']
+    [print(item,':',submit[excel][item]) for item in key_list]
     # [print(item,':',submit[excel][item]) for item in submit[excel]]  
-    submit['Mission_Id'] = '10002'
-    id_ = Submit_handle.get_id_number(submit[excel])
-    print(id_)
+    submit['Mission_Id'] = '10000'
+    submit['Alliance'] = '7mobile'    
+    submit['account'] = '2'
+    # db.write_one_excel()
+    # id_ = Submit_handle.get_id_number(submit[excel])
+    # print(id_)
     # phone = submit[excel]['homephone']
     # phone = Submit_handle.get_uk_phone1(phone)
     # print(phone)

@@ -704,7 +704,47 @@ def test42():
     id_number = st.get_id_number(submit)
     print(id_number)
 
+def test43():
+    import de_gen
+    import re
+    zipcode = 11111
+    content = de_gen.get_city(zipcode)
+    reg_contents_pattern = r'<tr><td >'+str(zipcode)+r'</td><td >(.*?)</td><td >(.*?)</td><td >'
+    reg_contents= re.findall(reg_contents_pattern,content,re.S)
+    print(reg_contents)
+    # reg_contents = [reg.strip() for reg in reg_contents]   
+
+def test44():
+    submit = {}
+    submit['city'] = 1
+    submit['zipcode'] = 1
+    Submit_handle.get_city(submit)
+
+def test45(submit):
+    # citys = citys[0:5]
+    city,state = st.get_city(submit)
+    print(city,state,'is ready to upload')
+    # if submit['city_byzip']!=''and submit['city_byzip'] != None:
+    #     continue
+    sql_content = 'UPDATE Basicinfo SET city_byzip = "%s" , state = "%s" WHERE BasicInfo_Id = "%s"'%(city,state,submit['BasicInfo_Id'])
+    # sql_contents.append(sql_content)
+    db.Execute_sql([sql_content])
+
+# pool = threadpool.ThreadPool(7)
+
+def test46():
+    citys = db.handele_city()
+    print(citys[0])
+    citys = [submit for submit in citys if submit['state'] == '']
+    print(citys)
+    requests = threadpool.makeRequests(test45, citys)
+    [pool.putRequest(req) for req in requests]
+    pool.wait()             
+
+def combine_deinfo():
+    
+
 
 if __name__ == '__main__':
-    test42()
+    test46()
 

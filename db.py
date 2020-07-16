@@ -282,7 +282,7 @@ def get_occupation():
     return occupation
 
 def get_routing(excel):
-    account = get_account(1)
+    account = get_account()
     conn,cursor=login_sql(account)
     cursor.execute('SELECT BasicInfo_Id,routing_number from Basicinfo WHERE Excel_name = "%s"'%excel)
     # occupation = [key[0] for key in res]
@@ -291,6 +291,18 @@ def get_routing(excel):
     login_out_sql(conn,cursor)
     # submit = dict(Info_dict,**Info_dict2)
     return routing
+
+def handele_city():
+    excel = 'de_basic'
+    account = get_account()
+    conn,cursor=login_sql(account)
+    cursor.execute('SELECT BasicInfo_Id,city,zipcode,city_byzip,state from Basicinfo WHERE Excel_name = "%s"'%excel)
+    # occupation = [key[0] for key in res]
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    citys = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来       
+    login_out_sql(conn,cursor)
+    # submit = dict(Info_dict,**Info_dict2)
+    return citys    
 
 def check_step(Mission_Id,flag):
     account = get_account()
@@ -967,7 +979,7 @@ def get_unique_soi_email(Mission,Email_list=[]):
 def write_one_info(Mission_list,submit,Cookie = ''):
     Email_Id = ''
     BasicInfo_Id = '' 
-    account = get_account(1)
+    account = get_account(0)
     conn,cursor=login_sql(account)  
     for item in submit:
         if item == 'Email':

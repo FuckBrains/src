@@ -556,14 +556,27 @@ def upload_data():
     print(num)
     names = {}
     for item in num:    
-        for i in range(100):
+        for i in range(10000):
             try:
                 info = read_data(item+str(i))
                 infos += info
             except:
-                pass
+                break
     print(len(infos))
     upload_infos(infos)
+
+def get_city(zipcode):
+    url = 'https://www.nowmsg.com/findzip/de_postalcode.asp?CityName=%s'%str(zipcode)
+    try:
+        content = pickup(url,decoding='utf-8')
+    except:
+        content = ''
+    # print(content)
+    return content
+
+def test():
+    info = read_data('A10000')
+    print(info)
 
 if __name__ == '__main__':
     import sys
@@ -574,3 +587,4 @@ if __name__ == '__main__':
         main(i)
     else:
         upload_data()
+    # test()

@@ -5,6 +5,8 @@ import requests
 import json
 import os
 import datetime
+import de_gen
+import re
 
 # Delay, Config, Mission_conf, Email_list  = Cam4_allin.Config_read()
 
@@ -271,6 +273,40 @@ def apt_get(submit):
     else:
         apt = random.randint(30,300)
     return int(apt)
+
+def get_city(submit):
+    '''
+    Reichshof - Welpe
+    '''
+    content = de_gen.get_city(submit['zipcode'])
+    reg_contents_pattern = r'<tr><td >'+str(submit['zipcode'])+r'</td><td >(.*?)</td><td >(.*?)</td><td >'
+    reg_contents= re.findall(reg_contents_pattern,content,re.S)
+    print('city in submit:',submit['city'])    
+    if len(reg_contents)  == 0:
+        if '-' in submit['city']:
+            submit['city'] = submit['city'].split('-')[0]
+            submit['state'] = submit['state']
+    elif len(reg_contents) ==1:
+        submit['city'] = reg_contents[0][0]
+        submit['state'] = reg_contents[0][1]        
+    else:
+        flag = 0
+        for i in range(1,4):
+            for item in reg_contents:
+                t = 4-i
+                if item[0][0:t] == submit['city'][0:t]:
+                    flag = 1
+                    submit ['city'] = item[0]
+                    submit ['state'] = item[1]
+            if flag == 1:
+                break
+        if flag == 0:
+            submit['city'] = reg_contents[0][0]
+            submit['state'] = reg_contents[0][1]
+    print('city by zip found:',reg_contents)
+    print('city after handled:',submit['city'])
+    print('state found:',submit['state'])
+    return submit['city'],submit['state']
 
 def get_auto_birthday(submit):
     '''
