@@ -872,7 +872,7 @@ def multi_reg(Config):
     #         time_return = random.randint(0,600)
     #         # sleep(time_return)
     # else:
-    time_cheat = random.randint(0,15)
+    time_cheat = random.randint(0,60)
     if Config['count']<5:
         sleep(Config['count']*5)
     else:
