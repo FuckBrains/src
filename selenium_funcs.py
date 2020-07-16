@@ -275,8 +275,6 @@ def clear_deep(element):
     element.send_keys(Keys.CONTROL,'a')
     element.send_keys(Keys.BACK_SPACE)
 
-
-
 def Slide(chrome_driver,data,submit,element_new=''):
     # 定位到进度条
     # brightnessLine.get_attribute("title")#通过title属性获取当前的值
@@ -432,6 +430,7 @@ def Input(chrome_driver,data,submit,element_new=''):
     if data['Step_config']['input_key'] != 'False':
         if data['Step_config']['input_func'] != 'False' :
             content = eval('Submit_handle.'+data['Step_config']['input_func'])(submit)
+            print(content)            
         else:
             content = submit[data['Step_config']['input_key']]
             print(content)
@@ -444,7 +443,22 @@ def Input(chrome_driver,data,submit,element_new=''):
             content = submit[data['Step_config']['input_generate']]
     else:
         content = data['Step_config']['input_content']
+    test_list = ['id_number','iban']
+    if data['Step_config']['input_key'] in test_list:
+        print(data['Step_config']['input_key'])
+        element.send_keys(content)
+    if 'input_method' in data['Step_config']:
+        if data['Step_config']['input_method'] == 'Js':
+            js =  "arguments[0].value='" + content + "';"
+            chrome_driver.execute_script(js, element[0])
+            return submit
+        elif data['Step_config']['input_method'] == 'together':
+            element.send_keys(content)
+            return submit
     for item in str(content):
+        # if item in '0123456789':
+        #     item = int(item)
+        #     sleep(1)
         element.send_keys(item)
     return submit
 
