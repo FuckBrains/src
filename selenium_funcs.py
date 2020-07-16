@@ -241,7 +241,6 @@ def scroll_and_find(chrome_driver,target):
     sleep(3)
     return target
 
-
 def scroll_action(chrome_driver,element):
     ActionChains(chrome_driver).move_to_element(element).perform()  
     sleep(2)  
@@ -257,7 +256,6 @@ def scroll_and_move(chrome_driver,num=300):
     chrome_driver.execute_script(js) 
     sleep(3)
     return 
-
 
 def scroll_and_find_up(chrome_driver,element):
     target = chrome_driver.find_elements_by_xpath(element) 
@@ -450,11 +448,14 @@ def Input(chrome_driver,data,submit,element_new=''):
     if 'input_method' in data['Step_config']:
         if data['Step_config']['input_method'] == 'Js':
             js =  "arguments[0].value='" + content + "';"
-            chrome_driver.execute_script(js, element[0])
+            chrome_driver.execute_script(js, element)
             return submit
         elif data['Step_config']['input_method'] == 'together':
             element.send_keys(content)
             return submit
+        else:
+            for item in str(content):
+                element.send_keys(item)            
     for item in str(content):
         # if item in '0123456789':
         #     item = int(item)
