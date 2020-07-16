@@ -357,7 +357,7 @@ def reg_part_(submit):
     except:
         pass
 
-@timeout(900)
+# @timeout(120)
 def reg_part_cpl(submit):
     print('reg_part')
     global timezone 

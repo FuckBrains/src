@@ -278,6 +278,7 @@ def overlay_click(chrome_driver,element):
 def clear_deep(element):
     element.send_keys(Keys.CONTROL,'a')
     element.send_keys(Keys.BACK_SPACE)
+    sleep(1)
 
 def Slide(chrome_driver,data,submit,element_new=''):
     # 定位到进度条
