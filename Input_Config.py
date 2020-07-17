@@ -18,7 +18,7 @@ Input_Config ={
     'katou'     : ['get_zip'],
     'year'      : ['get_expiration_date'],
     'fullname'    : ['get_fullname'],  
-    'phone'     : ['get_phone_dadao','get_phone_de'],    
+    'phone'     : ['get_phone_dadao','get_phone_de','get_phone_de_pre','get_phone_de_last'],    
     'date_of_birth' : ['get_birthday_mm','get_birthday_dd','get_birthday_year','get_birthday_all','get_birthday_all_2'],    
     'ssn'           : ['get_ssn','ssn_first_3','ssn_mid_2','ssn_last4'],
     'drivers_license': ['get_drivers_license'],
@@ -27,7 +27,7 @@ Input_Config ={
     'net_monthly_income' : ['get_income','get_income_other'],
     'employer':['get_employer_info'],
     'occupation':['get_occupation_info'],  
-    'name':['get_firstname','get_lastname'],
+    'name':['get_firstname','get_lastname','get_name_de'],
     'email':['get_email'],
     'id_number':['get_id_number']
 }

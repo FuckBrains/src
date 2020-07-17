@@ -786,6 +786,32 @@ def get_phone_de(submit):
     phone = submit['phone'].replace('(','').replace(')','').replace(' ','')
     return phone
 
+def get_phone_de_pre(submit):
+    '''
+    (0 95 69) 12 78
+    -->0 95 69
+    '''
+    phone = get_phone_de(submit)
+    pre = phone[:5]
+    return pre
+
+def get_phone_de_last(submit):
+    '''
+    (0 95 69) 12 78
+    -->1278
+    '''
+    phone = get_phone_de(submit)
+    last = phone[5:]
+    return last
+
+def get_name_de(submit):
+    '''
+    lee cun
+    leecun
+    '''
+    name = submit['name'],replace(' ','')
+    return name
+
 
 def get_id_number(submit):
     '''

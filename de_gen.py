@@ -136,10 +136,12 @@ def pickup(url,num=1,decoding=''):
     for i in range(5):
         try:
             resp=session.get(url,timeout=30)
-            # print(resp.encoding)
+            print(resp.text)
+            print(resp.status_code)
             flag = 1
             break
-        except:
+        except Exception as e:
+            print(str(e))
             print('try',i,'time')
             pass
     # print(resp.text) 

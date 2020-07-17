@@ -96,7 +96,7 @@ def main(i):
         [pool.putRequest(req) for req in requests]
         pool.wait() 
         print('finish sending traffic,sleep for 30')
-        sleep(300)
+        sleep(3000)
         # return
 
 def test():

@@ -742,9 +742,19 @@ def test46():
     pool.wait()             
 
 def combine_deinfo():
-    
+    pass
+
+def test47():
+    import de_gen
+    phones = db.get_phones_de()
+    for phone in phones[:100]:
+        phone_ = phone['phone'].replace('(','').replace(')','').replace('-','').replace(' ','')
+        url = 'https://www.congstar.de/checkout/api/area-code/%s'%(phone_[:5])
+        content = de_gen.pickup(url)
+        print(phone_[:5],'----',content)
+
 
 
 if __name__ == '__main__':
-    test46()
+    test47()
 

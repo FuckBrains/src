@@ -1555,6 +1555,20 @@ def get_cehuoaccount(submit):
     login_out_sql(conn,cursor)     
     return account    
 
+def get_phones_de():
+    print('     Start reading info from sql server...')
+    account = get_account(0)
+    conn,cursor=login_sql(account)
+    res = cursor.execute('SELECT BasicInfo_Id,phone from Basicinfo WHERE Excel_name="%s"'%'de_basic')
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    phones = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
+    login_out_sql(conn,cursor)
+    print('Login out db')    
+    # print(len(Mission_dict))
+    # print(Mission_dict)
+    return phones
+
+
 def get_page_flag(Mission_Id):
     print('     Start reading info from sql server...')
     account = get_account(0)

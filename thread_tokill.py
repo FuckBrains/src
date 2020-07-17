@@ -376,7 +376,7 @@ def reg_part_cpl(submit):
             submit.pop('ip_lpm')
         print(submit)
         Page_flags = db.get_page_flag(Mission_Id)        
-       
+        print('Page_flags:',Page_flags)
         if len(Page_flags) == 0:
             print('No Page_flags found in db,try import module from src')
             chrome_driver = Chrome_driver.get_chrome(submit)
