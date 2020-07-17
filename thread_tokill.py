@@ -93,6 +93,7 @@ def writelog(chrome_driver,submit,content=''):
 
 def start(plans):
     print('Start func')
+    print(len(plans),'plans found')
     if plans[0]['sleep_flag'] == 2:
         for num_ip in range(6):
             try:
@@ -111,6 +112,12 @@ def start(plans):
             print('911 city:',city) 
     for i in range(len(plans)):
         plans[i]['count'] = i
+    print(len(plans),'after set count')
+    print(plans)
+    print('=====================')
+    print('=====================')
+    print('=====================')
+    print('=====================')
     requests = threadpool.makeRequests(multi_reg, plans)
     [pool.putRequest(req) for req in requests]
     pool.wait()     

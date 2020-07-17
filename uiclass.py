@@ -1416,7 +1416,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.Dadao.setCurrentIndex(8)
         self.tabWidget_3.setCurrentIndex(2)
-        self.tabWidget.setCurrentIndex(6)
+        self.tabWidget.setCurrentIndex(7)
         self.tabWidget_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 

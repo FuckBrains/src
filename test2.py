@@ -753,8 +753,17 @@ def test47():
         content = de_gen.pickup(url)
         print(phone_[:5],'----',content)
 
+def test48():
+    plans = {
+    'A':{},
+    'B':{},
+    'C':{},
+    'D':{}
+    }
+    for i in range(len(plans)):
+        plans[i]['count'] = i
 
 
 if __name__ == '__main__':
-    test47()
+    test48()
 

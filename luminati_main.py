@@ -106,8 +106,8 @@ def main(i):
                 # init sleep_flag and Status
                 plan['sleep_flag'] = i
                 db.update_plan_status(0,plan['ID'])                
-                for count in range(plan['Mission_time']):
-                    plans.append(plan)
+                # for count in range(plan['Mission_time']):
+                plans.append(plan)
             # print(plans)
             # print(len(plans))
         except Exception as e:
@@ -117,7 +117,6 @@ def main(i):
         if len(plans) == 0:
             print('No plan for this computer!!!!!!')
             return
-        # print(plans)
         tk.start(plans)
         print('All Missions finished..............')
         if i == 4:
