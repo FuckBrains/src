@@ -809,7 +809,7 @@ def get_name_de(submit):
     lee cun
     leecun
     '''
-    name = submit['name'],replace(' ','')
+    name = submit['name'].replace(' ','')
     return name
 
 
