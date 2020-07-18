@@ -73,6 +73,36 @@ def change_update_file():
             os.remove(file)
         os.rename(file2,file)
 
+def gen_plan():
+    num_left,numright = 1,5
+    execute_time = {}
+    num_day_target = random.randint(num_left,numright)
+    print(num_day_target,'times for mission')
+    for i in range(999):
+        if len(execute_time)>= num_day_target:
+            break
+        num_hour = random.randint(8,24)
+        print(num_hour)
+        if num_hour in execute_time:
+            continue
+        if str(num_hour) in execute_time:
+            # if len(execute_time[str(num_hour)]) >= 2:
+            #     i = i - 1
+            #     continue
+            # else:
+            for j in range(100):
+                num_minute = random.randint(1,7)
+                if num_minute in execute_time[str(num_hour)]:
+                    continue
+                else:
+                    execute_time[str(num_hour)] = []
+                    execute_time[str(num_hour)].append(str(num_minute))
+        else:
+            num_minute = random.randint(1,7)
+            execute_time[str(num_hour)] = [str(num_minute)]
+    return execute_time
+
+
 def main(i):
     # while True:
     try:
@@ -147,4 +177,5 @@ if __name__ == '__main__':
     paras=sys.argv
     i = int(paras[1])
     main(i)
-    # test()
+    # plan = gen_plan()
+    # print(plan)

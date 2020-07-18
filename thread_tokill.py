@@ -451,6 +451,7 @@ def web_submit(submit,chrome_driver,debug=0):
         chrome_driver.execute_script(js)
     # return
     else:
+        submit['Site'] = submit['Site'].replace('\\n','')
         chrome_driver.get(submit['Site'])
     # chrome_driver.refresh()
     if submit['sleep_flag'] == 5:
