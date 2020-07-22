@@ -56,10 +56,12 @@ def test():
     # date_of_birth = Submit_handle.get_auto_birthday('')  
     import luminati
     import de_gen
-    ip = '192.168.188.243'
-    port = '24365'
+    Mission_list = ['10000']    
+    # ip = '192.168.89.145'
+    # port = '24365'
     # luminati.refresh_proxy(ip,port)       
-    Mission_list = ['10000']
+    Alliance = 'Byhand'
+    account = '1'
     excel = 'de_basic'  
     excel2 = 'Uspd'  
     Excel_name = [excel,'']
@@ -68,18 +70,26 @@ def test():
         submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
         blacklist = [' ','(',')','-']
         for key in blacklist:
-            submit[excel]['phone'] = submit[excel]['phone'].replace(key,'')    
+            submit[excel]['phone'] = submit[excel]['phone'].replace(key,'') 
+        submit[excel]['phone'] = submit[excel]['phone'][:5]+' '+submit[excel]['phone'][5:]    
         # if '@' not in submit[excel]['email']:
         #     continue
         submit[excel]['email'] = Submit_handle.get_email(submit[excel])
         submit[excel]['pwd'] = pwd_gen()   
-        key_list = ['name','phone','email','dateofbirth','zipcode','city_byzip','city','street','building','bank','account','iban','blz','bic','pwd','id_number','expire']
-        key_list.sort()
+        key_list1 = ['name','phone','email','dateofbirth']
+        key_list2 = ['zipcode','city_byzip','city','street','building']
+        key_list3 = ['bank','account','iban','blz','bic']
+        key_list4 = ['pwd','id_number','expire']
+        # key_list.sort()
         # [print(item,':',submit[excel][item]) for item in submit[excel]]  
-        submit['Mission_Id'] = '10000'
-        submit['Alliance'] = '7mobile'    
-        submit['account'] = '2'
+        submit['Mission_Id'] = Mission_list[0]
+        submit['Alliance'] = Alliance    
+        submit['Account'] = account
+        submit['ua'] = ''
+        submit['ip_record'] = ''
         url = 'https://www.netcologne.de/themes/netcologne/ajax/availability_autocomplete.php?src=plz&plz=%s'%submit[excel]['zipcode']
+        if submit['Mission_Id'] != 99:
+            break
         res = de_gen.pickup(url)    
         print('test netcologne:',res)
         # break
@@ -89,10 +99,26 @@ def test():
             continue
         else:
             print(len(res))            
-            [print(item,':',submit[excel][item]) for item in key_list]
+            # [print(item,':',submit[excel][item]) for item in key_list]
             break
+    print('\n\n')
+    print('basic info:')
+    [print(item,':',submit[excel][item]) for item in key_list1]
+    print('\n\n')
 
-    # db.write_one_excel()
+    print('location info:')
+    [print(item,':',submit[excel][item]) for item in key_list2]
+    print('\n')
+
+    print('bank info:')
+    [print(item,':',submit[excel][item]) for item in key_list3]
+    print('\n')
+
+    print('idcard info:')
+    [print(item,':',submit[excel][item]) for item in key_list4]
+    print('\n')
+
+    db.write_one_info(Mission_list,submit)
     # id_ = Submit_handle.get_id_number(submit[excel])
     # print(id_)
     # phone = submit[excel]['homephone']
