@@ -55,27 +55,43 @@ def test():
     # db.email_test()
     # date_of_birth = Submit_handle.get_auto_birthday('')  
     import luminati
+    import de_gen
     ip = '192.168.188.243'
     port = '24365'
-    luminati.refresh_proxy(ip,port)       
+    # luminati.refresh_proxy(ip,port)       
     Mission_list = ['10000']
     excel = 'de_basic'  
     excel2 = 'Uspd'  
     Excel_name = [excel,'']
     Email_list = ['hotmail.com','outlook.com','yahoo.com','aol.com','gmail.com']
+    for num_test in range(1000):
+        submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
+        blacklist = [' ','(',')','-']
+        for key in blacklist:
+            submit[excel]['phone'] = submit[excel]['phone'].replace(key,'')    
+        # if '@' not in submit[excel]['email']:
+        #     continue
+        submit[excel]['email'] = Submit_handle.get_email(submit[excel])
+        submit[excel]['pwd'] = pwd_gen()   
+        key_list = ['name','phone','email','dateofbirth','zipcode','city_byzip','city','street','building','bank','account','iban','blz','bic','pwd','id_number','expire']
+        key_list.sort()
+        # [print(item,':',submit[excel][item]) for item in submit[excel]]  
+        submit['Mission_Id'] = '10000'
+        submit['Alliance'] = '7mobile'    
+        submit['account'] = '2'
+        url = 'https://www.netcologne.de/themes/netcologne/ajax/availability_autocomplete.php?src=plz&plz=%s'%submit[excel]['zipcode']
+        res = de_gen.pickup(url)    
+        print('test netcologne:',res)
+        # break
+        if len(res)==2:
+            # [print(item,':',submit[excel][item]) for item in key_list]
+            # break            
+            continue
+        else:
+            print(len(res))            
+            [print(item,':',submit[excel][item]) for item in key_list]
+            break
 
-    submit = db.read_one_excel(Mission_list,Excel_name,Email_list)
-    blacklist = [' ','(',')','-']
-    for key in blacklist:
-        submit[excel]['phone'] = submit[excel]['phone'].replace(key,'')    
-    submit[excel]['email'] = Submit_handle.get_email(submit[excel])
-    submit[excel]['pwd'] = pwd_gen()   
-    key_list = ['name','phone','email','dateofbirth','zipcode','city','street','building','bank','account','iban','blz','bic','pwd','id_number','expire']
-    [print(item,':',submit[excel][item]) for item in key_list]
-    # [print(item,':',submit[excel][item]) for item in submit[excel]]  
-    submit['Mission_Id'] = '10000'
-    submit['Alliance'] = '7mobile'    
-    submit['account'] = '2'
     # db.write_one_excel()
     # id_ = Submit_handle.get_id_number(submit[excel])
     # print(id_)
