@@ -4,8 +4,8 @@ sys.path.append("..")
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow , QApplication,QWidget, QMessageBox
 import os
-os.system(r'pyuic5 -o uiclass.py ui\de_collector.ui')
-from uiclass import Ui_MainWindow
+os.system(r'pyuic5 -o uiclass2.py ui\de_collector.ui')
+from uiclass2 import Ui_MainWindow
 from PyQt5.QtCore import pyqtSlot
 
 
@@ -15,7 +15,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
     def __init__(self,parent = None):
         QMainWindow.__init__(self,parent)
         self.setupUi(self) 
-
+        _translate = QtCore.QCoreApplication.translate
 
     @pyqtSlot()
     def on_pushButton1_clicked(self):
