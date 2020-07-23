@@ -56,7 +56,7 @@ def test():
     # date_of_birth = Submit_handle.get_auto_birthday('')  
     import luminati
     import de_gen
-    Mission_list = ['10000']    
+    Mission_list = ['10000','10001']    
     # ip = '192.168.89.145'
     # port = '24365'
     # luminati.refresh_proxy(ip,port)       
