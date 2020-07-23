@@ -443,6 +443,8 @@ if __name__ == '__main__':
     except:
         pass
     if i == 0:
+        print('ready to sort')
         collect()
+        print('Sort data finished!!')
     else:
         main(param)

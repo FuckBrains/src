@@ -32,7 +32,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         # param = self.comboBox.currentText()
         print('start sort')
         # db.init()
-        command = '''start cmd /k "python de_gen_excel.pyc %d %s "{$name$:$qcy$}" && exit"'''%(0)
+        command = '''start cmd /k "python de_gen_excel.pyc %d "{$name$:$qcy$}" && exit"'''%(0)
         os.system(command)    
 
 
