@@ -4,7 +4,7 @@ sys.path.append("..")
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow , QApplication,QWidget, QMessageBox
 import os
-os.system(r'pyuic5 -o uiclass2.py ui\de_collector.ui')
+# os.system(r'pyuic5 -o uiclass2.py ui\de_collector.ui')
 from uiclass2 import Ui_MainWindow
 from PyQt5.QtCore import pyqtSlot
 

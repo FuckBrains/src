@@ -8,6 +8,7 @@ import uuid
 import numpy as np
 import xlrd
 from xlutils.copy import copy
+import sys
 
 def gen_uuid(num):
     uuids = []
@@ -437,7 +438,10 @@ def collect():
 if __name__ == '__main__':
     paras=sys.argv
     i = int(paras[1])  
-    param = paras[2]  
+    try:
+        param = paras[2]  
+    except:
+        pass
     if i == 0:
         collect()
     else:
