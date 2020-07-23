@@ -36,7 +36,7 @@ class Mywindow(QMainWindow,Ui_MainWindow):
         os.system(command)    
 
 
-def main(i,message=''):
+def main():
     # up.main()
     import traceback
     app = QtWidgets.QApplication(sys.argv)  # 创建一个QApplication，也就是你要开发的软件app
@@ -45,37 +45,16 @@ def main(i,message=''):
     # MainWindow.setFixedSize(MainWindow.width(), MainWindow.height());  
     # ui.setupUi(MainWindow)   # 执行类中的setupUi方法，方法的参数是第二步中创建的QMainWindow
     # ui.pushButton.clicked.connect(test_sig)
-    if i == 0:
-        print('Updating config...')
-        try:
-            upc.update_config()
-        except Exception as e:
-            content = traceback.format_exc()  
-            print('traceback.format_exc():' ,content)  
-            print('Updating config failed')
-            return
-        print('Updating config success')        
-        ui = Mywindow(MainWindow)                          # ui是你创建的ui类的实例化对象        
-        print('========+++')
-        ui.show()                       # 执行QMainWindow的show()方法，显示这个QMainWindow
-        sys.exit(app.exec_())
-    else:
-        ui = Mywindow(MainWindow)                          # ui是你创建的ui类的实例化对象
-        if message != '':
-            message += '\n'*30+' '*100
-            ui.alert(message)
-            ui.show()                       # 执行QMainWindow的show()方法，显示这个QMainWindow
-        sys.exit(app.exec_())
+
+    ui = Mywindow(MainWindow)                          # ui是你创建的ui类的实例化对象        
+    print('========+++')
+    ui.show()                       # 执行QMainWindow的show()方法，显示这个QMainWindow
+    sys.exit(app.exec_())
 
 
 
 if __name__ == '__main__':
-    # paras=sys.argv
-    # i = int(paras[1])
-    i = 0
-    # message = 'test'+'\n'*30+' '*100
-    message = ''
-    main(i,message)
+    main()
 
 
 
