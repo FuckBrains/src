@@ -196,9 +196,9 @@ def get_submit(Config):
                 continue
         else:
             pass 
-        print('refreshing ip.............') 
         flag = 0
         if submit['sleep_flag'] != 2 and submit['sleep_flag'] != 3:
+            print('refreshing ip.............') 
             # flag,proxy_info = luminati.ip_test(submit['port_lpm'],state=submit['state_'] ,country=submit['Country'])
             flag,proxy_info = luminati.ip_test(submit['port_lpm'],state='' ,country=submit['Country'])            
             print('proxy_info:',proxy_info)
@@ -438,21 +438,21 @@ def web_submit(submit,chrome_driver,debug=0):
     # if debug == 1:
     #     site = 'http://tracking.axad.com/aff_c?offer_id=181&aff_id=2138'
     #     submit['Site'] = site
-    Page_flags = submit['Page_flags']
-    Page_flags = [item for item in Page_flags if item['Country'] == submit['Country']]    
-    print(Page_flags) 
-    print('============')
-
-    print(submit['Site'])
-    if '/>' in submit['Site']:
-    # html =html_1.replace('"','\\"').replace("'","\\'") 
-        js = 'document.writeln("'+submit['Site']+'");'
-        print(js)
-        chrome_driver.execute_script(js)
-    # return
-    else:
-        submit['Site'] = submit['Site'].replace('\\n','')
-        chrome_driver.get(submit['Site'])
+    if 'remote' not in submit:
+        Page_flags = submit['Page_flags']
+        Page_flags = [item for item in Page_flags if item['Country'] == submit['Country']]    
+        print(Page_flags) 
+        print('============')
+        print(submit['Site'])
+        if '/>' in submit['Site']:
+        # html =html_1.replace('"','\\"').replace("'","\\'") 
+            js = 'document.writeln("'+submit['Site']+'");'
+            print(js)
+            chrome_driver.execute_script(js)
+        # return
+        else:
+            submit['Site'] = submit['Site'].replace('\\n','')
+            chrome_driver.get(submit['Site'])
     # chrome_driver.refresh()
     if submit['sleep_flag'] == 5:
         chrome_driver.delete_all_cookies()
@@ -485,20 +485,23 @@ def web_submit(submit,chrome_driver,debug=0):
         '''
         handle = chrome_driver.current_window_handle
         submit['handle'] = handle
-        page = page_detect(Page_flags,chrome_driver)
-        if page == None:
-            content = 'Looking for flag and Timeout or bad page'
-            print(content)
-            # qt.main(1,content)            
-            return chrome_driver
-        elif page == '':
-            content = 'New Page'
-            # writelog(chrome_driver,submit,content)
-            # qt.main(1,content)
-            return chrome_driver
-        print('Find target_page:',page['Page'])
-        if page['Page'] in page_done:
-            return chrome_driver
+        if 'remote' not in submit:
+            page = page_detect(Page_flags,chrome_driver)
+            if page == None:
+                content = 'Looking for flag and Timeout or bad page'
+                print(content)
+                # qt.main(1,content)            
+                return chrome_driver
+            elif page == '':
+                content = 'New Page'
+                # writelog(chrome_driver,submit,content)
+                # qt.main(1,content)
+                return chrome_driver
+            print('Find target_page:',page['Page'])
+            if page['Page'] in page_done:
+                return chrome_driver
+        else:
+            page = submit['Page']
         '''
         save html
         '''
@@ -564,6 +567,9 @@ def web_submit(submit,chrome_driver,debug=0):
         '''
         # flag_refresh = 0
         for config_ in configs:
+            if 'remote' not in submit:
+                if int(config_['Step']) < int(submit['Step']):
+                    continue
             try:
                 step_detect(chrome_driver,[config_])
                 sleep(1)

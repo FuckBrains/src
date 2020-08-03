@@ -763,7 +763,40 @@ def test48():
     for i in range(len(plans)):
         plans[i]['count'] = i
 
+def test49():
+    Mission_Id = '10002'
+    page = db.get_page_flag(Mission_Id,1)
+    print(page)
+
+    save_data(page,Mission_Id)
+
+def save_data(content,filename):
+    # 保存
+    file_dir = r'..\config\%s.npy'%filename
+    # makedir_account(file_dir)
+    with open(file_dir,'w') as f:
+        for info in content:
+            item = json.dumps(info)
+            f.write(item)
+            f.write('\n') 
+
+def read_data(self,filename):
+    infos = []
+    file_dir = r'yellowpage\de\%s'%filename    
+    with open(file_dir,'r') as f:
+        lines = f.readlines()
+    for line in lines:
+        if line=='\n':
+            continue
+        info = json.loads(line)
+        infos.append(info)
+    print(infos)
+    return infos
+def test50():
+    country = 'US'
+    print(country.lower())
+
 
 if __name__ == '__main__':
-    test48()
+    test50()
 

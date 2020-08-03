@@ -11,7 +11,31 @@ import luminati
 from time import sleep
 import globalvar as gl
 from win32api import GetFileVersionInfo, LOWORD, HIWORD 
+from selenium.webdriver import Remote
+from selenium.webdriver.chrome import options
+from selenium.common.exceptions import InvalidArgumentException
 
+class ReuseChrome(Remote):
+
+    def __init__(self, command_executor, session_id):
+        self.r_session_id = session_id
+        Remote.__init__(self, command_executor=command_executor, desired_capabilities={})
+
+    def start_session(self, capabilities, browser_profile=None):
+        """
+        重写start_session方法
+        """
+        if not isinstance(capabilities, dict):
+            raise InvalidArgumentException("Capabilities must be a dictionary")
+        if browser_profile:
+            if "moz:firefoxOptions" in capabilities:
+                capabilities["moz:firefoxOptions"]["profile"] = browser_profile.encoded
+            else:
+                capabilities.update({'firefox_profile': browser_profile.encoded})
+
+        self.capabilities = options.Options().to_capabilities()
+        self.session_id = self.r_session_id
+        self.w3c = False
 
 
 def get_version_number(filename):
@@ -22,13 +46,6 @@ def get_version_number(filename):
     ls = info['FileVersionLS']
     # print('Chrome_version:',HIWORD(ms), LOWORD(ms), HIWORD(ls), LOWORD(ls))
     return HIWORD(ms)
-
-def get_chrome_remote():
-    options = webdriver.ChromeOptions()
-    options.debugger_address = "127.0.0.1:9222"
-    path_driver = get_chromedriver_path()    
-    chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)    
-    return chrome_driver
 
 def get_chromedriver_path():
     path = getInstallBdyAdree()
@@ -70,13 +87,13 @@ def get_ua():
     ua = ua.replace('"','')
     return ua
 
-
 def set_flag(name,value):
     gl.set_value(str(name),value)
 
 def get_flag(name):
     flag = gl.get_value(str(name))
     return flag
+
 def get_gl_():
     flag = gl.get_gl()
     return flag
@@ -202,7 +219,7 @@ def get_chrome(submit = None,pic=0,headless=0,time_out=300):
             options.add_experimental_option("prefs", prefs)       
             desired_capabilities = DesiredCapabilities.CHROME # 修改页面加载策略 # none表示将br.get方法改为非阻塞模式，在页面加载过程中也可以给br发送指令，如获取url，pagesource等资源。 desired_capabilities["pageLoadStrategy"] = "none" 
             desired_capabilities["pageLoadStrategy"] = "none"            
-            chrome_driver = webdriver.Chrome(chrome_options=options, desired_capabilities=desired_capabilities,executable_path=path_driver)            
+            chrome_driver = webdriver.Chrome(options=options, desired_capabilities=desired_capabilities,executable_path=path_driver)            
             return chrome_driver               
             # print(proxy) 
         # wire_options = ''           
@@ -243,7 +260,7 @@ def get_chrome(submit = None,pic=0,headless=0,time_out=300):
     # options.add_argument('–mute-audio')
     # options.add_argument('Referer=https://www.facebook.com')
 
-    chrome_driver = webdriver.Chrome(chrome_options=options,executable_path=path_driver)    
+    chrome_driver = webdriver.Chrome(options=options,executable_path=path_driver)    
     # else:
     #     chrome_driver = webdriver.Chrome(executable_path=path_driver,seleniumwire_options=options)            
     # chrome_driver = webdriver.Chrome(executable_path=path_driver)        
@@ -295,6 +312,11 @@ def get_chrome_test(submit):
     # options.add_argument('--ignore-certificate-errors') 
     # options.add_experimental_option("excludeSwitches" , ["enable-automation","load-extension"])                   
     return chrome_driver    
+
+def get_chrome_remote(executor_url,session_id):
+    chrome_driver = ReuseChrome(command_executor=executor_url, session_id=session_id)
+    # print(chrome_driver.title)
+    return chrome_driver
 
 def get_chrome_normal(submit=''):
     uas = get_ua_all()
@@ -435,8 +457,30 @@ def test_meituan():
 def test2():
     chrome_driver = get_chrome()
     chrome_driver.get('https://www.smartloan.com')
-    sleep(3000)
+    # sleep(3000)
+    executor_url = chrome_driver.command_executor._url
+    session_id = chrome_driver.session_id       
+    print(executor_url)
+    print(session_id)
+    a = b
 
+def test3():
+    import db
+    import thread_tokill
+    executor_url = 'http://127.0.0.1:54657'
+    session_id = '7b20af9257b3b2855eef4eccb16c3763'     
+    chrome_driver = get_chrome_remote(executor_url,session_id)  
+    plans = db.read_plans(1)    
+    plan = plans[0]
+    plan['sleep_flag'] = 3    
+    submit = thread_tokill.get_submit(plan)
+    print(submit)
+    submit['remote'] = True
+    submit['Page'] = {'Page':1}
+    submit['Step'] = 10
+    thread_tokill.web_submit(submit,chrome_driver)
+
+   
 
 if __name__ == '__main__':
-    test2()
+    test3()

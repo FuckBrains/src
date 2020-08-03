@@ -102,6 +102,9 @@ def gen_plan():
             execute_time[str(num_hour)] = [str(num_minute)]
     return execute_time
 
+def check_mission_num():
+    pass
+
 
 def main(i):
     # while True:

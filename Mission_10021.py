@@ -22,7 +22,7 @@ import emaillink
 
 def web_submit(submit,chrome_driver,debug=0):
     chrome_driver.get(submit['Site']) 
-    # sleep(2000)   
+    a = input('enter a random number:')
     Mission = '10021'
     email_list = ['hotmail.com','outlook.com','gmail.com','msn.com']
     submit1 = db.get_unique_soi_email(Mission,email_list)

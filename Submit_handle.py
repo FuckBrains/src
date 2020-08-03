@@ -710,6 +710,7 @@ def get_phone(submit):
     '''
     keys = ['homephone','home_phone','phone']
     phone = get_value(keys,submit)
+    phone = str(phone)
     phone_ = phone.replace('(','').replace(')','').replace('-','')
     if '.' in phone_:
         phone_ = (phone_).split('.')[0]

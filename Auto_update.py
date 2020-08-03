@@ -37,12 +37,11 @@ def get_code():
     # print(update_config)
     url_back = update_config['url_back']
     url_code = update_config['url_code']
-
     for j in range(10):
         try:
             chrome_driver.get(url_back)
             chrome_driver.find_element_by_xpath(update_config['xpath_username']).send_keys('18122710376')
-            chrome_driver.find_element_by_xpath(update_config['xpath_pwd']).send_keys('Ddf!@s345a1asd')
+            chrome_driver.find_element_by_xpath(update_config['xpath_pwd']).send_keys('3r!i1@,JZQ27!')
             sleep(2)
             chrome_driver.find_element_by_name(update_config['xpath_checkbox']).click()
             # chrome_driver.find_element_by_xpath(update_config['xpath_checkbox']).click()

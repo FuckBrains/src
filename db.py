@@ -1191,6 +1191,15 @@ def Execute_sql_single(sql_contents,ali=0):
     print('Login out db')
     return responses
 
+def page_config_write_txt(Mission_Id):
+    sql_contents = []
+    # Mission_Id = '10002'
+    sql_content = 'select * from page_config where Mission_Id =%s'%(Mission_Id)
+    sql_contents.append(sql_content)
+    res = Execute_sql_single(sql_contents,1)
+    print(res[0])  
+    return res[0]  
+
 def email_test():
     sql_content1 = 'SELECT * from Email'
     sql_contents = [sql_content1]
@@ -1569,9 +1578,9 @@ def get_phones_de():
     return phones
 
 
-def get_page_flag(Mission_Id):
+def get_page_flag(Mission_Id,ali=0):
     print('     Start reading info from sql server...')
-    account = get_account(0)
+    account = get_account(ali)
     conn,cursor=login_sql(account)
     res = cursor.execute('SELECT * from Page_Flag WHERE Mission_Id="%d"'%int(Mission_Id))
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
@@ -1613,9 +1622,9 @@ def unchosse_states(submit):
     # print(Mission_dict)
     return infos
 
-def get_page_config(Mission_Id,Page):
+def get_page_config(Mission_Id,Page,ali=0):
     print('     Start reading info from sql server...')
-    account = get_account(0)
+    account = get_account(ali)
     conn,cursor=login_sql(account)
     res = cursor.execute('SELECT * from Page_config WHERE Mission_Id="%d" and Page="%s"'%(int(Mission_Id),str(Page)))
     desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
@@ -1625,6 +1634,20 @@ def get_page_config(Mission_Id,Page):
     # print(len(Mission_dict))
     # print(Mission_dict)
     return Pages
+
+def get_plan_config(alliance,account_alliance,ali=0):
+    print('     Start reading info from sql server...')    
+    account = get_account(ali)
+    conn,cursor=login_sql(account)
+    sql_content = 'SELECT * from url_link WHERE alliance="%s" and account="%s"'%(alliance,str(account_alliance))
+    print(sql_content)
+    res = cursor.execute(sql_content)
+    print(res)
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    links = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
+    login_out_sql(conn,cursor)
+    print('Login out db')    
+    return links
 
 def get_state_byzip(zip_):
     print('     Start reading info from sql server...')
@@ -1918,6 +1941,15 @@ def delete_alliance_config(Alliance_name,Mission_Id):
     sql_content = "DELETE FROM Alliance_config where Alliance_name = '%s' and Mission_Id = '%s'"%(Alliance_name,str(Mission_Id))
     res = Execute_sql_single([sql_content])
     return res
+
+def get_offer_config_all(ali=0):
+    account = get_account(ali)
+    conn,cursor=login_sql(account)
+    res = cursor.execute('SELECT * from Offer_config')
+    desc = cursor.description  # 获取字段的描述，默认获取数据库字段名称，重新定义时通过AS关键重新命名即可
+    Offer_configs = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来  
+    login_out_sql(conn,cursor)     
+    return Offer_configs    
 
 
 

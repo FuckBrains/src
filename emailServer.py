@@ -10,6 +10,8 @@ class EmailService(object):
         "AOL":{"SMTP":["smtp.aol.com",25,False],"POP3":["pop.aol.com",110,False],"IMAP":["imap.aol.com",993,True]},
         "YAHOO":{"SMTP":["smtp.mail.yahoo.com",465,True],"POP3":["pop.mail.yahoo.com",995,True],"IMAP":["imap.mail.yahoo.com",993,True]},
         "21CN": {"SMTP": ["smtp.21cn.com", 465, True], "POP3": ["pop.21cn.com", 995, True],"IMAP": ["imap.21cn.com", 143, False]},
+        "GMX": {"SMTP": ["smtp.gmx.com", 465, True], "POP3": ["pop.gmx.com", 995, True],"IMAP": ["imap.gmx.com", 993, False]},        
+        "WEB": {"SMTP": ["smtp.web.com", 465, True], "POP3": ["pop.gmx.com", 995, True],"IMAP": ["imap.web.com", 993, False]},                
     }
 
     @staticmethod

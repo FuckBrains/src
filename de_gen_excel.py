@@ -232,29 +232,51 @@ class Collector:
         # print(content)    
         return  content 
     
-    def write_status(self,infos_all):
+    def write_status(self,infos_all,on=0):
         print(infos_all)
         book2 = copy(self.workbook)
         sheet2 = book2.get_sheet(0) 
+        if on != 0:
+            row = self.sheet.nrows
+        else:
+            row = 0
         for i in range(len(infos_all)):
-            sheet2.write(i+1,0,infos_all[i]['name'])
-            sheet2.write(i+1,1,infos_all[i]['city'])
-            sheet2.write(i+1,2,infos_all[i]['street'])
-            sheet2.write(i+1,3,infos_all[i]['building'])
-            sheet2.write(i+1,4,infos_all[i]['zipcode'])
-            sheet2.write(i+1,5,infos_all[i]['phone'])
-            sheet2.write(i+1,6,infos_all[i]['email'])
+            sheet2.write(row+i,0,infos_all[i]['name'])
+            sheet2.write(row+i,1,infos_all[i]['city'])
+            sheet2.write(row+i,2,infos_all[i]['street'])
+            sheet2.write(row+i,3,infos_all[i]['building'])
+            sheet2.write(row+i,4,infos_all[i]['zipcode'])
+            sheet2.write(row+i,5,infos_all[i]['phone'])
+            sheet2.write(row+i,6,infos_all[i]['email'])
         book2.save(self.path_excel)
     
     def get_excel(self):
         self.workbook = xlrd.open_workbook(self.path_excel)
         self.sheet = self.workbook.sheet_by_index(0)
+
+    def clean_excel(self): 
+        book2 = copy(self.workbook)
+        sheet2 = book2.get_sheet(0) 
+        row = 0
+        nrow = self.sheet.nrows
+        for i in range(nrow):
+            sheet2.write(row+i+1,0,'')
+            sheet2.write(row+i+1,1,'')
+            sheet2.write(row+i+1,2,'')
+            sheet2.write(row+i+1,3,'')
+            sheet2.write(row+i+1,4,'')
+            sheet2.write(row+i+1,5,'')
+            sheet2.write(row+i+1,6,'')
+        book2.save(self.path_excel)        
     
     def collect(self):
         path_de = r'yellowpage\de'
         modules = os.listdir(path_de)  
         print(modules)  
         infos_all = []
+        self.path_excel = 'de_collect.xlsx'
+        self.get_excel()
+        self.clean_excel()
         for file in modules:
             a = self.read_data(file)
             infos = []
@@ -265,11 +287,16 @@ class Collector:
                     infos.append(info)
             print(len(infos),'unique infos out of %d'%(len(a)))
             infos_all += infos
-        print(infos_all)
-        print('Total %d unique infos collected'%len(infos_all))
-        self.path_excel = 'de_collect.xlsx'
+            if len(infos_all)>= 1000:
+        # print(infos_all)
+        # print('Total %d unique infos collected'%len(infos_all))
+                self.get_excel()
+                on = 1
+                self.write_status(infos_all,on)
+                infos_all = []
         self.get_excel()
-        self.write_status(infos_all)
+        on = 1
+        self.write_status(infos_all,on)                
 
 
 def test():
