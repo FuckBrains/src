@@ -9,7 +9,7 @@ class EmailUtil(object):
         allRes = EmailReceive(address, password).getEmail(keyword=title, onlyUnsee=False, findAll=findAll)
         if  allRes is None or allRes == []:
             print('find email wrong:',title)
-            return 'Good'
+            return 'Email Dead or nothing found'
         print('find email ok:',title)
         if debug == 1:
             print(allRes)
@@ -22,7 +22,7 @@ class EmailUtil(object):
                         print('find email-web-link ok:',co.group(1))
                         return co.group(1)
         print('find link wrong')
-        return 'Bad'
+        return 'Email Alive but noting found'
 
     @staticmethod
     def getEmail(address,password,title,onlyUnsee=False,findAll=True):

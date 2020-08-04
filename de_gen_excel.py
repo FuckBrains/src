@@ -6,7 +6,7 @@ import re
 import random
 # import numpy as np
 # from numpy import array,load,save
-import xlrd
+import xlrd,xlwt
 from xlutils.copy import copy
 import sys
 
@@ -251,8 +251,30 @@ class Collector:
         book2.save(self.path_excel)
     
     def get_excel(self):
-        self.workbook = xlrd.open_workbook(self.path_excel)
-        self.sheet = self.workbook.sheet_by_index(0)
+        try:
+            for i in range(1000):            
+                self.workbook = xlrd.open_workbook(self.path_excel)
+                self.sheet = self.workbook.sheet_by_index(0)
+                self.nrow = self.sheet.nrows
+                if self.nrow<=50000:
+                    break                  
+                self.path_excel = 'de_collect%d.xlsx'%i
+        except:
+            print('data too big for excel,gen a new one')
+            """创建一个excel对象"""
+            self.workbook = xlwt.Workbook(encoding='utf-8',style_compression=0)
+            """创建sheet"""
+            self.sheet = self.workbook.add_sheet('test',cell_overwrite_ok=True)            
+            self.sheet.write(0,0,'name')
+            self.sheet.write(0,1,'city')
+            self.sheet.write(0,2,'street')
+            self.sheet.write(0,3,'building')
+            self.sheet.write(0,4,'zipcode')
+            self.sheet.write(0,5,'phone')
+            self.sheet.write(0,6,'email')
+            self.workbook.save(self.path_excel)
+            self.workbook = xlrd.open_workbook(self.path_excel)
+            self.sheet = self.workbook.sheet_by_index(0)        
 
     def clean_excel(self): 
         book2 = copy(self.workbook)
@@ -274,10 +296,25 @@ class Collector:
         modules = os.listdir(path_de)  
         print(modules)  
         infos_all = []
-        self.path_excel = 'de_collect.xlsx'
-        self.get_excel()
-        self.clean_excel()
+
+        # self.clean_excel()
+        try:
+            modules_exist = []
+            with open('yellowpage\history.txt','r') as f:
+                lines = f.readlines()
+            for line in lines:
+                file_see = line.replace('\n','')
+                if file_see != '':
+                    modules_exist.append(file_see)
+        except:
+            with open('yellowpage\history.txt','w') as f:
+                f.write('')
+        files = []
+        self.path_excel = 'de_collect0.xlsx'
         for file in modules:
+            if file in modules_exist:
+                continue
+            files.append(file)
             a = self.read_data(file)
             infos = []
             phones = []
@@ -294,6 +331,16 @@ class Collector:
                 on = 1
                 self.write_status(infos_all,on)
                 infos_all = []
+                with open('yellowpage\history.txt','a') as f:
+                    content = ''
+                    for file_ in files:
+                        content += file_+'\n'
+                    f.write(content)   
+        with open('yellowpage\history.txt','a') as f:
+            content = ''
+            for file_ in files:
+                content += file_+'\n'
+            f.write(content)                           
         self.get_excel()
         on = 1
         self.write_status(infos_all,on)                

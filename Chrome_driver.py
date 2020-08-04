@@ -259,7 +259,6 @@ def get_chrome(submit = None,pic=0,headless=0,time_out=300):
     # options.add_argument('–no-startup-window')
     # options.add_argument('–mute-audio')
     # options.add_argument('Referer=https://www.facebook.com')
-
     chrome_driver = webdriver.Chrome(options=options,executable_path=path_driver)    
     # else:
     #     chrome_driver = webdriver.Chrome(executable_path=path_driver,seleniumwire_options=options)            
@@ -454,10 +453,45 @@ def test_meituan():
     #     print(str(e))    
     sleep(3000)
 
+def wait_for_ready(chrome_driver):
+    flag = 0
+    for i in range(120):
+        status = chrome_driver.execute_script("return document.readyState")
+        if status != 'complete':
+            print('document status:',status)
+            sleep(1)
+        else:
+            flag = 1
+            print('document status:',status)
+            break    
+    return flag
+
+
 def test2():
+    submit = '123'
     chrome_driver = get_chrome()
-    chrome_driver.get('https://www.smartloan.com')
-    # sleep(3000)
+    chrome_driver.get('https://www.google.com')
+    print('google finish')
+    # chrome_driver.get('https://fettverbrennen24.com/opt-in-seite/')
+    js = '''
+var htmm =document.getElementsByTagName("html")[0];
+var scri = document.createElement("script");
+scri.async="async"
+scri.onload=window.location.href = "%s";
+htmm.appendChild(scri);
+    '''%submit['Site']
+    # js = '''
+    # document.write('<script>window.onload = function() {window.location.href = "https://fettverbrennen24.com/opt-in-seite/";};</script>')    '''
+    # path = 'file:///'+os.path.abspath(r'referer\1.html')
+    # wait_for_ready(chrome_driver)   
+    # sleep(5) 
+    # file = r'referer\1.js'
+    # with open(file,'r',encoding='utf8') as fr:
+    #     js_str  = fr.read()    
+    # chrome_driver.get(path)
+    chrome_driver.execute_script(js)
+    print('after google')
+    sleep(3000)
     executor_url = chrome_driver.command_executor._url
     session_id = chrome_driver.session_id       
     print(executor_url)
@@ -483,4 +517,4 @@ def test3():
    
 
 if __name__ == '__main__':
-    test3()
+    test2()

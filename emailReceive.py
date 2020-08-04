@@ -23,6 +23,7 @@ class EmailReceive(object):
             print('Imap4 logining account:',address,password)
             self.imap_mail.login(address,password)
         except Exception as e:
+            print('Login failed')
             print(e)
 
     def close(self):

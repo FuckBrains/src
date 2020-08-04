@@ -305,8 +305,16 @@ def test():
     chrome_driver = Chrome_driver.get_chrome(submit)
     web_submit(submit,chrome_driver,1)
 
+def test2():
+    name = 'patrick2740@gmx.de'
+    pwd = 'Mail7890'
+    title = ''
+    pattern = '.*?'
+    url_link = emaillink.get_email(name,pwd,title,pattern,True,1)
+    print(url_link)
+
 
 if __name__=='__main__':
-    test()
+    test2()
 
 
